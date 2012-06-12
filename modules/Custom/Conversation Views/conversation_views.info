@@ -1,0 +1,8 @@
+name = Conversation Views
+description = "Provides default views for conversations"
+package = "Communities"
+dependencies[] = views
+core = 7.x
+version = VERSION
+
+files[] = conversation_views.module

@@ -1,0 +1,21 @@
+<?php
+
+/* Created By: John Doyle
+ * Created On: June 11, 2012
+ * Last Updated By: Doyle
+ * Last Updated On: June 11, 2012
+ *
+ */
+
+
+function an_roles_enable()
+{
+  //Create roles for AccrualNet
+  $writer = "Writer";
+  $anstaff = "AccrualNet Staff";
+  _nci_roles_and_permissions_create_roles($writer);
+  _nci_roles_and_permissions_create_roles($anstaff);
+
+  //TODO:Update default settings for AN Roles
+
+}

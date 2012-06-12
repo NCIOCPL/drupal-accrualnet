@@ -1,0 +1,5 @@
+name = NCI Custom User
+description = Form Alterations for user functionality common to NCI projects.
+package = NCI
+core = 7.x
+version = 7.x-1.0

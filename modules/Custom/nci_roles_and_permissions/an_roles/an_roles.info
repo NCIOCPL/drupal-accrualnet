@@ -1,0 +1,7 @@
+name = AN Roles
+description = "Creates the roles used by the AccrualNet Site"
+package = "AccrualNet"
+dependencies[] = nci_roles_and_permissions
+core = 7.x
+version = VERSION
+files[] = an_roles.module

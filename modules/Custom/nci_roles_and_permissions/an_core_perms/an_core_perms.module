@@ -1,0 +1,518 @@
+<?php
+
+/* Created By: John Doyle
+ * Created On: June 11, 2012
+ * Last Updated By: Doyle
+ * Last Updated On: June 11, 2012
+ *
+ */
+
+function an_core_perms_enable()
+{
+  $anon = 0;
+  $auth = 1;
+  $writer = 2;
+  $anstaff = 3;
+  $admin = 4;
+
+  $default_perms = array(
+    //Block
+      $block = array(
+          'administer blocks' => array(
+              $anon => FALSE,
+              $auth => FALSE,
+              $writer => FALSE,
+              $anstaff => FALSE,
+              $admin => TRUE
+          ),
+      ),
+      //Comments
+      $comment = array(
+          'access comments' => array(
+              $anon => FALSE,
+              $auth => FALSE,
+              $writer => FALSE,
+              $anstaff => FALSE,
+              $admin => TRUE
+          ),
+          'administer comments' => array(
+              $anon => FALSE,
+              $auth => FALSE,
+              $writer => FALSE,
+              $anstaff => FALSE,
+              $admin => TRUE
+          ),
+          'edit own comments' => array(
+              $anon => FALSE,
+              $auth => FALSE,
+              $writer => FALSE,
+              $anstaff => FALSE,
+              $admin => TRUE
+          ),
+          'post comments' => array(
+              $anon => FALSE,
+              $auth => FALSE,
+              $writer => FALSE,
+              $anstaff => FALSE,
+              $admin => TRUE
+          ),
+          'skip comment approval' => array(
+              $anon => FALSE,
+              $auth => FALSE,
+              $writer => FALSE,
+              $anstaff => FALSE,
+              $admin => TRUE
+          ),
+      ),
+      //Contextual
+      $contextual = array (
+        'access contextual links' => array(
+              $anon => FALSE,
+              $auth => FALSE,
+              $writer => FALSE,
+              $anstaff => FALSE,
+              $admin => TRUE
+          ),
+      ),
+      //Dashboard
+      $dashboard = array(
+          'access dashboard' => array(
+              $anon => FALSE,
+              $auth => FALSE,
+              $writer => FALSE,
+              $anstaff => FALSE,
+              $admin => TRUE
+          ),
+      ),
+      //Filter
+      $filter = array (
+          'administer filters' => array(
+              $anon => FALSE,
+              $auth => FALSE,
+              $writer => FALSE,
+              $anstaff => FALSE,
+              $admin => TRUE
+          ),
+          'use text format filtered_html' => array(
+              $anon => FALSE,
+              $auth => FALSE,
+              $writer => FALSE,
+              $anstaff => FALSE,
+              $admin => TRUE
+          ),
+          'use text format full_html' => array(
+              $anon => FALSE,
+              $auth => FALSE,
+              $writer => FALSE,
+              $anstaff => FALSE,
+              $admin => TRUE
+          ),
+          'use text format php_code' => array(
+              $anon => FALSE,
+              $auth => FALSE,
+              $writer => FALSE,
+              $anstaff => FALSE,
+              $admin => TRUE
+          ),
+      ),
+      //Image
+      $image = array(
+          'administer image styles' => array(
+              $anon => FALSE,
+              $auth => FALSE,
+              $writer => FALSE,
+              $anstaff => FALSE,
+              $admin => TRUE
+          ),
+      ),
+      //Locale
+      $locale = array (
+          'administer languages' => array(
+              $anon => FALSE,
+              $auth => FALSE,
+              $writer => FALSE,
+              $anstaff => FALSE,
+              $admin => TRUE
+          ),
+          'translate interface' => array(
+              $anon => FALSE,
+              $auth => FALSE,
+              $writer => FALSE,
+              $anstaff => FALSE,
+              $admin => TRUE
+          ),
+      ),
+      //Menu Permissions
+      $menu = array (
+          'administer menu' => array(
+              $anon => FALSE,
+              $auth => FALSE,
+              $writer => FALSE,
+              $anstaff => FALSE,
+              $admin => TRUE
+          ),
+      ),
+      //Node Permissions
+      $node = array (
+          'access content' => array(
+              $anon => FALSE,
+              $auth => FALSE,
+              $writer => FALSE,
+              $anstaff => FALSE,
+              $admin => TRUE
+          ),
+          'access content overview' => array(
+              $anon => FALSE,
+              $auth => FALSE,
+              $writer => FALSE,
+              $anstaff => FALSE,
+              $admin => TRUE
+          ),
+          'administer content types' => array(
+              $anon => FALSE,
+              $auth => FALSE,
+              $writer => FALSE,
+              $anstaff => FALSE,
+              $admin => TRUE
+          ),
+          'administer nodes' => array(
+              $anon => FALSE,
+              $auth => FALSE,
+              $writer => FALSE,
+              $anstaff => FALSE,
+              $admin => TRUE
+          ),
+          'bypass node access' => array(
+              $anon => FALSE,
+              $auth => FALSE,
+              $writer => FALSE,
+              $anstaff => FALSE,
+              $admin => TRUE
+          ),
+          'delete revisions' => array(
+              $anon => FALSE,
+              $auth => FALSE,
+              $writer => FALSE,
+              $anstaff => FALSE,
+              $admin => TRUE
+          ),
+          'revert revisions' => array(
+              $anon => FALSE,
+              $auth => FALSE,
+              $writer => FALSE,
+              $anstaff => FALSE,
+              $admin => TRUE
+          ),
+          'view own unpublished content' => array(
+              $anon => FALSE,
+              $auth => FALSE,
+              $writer => FALSE,
+              $anstaff => FALSE,
+              $admin => TRUE
+          ),
+          'view revisions' => array(
+              $anon => FALSE,
+              $auth => FALSE,
+              $writer => FALSE,
+              $anstaff => FALSE,
+              $admin => TRUE
+          ),
+      ),
+      //Path Permissions
+      $path = array (
+          'administer url aliases' => array(
+              $anon => FALSE,
+              $auth => FALSE,
+              $writer => FALSE,
+              $anstaff => FALSE,
+              $admin => TRUE
+          ),
+          'create url aliases' => array(
+              $anon => FALSE,
+              $auth => FALSE,
+              $writer => FALSE,
+              $anstaff => FALSE,
+              $admin => TRUE
+          ),
+      ),
+      //PHP Permissions
+      $php = array(
+          'use PHP for settings' => array(
+              $anon => FALSE,
+              $auth => FALSE,
+              $writer => FALSE,
+              $anstaff => FALSE,
+              $admin => TRUE
+          ),
+      ),
+      //Poll permissions
+      $poll = array(
+          'cancel own vote' => array(
+              $anon => FALSE,
+              $auth => FALSE,
+              $writer => FALSE,
+              $anstaff => FALSE,
+              $admin => TRUE
+          ),
+          'inspect all votes' => array(
+              $anon => FALSE,
+              $auth => FALSE,
+              $writer => FALSE,
+              $anstaff => FALSE,
+              $admin => TRUE
+          ),
+          'vote on polls' => array(
+              $anon => FALSE,
+              $auth => FALSE,
+              $writer => FALSE,
+              $anstaff => FALSE,
+              $admin => TRUE
+          ),
+      ),
+      //Search Permissions
+      $search = array(
+          'administer search' => array(
+              $anon => FALSE,
+              $auth => FALSE,
+              $writer => FALSE,
+              $anstaff => FALSE,
+              $admin => TRUE
+          ),
+          'search content' => array(
+              $anon => FALSE,
+              $auth => FALSE,
+              $writer => FALSE,
+              $anstaff => FALSE,
+              $admin => TRUE
+          ),
+          'use advanced search' => array(
+              $anon => FALSE,
+              $auth => FALSE,
+              $writer => FALSE,
+              $anstaff => FALSE,
+              $admin => TRUE
+          ),
+      ),
+      //Shortcut Permissions
+      $shortcut = array (
+          'administer shortcuts' => array(
+              $anon => FALSE,
+              $auth => FALSE,
+              $writer => FALSE,
+              $anstaff => FALSE,
+              $admin => TRUE
+          ),
+          'customize shortcut links' => array(
+              $anon => FALSE,
+              $auth => FALSE,
+              $writer => FALSE,
+              $anstaff => FALSE,
+              $admin => TRUE
+          ),
+          'switch shortcut sets' => array(
+              $anon => FALSE,
+              $auth => FALSE,
+              $writer => FALSE,
+              $anstaff => FALSE,
+              $admin => TRUE
+          ),
+      ),
+      //Statistics Permissions
+      $statistics = array (
+          'access statistics' => array(
+              $anon => FALSE,
+              $auth => FALSE,
+              $writer => FALSE,
+              $anstaff => FALSE,
+              $admin => TRUE
+          ),
+          'administer statistics' => array(
+              $anon => FALSE,
+              $auth => FALSE,
+              $writer => FALSE,
+              $anstaff => FALSE,
+              $admin => TRUE
+          ),
+          'view post access counter' => array(
+              $anon => FALSE,
+              $auth => FALSE,
+              $writer => FALSE,
+              $anstaff => FALSE,
+              $admin => TRUE
+          ),
+      ),
+      //System Permissions
+      $system = array (
+          'access administration pages' => array(
+              $anon => FALSE,
+              $auth => FALSE,
+              $writer => FALSE,
+              $anstaff => FALSE,
+              $admin => TRUE
+          ),
+          'access site in maintenance mode' => array(
+              $anon => FALSE,
+              $auth => FALSE,
+              $writer => FALSE,
+              $anstaff => FALSE,
+              $admin => TRUE
+          ),
+          'access site reports' => array(
+              $anon => FALSE,
+              $auth => FALSE,
+              $writer => FALSE,
+              $anstaff => FALSE,
+              $admin => TRUE
+          ),
+          'administer actions' => array(
+              $anon => FALSE,
+              $auth => FALSE,
+              $writer => FALSE,
+              $anstaff => FALSE,
+              $admin => TRUE
+          ),
+          'administer modules' => array(
+              $anon => FALSE,
+              $auth => FALSE,
+              $writer => FALSE,
+              $anstaff => FALSE,
+              $admin => TRUE
+          ),
+          'administer site configuration' => array(
+              $anon => FALSE,
+              $auth => FALSE,
+              $writer => FALSE,
+              $anstaff => FALSE,
+              $admin => TRUE
+          ),
+          'administer software updates' => array(
+              $anon => FALSE,
+              $auth => FALSE,
+              $writer => FALSE,
+              $anstaff => FALSE,
+              $admin => TRUE
+          ),
+          'administer themes' => array(
+              $anon => FALSE,
+              $auth => FALSE,
+              $writer => FALSE,
+              $anstaff => FALSE,
+              $admin => TRUE
+          ),
+          'block IP addresses' => array(
+              $anon => FALSE,
+              $auth => FALSE,
+              $writer => FALSE,
+              $anstaff => FALSE,
+              $admin => TRUE
+          ),
+          'view the administration theme' => array(
+              $anon => FALSE,
+              $auth => FALSE,
+              $writer => FALSE,
+              $anstaff => FALSE,
+              $admin => TRUE
+          ),
+      ),
+      //Taxonomy Permissions
+      $taxonomy = array (
+          'administer taxonomy' => array(
+              $anon => FALSE,
+              $auth => FALSE,
+              $writer => FALSE,
+              $anstaff => FALSE,
+              $admin => TRUE
+          ),
+      ),
+      //Toolbar Permissions
+      $toolbar = array (
+          'access toolbar' => array(
+              $anon => FALSE,
+              $auth => FALSE,
+              $writer => FALSE,
+              $anstaff => FALSE,
+              $admin => TRUE
+          ),
+      ),
+      //Translation Permissions
+      $translation = array (
+          'translate content' => array(
+              $anon => FALSE,
+              $auth => FALSE,
+              $writer => FALSE,
+              $anstaff => FALSE,
+              $admin => TRUE
+          ),
+      ),
+      //User Permissions
+      $user = array (
+          'access user profiles' => array(
+              $anon => FALSE,
+              $auth => FALSE,
+              $writer => FALSE,
+              $anstaff => FALSE,
+              $admin => TRUE
+          ),
+          'administer permissions' => array(
+              $anon => FALSE,
+              $auth => FALSE,
+              $writer => FALSE,
+              $anstaff => FALSE,
+              $admin => TRUE
+          ),
+          'administer users' => array(
+              $anon => FALSE,
+              $auth => FALSE,
+              $writer => FALSE,
+              $anstaff => FALSE,
+              $admin => TRUE
+          ),
+          'cancel account' => array(
+              $anon => FALSE,
+              $auth => FALSE,
+              $writer => FALSE,
+              $anstaff => FALSE,
+              $admin => TRUE
+          ),
+          'change own username' => array(
+              $anon => FALSE,
+              $auth => FALSE,
+              $writer => FALSE,
+              $anstaff => FALSE,
+              $admin => TRUE
+          ),
+          'select account cancellation method' => array(
+              $anon => FALSE,
+              $auth => FALSE,
+              $writer => FALSE,
+              $anstaff => FALSE,
+              $admin => TRUE
+          ),
+      ),
+  );
+
+$anon_perms = array();
+$auth_perms = array();
+$writer_perms = array();
+$anstaff_perms = array();
+$admin_perms = array();
+
+  foreach ($default_perms as $category){
+    foreach($category as $perm => $role){
+      $anon_perms[$perm]= $role[$anon];
+      $auth_perms[$perm] = $role[$auth];
+      $writer_perms[$perm] = $role[$writer];
+      $anstaff_perms[$perm] = $role[$anstaff];
+      $admin_perms[$perm] = $role[$admin];
+    }
+
+  }
+
+
+  _nci_roles_and_permissions_update_perms('Anonymous User', $anon_perms);
+  _nci_roles_and_permissions_update_perms('Authenticated User', $auth_perms);
+  _nci_roles_and_permissions_update_perms('Writer', $writer_perms);
+  _nci_roles_and_permissions_update_perms('AccrualNet Staff', $anstaff_perms);
+  _nci_roles_and_permissions_update_perms('administrator', $admin_perms);
+}
+

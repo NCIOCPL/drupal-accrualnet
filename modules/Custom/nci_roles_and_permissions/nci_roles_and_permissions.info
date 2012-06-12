@@ -1,0 +1,6 @@
+name = NCI Roles and Permissions
+description = "Provides functions for setting roles and permissions for a Drupal 7 site."
+package = "AccrualNet Roles and Permissions"
+core = 7.x
+version = VERSION
+files[] = nci_roles_and_permissions.module

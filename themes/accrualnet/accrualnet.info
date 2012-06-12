@@ -1,0 +1,38 @@
+name        = AccrualNet
+description = Theme for AccrualNet.
+screenshot  = accrualnet-internals/screenshot.png
+
+core        = 7.x
+engine      = phptemplate
+
+stylesheets[all][] = system.menus.css
+
+regions[header]         = Header
+regions[navigation]     = Navigation bar
+regions[highlighted]    = Highlighted
+regions[help]           = Help
+regions[content]        = Content
+regions[sidebar_first]  = First sidebar
+regions[sidebar_second] = Second sidebar
+regions[footer]         = Footer
+regions[bottom]         = Page bottom
+regions[page_top]       = Page top
+regions[page_bottom]    = Page bottom
+
+settings[accrualnet_breadcrumb]           = yes
+settings[accrualnet_breadcrumb_separator] = ' › '
+settings[accrualnet_breadcrumb_home]      = 1
+settings[accrualnet_breadcrumb_trailing]  = 1
+settings[accrualnet_breadcrumb_title]     = 0
+settings[accrualnet_layout]               = accrualnet-responsive-sidebars
+settings[accrualnet_skip_link_anchor]     = main-menu
+settings[accrualnet_skip_link_text]       = Jump to navigation
+settings[accrualnet_html5_respond_meta][] = respond
+settings[accrualnet_html5_respond_meta][] = html5
+settings[accrualnet_html5_respond_meta][] = meta
+settings[accrualnet_rebuild_registry]     = 0
+settings[accrualnet_wireframes]           = 0
+
+core = "7.x"
+
+
