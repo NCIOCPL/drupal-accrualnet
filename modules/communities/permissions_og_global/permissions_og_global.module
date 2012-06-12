@@ -1,0 +1,116 @@
+<?php
+/*****
+ * Created By: Lauren
+ * Created On: June 11, 2012
+ * 
+ * Last Updated By: Lauren
+ * Last Updated On: June 12, 2012
+ *****/
+
+
+
+/*
+ * hook_enable()
+ * 
+ * Sets the OG Global Permissions according to the details below
+ * http://localhost:4343/admin/config/group/permissions
+ */
+function permissions_og_global_enable() {
+    // Possibilities - Roles
+    $nonmember = 1;
+    $member = 2;
+    $moderator = 3;
+    
+    $perms = array(
+    // Possibilities - Organic Groups UI Default
+    $perms_og_ui = array(
+        'subscribe' => array($nonmember),
+        'subscribe without approval' => array(),
+        'unsubscribe' => array($member),
+        'approve and deny subscription' => array($moderator),
+        'add user' => array($moderator),
+        'access administration pages' => array()
+     ),
+    
+    // Possibilities - Organic Groups Default
+    $perms_og = array(
+        'update group' => array($moderator),
+        'administer group' => array($moderator)
+    ),
+    
+    // Possibilities - Organic Groups Conversation Content Type
+    $perms_og_conversation = array (
+        'update own conversation content' => array($member, $moderator),
+        'update any conversation content' => array($moderator),
+        'delete own conversation content' => array(),
+        'delete any conversation content' => array()
+    ),
+        );
+    
+    
+    // Permissions as listed according to role.
+    // Needs to be set up this way for the og_role hooks
+    $perms_by_role = array(
+        $nonmember => array(),
+        $member => array(),
+        $moderator => array()
+    );
+    
+    
+    // Reconstruct our by-permissions-settings to be by-role-settings
+    // If the role is not present in the array, then it will be set to false
+    foreach ($perms as $setOfPerms) {
+        foreach ($setOfPerms as $perm => $roles) {
+            foreach ($perms_by_role as $role => &$perms_of_role) {
+                if (in_array($role, $roles)) {
+                    $perms_of_role[$perm] = TRUE;
+                } else {
+                    $perms_of_role[$perm] = FALSE;
+                }
+            }
+        }
+    }
+    
+    // Clear the permissions to prevent any manual configurations interfering.
+    // This should be taken care of by the FALSE permissions, but this is a 
+    // just in case measure
+    _clear_og_permissions();
+    
+    // Set all of the permissions we determined above
+    foreach($perms_by_role as $role => $permissions) {
+        og_role_change_permissions($role, $permissions);
+    }
+}
+
+
+
+
+/*
+ * hook_disable()
+ * 
+ * Clears all the settings in OG Global Permissions
+ * http://localhost:4343/admin/config/group/permissions
+ */
+function permissions_og_global_disable() {
+    // Clear all settings for OG global permissions
+    _clear_og_permissions();
+}
+
+
+
+
+/*
+ * Interal; Clears permissions in OG Global
+ * http://localhost:4343/admin/config/group/permissions
+ */
+function _clear_og_permissions() {
+    // Get all of the current role permissions
+    $ogPerms = og_role_permissions(og_roles());
+    // If there are any permission settings, wipe them
+    foreach ($ogPerms as $role => $permissions) {
+        if (count($permissions) > 0) {
+            // Must check if > 0, otherwise, array_keys produces an error
+            og_role_revoke_permissions($role, array_keys($permissions));
+        }
+    }
+}

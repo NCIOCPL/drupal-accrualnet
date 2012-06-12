@@ -1,0 +1,24 @@
+<?php
+/* Created By: Lauren
+ * Created On: June 8, 2012
+ * 
+ * Last Updated By: Lauren
+ * Last Updated On: June 8, 2012
+ */
+
+
+/**
+ * Implements hook_menu().
+ */
+function all_conversations_menu() {
+  $items['all_conversations'] = array(
+    'title' => 'All Conversations',
+    'page callback' => 'all_conversations_page',
+    'access arguments' => array('access content'),
+    'type' => MENU_SUGGESTED_ITEM,
+    'file' => 'all_conversations.pages.inc',
+  );
+
+  return $items;
+}
+

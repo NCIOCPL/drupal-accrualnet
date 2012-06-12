@@ -1,0 +1,11 @@
+name = All Conversations Page
+description = When enabled, creates a page rendering of all conversations
+package = Communities
+version = 7.x-1.0
+core = 7.x
+datestamp = 1339171200
+
+stylesheets[all][] = all-conversations.css
+
+dependencies[] = "communities"
+

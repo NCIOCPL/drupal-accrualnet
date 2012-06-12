@@ -1,0 +1,294 @@
+<?php
+/*****
+ * Created By: Lauren
+ * Created On: June 12, 2012
+ * 
+ * Last Updated By: Lauren
+ * Last Updated On: June 12, 2012
+ *****/
+
+/*
+ * hook_node_info()
+ * 
+ * Sets up the Community and Conversation content types
+ */
+function communities_node_info() {
+    return array(
+        'community2' => array(
+            'name' => t('Community2'),
+            'base' => 'node_content',
+            'description' => t('Community (Group)'),
+            'has_title' => TRUE,
+            'title_label' => 'Group Name',
+            // 'custom' => TRUE, // Add this line in when debugging
+        ),
+        
+        'convo' => array(
+            'name' => t('Convo'),
+            'base' => 'node_content',
+            'description' => t('Conversation (Group Post)'),
+            'has_title' => TRUE,
+            'title_label' => 'Conversation Topic',
+            'custom' => TRUE, // Add this line in when debugging
+        ),
+    );
+}
+
+
+/*
+ * hook_enable()
+ * 
+ * Enables the Community and Conversation content types for full use. 
+ * Adds their body and fields.
+ */
+function communities_enable() {
+    node_types_rebuild();
+    $types = node_type_get_types();
+
+    // Set the body for the Community content type
+    $community_type = node_type_set_defaults($types['community2']);
+    node_add_body_field($community_type, 'Group Description');
+    node_type_save($community_type);
+
+    // Set the body for the Conversation content type
+    $conversation_type = node_type_set_defaults($types['convo']);
+    node_add_body_field($conversation_type, 'Conversation Starter');
+    node_type_save($conversation_type);
+
+
+    // Create all of the fields for the Community content type
+    foreach (_community_fields() as $field) {
+        field_create_field($field);
+    }
+
+    // Create all of the fields for the Conversation content type
+    foreach (_conversation_fields() as $field) {
+        field_create_field($field);
+    }
+
+    // Create all of the instances for the Community content type
+    foreach (_community_instances() as $instance) {
+        $instance['entity_type'] = 'node';
+        $instance['bundle'] = 'community2';
+        field_create_instance($instance);
+    }
+
+    // Create all of the instances for the Conversation content type
+    foreach (_conversation_instances() as $instance) {
+        $instance['entity_type'] = 'node';
+        $instance['bundle'] = 'convo';
+        field_create_instance($instance);
+    }
+}
+
+
+
+/*
+ * hook_disable()
+ * 
+ * Removes the content types, instances of fields, and specific content type fields. 
+ * As of right now, does not delete all content associated with it.
+ */
+function communities_disable() {
+    drupal_set_message($message = 'Communities being disabled. Right now, content not deleted, but type and fields are.');
+
+    // Delete Community content type fields
+    foreach (array_keys(_community_fields()) as $field) {
+        field_delete_field($field);
+    }
+
+    // Delete Conversation content type fields
+    foreach (array_keys(_conversation_fields()) as $field) {
+        field_delete_field($field);
+    }
+
+    // Delete Community content type instances
+    $instances = field_info_instances('node', 'community2');
+    foreach ($instances as $instance_name => $instance) {
+        field_delete_instance($instance);
+    }
+
+    // Delete Conversation content type instances
+    $instances = field_info_instances('node', 'convo');
+    foreach ($instances as $instance_name => $instance) {
+        field_delete_instance($instance);
+    }
+
+    // Delete the Community content type
+    node_type_delete('community2');
+
+    // Delete the Conversation content type
+    node_type_delete('convo');
+
+
+    // Purge all field information
+    field_purge_batch(1000);
+}
+
+
+/*
+ * Internal Function
+ * 
+ * Community-specific fields
+ */
+function _community_fields() {
+    //$t = get_t();
+    return array(
+    /* 'communities_color' => array(
+      'field_name' => 'communities_color',
+      'cardinality' => 3,
+      'type' => 'text',
+      'settings' => array(
+      'max_length' => 60,
+      ),
+      ),
+      'communities_quantity' => array(
+      'field_name' => 'communities_quantity',
+      'cardinality' => 1,
+      'type' => 'text',
+      ), */
+    );
+}
+
+
+
+/*
+ * Internal Function
+ * 
+ * Conversation-specific fields
+ */
+function _conversation_fields() {
+    return array();
+}
+
+
+
+/*
+ * Internal Function
+ * 
+ * Community field instances
+ */
+function _community_instances() {
+    //$t = get_t();
+    return array(
+        /* 'communities_color' => array(
+          'field_name' => 'communities_color',
+          'label' => $t('The colors available for this object.'),
+          'widget' => array(
+          'type' => 'text_textfield',
+          ),
+          'display' => array(
+          'example_node_list' => array(
+          'label' => 'hidden',
+          'type' => 'communities_colors',
+          ),
+          ),
+          ),
+          'communities_quantity' => array(
+          'field_name' => 'communities_quantity',
+          'label' => $t('Quantity required'),
+          'type' => 'text',
+          'widget' => array(
+          'type' => 'text_textfield',
+          ),
+          'display' => array(
+          'example_node_list' => array(
+          'label' => 'hidden',
+          'type' => 'hidden',
+          ),
+          ),
+          ), */
+        'group_group' => array(
+            'field_name' => OG_GROUP_FIELD,
+            'label' => 'Group',
+            'type' => 'list_boolean',
+            'widget' => array(
+                'module' => 'options',
+                'settings' => array(),
+                'type' => 'options_onoff',
+                'weight' => 0,
+            ),
+            'default_value' => array(0 => array('value' => 1)), // Very important the default is true because we'll be hiding this in the create form
+            'display' => array(// For some reason this part doesn't work. No idea why!
+                'default' => array(
+                    'label' => 'hidden',
+                    'type' => 'hidden',
+                ),
+                'full' => array(
+                    'label' => 'hidden',
+                    'type' => 'hidden'
+                ),
+                'teaser' => array(
+                    'label' => 'hidden',
+                    'type' => 'hidden'
+                ),
+            ),
+        ),
+    );
+}
+
+
+
+/*
+ * Internal Function
+ * 
+ * Conversation field instances
+ */
+function _conversation_instances() {
+    return array(
+        'group_audience' => array(
+            'field_name' => OG_AUDIENCE_FIELD,
+            'label' => 'Groups audience',
+            'type' => 'group',
+            'widget_type' => OG_AUDIENCE_FIELD,
+            'default_value_function' => '1', // Or 'og_field_audience_default_value' instead of '1'
+        ),
+    );
+}
+
+
+
+/*
+ * hook_form_alter(&$form, &$form_state, $form_id)
+ * 
+ * Overrides the Community Add Form.
+ * Sets the default to Not Publish, Not Promote, and not allow a user to Preview.
+ */
+function communities_form_alter(&$form, &$form_state, $form_id) {
+    if ($form_id == 'community2_node_form') {
+
+        // Do not automatically publish
+        $form['options']['status']['#default_value'] = FALSE;
+
+        // Do not promote to front page
+        $form['options']['promote']['#default_value'] = FALSE;
+
+        // Don't allow Preview
+        $form['actions']['preview']['#access'] = FALSE;
+    }
+
+    return $form;
+}
+
+
+
+/*
+ * hook_theme($existing, $type, $theme, $path)
+ * 
+ * Redirects a user to the custom node form when adding a Community.
+ */
+function communities_theme($existing, $type, $theme, $path) {
+
+    return array(
+        'community2_node_form' => array(
+            'arguments' => array('form' => null),
+            'path' => ($path.'/includes'),
+            'template' => 'community--node-form', //name of your template file, it can be anything
+            'render element' => 'form'
+        )
+    );
+
+    return $items;
+}
+
+?>
