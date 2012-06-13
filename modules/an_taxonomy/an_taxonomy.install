@@ -1,0 +1,206 @@
+<?php
+
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+
+/** an array defining the AccrualNet taxonomies.  Each vocabulary is defined by
+ * a name, a machine name stem (to be combined with 'an_vocabulary_' to form the
+ * actual machine name), and an array of underlying terms.
+ */
+/*$GLOBALS['an_vocabularies'] = array(
+	array(
+		'name' => 'Patient-Related Issues',
+		'machine_stem' => 'patient_related',
+		'terms' => array(
+			'Knowledge/Attitudes/Beliefs',
+			'Language or Cultural Barriers',
+			'Logistics/Transportation',
+			'Underserved',
+			'Low Literacy',
+			'Non-English Speaking',
+			'Cost/Insurance',
+			'Urban',
+			'Rural',
+			'Remuneration'
+	)),
+	array(
+		'name' => 'Provider-Related Issues',
+		'machine_stem' => 'provider_related',
+		'terms' => array(
+			'Level of Clinical Trials Knowledge or Awareness',
+			'Incentives',
+			'Staff Experience Level',
+			'Physician Champions',
+			'Provider-Patient Relationship',
+			'Attitudes'
+	)),
+	array(
+		'name' => 'Systems and Regulatory Issues',
+		'machine_stem' => 'systems_and_regulatory',
+		'terms' => array(
+			'Insurance Coverage',
+			'Institutional Issues',
+			'Regulatory Issues',
+			'Inadequate Staffing'
+	)),
+	array(
+		'name' => 'Study Issues',
+		'machine_stem' => 'study',
+		'terms' => array(
+			'Eligibility',
+			'Placebo',
+			'Randomization',
+			'Study Burden'
+	)),
+	array(
+		'name' => 'Ethical Issues',
+		'machine_stem' => 'ethical',
+		'terms' => array(
+			'Consent',
+			'Financial Incentives',
+			'Provider Influence',
+			'Conflict of Interest'
+	)),
+	array(
+		'name' => 'Demographics',
+		'machine_stem' => 'demographics',
+		'terms' => array(
+			'Women',
+			'Men',
+			'Children',
+			'Adolescent/Young Adult',
+			'Older Adults',
+			'Minority Groups',
+			'American Indian or Alaskan Native',
+			'Asian',
+			'Black or African-American',
+			'Hispanic or Latino',
+			'Native Hawaiian',
+			'Other Pacific Islander',
+			'White or Caucasian',
+			'Other'
+	)),
+	array(
+		'name' => 'Recruitment Vehicles',
+		'machine_stem' => 'recruitment_vehicles',
+		'terms' => array(
+			'Verbal Communications',
+			'Radio',
+			'TV',
+			'Web',
+			'Social Media',
+			'Print Media',
+			'Brochure or Flyer',
+			'Letter',
+			'EMR'
+	)),
+	array(
+		'name' => 'Resource Type',
+		'machine_stem' => 'resource_type',
+		'terms' => array(
+			'Sample Materials and Forms',
+			'Presentations',
+			'Patient Education Materials',
+			'Staff Education Materials',
+			'Journal Articles',
+			'Journal Review Articles',
+			'Meetings Abstracts',
+			'Reports'
+	)),
+	array(
+		'name' => 'Trial Treatment',
+		'machine_stem' => 'trial_treatment',
+		'terms' => array(
+			'Non-cancer',
+			'Cancer'
+	)),
+	array(
+		'name' => 'Trial Phase',
+		'machine_stem' => 'trial_phase',
+		'terms' => array(
+			'Phase 0,1,2',
+			'Phase 3-4'
+	))
+);
+ * 
+ */
+module_load_include('inc', 'an_taxonomy', 'includes/resource.globals');
+
+function an_taxonomy_enable() {
+	// grab the vocabulary difinitions and existing vocabularies
+	global $an_vocabularies;
+	$existing_names = taxonomy_vocabulary_get_names();
+
+	// for each definition...
+	foreach ($an_vocabularies as $weight => $details) {
+		// get the name and machine name
+		$name = $details['name'];
+		$machine_name = 'an_vocabulary_' . $details['machine_stem'];
+
+		// clear any existing matching vocabulary
+		if (isset($existing_names[$machine_name]))
+			taxonomy_vocabulary_delete($existing_names[$machine_name]->vid);
+
+		// build the vocabulary and save it
+		$vocab = an_taxonomy_build_vocabulary($name,
+						$machine_name, $weight + 1);
+		if (!taxonomy_vocabulary_save($vocab)) {
+			drupal_set_message('Failed to add vocabulary ' . $_name,
+					'warning');
+		} else {
+			// build and save the terminologies as well
+			foreach ($details['terms'] as $term_weight => $term_name) {
+				$term = an_taxonomy_build_term($term_name, $vocab, $term_weight);
+				if (!taxonomy_term_save($term)) {
+					drupal_set_message('Failed to add term ' . $term_name . 
+							' to vocabulary ' . $name . '.', 'warning');
+				}
+			}
+		}
+	}
+}
+
+function an_taxonomy_disable() {
+	// get the definitions and existing vocabularies
+	global $an_vocabularies;
+	$names = taxonomy_vocabulary_get_names();
+
+	// remove each matching existing vocabulary
+	foreach ($an_vocabularies as $details) {
+		$machine_name = 'an_vocabulary_' . $details['machine_stem'];
+		if (isset($names[$machine_name])) {
+			$return = taxonomy_vocabulary_delete($names[$machine_name]->vid);
+			if (!$return) {
+				drupal_set_message('Failed to remove vocabulary ' .
+						$machine_name, 'warning');
+			}
+		}
+	}
+}
+
+function an_taxonomy_build_vocabulary($name, $machine_name, $weight) {
+	$t = get_t();
+	$vocabulary = new stdClass();
+	$vocabulary->name = $t($name);
+	$vocabulary->module = 'an_taxonomies';
+	$vocabulary->machine_name = $machine_name;
+	$vocabulary->hierarchy = 1;
+	$vocabulary->weight = $weight;
+	return $vocabulary;
+}
+
+function an_taxonomy_build_term($name, $vocabulary, $weight) {
+	$t = get_t();
+	$term = new stdClass();
+	$term->name = $t($name);
+	$term->vocabulary_machine_name = 'an_taxonomies';
+	$term->vid = $vocabulary->vid;
+	$term->weight = $weight;
+
+	return $term;
+}
+
+?>

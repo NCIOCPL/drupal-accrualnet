@@ -1,0 +1,243 @@
+<?php
+/*****
+ * Created By: Lauren
+ * Created On: June 13, 2012
+ * 
+ * Last Updated By: Lauren
+ * Last Updated On: June 13, 2012
+ *****/
+
+module_load_include('inc', 'an_taxonomy', 'includes/resource.globals');
+
+/*
+ * hook_node_info()
+ * 
+ * Sets up the Resource content type
+ */
+function resource_node_info() {
+    return array(
+        'resource' => array(
+            'name' => t('Resource'),
+            'base' => 'node_content',
+            'description' => t('A resource is a document or link to an external source.'),
+            'has_title' => TRUE,
+            'title_label' => 'Title',
+            'custom' => TRUE, // Add this line in when debugging
+        ),
+    );
+}
+
+
+/*
+ * hook_enable()
+ * 
+ * Enables the Resource content type for full use. 
+ * Adds the body, other fields, and taxonomy.
+ */
+function resource_enable() {
+    drupal_set_message($message='enable');
+    node_types_rebuild();
+    $types = node_type_get_types();
+
+    // Set the body for the Resource content type
+    /*
+    $resource_type = node_type_set_defaults($types['resource']);
+    node_add_body_field($resource_type, 'Body');
+    node_type_save($resource_type);
+     *  No body type for this guy
+     */
+    /*
+    $vocabs = taxonomy_get_vocabularies();
+    $vocabulary = array_pop($vocabs); 
+    /*
+    $field = array(
+      'field_name' => 'wakka3',
+      'type' => 'taxonomy_term_reference',
+      'cardinality' => 1, //FIELD_CARDINALITY_UNLIMITED,
+      'settings' => array(
+        'allowed_values' => array(
+          array(
+            'vocabulary' => $vocabulary->machine_name,
+            'parent' => 0,
+          ),
+        ),
+      ),
+    );
+    print dpm($field);
+    
+   field_create_field($field);
+
+    $instance = array(
+      'field_name' => 'wakka3',
+      'bundle' => 'resource',
+      'entity_type' => 'node',
+      'widget' => array(
+        'type' => 'options_select',
+      ),
+      'display' => array(
+        'default' => array(
+          'type' => 'taxonomy_term_reference_link',
+        ),
+      ),
+    );
+    field_create_instance($instance);
+     * 
+     */
+
+    // Create all of the fields for the Resource content type
+    foreach (_resource_fields() as $field) {
+        field_create_field($field);
+    }
+
+    // Create all of the instances for the Resource content type
+    foreach (_resource_instances() as $instance) {
+        $instance['entity_type'] = 'node';
+        $instance['bundle'] = 'resource';
+        field_create_instance($instance);
+    }
+}
+
+
+
+/*
+ * hook_disable()
+ * 
+ * Removes the content type, instances of fields, and specific content type fields. 
+ * As of right now, does not delete all content associated with it.
+ */
+function resource_disable() {
+drupal_set_message($message='disable');
+    // Delete Resource content type specific fields
+    foreach (array_keys(_resource_fields()) as $field) {
+        field_delete_field($field);
+    }
+
+    // Delete Resource content type instances
+    $instances = field_info_instances('node', 'resource');
+    foreach ($instances as $instance_name => $instance) {
+        field_delete_instance($instance);
+    }
+
+    // Delete the Resource content type
+    node_type_delete('resource');
+
+    
+    // Purge all field information
+    field_purge_batch(1000);
+}
+
+
+
+/*
+ * Internal Function
+ * 
+ * Resource-specific fields
+ */
+function _resource_fields() {
+    global $an_vocabularies; // Properties: name, machine_stem, terms
+    $fields = array();
+    $fields['field_citation'] = array(
+        'field_name' => 'field_citation',
+        'cardinality' => '1',
+        'type' => 'text',
+    );
+    $fields['field_highlights'] = array(
+        'field_name' => 'field_highlights',
+        'type' => 'text_long',
+    );
+    $fields['field_usefulness'] = array(
+        'field_name' => 'field_usefulness',
+        'type' => 'text_long',
+    );
+    $fields['field_details'] = array(
+        'field_name' => 'field_details',
+        'type' => 'text_long',
+    );
+    $fields['field_links'] = array(
+        'field_name' => 'field_links',
+        'cardinality' => FIELD_CARDINALITY_UNLIMITED,
+        'type' => 'text',
+    );
+
+        
+        
+    foreach($an_vocabularies as $vocab) {
+        $fields[$vocab['machine_stem']] = array (
+            'field_name' => ('field_tax_' . $vocab['machine_stem']),
+            'cardinality' => FIELD_CARDINALITY_UNLIMITED,
+            'label' => $vocab['name'],
+            'type' => 'taxonomy_term_reference',
+            'settings' => array(
+                'allowed_values' => array(
+                array(
+                    'vocabulary' => 'an_vocabulary_' . $vocab['machine_stem'],
+                    'parent' => 0,
+                )
+                    )
+            )
+        );
+    }
+    return $fields;
+}
+
+
+
+/*
+ * Internal Function
+ * 
+ * Resource field instances
+ */
+function _resource_instances() {
+    global $an_vocabularies;
+    $instances = array();
+    $instances['field_citation'] = array(
+        'field_name' => 'field_citation',
+        'label' => 'Citation',
+    );
+    $instances['field_highlights'] = array(
+        'field_name' => 'field_highlights',
+        'label' => 'Highlights',
+    );
+    $instances['field_usefulness'] = array(
+        'field_name' => 'field_usefulness',
+        'label' => 'Why this item may be useful',
+    );
+    $instances['field_details'] = array(
+        'field_name' => 'field_details',
+        'label' => 'Details',
+    );
+    
+    
+    $instances['field_links'] = array(
+        'field_name' => 'field_links',
+        'label' => 'Related Links',
+        'widget' => array(
+            'type' => 'text_textfield',
+        ),
+    );
+    
+    foreach ($an_vocabularies as $vocab) {
+        $instances[$vocab['machine_stem']] = array(
+            'field_name' => ('field_tax_' . $vocab['machine_stem']),
+            'label' => $vocab['name'],
+            'type' => 'taxonomy_term_reference',
+                  'widget' => array(
+        'type' => 'options_buttons',
+      ),
+      'display' => array(
+        'default' => array(
+          'type' => 'taxonomy_term_reference_link',
+        ),
+      ),
+        );
+        
+        
+    }
+ 
+    
+
+
+    return $instances;
+}
+
+?>

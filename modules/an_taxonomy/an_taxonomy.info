@@ -1,0 +1,5 @@
+name = AccrualNet Taxonomy
+description = Loads the taxonomy vocabularies necessary for AccrualNet.
+package = AccrualNet
+core = 7.x
+version = 7.x-1.0

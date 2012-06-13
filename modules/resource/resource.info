@@ -1,0 +1,7 @@
+name = "Resource Content Type"
+description = "Creates and controls the resource content type"
+package = "Resources"
+core = 7.x
+version = 7.x-1.0
+
+dependencies[] = "an_taxonomy"
