@@ -2,6 +2,8 @@
 
 $field_weight = 0;
 
+// define the field and instance for each needed user profile field.
+
 $GLOBALS['nci_user_fields'] = array(
 	'field_an_role' => array(
 		'field' => array(
@@ -148,25 +150,28 @@ $GLOBALS['nci_user_fields'] = array(
 	)
 );
 
-function nci_custom_user_enable() {
+function nci_custom_user_install() {
 	global $nci_user_fields;
 
+	// create each field and add an instance to the user
 	foreach ($nci_user_fields as $field => $config) {
-		// Check if field is not already created.
+		// check if field is not already created
 		if (!field_info_field($field)) {
+			// create the field...
 			$field_config = $config['field'];
 			field_create_field($field_config);
 
-			// Create the instance on the bundle.
+			// and create the instance
 			$instance = $config['instance'];
 			field_create_instance($instance);
 		}
 	}
 }
 
-function nci_custom_user_disable() {
+function nci_custom_user_uninstall() {
 	global $nci_user_fields;
 
+	// delete each field that was previously created
 	foreach ($nci_user_fields as $field => $config) {
 		if (field_info_field($field)) {
 			field_delete_field($field);

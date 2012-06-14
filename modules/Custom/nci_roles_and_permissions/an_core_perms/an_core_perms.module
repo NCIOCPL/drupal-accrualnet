@@ -30,7 +30,7 @@ function an_core_perms_enable()
       $comment = array(
           'access comments' => array(
               $anon => FALSE,
-              $auth => FALSE,
+              $auth => TRUE,
               $writer => FALSE,
               $anstaff => FALSE,
               $admin => TRUE
@@ -39,19 +39,19 @@ function an_core_perms_enable()
               $anon => FALSE,
               $auth => FALSE,
               $writer => FALSE,
-              $anstaff => FALSE,
+              $anstaff => TRUE,
               $admin => TRUE
           ),
           'edit own comments' => array(
               $anon => FALSE,
-              $auth => FALSE,
+              $auth => TRUE,
               $writer => FALSE,
               $anstaff => FALSE,
               $admin => TRUE
           ),
           'post comments' => array(
               $anon => FALSE,
-              $auth => FALSE,
+              $auth => TRUE,
               $writer => FALSE,
               $anstaff => FALSE,
               $admin => TRUE
@@ -60,7 +60,7 @@ function an_core_perms_enable()
               $anon => FALSE,
               $auth => FALSE,
               $writer => FALSE,
-              $anstaff => FALSE,
+              $anstaff => TRUE,
               $admin => TRUE
           ),
       ),
@@ -79,8 +79,8 @@ function an_core_perms_enable()
           'access dashboard' => array(
               $anon => FALSE,
               $auth => FALSE,
-              $writer => FALSE,
-              $anstaff => FALSE,
+              $writer => TRUE,
+              $anstaff => TRUE,
               $admin => TRUE
           ),
       ),
@@ -96,8 +96,8 @@ function an_core_perms_enable()
           'use text format filtered_html' => array(
               $anon => FALSE,
               $auth => FALSE,
-              $writer => FALSE,
-              $anstaff => FALSE,
+              $writer => TRUE,
+              $anstaff => TRUE,
               $admin => TRUE
           ),
           'use text format full_html' => array(
@@ -136,7 +136,7 @@ function an_core_perms_enable()
           ),
           'translate interface' => array(
               $anon => FALSE,
-              $auth => FALSE,
+              $auth => TRUE,
               $writer => FALSE,
               $anstaff => FALSE,
               $admin => TRUE
@@ -156,7 +156,7 @@ function an_core_perms_enable()
       $node = array (
           'access content' => array(
               $anon => FALSE,
-              $auth => FALSE,
+              $auth => TRUE,
               $writer => FALSE,
               $anstaff => FALSE,
               $admin => TRUE
@@ -165,7 +165,7 @@ function an_core_perms_enable()
               $anon => FALSE,
               $auth => FALSE,
               $writer => FALSE,
-              $anstaff => FALSE,
+              $anstaff => TRUE,
               $admin => TRUE
           ),
           'administer content types' => array(
@@ -193,19 +193,19 @@ function an_core_perms_enable()
               $anon => FALSE,
               $auth => FALSE,
               $writer => FALSE,
-              $anstaff => FALSE,
+              $anstaff => TRUE,
               $admin => TRUE
           ),
           'revert revisions' => array(
               $anon => FALSE,
               $auth => FALSE,
               $writer => FALSE,
-              $anstaff => FALSE,
+              $anstaff => TRUE,
               $admin => TRUE
           ),
           'view own unpublished content' => array(
               $anon => FALSE,
-              $auth => FALSE,
+              $auth => TRUE,
               $writer => FALSE,
               $anstaff => FALSE,
               $admin => TRUE
@@ -213,8 +213,8 @@ function an_core_perms_enable()
           'view revisions' => array(
               $anon => FALSE,
               $auth => FALSE,
-              $writer => FALSE,
-              $anstaff => FALSE,
+              $writer => TRUE,
+              $anstaff => TRUE,
               $admin => TRUE
           ),
       ),
@@ -258,12 +258,12 @@ function an_core_perms_enable()
               $anon => FALSE,
               $auth => FALSE,
               $writer => FALSE,
-              $anstaff => FALSE,
+              $anstaff => TRUE,
               $admin => TRUE
           ),
           'vote on polls' => array(
               $anon => FALSE,
-              $auth => FALSE,
+              $auth => TRUE,
               $writer => FALSE,
               $anstaff => FALSE,
               $admin => TRUE
@@ -280,14 +280,14 @@ function an_core_perms_enable()
           ),
           'search content' => array(
               $anon => FALSE,
-              $auth => FALSE,
+              $auth => TRUE,
               $writer => FALSE,
               $anstaff => FALSE,
               $admin => TRUE
           ),
           'use advanced search' => array(
               $anon => FALSE,
-              $auth => FALSE,
+              $auth => TRUE,
               $writer => FALSE,
               $anstaff => FALSE,
               $admin => TRUE
@@ -306,7 +306,7 @@ function an_core_perms_enable()
               $anon => FALSE,
               $auth => FALSE,
               $writer => FALSE,
-              $anstaff => FALSE,
+              $anstaff => TRUE,
               $admin => TRUE
           ),
           'switch shortcut sets' => array(
@@ -323,7 +323,7 @@ function an_core_perms_enable()
               $anon => FALSE,
               $auth => FALSE,
               $writer => FALSE,
-              $anstaff => FALSE,
+              $anstaff => TRUE,
               $admin => TRUE
           ),
           'administer statistics' => array(
@@ -337,7 +337,7 @@ function an_core_perms_enable()
               $anon => FALSE,
               $auth => FALSE,
               $writer => FALSE,
-              $anstaff => FALSE,
+              $anstaff => TRUE,
               $admin => TRUE
           ),
       ),
@@ -407,8 +407,8 @@ function an_core_perms_enable()
               $admin => TRUE
           ),
           'view the administration theme' => array(
-              $anon => FALSE,
-              $auth => FALSE,
+              $anon => TRUE,
+              $auth => TRUE,
               $writer => FALSE,
               $anstaff => FALSE,
               $admin => TRUE
@@ -429,8 +429,8 @@ function an_core_perms_enable()
           'access toolbar' => array(
               $anon => FALSE,
               $auth => FALSE,
-              $writer => FALSE,
-              $anstaff => FALSE,
+              $writer => TRUE,
+              $anstaff => TRUE,
               $admin => TRUE
           ),
       ),
@@ -438,7 +438,7 @@ function an_core_perms_enable()
       $translation = array (
           'translate content' => array(
               $anon => FALSE,
-              $auth => FALSE,
+              $auth => TRUE,
               $writer => FALSE,
               $anstaff => FALSE,
               $admin => TRUE
@@ -448,7 +448,7 @@ function an_core_perms_enable()
       $user = array (
           'access user profiles' => array(
               $anon => FALSE,
-              $auth => FALSE,
+              $auth => TRUE,
               $writer => FALSE,
               $anstaff => FALSE,
               $admin => TRUE
@@ -464,12 +464,12 @@ function an_core_perms_enable()
               $anon => FALSE,
               $auth => FALSE,
               $writer => FALSE,
-              $anstaff => FALSE,
+              $anstaff => TRUE,
               $admin => TRUE
           ),
           'cancel account' => array(
               $anon => FALSE,
-              $auth => FALSE,
+              $auth => TRUE,
               $writer => FALSE,
               $anstaff => FALSE,
               $admin => TRUE

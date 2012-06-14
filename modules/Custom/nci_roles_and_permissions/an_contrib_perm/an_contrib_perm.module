@@ -7,358 +7,391 @@
  *
  */
 
-function an_core_perms_enable()
-{
-  $anon = 0;
-  $auth = 1;
-  $writer = 2;
-  $anstaff = 3;
-  $admin = 4;
+function an_core_perms_enable() {
+	$anon = 0;
+	$auth = 1;
+	$writer = 2;
+	$anstaff = 3;
+	$admin = 4;
 
-  $contrib_perms = array(
-    //Block
-      $avatar = array(
-          'access avatars' => array(
-              $anon => FALSE,
-              $auth => FALSE,
-              $writer => FALSE,
-              $anstaff => FALSE,
-              $admin => TRUE
-          ),
-          'administer avatar selection' => array(
-              $anon => FALSE,
-              $auth => FALSE,
-              $writer => FALSE,
-              $anstaff => FALSE,
-              $admin => TRUE
-          ),
-          'upload avatar in profile' => array(
-              $anon => FALSE,
-              $auth => FALSE,
-              $writer => FALSE,
-              $anstaff => FALSE,
-              $admin => TRUE
-          ),
-      ),
-      $custom_search = array (
-          'administer custom search' => array(
-              $anon => FALSE,
-              $auth => FALSE,
-              $writer => FALSE,
-              $anstaff => FALSE,
-              $admin => TRUE
-          ),
-          'use custom search' => array(
-              $anon => FALSE,
-              $auth => FALSE,
-              $writer => FALSE,
-              $anstaff => FALSE,
-              $admin => TRUE
-          ),
-          'administer custom search blocks' => array(
-              $anon => FALSE,
-              $auth => FALSE,
-              $writer => FALSE,
-              $anstaff => FALSE,
-              $admin => TRUE
-          ),
-          'use custom search blocks' => array(
-              $anon => FALSE,
-              $auth => FALSE,
-              $writer => FALSE,
-              $anstaff => FALSE,
-              $admin => TRUE
-          ),
-      ),
-      $og = array(
-          'administer group' => array(
-              $anon => FALSE,
-              $auth => FALSE,
-              $writer => FALSE,
-              $anstaff => FALSE,
-              $admin => TRUE
-          ),
-      ),
-      $panels = array(
-          'administer advanced pane settings' => array(
-              $anon => FALSE,
-              $auth => FALSE,
-              $writer => FALSE,
-              $anstaff => FALSE,
-              $admin => TRUE
-          ),
-          'administer pane access' => array(
-              $anon => FALSE,
-              $auth => FALSE,
-              $writer => FALSE,
-              $anstaff => FALSE,
-              $admin => TRUE
-          ),
-          'administer panels layouts' => array(
-              $anon => FALSE,
-              $auth => FALSE,
-              $writer => FALSE,
-              $anstaff => FALSE,
-              $admin => TRUE
-          ),
-          'administer panels styles' => array(
-              $anon => FALSE,
-              $auth => FALSE,
-              $writer => FALSE,
-              $anstaff => FALSE,
-              $admin => TRUE
-          ),
-          'change layouts in place editing' => array(
-              $anon => FALSE,
-              $auth => FALSE,
-              $writer => FALSE,
-              $anstaff => FALSE,
-              $admin => TRUE
-          ),
-          'use panels caching features' => array(
-              $anon => FALSE,
-              $auth => FALSE,
-              $writer => FALSE,
-              $anstaff => FALSE,
-              $admin => TRUE
-          ),
-          'use panels dashboard' => array(
-              $anon => FALSE,
-              $auth => FALSE,
-              $writer => FALSE,
-              $anstaff => FALSE,
-              $admin => TRUE
-          ),
-          'use panels in place editing' => array(
-              $anon => FALSE,
-              $auth => FALSE,
-              $writer => FALSE,
-              $anstaff => FALSE,
-              $admin => TRUE
-          ),
-          'use panels locks' => array(
-              $anon => FALSE,
-              $auth => FALSE,
-              $writer => FALSE,
-              $anstaff => FALSE,
-              $admin => TRUE
-          ),
-          'view pane admin links' => array(
-              $anon => FALSE,
-              $auth => FALSE,
-              $writer => FALSE,
-              $anstaff => FALSE,
-              $admin => TRUE
-          ),
-          'administer mini panels' => array(
-              $anon => FALSE,
-              $auth => FALSE,
-              $writer => FALSE,
-              $anstaff => FALSE,
-              $admin => TRUE
-          ),
-          'create mini panels' => array(
-              $anon => FALSE,
-              $auth => FALSE,
-              $writer => FALSE,
-              $anstaff => FALSE,
-              $admin => TRUE
-          ),
-          'administer panel-nodes' => array(
-              $anon => FALSE,
-              $auth => FALSE,
-              $writer => FALSE,
-              $anstaff => FALSE,
-              $admin => TRUE
-          ),
-          'create panel-nodes' => array(
-              $anon => FALSE,
-              $auth => FALSE,
-              $writer => FALSE,
-              $anstaff => FALSE,
-              $admin => TRUE
-          ),
-          'delete any panel-nodes' => array(
-              $anon => FALSE,
-              $auth => FALSE,
-              $writer => FALSE,
-              $anstaff => FALSE,
-              $admin => TRUE
-          ),
-          'delete own panel-nodes' => array(
-              $anon => FALSE,
-              $auth => FALSE,
-              $writer => FALSE,
-              $anstaff => FALSE,
-              $admin => TRUE
-          ),
-          'edit any panel-nodes' => array(
-              $anon => FALSE,
-              $auth => FALSE,
-              $writer => FALSE,
-              $anstaff => FALSE,
-              $admin => TRUE
-          ),
-          'edit own panel-nodes' => array(
-              $anon => FALSE,
-              $auth => FALSE,
-              $writer => FALSE,
-              $anstaff => FALSE,
-              $admin => TRUE
-          ),
-      ),
-      $workbench = array(
-          'access workbench' => array(
-              $anon => FALSE,
-              $auth => FALSE,
-              $writer => FALSE,
-              $anstaff => FALSE,
-              $admin => TRUE
-          ),
-          'administer workbench' => array(
-              $anon => FALSE,
-              $auth => FALSE,
-              $writer => FALSE,
-              $anstaff => FALSE,
-              $admin => TRUE
-          ),
-          'access workbench access by role' => array(
-              $anon => FALSE,
-              $auth => FALSE,
-              $writer => FALSE,
-              $anstaff => FALSE,
-              $admin => TRUE
-          ),
-          'administer workbench access' => array(
-              $anon => FALSE,
-              $auth => FALSE,
-              $writer => FALSE,
-              $anstaff => FALSE,
-              $admin => TRUE
-          ),
-          'assign workbench access' => array(
-              $anon => FALSE,
-              $auth => FALSE,
-              $writer => FALSE,
-              $anstaff => FALSE,
-              $admin => TRUE
-          ),
-          'batch update workbench access' => array(
-              $anon => FALSE,
-              $auth => FALSE,
-              $writer => FALSE,
-              $anstaff => FALSE,
-              $admin => TRUE
-          ),
-          'view workbench access information' => array(
-              $anon => FALSE,
-              $auth => FALSE,
-              $writer => FALSE,
-              $anstaff => FALSE,
-              $admin => TRUE
-          ),
-          'view workbench taxonomy pages' => array(
-              $anon => FALSE,
-              $auth => FALSE,
-              $writer => FALSE,
-              $anstaff => FALSE,
-              $admin => TRUE
-          ),
-          'administer workbench moderation' => array(
-              $anon => FALSE,
-              $auth => FALSE,
-              $writer => FALSE,
-              $anstaff => FALSE,
-              $admin => TRUE
-          ),
-          'bypass workbench moderation' => array(
-              $anon => FALSE,
-              $auth => FALSE,
-              $writer => FALSE,
-              $anstaff => FALSE,
-              $admin => TRUE
-          ),
-          'moderate content from draft to needs_review' => array(
-              $anon => FALSE,
-              $auth => FALSE,
-              $writer => FALSE,
-              $anstaff => FALSE,
-              $admin => TRUE
-          ),
-          'moderate content from needs_review to draft' => array(
-              $anon => FALSE,
-              $auth => FALSE,
-              $writer => FALSE,
-              $anstaff => FALSE,
-              $admin => TRUE
-          ),
-          'moderate content from needs_review to published' => array(
-              $anon => FALSE,
-              $auth => FALSE,
-              $writer => FALSE,
-              $anstaff => FALSE,
-              $admin => TRUE
-          ),
-          'use workbench_moderation my drafts tab' => array(
-              $anon => FALSE,
-              $auth => FALSE,
-              $writer => FALSE,
-              $anstaff => FALSE,
-              $admin => TRUE
-          ),
-          'use workbench_moderation needs review tab' => array(
-              $anon => FALSE,
-              $auth => FALSE,
-              $writer => FALSE,
-              $anstaff => FALSE,
-              $admin => TRUE
-          ),
-          'view all unpublished content' => array(
-              $anon => FALSE,
-              $auth => FALSE,
-              $writer => FALSE,
-              $anstaff => FALSE,
-              $admin => TRUE
-          ),
-          'view moderation history' => array(
-              $anon => FALSE,
-              $auth => FALSE,
-              $writer => FALSE,
-              $anstaff => FALSE,
-              $admin => TRUE
-          ),
-          'view moderation messages' => array(
-              $anon => FALSE,
-              $auth => FALSE,
-              $writer => FALSE,
-              $anstaff => FALSE,
-              $admin => TRUE
-          ),
-      ),
-  );
+	$contrib_perms = array(
+		//Block
+		$avatar = array(
+	'access avatars' => array(
+		$anon => TRUE,
+		$auth => TRUE,
+		$writer => FALSE,
+		$anstaff => FALSE,
+		$admin => TRUE
+	),
+	'administer avatar selection' => array(
+		$anon => FALSE,
+		$auth => FALSE,
+		$writer => FALSE,
+		$anstaff => FALSE,
+		$admin => TRUE
+	),
+	'upload avatar in profile' => array(
+		$anon => TRUE,
+		$auth => TRUE,
+		$writer => FALSE,
+		$anstaff => FALSE,
+		$admin => TRUE
+	),
+		),
+		$custom_search = array(
+	'administer custom search' => array(
+		$anon => FALSE,
+		$auth => FALSE,
+		$writer => FALSE,
+		$anstaff => FALSE,
+		$admin => TRUE
+	),
+	'use custom search' => array(
+		$anon => FALSE,
+		$auth => TRUE,
+		$writer => FALSE,
+		$anstaff => FALSE,
+		$admin => TRUE
+	),
+	'administer custom search blocks' => array(
+		$anon => FALSE,
+		$auth => FALSE,
+		$writer => FALSE,
+		$anstaff => FALSE,
+		$admin => TRUE
+	),
+	'use custom search blocks' => array(
+		$anon => FALSE,
+		$auth => FALSE,
+		$writer => FALSE,
+		$anstaff => FALSE,
+		$admin => TRUE
+	),
+		),
+		$og = array(
+	'administer group' => array(
+		$anon => FALSE,
+		$auth => FALSE,
+		$writer => FALSE,
+		$anstaff => FALSE,
+		$admin => TRUE
+	),
+		),
+		$panels = array(
+	'administer advanced pane settings' => array(
+		$anon => FALSE,
+		$auth => FALSE,
+		$writer => FALSE,
+		$anstaff => FALSE,
+		$admin => TRUE
+	),
+	'administer pane access' => array(
+		$anon => FALSE,
+		$auth => FALSE,
+		$writer => FALSE,
+		$anstaff => FALSE,
+		$admin => TRUE
+	),
+	'administer panels layouts' => array(
+		$anon => FALSE,
+		$auth => FALSE,
+		$writer => FALSE,
+		$anstaff => FALSE,
+		$admin => TRUE
+	),
+	'administer panels styles' => array(
+		$anon => FALSE,
+		$auth => FALSE,
+		$writer => FALSE,
+		$anstaff => FALSE,
+		$admin => TRUE
+	),
+	'change layouts in place editing' => array(
+		$anon => FALSE,
+		$auth => FALSE,
+		$writer => FALSE,
+		$anstaff => FALSE,
+		$admin => TRUE
+	),
+	'use panels caching features' => array(
+		$anon => FALSE,
+		$auth => FALSE,
+		$writer => FALSE,
+		$anstaff => FALSE,
+		$admin => TRUE
+	),
+	'use panels dashboard' => array(
+		$anon => FALSE,
+		$auth => FALSE,
+		$writer => FALSE,
+		$anstaff => FALSE,
+		$admin => TRUE
+	),
+	'use panels in place editing' => array(
+		$anon => FALSE,
+		$auth => FALSE,
+		$writer => FALSE,
+		$anstaff => FALSE,
+		$admin => TRUE
+	),
+	'use panels locks' => array(
+		$anon => FALSE,
+		$auth => FALSE,
+		$writer => FALSE,
+		$anstaff => FALSE,
+		$admin => TRUE
+	),
+	'view pane admin links' => array(
+		$anon => FALSE,
+		$auth => FALSE,
+		$writer => FALSE,
+		$anstaff => FALSE,
+		$admin => TRUE
+	),
+	'administer mini panels' => array(
+		$anon => FALSE,
+		$auth => FALSE,
+		$writer => FALSE,
+		$anstaff => FALSE,
+		$admin => TRUE
+	),
+	'create mini panels' => array(
+		$anon => FALSE,
+		$auth => FALSE,
+		$writer => FALSE,
+		$anstaff => FALSE,
+		$admin => TRUE
+	),
+	'administer panel-nodes' => array(
+		$anon => FALSE,
+		$auth => FALSE,
+		$writer => FALSE,
+		$anstaff => FALSE,
+		$admin => TRUE
+	),
+	'create panel-nodes' => array(
+		$anon => FALSE,
+		$auth => FALSE,
+		$writer => FALSE,
+		$anstaff => FALSE,
+		$admin => TRUE
+	),
+	'delete any panel-nodes' => array(
+		$anon => FALSE,
+		$auth => FALSE,
+		$writer => FALSE,
+		$anstaff => FALSE,
+		$admin => TRUE
+	),
+	'delete own panel-nodes' => array(
+		$anon => FALSE,
+		$auth => FALSE,
+		$writer => FALSE,
+		$anstaff => FALSE,
+		$admin => TRUE
+	),
+	'edit any panel-nodes' => array(
+		$anon => FALSE,
+		$auth => FALSE,
+		$writer => FALSE,
+		$anstaff => FALSE,
+		$admin => TRUE
+	),
+	'edit own panel-nodes' => array(
+		$anon => FALSE,
+		$auth => FALSE,
+		$writer => FALSE,
+		$anstaff => FALSE,
+		$admin => TRUE
+	),
+		),
+		$workbench = array(
+	'access workbench' => array(
+		$anon => FALSE,
+		$auth => FALSE,
+		$writer => TRUE,
+		$anstaff => TRUE,
+		$admin => TRUE
+	),
+	'administer workbench' => array(
+		$anon => FALSE,
+		$auth => FALSE,
+		$writer => FALSE,
+		$anstaff => FALSE,
+		$admin => TRUE
+	),
+	'access workbench access by role' => array(
+		$anon => FALSE,
+		$auth => TRUE,
+		$writer => TRUE,
+		$anstaff => TRUE,
+		$admin => TRUE
+	),
+	'administer workbench access' => array(
+		$anon => FALSE,
+		$auth => FALSE,
+		$writer => FALSE,
+		$anstaff => FALSE,
+		$admin => TRUE
+	),
+	'assign workbench access' => array(
+		$anon => FALSE,
+		$auth => FALSE,
+		$writer => FALSE,
+		$anstaff => FALSE,
+		$admin => TRUE
+	),
+	'batch update workbench access' => array(
+		$anon => FALSE,
+		$auth => FALSE,
+		$writer => FALSE,
+		$anstaff => FALSE,
+		$admin => TRUE
+	),
+	'view workbench access information' => array(
+		$anon => FALSE,
+		$auth => FALSE,
+		$writer => FALSE,
+		$anstaff => FALSE,
+		$admin => TRUE
+	),
+	'view workbench taxonomy pages' => array(
+		$anon => FALSE,
+		$auth => FALSE,
+		$writer => FALSE,
+		$anstaff => FALSE,
+		$admin => TRUE
+	),
+	'administer workbench moderation' => array(
+		$anon => FALSE,
+		$auth => FALSE,
+		$writer => FALSE,
+		$anstaff => FALSE,
+		$admin => TRUE
+	),
+	'bypass workbench moderation' => array(
+		$anon => FALSE,
+		$auth => FALSE,
+		$writer => FALSE,
+		$anstaff => FALSE,
+		$admin => TRUE
+	),
+	'moderate content from new to draft' => array(
+		$anon => FALSE,
+		$auth => FALSE,
+		$writer => FALSE,
+		$anstaff => TRUE,
+		$admin => TRUE
+	),
+	'moderate content from new to cancelled' => array(
+		$anon => FALSE,
+		$auth => FALSE,
+		$writer => FALSE,
+		$anstaff => TRUE,
+		$admin => TRUE
+	),
+	'moderate content from draft to writer_review' => array(
+		$anon => FALSE,
+		$auth => FALSE,
+		$writer => TRUE,
+		$anstaff => FALSE,
+		$admin => TRUE
+	),
+	'moderate content from writer_review to editor_review' => array(
+		$anon => FALSE,
+		$auth => FALSE,
+		$writer => TRUE,
+		$anstaff => FALSE,
+		$admin => TRUE
+	),
+	'moderate content from writer_review to draft' => array(
+		$anon => FALSE,
+		$auth => FALSE,
+		$writer => TRUE,
+		$anstaff => FALSE,
+		$admin => TRUE
+	),
+	'moderate content from editor_review to published' => array(
+		$anon => FALSE,
+		$auth => FALSE,
+		$writer => FALSE,
+		$anstaff => TRUE,
+		$admin => TRUE
+	),
+	'moderate content from editor_review to writer_review' => array(
+		$anon => FALSE,
+		$auth => FALSE,
+		$writer => FALSE,
+		$anstaff => TRUE,
+		$admin => TRUE
+	),
+	'moderate content from editor_review to cancelled' => array(
+		$anon => FALSE,
+		$auth => FALSE,
+		$writer => FALSE,
+		$anstaff => TRUE,
+		$admin => TRUE
+	),
+	'use workbench_moderation my drafts tab' => array(
+		$anon => FALSE,
+		$auth => FALSE,
+		$writer => TRUE,
+		$anstaff => TRUE,
+		$admin => TRUE
+	),
+	'use workbench_moderation needs review tab' => array(
+		$anon => FALSE,
+		$auth => FALSE,
+		$writer => TRUE,
+		$anstaff => TRUE,
+		$admin => TRUE
+	),
+	'view all unpublished content' => array(
+		$anon => FALSE,
+		$auth => TRUE,
+		$writer => FALSE,
+		$anstaff => FALSE,
+		$admin => TRUE
+	),
+	'view moderation history' => array(
+		$anon => FALSE,
+		$auth => FALSE,
+		$writer => TRUE,
+		$anstaff => TRUE,
+		$admin => TRUE
+	),
+	'view moderation messages' => array(
+		$anon => FALSE,
+		$auth => FALSE,
+		$writer => TRUE,
+		$anstaff => TRUE,
+		$admin => TRUE
+	),
+		),
+	);
 
-$anon_perms = array();
-$auth_perms = array();
-$writer_perms = array();
-$anstaff_perms = array();
-$admin_perms = array();
+	$anon_perms = array();
+	$auth_perms = array();
+	$writer_perms = array();
+	$anstaff_perms = array();
+	$admin_perms = array();
 
-  foreach ($default_perms as $category){
-    foreach($category as $perm => $role){
-      $anon_perms[$perm]= $role[$anon];
-      $auth_perms[$perm] = $role[$auth];
-      $writer_perms[$perm] = $role[$writer];
-      $anstaff_perms[$perm] = $role[$anstaff];
-      $admin_perms[$perm] = $role[$admin];
-    }
+	foreach ($default_perms as $category) {
+		foreach ($category as $perm => $role) {
+			$anon_perms[$perm] = $role[$anon];
+			$auth_perms[$perm] = $role[$auth];
+			$writer_perms[$perm] = $role[$writer];
+			$anstaff_perms[$perm] = $role[$anstaff];
+			$admin_perms[$perm] = $role[$admin];
+		}
+	}
 
-  }
 
-
-  _nci_roles_and_permissions_update_perms('Anonymous User', $anon_perms);
-  _nci_roles_and_permissions_update_perms('Authenticated User', $auth_perms);
-  _nci_roles_and_permissions_update_perms('Writer', $writer_perms);
-  _nci_roles_and_permissions_update_perms('AccrualNet Staff', $anstaff_perms);
-  _nci_roles_and_permissions_update_perms('administrator', $admin_perms);
+	_nci_roles_and_permissions_update_perms('Anonymous User', $anon_perms);
+	_nci_roles_and_permissions_update_perms('Authenticated User', $auth_perms);
+	_nci_roles_and_permissions_update_perms('Writer', $writer_perms);
+	_nci_roles_and_permissions_update_perms('AccrualNet Staff', $anstaff_perms);
+	_nci_roles_and_permissions_update_perms('administrator', $admin_perms);
 }
 

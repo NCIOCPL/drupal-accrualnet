@@ -15,16 +15,4 @@ function nci_custom_user_form_user_register_form_alter(&$form, &$form_state) {
 	$form['account']['mail']['#title'] = 'Work-related Email';
 }
 
-/*function nci_custom_user_form_alter(&$form, &$form_state, $form_id) {
-	print dpm($form_id, '$form_id');
-
-	/* if($form_id == 'field_ui_field_settings_form'){
-	  $form['field']['settings']['allowed_values_function'] = array(
-	  '#type' => 'textfield',
-	  '#title' => t('Allowed value function'),
-	  '#default_value' => $form['field']['settings']['allowed_values']['#field']['allowed_values_function']
-	  );
-	  } 
-}*/
-
 ?>
