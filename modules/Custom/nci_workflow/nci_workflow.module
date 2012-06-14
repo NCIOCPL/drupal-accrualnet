@@ -32,8 +32,6 @@ function nci_workflow_form_resource_node_form_alter(&$form, &$form_state) {
 		$form['field_an_trial_phase']['#access'] = FALSE;
 		$form['field_an_assigned_writer']['#access'] = FALSE;
 		$form['field_an_assigned_editor']['#access'] = FALSE;
-
-		dsm($form);
 	} else {
 		$role = "Writer";
 		$form_widget = &$form['field_an_assigned_writer'];
