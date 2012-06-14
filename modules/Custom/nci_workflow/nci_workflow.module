@@ -1,0 +1,254 @@
+<?php
+
+/* function nci_workflow_form_alter(&$form, &$form_state, $form_id) {
+  print dpm($form_id, '$form_id');
+
+  /* if($form_id == 'field_ui_field_settings_form'){
+  $form['field']['settings']['allowed_values_function'] = array(
+  '#type' => 'textfield',
+  '#title' => t('Allowed value function'),
+  '#default_value' => $form['field']['settings']['allowed_values']['#field']['allowed_values_function']
+  );
+  }
+  } */
+
+$GLOBALS['role_mod_state_map'] = array(
+	'Writer' => array(1 => 'Draft', 'Writer Review'),
+	'AccrualNet Staff' => array(1 => 'New', 'Editorial Review', 'Published')
+);
+
+function nci_workflow_form_resource_node_form_alter(&$form, &$form_state) {
+	if ($form['#action'] == '/node/add/resource') {
+		// hide most of the elements
+		$form['field_an_patient_related']['#access'] = FALSE;
+		$form['field_an_provider_related']['#access'] = FALSE;
+		$form['field_an_systems_and_regulatory']['#access'] = FALSE;
+		$form['field_an_study']['#access'] = FALSE;
+		$form['field_an_ethical']['#access'] = FALSE;
+		$form['field_an_demographics']['#access'] = FALSE;
+		$form['field_an_recruitment_vehicles']['#access'] = FALSE;
+		$form['field_an_resource_type']['#access'] = FALSE;
+		$form['field_an_trial_treatment']['#access'] = FALSE;
+		$form['field_an_trial_phase']['#access'] = FALSE;
+		$form['field_an_assigned_writer']['#access'] = FALSE;
+		$form['field_an_assigned_editor']['#access'] = FALSE;
+
+		dsm($form);
+	} else {
+		$role = "Writer";
+		$form_widget = &$form['field_an_assigned_writer'];
+		$node_widget = &$form['#node']->field_an_assigned_writer;
+		nci_workflow_fill_users($form_widget, $node_widget, $role);
+
+		$role = "AccrualNet Staff";
+		$form_widget = &$form['field_an_assigned_editor'];
+		$node_widget = &$form['#node']->field_an_assigned_editor;
+		nci_workflow_fill_users($form_widget, $node_widget, $role);
+	}
+}
+
+function nci_workflow_new_resource_submit($form, &$form_state) {
+	//print dpm($form, 'submit $form');
+	//print dpm($form_state, 'submit $form_state');
+	print 'Submit!';
+}
+
+function nci_workflow_fill_users(&$form_widget, $node_widget, $role) {
+// query the database to fill the assigned users fields with appropriate data
+
+	$query = "SELECT an_users.uid, an_users.name as user_name, rid, role_name " .
+			"FROM " .
+			"(SELECT an_users_roles.uid, an_users_roles.rid, an_role.name AS role_name " .
+			"FROM an_users_roles  " .
+			"INNER JOIN an_role  " .
+			"ON an_users_roles.rid = an_role.rid " .
+			"WHERE an_role.name in ('" . $role . "')) " .
+			"AS role_uids " .
+			"INNER JOIN an_users " .
+			"ON an_users.uid = role_uids.uid;";
+
+	$result = db_query($query);
+
+	foreach ($result as $record) {
+		$rows[] = $record;
+	}
+
+	if (!isset($rows))
+		return;
+
+	//print dpm($rows, $role . " query rows");
+	// get the current value, if it exists
+	if (isset($node_widget['und']['0']['value'])) {
+		$value = $node_widget['und']['0']['value'];
+		//print dpm($value, $role . ' current value');
+		// update the default value to match
+		$form_widget['und']['#default_value'] = $value;
+	}
+
+// fill the select options with the available users
+	foreach ($rows as $row) {
+		$uid = $row->uid;
+		$username = $row->user_name;
+		$form_widget['und']['#options'][$uid] = $username;
+	}
+
+//print dpm($form_widget, $role . " modified widget");
+}
+
+/* function nci_workflow_page_alter(&$page) {
+  print dpm($page, '$page');
+  } */
+
+function nci_workflow_page_build(&$page) {
+//print dpm($page, '$page');
+}
+
+function nci_workflow_session_fill_users($role) {
+// query the database to fill the assigned users fields with appropriate data
+
+	$query = "SELECT an_users.uid, an_users.name as user_name, rid, role_name " .
+			"FROM " .
+			"(SELECT an_users_roles.uid, an_users_roles.rid, an_role.name AS role_name " .
+			"FROM an_users_roles  " .
+			"INNER JOIN an_role  " .
+			"ON an_users_roles.rid = an_role.rid " .
+			"WHERE an_role.name in ('" . $role . "')) " .
+			"AS role_uids " .
+			"INNER JOIN an_users " .
+			"ON an_users.uid = role_uids.uid;";
+
+	$result = db_query($query);
+
+	foreach ($result as $record) {
+		$rows[] = $record;
+	}
+
+	if (!isset($rows))
+		return;
+
+// fill the select options with the available users
+	foreach ($rows as $row) {
+		$uid = $row->uid;
+		$username = $row->user_name;
+		$_SESSION['current_users'][$role][$uid] = $username;
+	}
+
+//print dpm($form_widget, $role . " modified widget");
+}
+
+/**
+ * Returns a role name for a given moderation state.
+ *
+ */
+function nci_workflow_get_role($state) {
+	global $role_mod_state_map;
+
+	foreach ($role_mod_state_map as $role => $states) {
+		//print dpm($states, 'Searching ' . $role . ' for ' . $state);
+		$found = array_search($state, $states);
+
+		if ($found) {
+			//print dpm('matched role ' . $role);
+			return $role;
+		}
+	}
+}
+
+function nci_workflow_db_get_field_value($table, $column, $nid, $vid) {
+	$query = 'select entity_id, revision_id, ' . $column . ' ' .
+			'FROM ' . $table . ' ' .
+			'WHERE entity_id = ' . $nid . ' ' .
+			'AND revision_id = ' . $vid;
+
+	try {
+		$result = db_query($query);
+	} catch (Exception $e) {
+		echo print_r($e, TRUE);
+		return;
+	}
+
+	foreach ($result as $record) {
+		$values[] = $record;
+	}
+
+// empty result just means that field is not set for this revision
+	$value = NULL;
+	if (isset($values[0]))
+		$value = $values[0]->$column;
+
+	return $value;
+}
+
+/**
+ * Meant to be used with Drupal node fields' data and revision tables,
+ * this function will either create a row for the given field's revision and value,
+ * update the existing revision to the value, or drop the revision row in the
+ * case of an empty value.
+ */
+function nci_workflow_db_set_field_value($value, $table, $stem, $column, $nid, $vid) {
+	// retrieve the existing value
+	$field_value = nci_workflow_db_get_field_value($table, $column, $nid, $vid);
+
+	// correlate the existing and new value:
+	if (($field_value == $value)
+			|| (empty($field_value) && empty($value))) {
+		// both fields are empty or match, nothing to do
+		return;
+	} else if (empty($field_value)) {
+		// no row exists, need to create and insert new row
+		nci_workflow_db_insert_field_value($value, $stem, $column, $nid, $vid);
+	} else if (empty($value)) {
+		// new value is empty, so the existing row needs to be dropped
+		nci_workflow_db_delete_field_value($stem, $nid, $vid);
+	} else {
+		// both values exist and are non-null, so the row should be updated
+		nci_workflow_db_update_field_value($value, $stem, $column, $nid, $vid);
+	}
+}
+
+function nci_workflow_db_update_field_value($value, $stem, $column, $nid, $vid) {
+	try {
+		$num_updated = db_update($stem)
+						->fields(array($column => $value))
+						->condition('entity_id', $nid)
+						->condition('revision_id', $vid)
+						->execute();
+	} catch (Exception $e) {
+		echo print_r($e, TRUE);
+		return;
+	}
+}
+
+function nci_workflow_db_insert_field_value($value, $stem, $column, $nid, $vid) {
+	try {
+		$iid = db_insert($stem)
+						->fields(array(
+							'entity_type' => 'node',
+							'bundle' => 'resource',
+							'deleted' => '0',
+							'entity_id' => $nid,
+							'revision_id' => $vid,
+							'language' => 'und',
+							'delta' => '0',
+							$column => $value
+						))
+						->execute();
+	} catch (Exception $e) {
+		echo print_r($e, TRUE);
+		return;
+	}
+}
+
+function nci_workflow_db_delete_field_value($stem, $nid, $vid) {
+	try {
+		$did = db_delete($stem)
+						->condition('entity_id', $nid)
+						->condition('revision_id', $vid)
+						->execute();
+	} catch (Exception $e) {
+		echo print_r($e, TRUE);
+		return;
+	}
+}
+
+?>

@@ -1,0 +1,177 @@
+<?php
+
+$field_weight = 0;
+
+$GLOBALS['nci_user_fields'] = array(
+	'field_an_role' => array(
+		'field' => array(
+			'field_name' => 'field_an_role',
+			'type' => 'text',
+			'cardinality' => -1
+		),
+		'instance' => array(
+			'field_name' => 'field_an_role',
+			'entity_type' => 'user',
+			'label' => t('Role'),
+			'bundle' => 'user',
+			'required' => TRUE,
+			'settings' => array(
+				'user_register_form' => 1,
+			),
+			'widget' => array(
+				'type' => 'select_or_other_buttons',
+				'weight' => $field_weight++,
+				'settings' => array(
+					'available_options' => t("Administration/Management\n" .
+							"Clinical Research Associate/Coordinator\n" .
+							"Data Managers\n" .
+							"Data Monitor/Auditor\n" .
+							"Executive\n" .
+							"Nurse\n" .
+							"Physician\n" .
+							"Principal Investigator\n" .
+							"Recruitment Coordinator\n" .
+							"Site Coordinator\n" .
+							"Site Investigator\n" .
+							"Statistician\n" .
+							"Study Coordinator\n" .
+							"Study Sponsor\n"),
+					'other' => t('Other, Please Specify')
+				)
+			)
+		)
+	),
+	'field_an_institution_type' => array(
+		'field' => array(
+			'field_name' => 'field_an_institution_type',
+			'type' => 'text',
+			'cardinality' => 1
+		),
+		'instance' => array(
+			'field_name' => 'field_an_institution_type',
+			'entity_type' => 'user',
+			'label' => t('Institution Type'),
+			'bundle' => 'user',
+			'required' => FALSE,
+			'settings' => array(
+				'user_register_form' => 1,
+			),
+			'widget' => array(
+				'type' => 'select_or_other',
+				'weight' => $field_weight++,
+				'settings' => array(
+					'available_options' => t(
+							"Academic\n" .
+							"Community Hospital\n" .
+							"Government\n" .
+							"Industry (Pharmaceutical/ Biotechnology, CROs/Recruitment)\n" .
+							"NCI Comprehensive Cancer Center\n" .
+							"NCI-supported Community Program\n" .
+							"Private Practice\n"),
+					'other' => t('Other, Please Specify')
+				)
+			)
+		)
+	),
+	'field_an_years_in_research' => array(
+		'field' => array(
+			'field_name' => 'field_an_years_in_research',
+			'type' => 'list_text',
+			'cardinality' => 1,
+			'settings' => array(
+				'allowed_values' => array(
+					'Less than 3 years',
+					'3 to 5',
+					'6-10',
+					'11-20',
+					'20+'
+				),
+			),
+		),
+		'instance' => array(
+			'field_name' => 'field_an_years_in_research',
+			'entity_type' => 'user',
+			'label' => t('Years in Clinical Research'),
+			'bundle' => 'user',
+			'required' => FALSE,
+			'settings' => array(
+				'user_register_form' => 1,
+			),
+			'widget' => array(
+				'type' => 'options_select',
+				'weight' => $field_weight++,
+			)
+		)
+	),
+	'field_an_areas_of_interest' => array(
+		'field' => array(
+			'field_name' => 'field_an_areas_of_interest',
+			'type' => 'text',
+			'cardinality' => -1
+		),
+		'instance' => array(
+			'field_name' => 'field_an_areas_of_interest',
+			'entity_type' => 'user',
+			'label' => t('Areas of Interest'),
+			'bundle' => 'user',
+			'required' => FALSE,
+			'settings' => array(
+				'user_register_form' => 1,
+			),
+			'widget' => array(
+				'type' => 'select_or_other_buttons',
+				'weight' => $field_weight++,
+				'settings' => array(
+					'available_options' => t("Communication Strategies\n" .
+							"Community Outreach\n" .
+							"Data Analysis\n" .
+							"Data Management\n" .
+							"Grant Writing\n" .
+							"Human Research Protections\n" .
+							"IT Systems\n" .
+							"Low Literacy\n" .
+							"Medical Ethics\n" .
+							"Minority Recruitment\n" .
+							"Protocol Development\n" .
+							"Public Relations\n" .
+							"Recruitment\n" .
+							"Regulatory Affairs\n" .
+							"Research Project Manager\n" .
+							"Research Site Management\n" .
+							"Training & Education\n" .
+							"Social Media\n" .
+							"Study Design\n"),
+					'other' => t('Other, Please Specify')
+				)
+			)
+		)
+	)
+);
+
+function nci_custom_user_enable() {
+	global $nci_user_fields;
+
+	foreach ($nci_user_fields as $field => $config) {
+		// Check if field is not already created.
+		if (!field_info_field($field)) {
+			$field_config = $config['field'];
+			field_create_field($field_config);
+
+			// Create the instance on the bundle.
+			$instance = $config['instance'];
+			field_create_instance($instance);
+		}
+	}
+}
+
+function nci_custom_user_disable() {
+	global $nci_user_fields;
+
+	foreach ($nci_user_fields as $field => $config) {
+		if (field_info_field($field)) {
+			field_delete_field($field);
+		}
+	}
+}
+
+?>

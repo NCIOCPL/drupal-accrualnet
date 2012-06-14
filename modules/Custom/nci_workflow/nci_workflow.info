@@ -1,0 +1,8 @@
+name = NCI Workflow
+description = Form Alterations specific to workflow behavior.
+package = NCI
+core = 7.x
+version = 7.x-1.0
+dependencies[] = workbench
+dependencies[] = workbench_access
+dependencies[] = workbench_moderation
