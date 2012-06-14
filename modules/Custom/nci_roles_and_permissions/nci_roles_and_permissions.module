@@ -11,11 +11,14 @@
  *
  * @param <type> $role_name
  */
-function _nci_roles_and_permissions_create_roles($role_name)
-{
-  $role = new stdClass();
-  $role->name = $role_name;
-  user_role_save($role);
+function _nci_roles_and_permissions_create_roles($role_name) {
+	$role = user_role_load_by_name($role_name);
+
+	if (!isset($role)) {
+		$role = new stdClass();
+		$role->name = $role_name;
+		user_role_save($role);
+	}
 }
 
 /**
@@ -23,21 +26,17 @@ function _nci_roles_and_permissions_create_roles($role_name)
  * @param <type> $role_name
  * @param <type> $role_permissions 
  */
-function _nci_roles_and_permissions_update_perms($role_name, $role_permissions){
+function _nci_roles_and_permissions_update_perms($role_name, $role_permissions) {
 
-  $role = user_role_load_by_name($role_name);
-  //Make sure the role exists. user_role_load_by_name
-  //will return false if it doesnt exist.
-  if($role)
-  {
-    $role_rid = $role->rid;
-    user_role_change_permissions($role_rid, $role_permissions);
-  }
-  else {
-    watchdog('nci_roles_and_permissions', 'The role %role_name does not exist',
-            array('%role_name' => $role_name), WATCHDOG_ERROR);
-  }
-
+	$role = user_role_load_by_name($role_name);
+	//Make sure the role exists. user_role_load_by_name
+	//will return false if it doesnt exist.
+	if ($role) {
+		$role_rid = $role->rid;
+		user_role_change_permissions($role_rid, $role_permissions);
+	} else {
+		watchdog('nci_roles_and_permissions', 'The role %role_name does not exist',
+				array('%role_name' => $role_name), WATCHDOG_ERROR);
+	}
 }
-
 
