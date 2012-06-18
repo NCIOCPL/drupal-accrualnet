@@ -1,0 +1,293 @@
+<?php
+
+/**
+ * Implements hook_install().
+ */
+function nci_workflow_enable() {
+
+	try {
+		// Create tables.
+		_nci_workflow_insert_values();
+
+		// set up permissions specific to the new workflow states
+		_nci_workflow_set_permissions();
+
+		// build the taxonomy for workbench access
+		_nci_workflow_build_taxonomy();
+	} catch (Exception $e) {
+		drupal_set_message(kpr($e, TRUE), 'error');
+	}
+}
+
+/**
+ * Adds default data for workflow states
+ */
+function _nci_workflow_insert_values() {
+	try {
+		// delete old 'needs review' state, should also wipe out any default
+		// transitions by virtue of the being the original middle state
+		$review_state = workbench_moderation_state_load('needs_review');
+
+		if ($review_state) {
+			workbench_moderation_state_delete($review_state);
+		}
+
+
+		// add nci states, can overwrite existing states safely
+		$states = array(
+			array(
+				'name' => 'new',
+				'label' => 'New',
+				'description' => 'Newly submitted resource, needs approval before drafting.',
+				'weight' => -4
+			),
+			array(
+				'name' => 'draft',
+				'label' => 'Draft',
+				'description' => 'Resources assigned to a write for completion.',
+				'weight' => -3
+			),
+			array(
+				'name' => 'writer_review',
+				'label' => 'Writer Review',
+				'description' => 'Under review by the writing team.',
+				'weight' => -2
+			),
+			array(
+				'name' => 'editor_review',
+				'label' => 'Editorial Review',
+				'description' => 'Under review by the editorial team.',
+				'weight' => -1
+			),
+			array(
+				'name' => 'published',
+				'label' => 'Published',
+				'description' => 'Published and live on the site.',
+				'weight' => 0
+			),
+			array(
+				'name' => 'canceled',
+				'label' => 'Canceled',
+				'description' => 'Removed from the workflow.',
+				'weight' => 1
+			)
+		);
+
+		// Save states to the database.
+		foreach ($states as $state) {
+			workbench_moderation_state_save((object) $state);
+		}
+
+		// add nci transitions
+		$transitions = array(
+			array(
+				'from_name' => 'new',
+				'to_name' => 'draft',
+			),
+			array(
+				'from_name' => 'new',
+				'to_name' => 'canceled',
+			),
+			array(
+				'from_name' => 'draft',
+				'to_name' => 'writer_review',
+			),
+			array(
+				'from_name' => 'writer_review',
+				'to_name' => 'editor_review',
+			),
+			array(
+				'from_name' => 'writer_review',
+				'to_name' => 'draft',
+			),
+			array(
+				'from_name' => 'editor_review',
+				'to_name' => 'writer_review',
+			),
+			array(
+				'from_name' => 'editor_review',
+				'to_name' => 'published',
+			),
+			array(
+				'from_name' => 'editor_review',
+				'to_name' => 'canceled',
+			)
+		);
+
+		// Save default transitions to the database.
+		foreach ($transitions as $transition) {
+			workbench_moderation_transition_save((object) $transition);
+		}
+	} catch (Exception $e) {
+		if (function_exists('dsm'))
+			dsm($e);
+		else
+			print kpr($e, true);
+	}
+}
+
+function _nci_workflow_set_permissions() {
+	try {
+
+		$anon = 0;
+		$auth = 1;
+		$writer = 2;
+		$anstaff = 3;
+		$admin = 4;
+
+		$moderation_perms = array(
+			'moderate content from new to draft' => array(
+				$anon => FALSE,
+				$auth => FALSE,
+				$writer => FALSE,
+				$anstaff => TRUE,
+				$admin => TRUE
+			),
+			'moderate content from new to canceled' => array(
+				$anon => FALSE,
+				$auth => FALSE,
+				$writer => FALSE,
+				$anstaff => TRUE,
+				$admin => TRUE
+			),
+			'moderate content from draft to writer_review' => array(
+				$anon => FALSE,
+				$auth => FALSE,
+				$writer => TRUE,
+				$anstaff => FALSE,
+				$admin => TRUE
+			),
+			'moderate content from writer_review to editor_review' => array(
+				$anon => FALSE,
+				$auth => FALSE,
+				$writer => TRUE,
+				$anstaff => FALSE,
+				$admin => TRUE
+			),
+			'moderate content from writer_review to draft' => array(
+				$anon => FALSE,
+				$auth => FALSE,
+				$writer => TRUE,
+				$anstaff => FALSE,
+				$admin => TRUE
+			),
+			'moderate content from editor_review to published' => array(
+				$anon => FALSE,
+				$auth => FALSE,
+				$writer => FALSE,
+				$anstaff => TRUE,
+				$admin => TRUE
+			),
+			'moderate content from editor_review to writer_review' => array(
+				$anon => FALSE,
+				$auth => FALSE,
+				$writer => FALSE,
+				$anstaff => TRUE,
+				$admin => TRUE
+			),
+			'moderate content from editor_review to canceled' => array(
+				$anon => FALSE,
+				$auth => FALSE,
+				$writer => FALSE,
+				$anstaff => TRUE,
+				$admin => TRUE
+			),
+		);
+
+		$anon_perms = array();
+		$auth_perms = array();
+		$writer_perms = array();
+		$anstaff_perms = array();
+		$admin_perms = array();
+
+		foreach ($moderation_perms as $perm => $role) {
+			$anon_perms[$perm] = $role[$anon];
+			$auth_perms[$perm] = $role[$auth];
+			$writer_perms[$perm] = $role[$writer];
+			$anstaff_perms[$perm] = $role[$anstaff];
+			$admin_perms[$perm] = $role[$admin];
+		}
+
+
+		_nci_roles_and_permissions_update_perms('Anonymous User', $anon_perms);
+		_nci_roles_and_permissions_update_perms('Authenticated User', $auth_perms);
+		_nci_roles_and_permissions_update_perms('Writer', $writer_perms);
+		_nci_roles_and_permissions_update_perms('AccrualNet Staff', $anstaff_perms);
+		_nci_roles_and_permissions_update_perms('administrator', $admin_perms);
+	} catch (Exception $e) {
+		if (function_exists('dsm'))
+			dsm($e);
+		else
+			print kpr($e, true);
+	}
+}
+
+function _nci_workflow_build_taxonomy() {
+	// grab the existing vocabularies
+	$existing_names = taxonomy_vocabulary_get_names();
+
+	// define the section taxonomy
+	// get the name and machine name
+	$name = 'AccrualNet Resource';
+	$machine_name = 'accrualnet_resource';
+
+	// abort if any matching taxonomy
+	if (isset($existing_names[$machine_name]))
+		return;
+
+	// build the vocabulary and save it
+	$vocab = _nci_workflow_build_vocabulary($name,
+					$machine_name, 0);
+	if (!taxonomy_vocabulary_save($vocab)) {
+		drupal_set_message('Failed to add vocabulary ' . $_name,
+				'warning');
+	} else {
+		// build and save the terminologies as well
+		$term_name = 'Editors';
+
+		$editor_term = _nci_workflow_build_term($term_name, $vocab, 0);
+		if (!taxonomy_term_save($editor_term)) {
+			drupal_set_message('Failed to add term ' . $term_name .
+					' to vocabulary ' . $name . '.', 'warning');
+			return;
+		}
+
+		$term_name = 'Writers';
+		$term = _nci_workflow_build_term($term_name, $vocab, 0, $editor_term->tid);
+		if (!taxonomy_term_save($term)) {
+			drupal_set_message('Failed to add term ' . $term_name .
+					' to vocabulary ' . $name . '.', 'warning');
+		}
+
+		$term_name = 'Newly Submitted';
+		$term = _nci_workflow_build_term($term_name, $vocab, 0, $editor_term->tid);
+		if (!taxonomy_term_save($term)) {
+			drupal_set_message('Failed to add term ' . $term_name .
+					' to vocabulary ' . $name . '.', 'warning');
+		}
+	}
+}
+
+function _nci_workflow_build_vocabulary($name, $machine_name, $weight) {
+	$t = get_t();
+	$vocabulary = new stdClass();
+	$vocabulary->name = $t($name);
+	$vocabulary->module = 'nci_workflow';
+	$vocabulary->machine_name = $machine_name;
+	$vocabulary->hierarchy = 1;
+	$vocabulary->weight = $weight;
+	return $vocabulary;
+}
+
+function _nci_workflow_build_term($name, $vocabulary, $weight, $parent = 0) {
+	$t = get_t();
+	$term = new stdClass();
+	$term->name = $t($name);
+	$term->vid = $vocabulary->vid;
+	$term->weight = $weight;
+	$term->parent = $parent;
+
+	return $term;
+}
+
+?>

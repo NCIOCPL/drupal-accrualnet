@@ -6,3 +6,5 @@ version = 7.x-1.0
 dependencies[] = workbench
 dependencies[] = workbench_access
 dependencies[] = workbench_moderation
+dependencies[] = nci_roles_and_permissions
+dependencies[] = an_roles

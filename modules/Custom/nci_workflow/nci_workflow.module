@@ -30,17 +30,17 @@ function nci_workflow_form_resource_node_form_alter(&$form, &$form_state) {
 		$form['field_an_resource_type']['#access'] = FALSE;
 		$form['field_an_trial_treatment']['#access'] = FALSE;
 		$form['field_an_trial_phase']['#access'] = FALSE;
-		$form['field_an_assigned_writer']['#access'] = FALSE;
-		$form['field_an_assigned_editor']['#access'] = FALSE;
+		$form['field_assigned_writer']['#access'] = FALSE;
+		$form['field_assigned_editor']['#access'] = FALSE;
 	} else {
 		$role = "Writer";
-		$form_widget = &$form['field_an_assigned_writer'];
-		$node_widget = &$form['#node']->field_an_assigned_writer;
+		$form_widget = &$form['field_assigned_writer'];
+		$node_widget = &$form['#node']->field_assigned_writer;
 		nci_workflow_fill_users($form_widget, $node_widget, $role);
 
 		$role = "AccrualNet Staff";
-		$form_widget = &$form['field_an_assigned_editor'];
-		$node_widget = &$form['#node']->field_an_assigned_editor;
+		$form_widget = &$form['field_assigned_editor'];
+		$node_widget = &$form['#node']->field_assigned_editor;
 		nci_workflow_fill_users($form_widget, $node_widget, $role);
 	}
 }
