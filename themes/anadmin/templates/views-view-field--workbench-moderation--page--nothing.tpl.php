@@ -54,6 +54,8 @@ if (isset($_SESSION['current_users'][$role])) {
 
 		$user_id = $user->uid;
 
+		$div_id = 'assigned_to_' . $nid;
+
 		// generate a select list
 		print '<select onchange="submitChosenUser(' . $user_id . ', this.value, ' . $nid . ', ' . $vid . ', \'' . $role . '\')">';
 		print '<option value="">- none -</option>';
@@ -64,6 +66,9 @@ if (isset($_SESSION['current_users'][$role])) {
 			print ' value="' . $id . '">' . $name . '</option>';
 		}
 		print '</select>';
+
+		// add a div to receive return output
+		print "<br><div class='assign_to_status' id='$div_id' />";
 		return;
 	} else {
 		// if the user can't moderate, just display the current user
