@@ -22,14 +22,13 @@ function communities_node_info() {
             'title_label' => 'Group Name',
             // 'custom' => TRUE, // Add this line in when debugging
         ),
-        
         'conversation' => array(
             'name' => t('Conversation'),
             'base' => 'node_content',
             'description' => t('Conversation (Group Post)'),
             'has_title' => TRUE,
             'title_label' => 'Conversation Topic',
-            'custom' => TRUE, // Add this line in when debugging
+            //'custom' => TRUE, // Add this line in when debugging
         ),
     );
 }
