@@ -1,0 +1,127 @@
+<?php
+/*****
+ * Created By: Lauren
+ * Created On: June 12, 2012
+ * 
+ * Last Updated By: Lauren
+ * Last Updated On: June 12, 2012
+ *****/
+
+/**
+ * hook_enable()
+ * 
+ * Enables the core permissions for communities and conversations.
+ */
+function permissions_core_communities_enable()
+{
+  $anon = 0;
+  $auth = 1;
+  $writer = 2;
+  $anstaff = 3;
+  $admin = 4;
+
+  $default_perms = array(
+    
+      //Node Permissions
+      $node = array (
+          // Community Content
+          'create community content' => array(
+              $anon => FALSE,
+              $auth => FALSE,
+              $writer => FALSE,
+              $anstaff => TRUE,
+              $admin => TRUE
+          ),
+          'edit own community content' => array(
+              $anon => FALSE,
+              $auth => FALSE,
+              $writer => FALSE,
+              $anstaff => TRUE,
+              $admin => TRUE
+          ),
+          'edit any community content' => array(
+              $anon => FALSE,
+              $auth => FALSE,
+              $writer => FALSE,
+              $anstaff => TRUE,
+              $admin => TRUE
+          ),
+          'delete own community content' => array(
+              $anon => FALSE,
+              $auth => FALSE,
+              $writer => FALSE,
+              $anstaff => FALSE,
+              $admin => FALSE
+          ),
+          'delete any community content' => array(
+              $anon => FALSE,
+              $auth => FALSE,
+              $writer => FALSE,
+              $anstaff => FALSE,
+              $admin => FALSE
+          ),
+          
+          // Conversation content
+          'create conversation content' => array(
+              $anon => FALSE,
+              $auth => TRUE,
+              $writer => TRUE,
+              $anstaff => TRUE,
+              $admin => TRUE
+          ),
+          'edit own conversation content' => array(
+              $anon => FALSE,
+              $auth => TRUE,
+              $writer => TRUE,
+              $anstaff => TRUE,
+              $admin => TRUE
+          ),
+          'edit any conversation content' => array(
+              $anon => FALSE,
+              $auth => FALSE,
+              $writer => FALSE,
+              $anstaff => TRUE,
+              $admin => TRUE
+          ),
+          'delete own conversation content' => array(
+              $anon => FALSE,
+              $auth => FALSE,
+              $writer => FALSE,
+              $anstaff => FALSE,
+              $admin => FALSE
+          ),
+          'delete any conversation content' => array(
+              $anon => FALSE,
+              $auth => FALSE,
+              $writer => FALSE,
+              $anstaff => FALSE,
+              $admin => FALSE
+          ),
+      ),
+  );
+
+$anon_perms = array();
+$auth_perms = array();
+$writer_perms = array();
+$anstaff_perms = array();
+$admin_perms = array();
+
+  foreach ($default_perms as $category){
+    foreach($category as $perm => $role){
+      $anon_perms[$perm]= $role[$anon];
+      $auth_perms[$perm] = $role[$auth];
+      $writer_perms[$perm] = $role[$writer];
+      $anstaff_perms[$perm] = $role[$anstaff];
+      $admin_perms[$perm] = $role[$admin];
+    }
+
+  }
+
+
+  _nci_roles_and_permissions_update_perms('Anonymous User', $anon_perms);
+  _nci_roles_and_permissions_update_perms('Authenticated User', $auth_perms);
+  _nci_roles_and_permissions_update_perms('Writer', $writer_perms);
+  _nci_roles_and_permissions_update_perms('AccrualNet Staff', $anstaff_perms);
+  _nci_roles_and_permissions_update_perms('administrator', $admin_perms);
+}
+

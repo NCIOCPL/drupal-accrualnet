@@ -1,0 +1,8 @@
+name = "AccrualNet Core Permissions for Communities"
+description = "Sets the permissions in the core for community and group types"
+package = "Communities"
+core = 7.x
+version = 7.x-1.0
+
+dependencies[] = "communities"
+dependencies[] = "nci_roles_and_permissions"
