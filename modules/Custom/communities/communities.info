@@ -1,6 +1,0 @@
-; $Id:$
-name = "AccrualNet Communities"
-description = "Creates and manages the AccrualNet Communities; Based off OG"
-package = "Communities"
-core = 7.x
-version = 7.x-0.1
