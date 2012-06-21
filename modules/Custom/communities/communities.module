@@ -14,8 +14,8 @@
  */
 function communities_node_info() {
     return array(
-        'community2' => array(
-            'name' => t('Community2'),
+        'community' => array(
+            'name' => t('Community'),
             'base' => 'node_content',
             'description' => t('Community (Group)'),
             'has_title' => TRUE,
@@ -23,8 +23,8 @@ function communities_node_info() {
             // 'custom' => TRUE, // Add this line in when debugging
         ),
         
-        'convo' => array(
-            'name' => t('Convo'),
+        'conversation' => array(
+            'name' => t('Conversation'),
             'base' => 'node_content',
             'description' => t('Conversation (Group Post)'),
             'has_title' => TRUE,
@@ -46,12 +46,12 @@ function communities_enable() {
     $types = node_type_get_types();
 
     // Set the body for the Community content type
-    $community_type = node_type_set_defaults($types['community2']);
+    $community_type = node_type_set_defaults($types['community']);
     node_add_body_field($community_type, 'Group Description');
     node_type_save($community_type);
 
     // Set the body for the Conversation content type
-    $conversation_type = node_type_set_defaults($types['convo']);
+    $conversation_type = node_type_set_defaults($types['conversation']);
     node_add_body_field($conversation_type, 'Conversation Starter');
     node_type_save($conversation_type);
 
@@ -69,14 +69,14 @@ function communities_enable() {
     // Create all of the instances for the Community content type
     foreach (_community_instances() as $instance) {
         $instance['entity_type'] = 'node';
-        $instance['bundle'] = 'community2';
+        $instance['bundle'] = 'community';
         field_create_instance($instance);
     }
 
     // Create all of the instances for the Conversation content type
     foreach (_conversation_instances() as $instance) {
         $instance['entity_type'] = 'node';
-        $instance['bundle'] = 'convo';
+        $instance['bundle'] = 'conversation';
         field_create_instance($instance);
     }
 }
@@ -103,22 +103,22 @@ function communities_disable() {
     }
 
     // Delete Community content type instances
-    $instances = field_info_instances('node', 'community2');
+    $instances = field_info_instances('node', 'community');
     foreach ($instances as $instance_name => $instance) {
         field_delete_instance($instance);
     }
 
     // Delete Conversation content type instances
-    $instances = field_info_instances('node', 'convo');
+    $instances = field_info_instances('node', 'conversation');
     foreach ($instances as $instance_name => $instance) {
         field_delete_instance($instance);
     }
 
     // Delete the Community content type
-    node_type_delete('community2');
+    node_type_delete('community');
 
     // Delete the Conversation content type
-    node_type_delete('convo');
+    node_type_delete('conversation');
 
 
     // Purge all field information
@@ -255,7 +255,7 @@ function _conversation_instances() {
  * Sets the default to Not Publish, Not Promote, and not allow a user to Preview.
  */
 function communities_form_alter(&$form, &$form_state, $form_id) {
-    if ($form_id == 'community2_node_form') {
+    if ($form_id == 'community_node_form') {
 
         // Do not automatically publish
         $form['options']['status']['#default_value'] = FALSE;
@@ -280,7 +280,7 @@ function communities_form_alter(&$form, &$form_state, $form_id) {
 function communities_theme($existing, $type, $theme, $path) {
 
     return array(
-        'community2_node_form' => array(
+        'community_node_form' => array(
             'arguments' => array('form' => null),
             'path' => ($path.'/includes'),
             'template' => 'community--node-form', //name of your template file, it can be anything
