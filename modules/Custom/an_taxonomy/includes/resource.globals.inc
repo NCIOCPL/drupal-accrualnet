@@ -42,7 +42,7 @@ $GLOBALS['an_vocabularies'] = array(
 			'Inadequate Staffing'
 	)),
 	array(
-		'name' => 'Study Issues',
+		'name' => 'Study',
 		'machine_stem' => 'study',
 		'terms' => array(
 			'Eligibility',
@@ -51,8 +51,8 @@ $GLOBALS['an_vocabularies'] = array(
 			'Study Burden'
 	)),
 	array(
-		'name' => 'Ethical Issues',
-		'machine_stem' => 'ethical',
+		'name' => 'Ethics',
+		'machine_stem' => 'ethics',
 		'terms' => array(
 			'Consent',
 			'Financial Incentives',
