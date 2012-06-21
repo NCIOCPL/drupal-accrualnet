@@ -12,12 +12,20 @@
 */
 
 .field-type-taxonomy-term-reference {
-  display:inline-table;
-  padding-right: 10px;
-  width: 250px;
-  
+	display:inline-table;
+	padding-right: 10px;
+	width: 250px;
+
 }
 
 div.vertical-tabs {
-  clear:both;
+	clear:both;
+}
+
+.even div.assign_to_status {
+	color: gray;
+}
+
+.odd div.assign_to_status {
+	color: lightgray;
 }
