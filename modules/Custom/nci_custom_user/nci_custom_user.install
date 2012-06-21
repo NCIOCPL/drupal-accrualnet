@@ -5,14 +5,14 @@ $field_weight = 0;
 // define the field and instance for each needed user profile field.
 
 $GLOBALS['nci_user_fields'] = array(
-	'field_an_role' => array(
+	'field_role' => array(
 		'field' => array(
-			'field_name' => 'field_an_role',
+			'field_name' => 'field_role',
 			'type' => 'text',
 			'cardinality' => -1
 		),
 		'instance' => array(
-			'field_name' => 'field_an_role',
+			'field_name' => 'field_role',
 			'entity_type' => 'user',
 			'label' => t('Role'),
 			'bundle' => 'user',
@@ -43,14 +43,14 @@ $GLOBALS['nci_user_fields'] = array(
 			)
 		)
 	),
-	'field_an_institution_type' => array(
+	'field_institution_type' => array(
 		'field' => array(
-			'field_name' => 'field_an_institution_type',
+			'field_name' => 'field_institution_type',
 			'type' => 'text',
 			'cardinality' => 1
 		),
 		'instance' => array(
-			'field_name' => 'field_an_institution_type',
+			'field_name' => 'field_institution_type',
 			'entity_type' => 'user',
 			'label' => t('Institution Type'),
 			'bundle' => 'user',
@@ -75,9 +75,9 @@ $GLOBALS['nci_user_fields'] = array(
 			)
 		)
 	),
-	'field_an_years_in_research' => array(
+	'field_years_in_research' => array(
 		'field' => array(
-			'field_name' => 'field_an_years_in_research',
+			'field_name' => 'field_years_in_research',
 			'type' => 'list_text',
 			'cardinality' => 1,
 			'settings' => array(
@@ -91,7 +91,7 @@ $GLOBALS['nci_user_fields'] = array(
 			),
 		),
 		'instance' => array(
-			'field_name' => 'field_an_years_in_research',
+			'field_name' => 'field_years_in_research',
 			'entity_type' => 'user',
 			'label' => t('Years in Clinical Research'),
 			'bundle' => 'user',
@@ -105,14 +105,14 @@ $GLOBALS['nci_user_fields'] = array(
 			)
 		)
 	),
-	'field_an_areas_of_interest' => array(
+	'field_areas_of_interest' => array(
 		'field' => array(
-			'field_name' => 'field_an_areas_of_interest',
+			'field_name' => 'field_areas_of_interest',
 			'type' => 'text',
 			'cardinality' => -1
 		),
 		'instance' => array(
-			'field_name' => 'field_an_areas_of_interest',
+			'field_name' => 'field_areas_of_interest',
 			'entity_type' => 'user',
 			'label' => t('Areas of Interest'),
 			'bundle' => 'user',
@@ -150,7 +150,7 @@ $GLOBALS['nci_user_fields'] = array(
 	)
 );
 
-function nci_custom_user_install() {
+function nci_custom_user_enable() {
 	global $nci_user_fields;
 
 	// create each field and add an instance to the user
