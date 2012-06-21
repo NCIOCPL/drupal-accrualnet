@@ -264,6 +264,9 @@ function communities_form_alter(&$form, &$form_state, $form_id) {
 
         // Don't allow Preview
         $form['actions']['preview']['#access'] = FALSE;
+		
+		// Don't allow Comments
+		$form['comment_settings']['comment']['#default_value'] = '1';
     }
 
     return $form;
