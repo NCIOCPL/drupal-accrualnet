@@ -46,8 +46,8 @@ if (!(isset($nid)
 		&& is_numeric($vid)
 		&& isset($role)
 		&& isset($role_db_map[$role])
-		&& ($uid == ''
-		|| is_numeric($uid))
+		&& (!$user_id
+		|| is_numeric($user_id))
 		)) {
 	echo 'BAD VALUES - ';
 	echo $nid . ':' . $vid . ':' . $role . ':' . $account_id . ' ';
@@ -64,7 +64,17 @@ $query = 'SELECT nid, vid ' .
 try {
 	$result = db_query($query);
 } catch (Exception $e) {
-	echo print_r($e, TRUE);
+	watchdog('assign_user.php', 'error retrieving latest revision ' .
+			'from table %table, node %nid - %message',
+			array(
+				'%value' => $value,
+				'%nid' => $nid,
+				'%table' => 'an_node_revision',
+				'%vid' => $vid,
+				'%message' => $e->getMessage()
+			),
+			WATCHDOG_ERROR);
+	echo 'error.';
 	return;
 }
 
@@ -113,12 +123,16 @@ $column = $role_db_map[$role]['column'];
 $table = $role_db_map[$role]['data_table'];
 $stem = $role_db_map[$role]['data_stem'];
 
-nci_workflow_db_set_field_value($account_id, $table, $stem, $column, $nid, $vid);
+$data_ret = nci_workflow_db_set_field_value($account_id, $table, $stem, $column, $nid, $vid);
 
 $table = $role_db_map[$role]['rev_table'];
 $stem = $role_db_map[$role]['rev_stem'];
-nci_workflow_db_set_field_value($account_id, $table, $stem, $column, $nid, $vid);
+$rev_ret = nci_workflow_db_set_field_value($account_id, $table, $stem, $column, $nid, $vid);
 
+if ($data_ret != $rev_ret)
+	echo $data_ret . "<br>";
+
+echo $rev_ret;
 try {
 	// need to clear the cache for the fields
 	// TODO: this is a little drastic, maybe.
@@ -127,25 +141,4 @@ try {
 	echo print_r($e, TRUE);
 	return;
 }
-
-// now, have to cross-reference the fields' existance and if the value needs
-// to be set or cleared, which will result in an update, insert, or drop.
-// retrieve the current values, determines if updates or inserts are needed
-// validated the revision and the intended assigned user,
-// proceed with update
-/* try {
-  $num_updated = db_update($table_stem)
-  ->fields(array($column => $uid))
-  ->condition('entity_id', $nid)
-  ->condition('revision_id', $vid)
-  ->execute();
-  } catch (Exception $e) {
-  echo print_r($e, TRUE);
-  return;
-  }
-
-  echo 'Updated successfully!'; */
-
-// no errors during update, all should be well
-// (could do final query to verify values are set as intended?)
 ?>

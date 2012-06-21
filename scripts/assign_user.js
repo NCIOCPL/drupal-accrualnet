@@ -1,5 +1,7 @@
 function submitChosenUser(user_id, value, nid, vid, role)
 {
+	var id = "assigned_to_" + nid;
+
 	// set up the request
 	var xmlhttp;
 	if (window.XMLHttpRequest)
@@ -16,8 +18,19 @@ function submitChosenUser(user_id, value, nid, vid, role)
 	{
 		if (xmlhttp.readyState==4 && xmlhttp.status==200)
 		{
-			if(xmlhttp.responseText != "")
-				alert("Received response:\n" + xmlhttp.responseText);
+			var element = document.getElementById(id);
+			var text = xmlhttp.responseText;
+			if(text != "")
+			{
+				if(text.length > 20)
+					alert("Received response:\n" + xmlhttp.responseText);
+				else
+					element.innerHTML = text;
+			}
+			else
+			{
+				element.innerHTML = "no response.";
+			}
 		}
 	}
 
@@ -26,4 +39,7 @@ function submitChosenUser(user_id, value, nid, vid, role)
 	xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
 	var post_string = "user_id=" + user_id + "&account_id=" + value + "&nid=" + nid + "&vid=" + vid + "&role=" + role;
 	xmlhttp.send(post_string);
+
+	var element = document.getElementById(id);
+	element.innerHTML = "working...";
 }
