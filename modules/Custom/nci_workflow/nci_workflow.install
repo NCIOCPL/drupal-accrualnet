@@ -4,19 +4,22 @@
  * Implements hook_install().
  */
 function nci_workflow_enable() {
+	// Create tables.
+	_nci_workflow_insert_values();
 
-	try {
-		// Create tables.
-		_nci_workflow_insert_values();
+	// set up permissions specific to the new workflow states
+	_nci_workflow_set_permissions();
 
-		// set up permissions specific to the new workflow states
-		_nci_workflow_set_permissions();
+	// build the taxonomy for workbench access
+	_nci_workflow_build_taxonomy();
 
-		// build the taxonomy for workbench access
-		_nci_workflow_build_taxonomy();
-	} catch (Exception $e) {
-		drupal_set_message(kpr($e, TRUE), 'error');
-	}
+	_nci_workflow_config_access();
+
+	_nci_workflow_config_moderation();
+}
+
+function nci_workflow_disable() {
+
 }
 
 /**
@@ -119,10 +122,7 @@ function _nci_workflow_insert_values() {
 			workbench_moderation_transition_save((object) $transition);
 		}
 	} catch (Exception $e) {
-		if (function_exists('dsm'))
-			dsm($e);
-		else
-			print kpr($e, true);
+		drupal_set_message(print_r($e, true), 'error');
 	}
 }
 
@@ -208,20 +208,20 @@ function _nci_workflow_set_permissions() {
 			$admin_perms[$perm] = $role[$admin];
 		}
 
-
 		_nci_roles_and_permissions_update_perms('Anonymous User', $anon_perms);
 		_nci_roles_and_permissions_update_perms('Authenticated User', $auth_perms);
 		_nci_roles_and_permissions_update_perms('Writer', $writer_perms);
 		_nci_roles_and_permissions_update_perms('AccrualNet Staff', $anstaff_perms);
 		_nci_roles_and_permissions_update_perms('administrator', $admin_perms);
 	} catch (Exception $e) {
-		if (function_exists('dsm'))
-			dsm($e);
-		else
-			print kpr($e, true);
+		drupal_set_message(print_r($e, true), 'error');
 	}
 }
 
+/**
+ * Creates the needed vocabulary for workbench access
+ * @return returns the top-level vocabulary created, or null if failed.
+ */
 function _nci_workflow_build_taxonomy() {
 	// grab the existing vocabularies
 	$existing_names = taxonomy_vocabulary_get_names();
@@ -266,6 +266,146 @@ function _nci_workflow_build_taxonomy() {
 					' to vocabulary ' . $name . '.', 'warning');
 		}
 	}
+
+	return $vocab;
+}
+
+function _nci_workflow_config_access() {
+	// set any variables necessary
+	variable_set('workbench_access', 'taxonomy');
+	variable_set('workbench_access_node_type_resource', 1);
+
+	try {
+		_nci_workflow_build_access_terminology();
+	} catch (Exception $e) {
+		watchdog('nci_workflow', 'error in %method - %message',
+				array('%method' => '_nci_workflow_build_access_terminology',
+					'%message' => $e->getMessage()), WATCHDOG_ERROR);
+	}
+
+	try {
+		_nci_workflow_set_access_roles();
+	} catch (Exception $e) {
+		watchdog('nci_workflow', 'error in %method - %message',
+				array('%method' => '_nci_workflow_set_access_roles',
+					'%message' => $e->getMessage()), WATCHDOG_ERROR);
+	}
+}
+
+function _nci_workflow_build_access_terminology() {
+	// load the vocabulary
+	$vocab = taxonomy_vocabulary_machine_name_load('accrualnet_resource');
+
+	if (!$vocab)
+		return;
+
+	// set this vocab as default
+	variable_set('workbench_access_taxonomy',
+			array($vocab->machine_name => $vocab->machine_name));
+
+	// load the terms under the vocabulary
+	$terms = taxonomy_get_tree($vocab->vid);
+
+	// build list of entries in the workbench access table
+	$sections[] = array('access_id' => $vocab->machine_name,
+		'access_scheme' => 'taxonomy',
+		'access_type' => 'taxonomy',
+		'access_type_id' => 'accrualnet_resource'
+	);
+
+	foreach ($terms as $term) {
+		$sections[] = array('access_id' => $term->tid,
+			'access_scheme' => 'taxonomy',
+			'access_type' => 'taxonomy',
+			'access_type_id' => 'accrualnet_resource'
+		);
+	}
+
+	foreach ($sections as $section) {
+		try {
+			// clear and save section
+			workbench_access_section_delete($section);
+			workbench_access_section_save($section);
+		} catch (Exception $e) {
+			watchdog('nci_workflow', 'Failed to save section %access_id - %reason',
+					array('%access_id' => $section['access_id'],
+						'%reason' => $e->getMessage()));
+		}
+	}
+}
+
+function _nci_workflow_set_access_roles() {
+	// load the vocabulary
+	$vocab = taxonomy_vocabulary_machine_name_load('accrualnet_resource');
+
+	if (!$vocab)
+		return;
+
+	// load the terms under the vocabulary
+	$terms = taxonomy_get_tree($vocab->vid);
+
+	// map the user role ids to the appropriate section ids
+	$roles = user_roles(TRUE);
+
+	// map the admin to the top level
+	$role_maps[] = array(
+		'rid' => array_search('administrator', $roles),
+		'access_id' => 'accrualnet_resource',
+		'access_scheme' => 'taxonomy'
+	);
+
+	foreach ($terms as $term) {
+		switch ($term->name) {
+			case 'Editors':
+				// map the staff to the editor level
+				$role_maps[] = array(
+					'rid' => array_search('AccrualNet Staff', $roles),
+					'access_id' => $term->tid,
+					'access_scheme' => 'taxonomy'
+				);
+				break;
+
+			case 'Writers':
+				// map the writers to the writers level
+				$role_maps[] = array(
+					'rid' => array_search('Writer', $roles),
+					'access_id' => $term->tid,
+					'access_scheme' => 'taxonomy'
+				);
+
+				break;
+
+			case 'Newly Submitted':
+				// assign all roles to this case
+				foreach ($roles as $rid => $role) {
+					$role_maps[] = array(
+						'rid' => $rid,
+						'access_id' => $term->tid,
+						'access_scheme' => 'taxonomy'
+					);
+				}
+
+				break;
+		}
+	}
+
+	// update the assigned roles in workbench_access_role
+
+	foreach ($role_maps as $role_map) {
+		try {
+			workbench_access_role_section_save($role_map['rid'],
+					$role_map['access_id'], $role_map['access_scheme']);
+		} catch (Exception $e) {
+			watchdog('nci_workflow', 'error saving role id %rid - %message',
+					array('%rid' => $role_map['rid'],
+						'%message' => $e->getMessage()), WATCHDOG_ERROR);
+		}
+	}
+}
+
+function _nci_workflow_config_moderation() {
+	// get the existing workbench_moderation view
+	$view = views_get_view('workbench_moderation', TRUE);
 }
 
 function _nci_workflow_build_vocabulary($name, $machine_name, $weight) {

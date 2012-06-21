@@ -1,17 +1,5 @@
 <?php
 
-/* function nci_workflow_form_alter(&$form, &$form_state, $form_id) {
-  print dpm($form_id, '$form_id');
-
-  /* if($form_id == 'field_ui_field_settings_form'){
-  $form['field']['settings']['allowed_values_function'] = array(
-  '#type' => 'textfield',
-  '#title' => t('Allowed value function'),
-  '#default_value' => $form['field']['settings']['allowed_values']['#field']['allowed_values_function']
-  );
-  }
-  } */
-
 $GLOBALS['role_mod_state_map'] = array(
 	'Writer' => array(1 => 'Draft', 'Writer Review'),
 	'AccrualNet Staff' => array(1 => 'New', 'Editorial Review', 'Published')
@@ -20,16 +8,16 @@ $GLOBALS['role_mod_state_map'] = array(
 function nci_workflow_form_resource_node_form_alter(&$form, &$form_state) {
 	if ($form['#action'] == '/node/add/resource') {
 		// hide most of the elements
-		$form['field_an_patient_related']['#access'] = FALSE;
-		$form['field_an_provider_related']['#access'] = FALSE;
-		$form['field_an_systems_and_regulatory']['#access'] = FALSE;
-		$form['field_an_study']['#access'] = FALSE;
-		$form['field_an_ethical']['#access'] = FALSE;
-		$form['field_an_demographics']['#access'] = FALSE;
-		$form['field_an_recruitment_vehicles']['#access'] = FALSE;
-		$form['field_an_resource_type']['#access'] = FALSE;
-		$form['field_an_trial_treatment']['#access'] = FALSE;
-		$form['field_an_trial_phase']['#access'] = FALSE;
+		$form['field_tax_patient_related']['#access'] = FALSE;
+		$form['field_tax_provider_related']['#access'] = FALSE;
+		$form['field_tax_systems_and_regulatory']['#access'] = FALSE;
+		$form['field_tax_study']['#access'] = FALSE;
+		$form['field_tax_ethical']['#access'] = FALSE;
+		$form['field_tax_demographics']['#access'] = FALSE;
+		$form['field_tax_recruitment_vehicles']['#access'] = FALSE;
+		$form['field_tax_resource_type']['#access'] = FALSE;
+		$form['field_tax_trial_treatment']['#access'] = FALSE;
+		$form['field_tax_trial_phase']['#access'] = FALSE;
 		$form['field_assigned_writer']['#access'] = FALSE;
 		$form['field_assigned_editor']['#access'] = FALSE;
 	} else {
@@ -43,12 +31,6 @@ function nci_workflow_form_resource_node_form_alter(&$form, &$form_state) {
 		$node_widget = &$form['#node']->field_assigned_editor;
 		nci_workflow_fill_users($form_widget, $node_widget, $role);
 	}
-}
-
-function nci_workflow_new_resource_submit($form, &$form_state) {
-	//print dpm($form, 'submit $form');
-	//print dpm($form_state, 'submit $form_state');
-	print 'Submit!';
 }
 
 function nci_workflow_fill_users(&$form_widget, $node_widget, $role) {
@@ -74,11 +56,9 @@ function nci_workflow_fill_users(&$form_widget, $node_widget, $role) {
 	if (!isset($rows))
 		return;
 
-	//print dpm($rows, $role . " query rows");
 	// get the current value, if it exists
 	if (isset($node_widget['und']['0']['value'])) {
 		$value = $node_widget['und']['0']['value'];
-		//print dpm($value, $role . ' current value');
 		// update the default value to match
 		$form_widget['und']['#default_value'] = $value;
 	}
@@ -89,16 +69,6 @@ function nci_workflow_fill_users(&$form_widget, $node_widget, $role) {
 		$username = $row->user_name;
 		$form_widget['und']['#options'][$uid] = $username;
 	}
-
-//print dpm($form_widget, $role . " modified widget");
-}
-
-/* function nci_workflow_page_alter(&$page) {
-  print dpm($page, '$page');
-  } */
-
-function nci_workflow_page_build(&$page) {
-//print dpm($page, '$page');
 }
 
 function nci_workflow_session_fill_users($role) {
@@ -130,8 +100,6 @@ function nci_workflow_session_fill_users($role) {
 		$username = $row->user_name;
 		$_SESSION['current_users'][$role][$uid] = $username;
 	}
-
-//print dpm($form_widget, $role . " modified widget");
 }
 
 /**
@@ -142,11 +110,9 @@ function nci_workflow_get_role($state) {
 	global $role_mod_state_map;
 
 	foreach ($role_mod_state_map as $role => $states) {
-		//print dpm($states, 'Searching ' . $role . ' for ' . $state);
 		$found = array_search($state, $states);
 
 		if ($found) {
-			//print dpm('matched role ' . $role);
 			return $role;
 		}
 	}
@@ -191,16 +157,16 @@ function nci_workflow_db_set_field_value($value, $table, $stem, $column, $nid, $
 	if (($field_value == $value)
 			|| (empty($field_value) && empty($value))) {
 		// both fields are empty or match, nothing to do
-		return;
+		return 'no change.';
 	} else if (empty($field_value)) {
 		// no row exists, need to create and insert new row
-		nci_workflow_db_insert_field_value($value, $stem, $column, $nid, $vid);
+		return nci_workflow_db_insert_field_value($value, $stem, $column, $nid, $vid);
 	} else if (empty($value)) {
 		// new value is empty, so the existing row needs to be dropped
-		nci_workflow_db_delete_field_value($stem, $nid, $vid);
+		return nci_workflow_db_delete_field_value($stem, $nid, $vid);
 	} else {
 		// both values exist and are non-null, so the row should be updated
-		nci_workflow_db_update_field_value($value, $stem, $column, $nid, $vid);
+		return nci_workflow_db_update_field_value($value, $stem, $column, $nid, $vid);
 	}
 }
 
@@ -211,9 +177,20 @@ function nci_workflow_db_update_field_value($value, $stem, $column, $nid, $vid) 
 						->condition('entity_id', $nid)
 						->condition('revision_id', $vid)
 						->execute();
+
+		return 'changed.';
 	} catch (Exception $e) {
-		echo print_r($e, TRUE);
-		return;
+		watchdog('nci_workflow', 'error updating value %value in ' .
+				'table %table, node %nid/revision %vid - %message',
+				array(
+					'%value' => $value,
+					'%nid' => $nid,
+					'%table' => $stem,
+					'%vid' => $vid,
+					'%message' => $e->getMessage()
+				),
+				WATCHDOG_ERROR);
+		return 'error.';
 	}
 }
 
@@ -231,9 +208,19 @@ function nci_workflow_db_insert_field_value($value, $stem, $column, $nid, $vid) 
 							$column => $value
 						))
 						->execute();
+		return 'assigned.';
 	} catch (Exception $e) {
-		echo print_r($e, TRUE);
-		return;
+		watchdog('nci_workflow', 'error inserting value %value into ' .
+				'table %table, node %nid/revision %vid - %message',
+				array(
+					'%value' => $value,
+					'%nid' => $nid,
+					'%table' => $stem,
+					'%vid' => $vid,
+					'%message' => $e->getMessage()
+				),
+				WATCHDOG_ERROR);
+		return 'error.';
 	}
 }
 
@@ -243,9 +230,18 @@ function nci_workflow_db_delete_field_value($stem, $nid, $vid) {
 						->condition('entity_id', $nid)
 						->condition('revision_id', $vid)
 						->execute();
+		return 'cleared.';
 	} catch (Exception $e) {
-		echo print_r($e, TRUE);
-		return;
+		watchdog('nci_workflow', 'error deleting node %nid/revision %vid ' .
+				'from table %table - %message',
+				array(
+					'%nid' => $nid,
+					'%table' => $stem,
+					'%vid' => $vid,
+					'%message' => $e->getMessage()
+				),
+				WATCHDOG_ERROR);
+		return 'error.';
 	}
 }
 
