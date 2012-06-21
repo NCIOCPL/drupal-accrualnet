@@ -3,3 +3,7 @@ description = Form Alterations for user functionality common to NCI projects.
 package = NCI
 core = 7.x
 version = 7.x-1.0
+
+
+dependencies[] = "select_or_other"
+dependencies[] = "avatar_selection"
