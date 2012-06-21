@@ -29,7 +29,7 @@ function an_core_perms_enable()
       //Comments
       $comment = array(
           'access comments' => array(
-              $anon => FALSE,
+              $anon => TRUE,
               $auth => TRUE,
               $writer => FALSE,
               $anstaff => FALSE,
@@ -155,15 +155,15 @@ function an_core_perms_enable()
       //Node Permissions
       $node = array (
           'access content' => array(
-              $anon => FALSE,
+              $anon => TRUE,
               $auth => TRUE,
               $writer => FALSE,
               $anstaff => FALSE,
               $admin => TRUE
           ),
           'access content overview' => array(
-              $anon => FALSE,
-              $auth => FALSE,
+              $anon => TRUE,
+              $auth => TRUE,
               $writer => FALSE,
               $anstaff => TRUE,
               $admin => TRUE
@@ -335,7 +335,7 @@ function an_core_perms_enable()
           ),
           'view post access counter' => array(
               $anon => FALSE,
-              $auth => FALSE,
+              $auth => TRUE,
               $writer => FALSE,
               $anstaff => TRUE,
               $admin => TRUE
@@ -354,14 +354,14 @@ function an_core_perms_enable()
               $anon => FALSE,
               $auth => FALSE,
               $writer => FALSE,
-              $anstaff => FALSE,
+              $anstaff => TRUE,
               $admin => TRUE
           ),
           'access site reports' => array(
               $anon => FALSE,
               $auth => FALSE,
               $writer => FALSE,
-              $anstaff => FALSE,
+              $anstaff => TRUE,
               $admin => TRUE
           ),
           'administer actions' => array(

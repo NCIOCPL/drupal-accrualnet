@@ -7,7 +7,7 @@
  *
  */
 
-function an_core_perms_enable() {
+function an_contrib_perm_enable() {
 	$anon = 0;
 	$auth = 1;
 	$writer = 2;
@@ -40,34 +40,34 @@ function an_core_perms_enable() {
 	),
 		),
 		$custom_search = array(
-	'administer custom search' => array(
+	/*'administer custom search' => array(
 		$anon => FALSE,
 		$auth => FALSE,
 		$writer => FALSE,
 		$anstaff => FALSE,
 		$admin => TRUE
-	),
-	'use custom search' => array(
+	),*/
+	/*'use custom search' => array(
 		$anon => FALSE,
 		$auth => TRUE,
 		$writer => FALSE,
 		$anstaff => FALSE,
 		$admin => TRUE
-	),
-	'administer custom search blocks' => array(
+	),*/
+	/*'administer custom search blocks' => array(
 		$anon => FALSE,
 		$auth => FALSE,
 		$writer => FALSE,
 		$anstaff => FALSE,
 		$admin => TRUE
-	),
-	'use custom search blocks' => array(
+	),*/
+	/*'use custom search blocks' => array(
 		$anon => FALSE,
 		$auth => FALSE,
 		$writer => FALSE,
 		$anstaff => FALSE,
 		$admin => TRUE
-	),
+	),*/
 		),
 		$og = array(
 	'administer group' => array(
@@ -277,62 +277,6 @@ function an_core_perms_enable() {
 		$anstaff => FALSE,
 		$admin => TRUE
 	),
-	'moderate content from new to draft' => array(
-		$anon => FALSE,
-		$auth => FALSE,
-		$writer => FALSE,
-		$anstaff => TRUE,
-		$admin => TRUE
-	),
-	'moderate content from new to cancelled' => array(
-		$anon => FALSE,
-		$auth => FALSE,
-		$writer => FALSE,
-		$anstaff => TRUE,
-		$admin => TRUE
-	),
-	'moderate content from draft to writer_review' => array(
-		$anon => FALSE,
-		$auth => FALSE,
-		$writer => TRUE,
-		$anstaff => FALSE,
-		$admin => TRUE
-	),
-	'moderate content from writer_review to editor_review' => array(
-		$anon => FALSE,
-		$auth => FALSE,
-		$writer => TRUE,
-		$anstaff => FALSE,
-		$admin => TRUE
-	),
-	'moderate content from writer_review to draft' => array(
-		$anon => FALSE,
-		$auth => FALSE,
-		$writer => TRUE,
-		$anstaff => FALSE,
-		$admin => TRUE
-	),
-	'moderate content from editor_review to published' => array(
-		$anon => FALSE,
-		$auth => FALSE,
-		$writer => FALSE,
-		$anstaff => TRUE,
-		$admin => TRUE
-	),
-	'moderate content from editor_review to writer_review' => array(
-		$anon => FALSE,
-		$auth => FALSE,
-		$writer => FALSE,
-		$anstaff => TRUE,
-		$admin => TRUE
-	),
-	'moderate content from editor_review to cancelled' => array(
-		$anon => FALSE,
-		$auth => FALSE,
-		$writer => FALSE,
-		$anstaff => TRUE,
-		$admin => TRUE
-	),
 	'use workbench_moderation my drafts tab' => array(
 		$anon => FALSE,
 		$auth => FALSE,
@@ -377,21 +321,24 @@ function an_core_perms_enable() {
 	$anstaff_perms = array();
 	$admin_perms = array();
 
-	foreach ($default_perms as $category) {
-		foreach ($category as $perm => $role) {
-			$anon_perms[$perm] = $role[$anon];
-			$auth_perms[$perm] = $role[$auth];
-			$writer_perms[$perm] = $role[$writer];
-			$anstaff_perms[$perm] = $role[$anstaff];
-			$admin_perms[$perm] = $role[$admin];
+	try {
+		foreach ($contrib_perms as $category) {
+			foreach ($category as $perm => $role) {
+				$anon_perms[$perm] = $role[$anon];
+				$auth_perms[$perm] = $role[$auth];
+				$writer_perms[$perm] = $role[$writer];
+				$anstaff_perms[$perm] = $role[$anstaff];
+				$admin_perms[$perm] = $role[$admin];
+			}
 		}
+
+		_nci_roles_and_permissions_update_perms('Anonymous User', $anon_perms);
+		_nci_roles_and_permissions_update_perms('Authenticated User', $auth_perms);
+		_nci_roles_and_permissions_update_perms('Writer', $writer_perms);
+		_nci_roles_and_permissions_update_perms('AccrualNet Staff', $anstaff_perms);
+		_nci_roles_and_permissions_update_perms('administrator', $admin_perms);
+	} catch (Exception $e) {
+		print print_r($e->getMessage(), true);
 	}
-
-
-	_nci_roles_and_permissions_update_perms('Anonymous User', $anon_perms);
-	_nci_roles_and_permissions_update_perms('Authenticated User', $auth_perms);
-	_nci_roles_and_permissions_update_perms('Writer', $writer_perms);
-	_nci_roles_and_permissions_update_perms('AccrualNet Staff', $anstaff_perms);
-	_nci_roles_and_permissions_update_perms('administrator', $admin_perms);
 }
 
