@@ -9,6 +9,9 @@
  * *** */
 
 module_load_include('inc', 'an_taxonomy', 'includes/resource.globals');
+module_load_include('inc', 'resource', 'includes/resource.field');
+module_load_include('inc', 'resource', 'includes/citation.field');
+module_load_include('inc', 'resource', 'includes/workbench.field');
 
 /*
  * hook_node_info()
@@ -138,38 +141,10 @@ function resource_disable() {
 
 function _resource_fields() {
 	global $an_vocabularies; // Properties: name, machine_stem, terms
-	$fields = array();
-	$fields['field_citation'] = array(
-		'field_name' => 'field_citation',
-		'cardinality' => '1',
-		'type' => 'text',
-	);
-	$fields['field_highlights'] = array(
-		'field_name' => 'field_highlights',
-		'type' => 'text_long',
-	);
-	$fields['field_usefulness'] = array(
-		'field_name' => 'field_usefulness',
-		'type' => 'text_long',
-	);
-	$fields['field_details'] = array(
-		'field_name' => 'field_details',
-		'type' => 'text_long',
-	);
-	$fields['field_links'] = array(
-		'field_name' => 'field_links',
-		'cardinality' => FIELD_CARDINALITY_UNLIMITED,
-		'type' => 'text',
-	);
-
-	$fields['field_assigned_writer'] = array(
-		'field_name' => 'field_assigned_writer',
-		'type' => 'list_text',
-	);
-	$fields['field_assigned_editor'] = array(
-		'field_name' => 'field_assigned_editor',
-		'type' => 'list_text',
-	);
+       
+	$fields = _resource_field_resource();
+        $fields = array_merge($fields, _resource_field_citation());
+        $fields = array_merge($fields, _resource_field_workbench());
 
 	foreach ($an_vocabularies as $vocab) {
 		$fields[$vocab['machine_stem']] = array(
@@ -187,6 +162,7 @@ function _resource_fields() {
 			)
 		);
 	}
+
 	return $fields;
 }
 
@@ -198,17 +174,16 @@ function _resource_fields() {
 
 function _resource_instances() {
 	global $an_vocabularies;
-	$instances = array();
-	$instances['field_citation'] = array(
-		'field_name' => 'field_citation',
-		'label' => 'Citation',
-	);
+	$instances = _resource_instance_resource();
+        $instances = array_merge($instances, _resource_instance_citation());
+        $instances = array_merge($instances, _resource_instance_workbench());
+        /*
 	$instances['field_highlights'] = array(
 		'field_name' => 'field_highlights',
 		'label' => 'Highlights',
 	);
 	$instances['field_usefulness'] = array(
-		'field_name' => 'field_usefulness',
+		'field_name' => 'field_description',
 		'label' => 'Why this item may be useful',
 	);
 	$instances['field_details'] = array(
@@ -224,21 +199,9 @@ function _resource_instances() {
 			'type' => 'text_textfield',
 		),
 	);
+         * 
+         */
 
-	$instances['field_assigned_writer'] = array(
-		'field_name' => 'field_assigned_writer',
-		'label' => 'Assigned Writer',
-		'widget' => array(
-			'type' => 'options_list',
-		),
-	);
-	$instances['field_assigned_editor'] = array(
-		'field_name' => 'field_assigned_editor',
-		'label' => 'Assigned Editor',
-		'widget' => array(
-			'type' => 'options_list',
-		),
-	);
 
 	foreach ($an_vocabularies as $vocab) {
 		$instances[$vocab['machine_stem']] = array(
@@ -255,7 +218,6 @@ function _resource_instances() {
 			),
 		);
 	}
-
 
 
 
