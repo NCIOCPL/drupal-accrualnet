@@ -13,7 +13,7 @@
  * Center the page.
  */
 
-#page,
+#main,
 .region-bottom {
   /* For screen sizes larger than 1200px, prevent excessively long lines of text
      by setting a max-width. */
@@ -66,23 +66,7 @@
   clear: both;
 }
 
-/*
- * Navigation bar
- */
 
-@media all and (min-width: 480px) {
-  #main {
-    padding-top: 3em; /* Move all the children of #main down to make room. */
-    position: relative;
-  }
-
-  #navigation {
-    position: absolute;
-    top: 0; /* Move the navbar up inside #main's padding. */
-    height: 3em;
-    width: 100%;
-  }
-}
 
 /*
  * Use 3 grid columns for smaller screens.
@@ -196,7 +180,7 @@
  * Use 5 grid columns for larger screens.
  */
 
-@media all and (min-width: 960px) {
+/*@media all and (min-width: 960px) {*/
 
   /*
    * The layout when there is only one sidebar, the left one.
@@ -254,4 +238,4 @@
     margin-left: 80%;
     margin-right: -100%;
   }
-}
+/*}*/

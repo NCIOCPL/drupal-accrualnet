@@ -71,8 +71,15 @@
 ?>
 
 <div id="page">
-
-  <header id="header" role="banner">
+    <div id="ncibanner" class="clearfix">
+        <ul>
+        <li class="nciLogo"><a title="The National Cancer Institute" href="http://www.cancer.gov">The National Cancer Institute</a></li>
+        <li class="nciURL"><a title="www.cancer.gov" href="http://www.cancer.gov">www.cancer.gov</a></li>
+        <li class="nihText"><a title="The U.S. National Institutes of Health" href="http://www.nih.gov">The National Institutes of Health</a></li>
+        </ul>
+  </div>
+<div id="header" class="header">
+<header id="page-header" role="banner">
 
     <?php if ($logo): ?>
       <a href="<?php print $front_page; ?>" title="<?php print t('Home'); ?>" rel="home" id="logo"><img src="<?php print $logo; ?>" alt="<?php print t('Home'); ?>" /></a>
@@ -92,7 +99,8 @@
       </hgroup><!-- /#name-and-slogan -->
     <?php endif; ?>
 
-    <?php if ($secondary_menu): ?>
+      
+      <?php if ($secondary_menu): ?>
       <nav id="secondary-menu" role="navigation">
         <?php print theme('links__system_secondary_menu', array(
           'links' => $secondary_menu,
@@ -107,33 +115,16 @@
         )); ?>
       </nav>
     <?php endif; ?>
+      
+      <div id="site-wide-search-box">
+          <?php $block = module_invoke('search', 'block_view', 'form');
 
+            print render($block);?>
+      </div>
+      
     <?php print render($page['header']); ?>
 
-  </header>
-
-  <div id="main">
-
-    <div id="content" class="column" role="main">
-      <?php print render($page['highlighted']); ?>
-      <?php print $breadcrumb; ?>
-      <a id="main-content"></a>
-      <?php print render($title_prefix); ?>
-      <?php if ($title): ?>
-        <h1 class="title" id="page-title"><?php print $title; ?></h1>
-      <?php endif; ?>
-      <?php print render($title_suffix); ?>
-      <?php print $messages; ?>
-      <?php print render($tabs); ?>
-      <?php print render($page['help']); ?>
-      <?php if ($action_links): ?>
-        <ul class="action-links"><?php print render($action_links); ?></ul>
-      <?php endif; ?>
-      <?php print render($page['content']); ?>
-      <?php print $feed_icons; ?>
-    </div><!-- /#content -->
-
-    <div id="navigation">
+      <div id="navigation">
 
       <?php if ($main_menu): ?>
         <nav id="main-menu" role="navigation">
@@ -159,6 +150,34 @@
       <?php print render($page['navigation']); ?>
 
     </div><!-- /#navigation -->
+  </header>
+</div>
+    
+    <div id="main-wrapper">    
+  <div id="main">
+
+      <div id="page-options">
+          <?php print $breadcrumb; ?>
+      </div>
+    <div id="content" class="column" role="main">
+      <?php print render($page['highlighted']); ?>
+      <a id="main-content"></a>
+      <?php print render($title_prefix); ?>
+      <?php if ($title): ?>
+        <h1 class="title" id="page-title"><?php print $title; ?></h1>
+      <?php endif; ?>
+      <?php print render($title_suffix); ?>
+      <?php print $messages; ?>
+      <?php print render($tabs); ?>
+      <?php print render($page['help']); ?>
+      <?php if ($action_links): ?>
+        <ul class="action-links"><?php print render($action_links); ?></ul>
+      <?php endif; ?>
+      <?php print render($page['content']); ?>
+      <?php print $feed_icons; ?>
+    </div><!-- /#content -->
+
+    
 
     <?php
       // Render the sidebars to see if there's anything in them.
@@ -174,9 +193,30 @@
     <?php endif; ?>
 
   </div><!-- /#main -->
-
+    </div><!-- /#main-wrapper -->
   <?php print render($page['footer']); ?>
 
+  <div class="footer-push"></div>
 </div><!-- /#page -->
+ <div id="footer" class="clearfix"><div class="section">
 
+          <div id="nci-footer">
+            <div class="footer-links">
+              <ul>
+                <li><a href="http://www.cancer.gov">AccrualNet Home</a></li>
+                <li><a href="/about/contact_us">Contact Us</a></li>
+                <li><a href="/about/policies">Policies</a></li>
+                <li><a href="/about/accessibility">Accessibility</a></li>
+                <li><a href="/about/FOIA">FOIA</a></li>
+              </ul>
+          </div>
+          <img src="/sites/accrualnet.cancer.gov/themes/accrualnet/accrualnet-internals/images/global/footer-logos.gif" width="176" height="34" alt="footer-logos" usemap="#internal-footer" />
+          </div>
+          <map name="internal-footer" id="internal-footer">
+          <area shape="circle" coords="17,17,17" href="http://www.hhs.gov/" alt="U.S. Department of Health &amp; Human Services" />
+          <area shape="circle" coords="65,17,17" href="http://www.nih.gov/" alt="National Institutes of Health" />
+          <area shape="rect" coords="93,0,176,30" href="http://www.usa.gov/" alt="USA.gov" />
+          </map>
+
+      </div></div> <!-- /.section, /#footer -->
 <?php print render($page['bottom']); ?>

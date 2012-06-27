@@ -10,10 +10,222 @@
    TODO customize this sample style
    Syntax recommendation http://www.w3.org/TR/REC-CSS2/
 */
+#ncibanner {
+		background-color: #fff;
+		margin: 0 auto;
+		padding: 0;
+		text-align: center;
+	}
+	
+	#ncibanner ul {
+		list-style-type: none;
+		margin: 0 auto;
+		padding: 0;
+                max-width: 1200px;
+	}
+		#ncibanner ul li {
+			padding-bottom: 0;
+		}
+		#ncibanner ul li.nciLogo {
+			float: left;
+		}
+			#ncibanner ul li.nciLogo a {
+				background-repeat: no repeat;
+				display: block;
+				height: 39px;
+				text-indent: -9999px;
+				width: 263px;
+			}
+		#ncibanner ul li.nihText {
+			float: right;
+		}
+			#ncibanner ul li.nihText a {
+				background-repeat: no repeat;
+				display: block;
+				height: 39px;
+				text-indent: -9999px;
+				width: 208px;
+			}
+		#ncibanner ul  li.nciURL {
+			float: right;		
+		}
+			#ncibanner ul li.nciURL a {
+				background-repeat: no repeat;
+				display: block;
+				height: 39px;
+				text-indent: -9999px;
+				width: 99px;
+			}
+	
+	
+	
+		/**
+			White Banner
+		**/
+		#ncibanner {
+			background-color: #fff;
+			color: #000;
+		}
+			 #ncibanner ul li.nciLogo a {
+				background-image: url('/sites/accrualnet.cancer.gov/themes/accrualnet/accrualnet-internals/images/global/white-ncilogo.gif');
+			}
+			 #ncibanner ul li.nihText a {
+				background-image: url('/sites/accrualnet.cancer.gov/themes/accrualnet/accrualnet-internals//images/global/white-nihtext.gif');
+			}
+			 #ncibanner ul li.nciURL a {
+				background-image: url('/sites/accrualnet.cancer.gov/themes/accrualnet/accrualnet-internals//images/global/white-nciurl.gif');
+			}
+		
+
+#footer {
+    background: #2D2D2D;
+    font-size: 12px;
+    height: 112px;
+    line-height: 20px;
+    margin: 0 auto;
+    text-align: center;
+    padding:0;
+}
+.footer-push {
+    height: 112px;
+}
+#nci-footer {
+    padding:0;
+    height: 112px;
+    margin: 0 auto;
+    text-align: center;
+    max-width: 1200px;
+    
+}
+
+
+	#nci-footer a {
+		color: #fff;
+	}
+		#nci-footer a {
+			color: #fff;
+		}
+			#nci-footer a:hover {
+				color: #fff;
+			}
+		#nci-footer .footer-links ul {
+		  text-align: center;
+		  margin: 0 auto;
+		  padding: 22px 0 0 0;
+		}
+			#nci-footer .footer-links li {
+			  display: inline;
+			  border-right: 1px solid #fff;
+			  padding: 0 5px;
+			}
+			#nci-footer .footer-links li.last {
+			  border: none;
+			}
+		#nci-footer img {
+			border: 0;
+		  padding-top: 12px;
+		  margin: 0 auto;
+		}                        
+              
+                
+ /**************************************
+        Global Styles
+ *************************************/
+ input, 
+ input[type="password"], 
+ input[type="search"], 
+ isindex {
+     background-color: white;
+     border: 1px solid #9AB83F;
+     padding: 5px;
+ }
+ 
+ .form-type-textfield input {
+     width: 200px;
+ }
+
+                       
+html, body {
+    height: 100%;
+   
+}
+#page {
+    height:auto !important;
+    margin:0px auto -112px;  /*this value is the footer height)*/
+    min-height:100%;
+    
+}
+
+
+#main {
+    background: white;
+    box-sizing: border-box;
+    
+    
+    
+}
+
+#main-wrapper {
+    border-top: 1px solid #FF9A30;
+    position:relative;
+    top: -2px;
+}
+
+#header {
+    background-color: white ;
+    /*background-image: repeating-linear-gradient(-45deg, white, white 2px, white 2px, white 4px);
+    background-image: -webkit-repeating-linear-gradient(-45deg, #ffe5ca, #ffe5ca 1%, white 2%, white 3% );
+    
+    background-image: -webkit-gradient(linear, 100% 0%, 0% 100%,
+    from(transparent),
+    color-stop(0.15, transparent), 
+    color-stop(0.15, rgba(255,0,0,0.75)),
+    color-stop(0.50, rgba(255,0,0,0.75)),
+    color-stop(0.50, transparent),
+    color-stop(0.65, transparent),
+    color-stop(0.65, rgba(255,0,0,0.75)), 
+    to(rgba(255,0,0,0.75)));*/
+
+    background-image:
+    -webkit-gradient(linear, 0% 0%, 100% 100%,
+    from(#ffe5ca),
+    color-stop(0.15, #ffe5ca), 
+    color-stop(0.15, transparent),
+    color-stop(0.50, transparent),
+    color-stop(0.50, #ffe5ca),
+    color-stop(0.65, #ffe5ca),
+    color-stop(0.65, transparent), 
+    to(transparent));
+
+    background-size: 10px 10px;
+    -webkit-background-size: 10px 10px;
+}
+
+header#page-header {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+
 
 
 .field-type-taxonomy-term-reference {
   float:left;
   padding-right: 10px;
 
+}
+
+#site-wide-search-box {
+    clear:both;
+    width: 100%;
+    margin: 30px auto;
+}
+
+#site-wide-search-box form {
+    float:right;
+    margin-bottom: 30px;
+}
+
+#page-options {
+    padding-left: 10px;
 }
