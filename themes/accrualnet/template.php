@@ -157,7 +157,15 @@ function accrualnet_preprocess_html(&$variables, $hook) {
   }
   // Store the menu item since it has some useful information.
   $variables['menu_item'] = menu_get_item();
-  if ($variables['menu_item']) {
+  if ($variables) {
+      //ADDED by Doyle to add menu class to body tag
+      $item = menu_get_active_trail();
+      if(count($item) > 1 ){
+          $navTitle = $item[1]['link_title'];
+          $variables['classes_array'][] = drupal_html_class('nav-section-' . $navTitle);
+      }
+      
+      //End Added by Doyle
     switch ($variables['menu_item']['page_callback']) {
       case 'views_page':
         // Is this a Views page?

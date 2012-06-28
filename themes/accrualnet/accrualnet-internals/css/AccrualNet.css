@@ -160,6 +160,9 @@ html, body {
 #main {
     background: white;
     box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -ms-box-sizing: border-box;
     
     
     
@@ -187,18 +190,14 @@ html, body {
     to(rgba(255,0,0,0.75)));*/
 
     background-image:
-    -webkit-gradient(linear, 0% 0%, 100% 100%,
-    from(#ffe5ca),
-    color-stop(0.15, #ffe5ca), 
-    color-stop(0.15, transparent),
-    color-stop(0.50, transparent),
-    color-stop(0.50, #ffe5ca),
-    color-stop(0.65, #ffe5ca),
-    color-stop(0.65, transparent), 
-    to(transparent));
-
+    -webkit-gradient(linear, 0% 0%, 100% 100%, from(#ffe5ca), color-stop(0.15, #ffe5ca), color-stop(0.15, transparent), color-stop(0.50, transparent), color-stop(0.50, #ffe5ca), color-stop(0.65, #ffe5ca), color-stop(0.65, transparent), to(transparent));
+    background-image: 
+    -moz-linear-gradient(-45deg, #ffe5ca, #ffe5ca 15%, white 50%,  #ffe5ca 65%, white);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffe5ca', endColorstr='white'); /* IE6 & IE7 */  
+    -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffe5ca', endColorstr='white')"; /* IE8+ */  
     background-size: 10px 10px;
     -webkit-background-size: 10px 10px;
+    -moz-background-size: 10px 10px;
 }
 
 header#page-header {
