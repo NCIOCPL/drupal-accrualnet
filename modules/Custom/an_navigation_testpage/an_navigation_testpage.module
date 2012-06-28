@@ -1,0 +1,20 @@
+<?php
+
+/* Created By: John Doyle
+ * Created On: June 11, 2012
+ * Last Updated By: Doyle
+ * Last Updated On: June 11, 2012
+ *
+ */
+function an_navigation_testpage_ctools_plugin_api($module, $api) {
+  if ($module == 'panels_mini' && $api == 'panels_default') {
+    return array('version' => 1);
+  }
+  if ($module == 'page_manager' && $api == 'pages_default') {
+    return array('version' => 1);
+  }
+  
+
+}
+
+?>

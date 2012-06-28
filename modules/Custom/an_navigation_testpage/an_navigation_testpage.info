@@ -1,6 +1,6 @@
-name = AccrualNet Navigation
+name = AccrualNet Navigation Testpage
 description = "Provides navigation and associated blocks."
 package = "AccrualNet Navigation"
 core = 7.x
 version = VERSION
-files[] = an_navigation.module
+files[] = an_navigation_testpage.module
