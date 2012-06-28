@@ -8,6 +8,7 @@
  * Last Updated On: June 13, 2012
  * *** */
 
+module_load_include('inc', 'resource', 'includes/types');
 module_load_include('inc', 'an_taxonomy', 'includes/resource.globals');
 module_load_include('inc', 'resource', 'includes/resource.field');
 module_load_include('inc', 'resource', 'includes/citation.field');
@@ -20,16 +21,23 @@ module_load_include('inc', 'resource', 'includes/workbench.field');
  */
 
 function resource_node_info() {
-	return array(
-		'resource' => array(
-			'name' => t('Resource'),
-			'base' => 'node_content',
-			'description' => t('A resource is a document or link to an external source.'),
-			'has_title' => TRUE,
-			'title_label' => 'Title',
-			'custom' => TRUE, // Add this line in when debugging
-		),
-	);
+    global $an_resource_types;
+    $resourceTypes = array();
+    foreach ($an_resource_types as $type => $properties) {
+        $resourceTypes[$type] = array (
+            'name' => $properties['name'],
+            'base' => 'node_content',
+            'description' => $properties['description'],
+            'custom' => TRUE, // Line for Debugging
+        );
+        if (array_key_exists('title', $properties)) {
+            $resourceTypes[$type]['has_title'] = TRUE;
+            $resourceTypes[$type]['title_label'] = $properties['title'];
+        } else {
+            $resourceTypes[$type]['has_title'] = FALSE;
+        }
+    }
+    return $resourceTypes;
 }
 
 /*
@@ -40,55 +48,27 @@ function resource_node_info() {
  */
 
 function resource_enable() {
-	drupal_set_message($message = 'enable');
+    global $an_resource_types;
+
+	drupal_set_message($message = 'Resource Module Enabled.');
 	node_types_rebuild();
 	$types = node_type_get_types();
+        // Get Citations
+            $citationFields = _resource_field_citation();
 
-	// Set the body for the Resource content type
-	/*
-	  $resource_type = node_type_set_defaults($types['resource']);
-	  node_add_body_field($resource_type, 'Body');
-	  node_type_save($resource_type);
-	 *  No body type for this guy
-	 */
-	/*
-	  $vocabs = taxonomy_get_vocabularies();
-	  $vocabulary = array_pop($vocabs);
-	  /*
-	  $field = array(
-	  'field_name' => 'wakka3',
-	  'type' => 'taxonomy_term_reference',
-	  'cardinality' => 1, //FIELD_CARDINALITY_UNLIMITED,
-	  'settings' => array(
-	  'allowed_values' => array(
-	  array(
-	  'vocabulary' => $vocabulary->machine_name,
-	  'parent' => 0,
-	  ),
-	  ),
-	  ),
-	  );
-	  print dpm($field);
+            foreach($citationFields as $field) {
+                field_create_field($field);
+            }
+        foreach ($an_resource_types as $type => $properties) {
+            $citationInstances = _resource_instance_citation($properties['citation']);
 
-	  field_create_field($field);
-
-	  $instance = array(
-	  'field_name' => 'wakka3',
-	  'bundle' => 'resource',
-	  'entity_type' => 'node',
-	  'widget' => array(
-	  'type' => 'options_select',
-	  ),
-	  'display' => array(
-	  'default' => array(
-	  'type' => 'taxonomy_term_reference_link',
-	  ),
-	  ),
-	  );
-	  field_create_instance($instance);
-	 * 
-	 */
-
+            foreach ($citationInstances as $instance) {
+                $instance['entity_type'] = 'node';
+                $instance['bundle'] = $type;
+                field_create_instance($instance);
+            }
+        }
+/*
 	// Create all of the fields for the Resource content type
 	foreach (_resource_fields () as $field) {
 		field_create_field($field);
@@ -100,9 +80,13 @@ function resource_enable() {
 		$instance['bundle'] = 'resource';
 		field_create_instance($instance);
 	}
+ * 
+ */
 
+        foreach (array_keys($an_resource_types) as $type) {
 	// set this type as in moderation
-	variable_set('node_options_resource', array('revision', 'moderation'));
+	variable_set('node_options_'.$type, array('revision', 'moderation'));
+        }
 }
 
 /*
@@ -113,20 +97,36 @@ function resource_enable() {
  */
 
 function resource_disable() {
-	drupal_set_message($message = 'disable');
+    global $an_resource_types;
+	drupal_set_message($message = 'Resource Module Disabled.');
+                    $citationFields = _resource_field_citation();
+
+            foreach (array_keys($citationFields) as $field) {
+                field_delete_field('field_citation_'.$field);
+            }
+        foreach ($an_resource_types as $type => $properties) {
+            $instances = field_info_instances('node', $type);
+
+            foreach ($instances as $instanceName => $instance) {
+                field_delete_instance($instance);
+            }
+        }
+        /*
 	// Delete Resource content type specific fields
 	foreach (array_keys(_resource_fields()) as $field) {
 		field_delete_field($field);
 	}
-
+/*
 	// Delete Resource content type instances
 	$instances = field_info_instances('node', 'resource');
 	foreach ($instances as $instance_name => $instance) {
 		field_delete_instance($instance);
 	}
-
-	// Delete the Resource content type
-	node_type_delete('resource');
+ * 
+ */
+foreach (array_keys($an_resource_types) as $type) {
+    node_type_delete($type);
+}
 
 
 	// Purge all field information
@@ -146,7 +146,7 @@ function _resource_fields() {
         $fields = array_merge($fields, _resource_field_citation());
         $fields = array_merge($fields, _resource_field_workbench());
 
-	foreach ($an_vocabularies as $vocab) {
+	/*foreach ($an_vocabularies as $vocab) {
 		$fields[$vocab['machine_stem']] = array(
 			'field_name' => ('field_tax_' . $vocab['machine_stem']),
 			'cardinality' => FIELD_CARDINALITY_UNLIMITED,
@@ -162,6 +162,8 @@ function _resource_fields() {
 			)
 		);
 	}
+         * 
+         */
 
 	return $fields;
 }
