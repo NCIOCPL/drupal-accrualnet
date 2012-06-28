@@ -1,0 +1,6 @@
+name = AccrualNet Navigation
+description = "Provides navigation and associated blocks."
+package = "AccrualNet Navigation"
+core = 7.x
+version = VERSION
+files[] = nci_navigation.module

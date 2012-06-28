@@ -1,0 +1,215 @@
+<?php
+
+/* Created By: John Doyle
+ * Created On: June 11, 2012
+ * Last Updated By: Doyle
+ * Last Updated On: June 11, 2012
+ *
+ */
+
+module_load_include('inc', 'an_navigation', 'includes/navigation.globals');
+module_load_include('inc', 'an_taxonomy', 'includes/resource.globals');
+
+function an_navigation_block_info(){
+    $blocks['left-nav'] = array(
+      'info' => t('Left Nav'),  
+    ); 
+    
+    return $blocks;
+}
+
+function an_navigation_block_view($delta = '') {
+ 
+    switch($delta){
+    case 'left-nav':
+      $block['subject'] = t('Left Navigation');
+      if(user_access('access content')){
+        //Use our custom function to retrieve data.
+        $result = _nci_get_sub_navigation();
+        
+        if (empty($result)) { //No content in the last week.
+          $block['content'] = t('No posts available.');  
+        } 
+        else {
+          //Pass data through theme function.
+          $block['content'] = $result;
+        }
+      }
+      return $block;
+  }
+
+}
+
+/*_an_navigation_resources_and_tools_submenu() - Creates the array of sub-menu
+ * items for the resources and tools section. Dynamically builds out menu entries
+ * based on taxonomy.
+ * 
+ */
+
+function _an_navigation_resources_and_tools_submenu($parentID){
+    
+    global $an_resource_menu_vocab;
+    global $an_vocabularies;
+    
+    $base_path = 'resources/';
+    
+    $taxonomy = array();
+    $level1_weight = 0;
+    foreach ($an_resource_menu_vocab as $menu_facet)
+    {
+        $level2_weight = 0;
+        $vocabulary = taxonomy_vocabulary_machine_name_load('an_vocabulary_'.$menu_facet); 
+        //taxonomy_get_tree($vocabulary->vid);
+        $taxonomy = taxonomy_get_tree($vocabulary->vid);
+        
+        $menu_entry = array(
+                'values' => array(
+                    'menu_name' => 'an-main-nav',
+                    'weight' => $level1_weight,
+                    'link_title' => $vocabulary->name,
+                    'link_path' => $base_path. $menu_facet . '_issues',
+                    'module' => t('menu'),
+                    'mlid' => 0,
+                    'plid' => $parentID,
+                ),
+            );
+        
+        $plid_lvl2 = menu_link_save($menu_entry['values']);
+        
+        foreach ($taxonomy as $term) {
+            //replace all special characters (not a-z, A-Z, 0-9) with '_' to represent
+            //what the url path should be
+            $old_pattern = array("/[^a-zA-Z0-9]/", "/_+/", "/_$/");
+            $new_pattern = array("_", "_", "");
+            $term_url = strtolower(preg_replace($old_pattern, $new_pattern, $term->name));
+            
+            //setup the menu item structure
+            $menu_entry = array(
+                'values' => array(
+                    'menu_name' => 'an-main-nav',
+                    'weight' => $level2_weight,
+                    'link_title' => $term->name,
+                    'link_path' => $base_path. $menu_facet . '_issues/'.$term_url,
+                    'module' => t('menu'),
+                    'mlid' => 0,
+                    'plid' => $plid_lvl2,
+                ),
+            );
+            // Validate and transform the item, so it conforms with Drupal standards.
+            //menu_edit_item_validate(array(), $menu_entry);
+            // Save the item to database.
+            menu_link_save($menu_entry['values']);
+            $level2_weight++;
+        }
+        
+        $level1_weight++;
+        
+    }
+    
+    
+    //print dpm($taxonomy);
+    
+    
+}
+/* _an_navigation_education_and_training_submenu() - Creates the array of sub-menu
+ * items for the education and training section. Dynamically builds out menu entries
+ * based on taxonomy.
+ * 
+ */
+function _an_navigation_education_and_training_submenu(){
+    
+}
+/* _an_navigation_communities_submenu() - Creates the array of sub-menu
+ * items for the communities section. Dynamically builds out menu entries
+ * based on taxonomy.
+ * 
+ */
+function _an_navigation_communities_submenu(){
+    
+}
+/* an_navigation_resources_and_tools_submenu() - Creates the array of sub-menu
+ * items for the protocol accrual lifecycle section. Manually builds out menu 
+ * based on static content layout.
+ * 
+ */
+function _an_navigation_protocol_accrual_lifecycle_submenu()
+{
+    
+}
+
+function an_navigation_enable() {
+    
+    
+    
+    global $an_navigation_information;
+    global $an_navigation;
+    //Create a new menu
+    menu_rebuild();
+    $menu = array(
+        'menu_name' => t('an-main-nav'),
+        'title' => t('AccrualNet Main Navigation'),
+        'description' => t('Provides navigation for the AccrualNet Site.')
+    );
+    menu_save($menu);
+    $menu_id = array();
+    //Create menu entries
+    foreach ($an_navigation as $menu_item => $values)
+    {
+        $menu_entry = array(
+            'values' => array(
+                'menu_name' => 'an-main-nav',
+                'weight' => $values['weight'],
+                'link_title' => $values['link_title'],
+                'link_path' => $values['link_path'],
+                'module' => t('menu'),
+                'mlid' => 0,
+                'router_path' => $values['link_path'].'/%',
+            ),
+        );
+        // Validate and transform the item, so it conforms with Drupal standards.
+        //menu_edit_item_validate(array(), $menu_entry);
+        // Save the item to database.
+        $menu_id[$menu_item] = menu_link_save($menu_entry['values']);
+    }
+    
+    _an_navigation_resources_and_tools_submenu($menu_id['resources_and_tools']);
+    
+    //Now rebuild the menu system.
+    // menu_rebuild();
+     menu_cache_clear_all() ;
+}
+
+
+function _nci_create_menu_entry(){
+    foreach ($an_navigation as $menu_item => $values)
+    {
+        $menu_entry = array(
+            'values' => array(
+                'menu_name' => 'an-main-nav',
+                'weight' => $values['weight'],
+                'link_title' => $values['link_title'],
+                'link_path' => $values['link_path'],
+                'module' => t('menu'),
+                'mlid' => 0,           
+            ),
+        );
+        // Validate and transform the item, so it conforms with Drupal standards.
+        //menu_edit_item_validate(array(), $menu_entry);
+        // Save the item to database.
+        menu_link_save($menu_entry['values']);
+    }
+    //menu_rebuild();
+}
+
+
+function _nci_get_sub_navigation(){
+    //$newTree = menu_build_tree('an-main-nav');
+    //print dpm($newTree);
+    $menus = menu_tree_page_data('an-main-nav', NULL, TRUE);
+   // print dpm($menus);
+    foreach($menus as $menu) {
+        if( $menu['link']['in_active_trail'] && !empty($menu['below']) ){
+            return drupal_render( menu_tree_output($menu['below']) );
+        }
+    }
+}

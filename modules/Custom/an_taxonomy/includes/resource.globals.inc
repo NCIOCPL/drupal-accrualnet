@@ -5,6 +5,17 @@
  * and open the template in the editor.
  */
 
+//The resources menu will be built based upon the vocabulary of these
+//5 sections. If system names below  will change, these must be changed to map to
+//the correct machine names.
+$GLOBALS['an_resource_menu_vocab'] = array(
+    'patient_related',
+    'provider_related',
+    'systems_and_regulatory',
+    'study',
+    'ethical',
+);
+
 $GLOBALS['an_vocabularies'] = array(
 	array(
 		'name' => 'Patient-Related Issues',
