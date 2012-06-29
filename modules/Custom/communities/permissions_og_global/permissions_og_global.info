@@ -1,6 +1,6 @@
 name = OG Global Permissions Control
 description = "Sets OG Global Permissions when enabled; Clears all settings when disabled."
-package = "Communities"
+package = "AccrualNet"
 
 php = "5.2.4"
 core = "7.x"

@@ -1,6 +1,6 @@
 name = AN Core Perms
 description = "Provides pre-configured permissions core modules on the AccrualNet site"
-package = "AccrualNet Roles and Permissions"
+package = "AccrualNet"
 dependencies[] = nci_roles_and_permissions
 dependencies[] = an_roles
 dependencies[] = block

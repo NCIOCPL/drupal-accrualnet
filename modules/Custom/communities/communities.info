@@ -1,6 +1,6 @@
 name = "AccrualNet Communities"
 description = "Creates the AccrualNet Communities content types"
-package = "Communities"
+package = "AccrualNet"
 core = 7.x
 version = 7.x-1.0
 
