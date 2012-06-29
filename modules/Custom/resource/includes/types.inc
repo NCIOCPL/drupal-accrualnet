@@ -1,17 +1,20 @@
 <?php
-
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+/* * ***
+ * Created By: Lauren
+ * Created On: June 27, 2012
+ *
+ * Last Updated By: Lauren
+ * Last Updated On: June 29, 2012
+ * *** */
 
 // Citation Types
 // Separated into variables rather than consistent strings in case we ever find 
 // a need to switch from String determination to an array listing of fields.
-$A = 'A';
-$B = 'B';
-$C = 'C';
+$A = 'A'; // You will need to change this also in citation.types.inc
+$B = 'B'; // You will need to change this also in citation.types.inc
+$C = 'C'; // You will need to change this also in citation.types.inc
 
+// All of the Resource Types
 $GLOBALS['an_resource_types'] = array(
     'journal_article' => array(
         // Content Properties

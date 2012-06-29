@@ -5,24 +5,32 @@
  * Created On: June 13, 2012
  *
  * Last Updated By: Lauren
- * Last Updated On: June 13, 2012
+ * Last Updated On: June 29, 2012
  * *** */
 
+// Resource Types
 module_load_include('inc', 'resource', 'includes/types');
+// Taxonomy globals
 module_load_include('inc', 'an_taxonomy', 'includes/resource.globals');
+// Generic Resource Fields
 module_load_include('inc', 'resource', 'includes/resource.field');
+// Citaiton Resource Fields
 module_load_include('inc', 'resource', 'includes/citation.field');
+// Workbench Resource Fields
 module_load_include('inc', 'resource', 'includes/workbench.field');
+
 
 /*
  * hook_node_info()
  * 
  * Sets up the Resource content type
  */
-
 function resource_node_info() {
+    // Variables
     global $an_resource_types;
     $resourceTypes = array();
+    
+    // For every resource type, create the content type
     foreach ($an_resource_types as $type => $properties) {
         $resourceTypes[$type] = array (
             'name' => $properties['name'],
@@ -30,6 +38,7 @@ function resource_node_info() {
             'description' => $properties['description'],
             'custom' => TRUE, // Line for Debugging
         );
+        // If the content type has a title defined, set it
         if (array_key_exists('title', $properties)) {
             $resourceTypes[$type]['has_title'] = TRUE;
             $resourceTypes[$type]['title_label'] = $properties['title'];
@@ -40,54 +49,53 @@ function resource_node_info() {
     return $resourceTypes;
 }
 
+
+
 /*
  * hook_enable()
  * 
  * Enables the Resource content type for full use. 
  * Adds the body, other fields, and taxonomy.
  */
-
 function resource_enable() {
+    // Variables
     global $an_resource_types;
-
-	drupal_set_message($message = 'Resource Module Enabled.');
-	node_types_rebuild();
-	$types = node_type_get_types();
-        // Get Citations
-            $citationFields = _resource_field_citation();
-
-            foreach($citationFields as $field) {
-                field_create_field($field);
-            }
-        foreach ($an_resource_types as $type => $properties) {
-            $citationInstances = _resource_instance_citation($properties['citation']);
-
-            foreach ($citationInstances as $instance) {
-                $instance['entity_type'] = 'node';
-                $instance['bundle'] = $type;
-                field_create_instance($instance);
-            }
+    // Inform that the module is enabled (mostly testing purposes)
+    drupal_set_message($message = 'Resource Module Enabled.');
+    
+    // Rebuild the types --this may be unnecessary
+    node_types_rebuild();
+    
+    // Get the current content types -> not sure this is needed anymore
+    // Used to be used for adding the body?
+    $types = node_type_get_types();
+    
+    // Create the custom fields for all types of resources
+    foreach (_resource_fields() as $field) {
+        field_create_field($field);
+    }
+ 
+    // For each type of resource, create the proper field instances
+    foreach ($an_resource_types as $type => $properties) {
+        // Instances that all resources used are found in the function _resource_instances()
+        // However, citations must be called customly from here so its citation type
+        // can be passed.
+        $instances = array_merge(_resource_instances(), _resource_instance_citation($properties['citation']));
+        foreach ($instances as $instance) {
+            $instance['entity_type'] = 'node';
+            $instance['bundle'] = $type;
+            field_create_instance($instance);
         }
-/*
-	// Create all of the fields for the Resource content type
-	foreach (_resource_fields () as $field) {
-		field_create_field($field);
-	}
+    }
 
-	// Create all of the instances for the Resource content type
-	foreach (_resource_instances () as $instance) {
-		$instance['entity_type'] = 'node';
-		$instance['bundle'] = 'resource';
-		field_create_instance($instance);
-	}
- * 
- */
-
-        foreach (array_keys($an_resource_types) as $type) {
-	// set this type as in moderation
-	variable_set('node_options_'.$type, array('revision', 'moderation'));
-        }
+    // I'm not sure, this is left over code from one of the sample modules
+    foreach (array_keys($an_resource_types) as $type) {
+        // set this type as in moderation
+        variable_set('node_options_' . $type, array('revision', 'moderation'));
+    }
 }
+
+
 
 /*
  * hook_disable()
@@ -95,135 +103,108 @@ function resource_enable() {
  * Removes the content type, instances of fields, and specific content type fields. 
  * As of right now, does not delete all content associated with it.
  */
-
 function resource_disable() {
+    // Variables
     global $an_resource_types;
-	drupal_set_message($message = 'Resource Module Disabled.');
-                    $citationFields = _resource_field_citation();
-
-            foreach (array_keys($citationFields) as $field) {
-                field_delete_field('field_citation_'.$field);
-            }
-        foreach ($an_resource_types as $type => $properties) {
-            $instances = field_info_instances('node', $type);
-
-            foreach ($instances as $instanceName => $instance) {
-                field_delete_instance($instance);
-            }
+    // Alert the user the module has been disabled, mostly used for testing
+    drupal_set_message($message = 'Resource Module Disabled.');
+    
+    // Remove all of the fields created for any type of resource
+    foreach (array_keys(_resource_fields()) as $field) {
+        field_delete_field($field);
+    }
+    
+    // For each type of resource, remove all instances associated with it
+    foreach ($an_resource_types as $type => $properties) {
+        $instances = field_info_instances('node', $type);
+        foreach ($instances as $instanceName => $instance) {
+            field_delete_instance($instance);
         }
-        /*
-	// Delete Resource content type specific fields
-	foreach (array_keys(_resource_fields()) as $field) {
-		field_delete_field($field);
-	}
-/*
-	// Delete Resource content type instances
-	$instances = field_info_instances('node', 'resource');
-	foreach ($instances as $instance_name => $instance) {
-		field_delete_instance($instance);
-	}
- * 
- */
-foreach (array_keys($an_resource_types) as $type) {
-    node_type_delete($type);
+    }
+
+    // Remove each resource type as a recognized piece of content type for drupal
+    foreach (array_keys($an_resource_types) as $type) {
+        node_type_delete($type);
+    }
+
+    // Purge all field information; this is from a sample, not sure what it does
+    field_purge_batch(1000);
 }
 
 
-	// Purge all field information
-	field_purge_batch(1000);
-}
 
 /*
  * Internal Function
  * 
  * Resource-specific fields
  */
-
 function _resource_fields() {
-	global $an_vocabularies; // Properties: name, machine_stem, terms
-       
-	$fields = _resource_field_resource();
-        $fields = array_merge($fields, _resource_field_citation());
-        $fields = array_merge($fields, _resource_field_workbench());
+    global $an_vocabularies; // Properties: name, machine_stem, terms
 
-	/*foreach ($an_vocabularies as $vocab) {
-		$fields[$vocab['machine_stem']] = array(
-			'field_name' => ('field_tax_' . $vocab['machine_stem']),
-			'cardinality' => FIELD_CARDINALITY_UNLIMITED,
-			'label' => $vocab['name'],
-			'type' => 'taxonomy_term_reference',
-			'settings' => array(
-				'allowed_values' => array(
-					array(
-						'vocabulary' => 'an_vocabulary_' . $vocab['machine_stem'],
-						'parent' => 0,
-					)
-				)
-			)
-		);
-	}
-         * 
-         */
+    // Generic Resource Fields
+    $fields = _resource_field_resource();
+    // All Citation Fields (Resource Type doesn't matter)
+    $fields = array_merge($fields, _resource_field_citation());
+    // Workbench Resource Fields
+    $fields = array_merge($fields, _resource_field_workbench());
+    // Taxonomy that's available for every resource
+    foreach ($an_vocabularies as $vocab) {
+        $fields[$vocab['machine_stem']] = array(
+            'field_name' => ('field_tax_' . $vocab['machine_stem']),
+            'cardinality' => FIELD_CARDINALITY_UNLIMITED,
+            'label' => $vocab['name'],
+            'type' => 'taxonomy_term_reference',
+            'settings' => array(
+                'allowed_values' => array(
+                    array(
+                        'vocabulary' => 'an_vocabulary_' . $vocab['machine_stem'],
+                        'parent' => 0,
+                    )
+                )
+            )
+        );
+    }
 
-	return $fields;
+    // Return the collection of fields to be created
+    return $fields;
 }
+
+
 
 /*
  * Internal Function
  * 
  * Resource field instances
  */
-
 function _resource_instances() {
-	global $an_vocabularies;
-	$instances = _resource_instance_resource();
-        $instances = array_merge($instances, _resource_instance_citation());
-        $instances = array_merge($instances, _resource_instance_workbench());
-        /*
-	$instances['field_highlights'] = array(
-		'field_name' => 'field_highlights',
-		'label' => 'Highlights',
-	);
-	$instances['field_usefulness'] = array(
-		'field_name' => 'field_description',
-		'label' => 'Why this item may be useful',
-	);
-	$instances['field_details'] = array(
-		'field_name' => 'field_details',
-		'label' => 'Details',
-	);
+    global $an_vocabularies;
+    // Generic Resource instances (type doesn't matter, same settings)
+    $instances = _resource_instance_resource();
+    // Generic Workbench isntances (type doesn't matter, same settings)
+    $instances = array_merge($instances, _resource_instance_workbench());
+    // NOTICE citations do not get added...
+    // Their settings are type-specific and a paramater must be taken from
+    // the content type, so they are called elsewhere and are not part of this
+    // bundle
+    // Taxonomy instances
+    foreach ($an_vocabularies as $vocab) {
+        $instances[$vocab['machine_stem']] = array(
+            'field_name' => ('field_tax_' . $vocab['machine_stem']),
+            'label' => $vocab['name'],
+            'type' => 'taxonomy_term_reference',
+            'widget' => array(
+                'type' => 'options_buttons',
+            ),
+            'display' => array(
+                'default' => array(
+                    'type' => 'taxonomy_term_reference_link',
+                ),
+            ),
+        );
+    }
 
-
-	$instances['field_links'] = array(
-		'field_name' => 'field_links',
-		'label' => 'Related Links',
-		'widget' => array(
-			'type' => 'text_textfield',
-		),
-	);
-         * 
-         */
-
-
-	foreach ($an_vocabularies as $vocab) {
-		$instances[$vocab['machine_stem']] = array(
-			'field_name' => ('field_tax_' . $vocab['machine_stem']),
-			'label' => $vocab['name'],
-			'type' => 'taxonomy_term_reference',
-			'widget' => array(
-				'type' => 'options_buttons',
-			),
-			'display' => array(
-				'default' => array(
-					'type' => 'taxonomy_term_reference_link',
-				),
-			),
-		);
-	}
-
-
-
-	return $instances;
+    // Return the collection of instances -- CITATIONS not included
+    return $instances;
 }
 
 ?>

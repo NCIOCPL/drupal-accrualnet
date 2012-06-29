@@ -1,0 +1,7 @@
+name = "Resource Content Type - Permissions"
+description = "Sets the permissions in the core for all resource types (same settings for all)"
+package = "AccrualNet"
+core = 7.x
+version = 7.x-1.0
+
+dependencies[] = "resource"

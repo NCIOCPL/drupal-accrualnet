@@ -1,8 +1,8 @@
 name = "Resource Content Type"
-description = "Creates and controls the resource content type"
+description = "Creates and controls all Resource content types"
 package = "AccrualNet"
 core = 7.x
-version = 7.x-1.0
+version = 7.x-2.0
 
 dependencies[] = "an_taxonomy"
 dependencies[] = "date"

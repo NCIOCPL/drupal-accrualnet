@@ -1,4 +1,12 @@
 <?php
+/* * ***
+ * Created By: Lauren
+ * Created On: June 28, 2012
+ *
+ * Last Updated By: Lauren
+ * Last Updated On: June 29, 2012
+ * *** */
+
 $GLOBALS['an_resource_field_citation'] = array(
     'author' => array(
         'label' => 'Author(s)',
@@ -66,9 +74,9 @@ function _resource_field_citation () {
     
     // Setup the Global fields
     foreach ($an_resource_field_citation as $field => $properties) {
-        $fields[$field]['field_name'] = 'field_citation_' . $an_resource_field_citation[$field]['field_name'];
-        $fields[$field]['type'] = $an_resource_field_citation[$field]['type'];
-        $fields[$field]['cardinality'] = $an_resource_field_citation[$field]['cardinality'];
+        $fields['field_citation_'.$field]['field_name'] = 'field_citation_' . $an_resource_field_citation[$field]['field_name'];
+        $fields['field_citation_'.$field]['type'] = $an_resource_field_citation[$field]['type'];
+        $fields['field_citation_'.$field]['cardinality'] = $an_resource_field_citation[$field]['cardinality'];
     }
 
     return $fields;

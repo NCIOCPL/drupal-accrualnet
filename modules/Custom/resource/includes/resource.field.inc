@@ -1,9 +1,11 @@
 <?php
-
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+/* * ***
+ * Created By: Lauren
+ * Created On: June 25, 2012
+ *
+ * Last Updated By: Lauren
+ * Last Updated On: June 29, 2012
+ * *** */
 
 $GLOBALS['an_resource_field_resource'] = array(
     // Machine Name => Label
