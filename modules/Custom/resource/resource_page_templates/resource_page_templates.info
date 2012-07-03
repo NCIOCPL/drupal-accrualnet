@@ -1,0 +1,6 @@
+name = AN Resource Templates
+description = "Provides navigation and associated blocks."
+package = "AccrualNet"
+core = 7.x
+version = VERSION
+files[] = resource_page_templates.module
