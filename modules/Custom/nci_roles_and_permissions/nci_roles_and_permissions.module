@@ -14,10 +14,15 @@
 function _nci_roles_and_permissions_create_roles($role_name) {
 	$role = user_role_load_by_name($role_name);
 
-	if (!isset($role)) {
+	if (!$role) {
 		$role = new stdClass();
 		$role->name = $role_name;
 		user_role_save($role);
+	}
+        else {
+          
+		watchdog('nci_roles_and_permissions', 'The role %role_name is set',
+				array('%role_name' => $role_name), WATCHDOG_ERROR);
 	}
 }
 
