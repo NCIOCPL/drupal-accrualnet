@@ -245,4 +245,62 @@ function nci_workflow_db_delete_field_value($stem, $nid, $vid) {
 	}
 }
 
+function nci_workflow_workbench_content_alter(&$output) {
+
+	unset($output['workbench_current_user']);
+	unset($output['workbench_edited']);
+	unset($output['workbench_recent_content']);
+
+	global $user;
+	$roles = $user->roles;
+
+	if (array_search('Writer', $roles) !== FALSE) {
+		$output['workbench_writer_inbox'] = array(
+			'#view' => 'an_workflow',
+			'#view_display' => 'block_writer_inbox',
+			'#attributes' => array('class' => array('clearfix'), 'style' => array('clear: both;')),
+			'#theme' => 'workbench_element',
+		);
+	}
+
+	if (array_search('AccrualNet Staff', $roles) !== FALSE) {
+		$output['workbench_editor_inbox'] = array(
+			'#view' => 'an_workflow',
+			'#view_display' => 'block_editor_inbox',
+			'#attributes' => array('class' => array('clearfix'), 'style' => array('clear: both;')),
+			'#theme' => 'workbench_element',
+		);
+	}
+
+	$output['workbench_all_content'] = array(
+		'#view' => 'an_workflow',
+		'#view_display' => 'block_all_content',
+		'#attributes' => array('class' => array('clearfix'), 'style' => array('clear: both;')),
+		'#theme' => 'workbench_element',
+	);
+}
+
+function nci_workflow_menu_alter(&$items) {
+	if (isset($items)) {
+		foreach ($items as $path => $item) {
+			$ret = strpos($path, 'admin/workbench/');
+
+			if ($ret === FALSE || $ret > 0) {
+				continue;
+			} else if ($path == 'admin/workbench/content') {
+				$items[$path]['title'] = 'All Content';
+			} else {
+				unset($items[$path]);
+			}
+		}
+	}
+}
+
+/**
+ * Implements hook_views_api().
+ */
+function nci_workflow_views_api() {
+	return array('api' => 2.0);
+}
+
 ?>

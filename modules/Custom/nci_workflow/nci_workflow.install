@@ -4,6 +4,8 @@
  * Implements hook_install().
  */
 function nci_workflow_enable() {
+	drupal_set_message("Enabling NCI Workflow...");
+
 	// Create tables.
 	_nci_workflow_insert_values();
 
@@ -290,6 +292,8 @@ function _nci_workflow_config_access() {
 				array('%method' => '_nci_workflow_set_access_roles',
 					'%message' => $e->getMessage()), WATCHDOG_ERROR);
 	}
+
+	_nci_workflow_set_default_access();
 }
 
 function _nci_workflow_build_access_terminology() {
@@ -403,9 +407,67 @@ function _nci_workflow_set_access_roles() {
 	}
 }
 
+function _nci_workflow_set_default_access() {
+	// select nids not already present in the workbench_access_node
+	$result = db_query('SELECT nid ' .
+					'FROM an_node as n ' .
+					'WHERE NOT EXISTS ' .
+					'(SELECT n.nid ' .
+					'FROM an_workbench_access_node as wan ' .
+					'WHERE n.nid = wan.nid)');
+
+	foreach ($result as $record) {
+		$nids[] = $record->nid;
+	}
+
+	// grab the needed term
+	$terms = taxonomy_get_term_by_name('Writers');
+
+	foreach ($terms as $writer_term) {
+		$term = $writer_term;
+		break;
+	}
+
+	$values = array();
+	foreach ($nids as $nid) {
+		$values[] = array(
+			'nid' => $nid,
+			'access_id' => $term->tid,
+			'access_scheme' => 'taxonomy'
+		);
+	}
+
+	$query = db_insert('workbench_access_node')->fields(array('nid', 'access_id', 'access_scheme'));
+	foreach ($values as $record) {
+		$query->values($record);
+	}
+	$query->execute();
+}
+
 function _nci_workflow_config_moderation() {
-	// get the existing workbench_moderation view
-	$view = views_get_view('workbench_moderation', TRUE);
+
+	// get the array representing the disabled state of all views
+	$status = variable_get('views_defaults', array());
+
+	// set all workbench views to disabled
+	$count = 0;
+	$disabled = 0;
+	foreach ($status as $view => $state) {
+		if (strpos($view, 'workbench_') === 0) {
+			$status[$view] = TRUE;
+			// record how many views were switched to disabled
+			// (state from false to true)
+			if (!$state)
+				$disabled++;
+			else
+				$count++;
+		}
+	}
+
+	drupal_set_message("Disabled $disabled Workbench views, $count already disabled.");
+
+	// set the array back into variables
+	variable_set('views_defaults', $status);
 }
 
 function _nci_workflow_build_vocabulary($name, $machine_name, $weight) {
