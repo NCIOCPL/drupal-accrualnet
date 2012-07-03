@@ -6,7 +6,7 @@
  * Last Updated On: June 11, 2012
  *
  */
-function an_navigation_testpage_ctools_plugin_api($module, $api) {
+function resource_page_templates_ctools_plugin_api($module, $api) {
   if ($module == 'panels_mini' && $api == 'panels_default') {
     return array('version' => 1);
   }
@@ -17,4 +17,14 @@ function an_navigation_testpage_ctools_plugin_api($module, $api) {
 
 }
 
-?>
+function resource_page_templates_menu() {
+  $items['resources'] = array(
+    'title' => 'All Conversations',
+    'page callback' => 'all_conversations_page',
+    'access arguments' => array('access content'),
+    'type' => MENU_SUGGESTED_ITEM,
+    'file' => 'all_conversations.pages.inc',
+  );
+
+  return $items;
+}

@@ -6,7 +6,7 @@
  */
 
 
-function an_navigation_testpage_default_page_manager_pages() {
+function resource_page_templates_default_page_manager_pages() {
     
         
     /********************************************************
