@@ -6,6 +6,8 @@
  * Last Updated On: June 11, 2012
  *
  */
+
+/*
 function resource_page_templates_ctools_plugin_api($module, $api) {
   if ($module == 'panels_mini' && $api == 'panels_default') {
     return array('version' => 1);
@@ -15,15 +17,31 @@ function resource_page_templates_ctools_plugin_api($module, $api) {
   }
   
 
-}
+}*/
 
 function resource_page_templates_menu() {
   $items['resources'] = array(
-    'title' => 'All Conversations',
-    'page callback' => 'all_conversations_page',
+    'title' => 'Resources and Tools',
+    'page callback' => 'resource_landing_page',
     'access arguments' => array('access content'),
     'type' => MENU_SUGGESTED_ITEM,
-    'file' => 'all_conversations.pages.inc',
+    'file' => 'resource_landing_page.pages.inc',
+  );
+  $items['resources/%'] = array (
+    'title' => 'Resources and Tools Level 2',
+    'page callback' => 'resource_level_2_page',
+    'access arguments' => array('access content'),
+    'page arguments' => array(1),
+    'type' => MENU_SUGGESTED_ITEM,
+    'file' => 'resource_level_2.pages.inc',
+  );
+  $items['resources/%/%'] = array (
+    'title' => 'Resources and Tools Level 3',
+    'page callback' => 'resource_level_3_page',
+    'access arguments' => array('access content'),
+    'page arguments' => array(1,2),
+    'type' => MENU_SUGGESTED_ITEM,
+    'file' => 'resource_level_3.pages.inc',
   );
 
   return $items;
