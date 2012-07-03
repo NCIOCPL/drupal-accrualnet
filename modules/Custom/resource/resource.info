@@ -6,3 +6,4 @@ version = 7.x-2.0
 
 dependencies[] = "an_taxonomy"
 dependencies[] = "date"
+dependencies[] = "link"

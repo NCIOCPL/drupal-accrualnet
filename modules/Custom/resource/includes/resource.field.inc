@@ -30,11 +30,15 @@ $GLOBALS['an_resource_field_resource'] = array(
     array(
         'label' => 'Related Links',
         'field_name' => 'links',
-        'type' => 'text',
+        /*'type' => 'text',
         'cardinality' => FIELD_CARDINALITY_UNLIMITED,
         'widget' => array(
             'type' => 'text_textfield',
         ),
+         * 
+         */
+        'type' => 'link_field',
+        'cardinality' => FIELD_CARDINALITY_UNLIMITED,
     ),
 );
 
