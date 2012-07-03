@@ -416,6 +416,8 @@ function _nci_workflow_set_default_access() {
 					'FROM an_workbench_access_node as wan ' .
 					'WHERE n.nid = wan.nid)');
 
+	$nids = array();
+
 	foreach ($result as $record) {
 		$nids[] = $record->nid;
 	}
