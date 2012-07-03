@@ -33,24 +33,20 @@ $role_db_map = array(
 );
 
 // retrieve the values from the POST
-$user_id = $_POST['user_id'];
 $nid = $_POST['nid'];
-$vid = $_POST['vid'];
 $role = $_POST['role'];
 $account_id = $_POST['account_id'];
 
 // validate posted values
 if (!(isset($nid)
 		&& is_numeric($nid)
-		&& isset($vid)
-		&& is_numeric($vid)
 		&& isset($role)
 		&& isset($role_db_map[$role])
-		&& (!$user_id
-		|| is_numeric($user_id))
+		&& (!$account_id
+		|| is_numeric($account_id))
 		)) {
 	echo 'BAD VALUES - ';
-	echo $nid . ':' . $vid . ':' . $role . ':' . $account_id . ' ';
+	echo $nid . ':' . $role . ':' . $account_id . ' ';
 	return;
 }
 
@@ -70,7 +66,6 @@ try {
 				'%value' => $value,
 				'%nid' => $nid,
 				'%table' => 'an_node_revision',
-				'%vid' => $vid,
 				'%message' => $e->getMessage()
 			),
 			WATCHDOG_ERROR);
@@ -82,12 +77,14 @@ foreach ($result as $record) {
 	$revisions[] = $record;
 }
 
-// an empty result set or mismatch revision id indicates that
-// no revision exists or doesn't match page's revision
-if (!isset($revisions[0]) || $revisions[0]->vid != $vid) {
-	echo 'Revision ' . vid . ' not current for node ' . $nid . '!';
+// fail on empty result set
+if (!isset($revisions[0])) {
+	echo 'No vid found for node ' . $nid . '!';
 	return;
 }
+
+// use the most recent vid
+$vid = $revisions[0]->vid;
 
 // if the user isn't being cleared...
 if (!empty($account_id)) {

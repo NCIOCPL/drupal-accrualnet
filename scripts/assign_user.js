@@ -1,6 +1,7 @@
-function submitChosenUser(user_id, value, nid, vid, role)
+function submitChosenUser(display, value, nid, role)
 {
-	var id = "assigned_to_" + nid;
+	var id = display + "_assigned_to_" + nid;
+	var selName = "assign_to_" + nid + "_select";
 
 	// set up the request
 	var xmlhttp;
@@ -18,14 +19,38 @@ function submitChosenUser(user_id, value, nid, vid, role)
 	{
 		if (xmlhttp.readyState==4 && xmlhttp.status==200)
 		{
-			var element = document.getElementById(id);
+			var selects = document.getElementsByName(selName);
 			var text = xmlhttp.responseText;
 			if(text != "")
 			{
 				if(text.length > 20)
-					alert("Received response:\n" + xmlhttp.responseText);
-				else
-					element.innerHTML = text;
+				{
+					window.alert("Received response:\n" + xmlhttp.responseText);
+					return;
+				}
+
+				// loop through the select elements found previously...
+				for(var i = 0; i < selects.length; i++)
+				{
+					var select = selects.item(i);
+
+					// check each option, and select the one that matches the
+					// chosen value
+					var options = select.options;
+					for(var p = 0; p < options.length; p++)
+					{
+						var option = options[p];
+
+						if(option.value == value)
+						{
+							// found the correct option, select it and move
+							// to the next select
+							select.selectedIndex = p;
+							select.parentNode.nextSibling.innerHTML = xmlhttp.responseText;
+							break;
+						}
+					}
+				}
 			}
 			else
 			{
@@ -37,7 +62,7 @@ function submitChosenUser(user_id, value, nid, vid, role)
 	// post the resource id, revision id, role, and user id
 	xmlhttp.open("POST","/sites/accrualnet.cancer.gov/scripts/assign_user.php",true);
 	xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
-	var post_string = "user_id=" + user_id + "&account_id=" + value + "&nid=" + nid + "&vid=" + vid + "&role=" + role;
+	var post_string = "&account_id=" + value + "&nid=" + nid + "&role=" + role;
 	xmlhttp.send(post_string);
 
 	var element = document.getElementById(id);
