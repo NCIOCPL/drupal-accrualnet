@@ -69,7 +69,7 @@ function permissions_core_resources_enable() {
             $admin => FALSE
         );
     }
-    print dpm($default_perms);
+    
 
     $anon_perms = array();
     $auth_perms = array();
