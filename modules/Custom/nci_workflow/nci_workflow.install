@@ -124,7 +124,7 @@ function _nci_workflow_insert_values() {
 			workbench_moderation_transition_save((object) $transition);
 		}
 	} catch (Exception $e) {
-		drupal_set_message(print_r($e, true), 'error');
+		drupal_set_message(print_r($e->getMessage(), true), 'error');
 	}
 }
 
@@ -216,7 +216,7 @@ function _nci_workflow_set_permissions() {
 		_nci_roles_and_permissions_update_perms('AccrualNet Staff', $anstaff_perms);
 		_nci_roles_and_permissions_update_perms('administrator', $admin_perms);
 	} catch (Exception $e) {
-		drupal_set_message(print_r($e, true), 'error');
+		drupal_set_message(print_r($e->getMessage(), true), 'error');
 	}
 }
 
@@ -450,6 +450,8 @@ function _nci_workflow_config_moderation() {
 
 	// get the array representing the disabled state of all views
 	$status = variable_get('views_defaults', array());
+
+	drupal_set_message(print_r($status));
 
 	// set all workbench views to disabled
 	$count = 0;
