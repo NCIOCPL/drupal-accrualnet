@@ -451,7 +451,7 @@ function _nci_workflow_config_moderation() {
 	// get the array representing the disabled state of all views
 	$status = variable_get('views_defaults', array());
 
-	drupal_set_message(print_r($status));
+	//drupal_set_message(print_r($status));
 
 	// set all workbench views to disabled
 	$count = 0;
