@@ -64,14 +64,18 @@ $GLOBALS['an_resource_types'] = array(
         // Field Properties
         'citation' => $C,
     ),
-    'presentation' => array(
+   /*
+    * Removed based on email jul 9
+    *  'presentation' => array(
         // Content Properties
         'name' => 'Presentation',
         'description' => 'TBD',
         'title' => 'Title of Presentation',
         // Field Properties
         'citation' => $B,
-    ),    
+    ),
+    * 
+    */    
     'report' => array(
         // Content Properties
         'name' => 'Report',
