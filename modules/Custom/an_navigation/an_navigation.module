@@ -73,7 +73,8 @@ function _an_navigation_resources_and_tools_submenu($parentID){
                     'plid' => $parentID,
                 ),
             );
-        
+         menu_edit_item_validate(array(), $menu_entry);
+            
         $plid_lvl2 = menu_link_save($menu_entry['values']);
         
         foreach ($taxonomy as $term) {
@@ -96,7 +97,7 @@ function _an_navigation_resources_and_tools_submenu($parentID){
                 ),
             );
             // Validate and transform the item, so it conforms with Drupal standards.
-            //menu_edit_item_validate(array(), $menu_entry);
+            menu_edit_item_validate(array(), $menu_entry);
             // Save the item to database.
             menu_link_save($menu_entry['values']);
             $level2_weight++;
@@ -137,6 +138,19 @@ function _an_navigation_protocol_accrual_lifecycle_submenu()
     
 }
 
+/*
+ * on disable, we should delete the menu that was created.
+ */
+function an_navigation_disable() {
+    
+    //delete the an-main-nav menu.
+    $menu = menu_load('an-main-nav');
+    if ($menu)
+    {
+        menu_delete_links('an-main-nav');
+    }
+}
+
 function an_navigation_enable() {
     
     
@@ -167,7 +181,7 @@ function an_navigation_enable() {
             ),
         );
         // Validate and transform the item, so it conforms with Drupal standards.
-        //menu_edit_item_validate(array(), $menu_entry);
+        menu_edit_item_validate(array(), $menu_entry);
         // Save the item to database.
         $menu_id[$menu_item] = menu_link_save($menu_entry['values']);
     }
