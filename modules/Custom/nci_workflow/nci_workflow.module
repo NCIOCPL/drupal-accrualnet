@@ -281,6 +281,8 @@ function nci_workflow_workbench_content_alter(&$output) {
 }
 
 function nci_workflow_menu_alter(&$items) {
+	$unset_paths = array();
+
 	if (isset($items)) {
 		foreach ($items as $path => $item) {
 			$ret = strpos($path, 'admin/workbench/');
@@ -290,10 +292,16 @@ function nci_workflow_menu_alter(&$items) {
 			} else if ($path == 'admin/workbench/content') {
 				$items[$path]['title'] = 'All Content';
 			} else {
+				$unset_paths[] = $path;
 				unset($items[$path]);
 			}
 		}
 	}
+
+	/* if (count($unset_paths) > 0) {
+	  $str_unset = print_r($unset_paths, TRUE);
+	  drupal_set_message("Unset the following Workbench menu paths: $str_unset");
+	  } */
 }
 
 /**

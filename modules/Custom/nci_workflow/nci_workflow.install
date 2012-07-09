@@ -18,6 +18,8 @@ function nci_workflow_enable() {
 	_nci_workflow_config_access();
 
 	_nci_workflow_config_moderation();
+
+	cache_clear_all();
 }
 
 function nci_workflow_disable() {
@@ -447,31 +449,43 @@ function _nci_workflow_set_default_access() {
 }
 
 function _nci_workflow_config_moderation() {
-
+	// grab the views
+	$views = views_get_all_views();
+	//drupal_set_message(print_r(array_keys($views), TRUE));
 	// get the array representing the disabled state of all views
 	$status = variable_get('views_defaults', array());
 
-	//drupal_set_message(print_r($status));
-
 	// set all workbench views to disabled
 	$count = 0;
-	$disabled = 0;
-	foreach ($status as $view => $state) {
+	$disabled = array();
+	$other = 0;
+	foreach ($views as $view => $object) {
+		// if the view belongs to the workbench...
 		if (strpos($view, 'workbench_') === 0) {
-			$status[$view] = TRUE;
 			// record how many views were switched to disabled
 			// (state from false to true)
-			if (!$state)
-				$disabled++;
+			if (!isset($status[$view]) || $status[$view] == FALSE)
+				$disabled[] = $view;
 			else
 				$count++;
+
+			// flag as disabled regardless
+			$status[$view] = TRUE;
 		}
+		else
+			$other++;
 	}
 
-	drupal_set_message("Disabled $disabled Workbench views, $count already disabled.");
+	$num_disabled = sizeof($disabled);
+	drupal_set_message("Disabled $num_disabled Workbench views, $count already disabled;\n\t$other non-Workbench views ignored.");
+	$str_disabled = print_r($disabled, TRUE);
+	if ($num_disabled > 0)
+		drupal_set_message("Newly disabled views = $str_disabled");
 
-	// set the array back into variables
+	// set the array back into variables and clear the views/menu cache
 	variable_set('views_defaults', $status);
+	views_invalidate_cache();
+	menu_rebuild();
 }
 
 function _nci_workflow_build_vocabulary($name, $machine_name, $weight) {

@@ -6,6 +6,16 @@
  * (All Content, My Drafts, Writer Review, Editor Review, Unpublished/Cancelled)
  */
 
+$content_types_filter = array(
+  'journal_article' => 'journal_article',
+  'journal_review' => 'journal_review',
+  'meeting_abstract' => 'meeting_abstract',
+  'materials_patient' => 'materials_patient',
+  'report' => 'report',
+  'materials_forms' => 'materials_forms',
+  'materials_staff' => 'materials_staff',
+);
+
 $view = new view;
 $view->name = 'an_workflow';
 $view->description = '';
@@ -331,20 +341,15 @@ $handler->display->display_options['sorts']['stamp']['id'] = 'stamp';
 $handler->display->display_options['sorts']['stamp']['table'] = 'workbench_moderation_node_history';
 $handler->display->display_options['sorts']['stamp']['field'] = 'stamp';
 $handler->display->display_options['sorts']['stamp']['order'] = 'DESC';
+$handler->display->display_options['filter_groups']['groups'] = array(
+  1 => 'AND',
+  2 => 'OR',
+);
 /* Filter criterion: Content: Type */
 $handler->display->display_options['filters']['type']['id'] = 'type';
 $handler->display->display_options['filters']['type']['table'] = 'node';
 $handler->display->display_options['filters']['type']['field'] = 'type';
-$handler->display->display_options['filters']['type']['value'] = array(
-  'journal_article' => 'journal_article',
-  'journal_review' => 'journal_review',
-  'meeting_abstract' => 'meeting_abstract',
-  'materials_patient' => 'materials_patient',
-  'presentation' => 'presentation',
-  'report' => 'report',
-  'materials_forms' => 'materials_forms',
-  'materials_staff' => 'materials_staff',
-);
+$handler->display->display_options['filters']['type']['value'] = $content_types_filter;
 /* Filter criterion: Workbench Moderation: Current */
 $handler->display->display_options['filters']['current']['id'] = 'current';
 $handler->display->display_options['filters']['current']['table'] = 'workbench_moderation_node_history';
@@ -362,6 +367,225 @@ $handler->display->display_options['path'] = 'workbench/content/all';
 $handler = $view->new_display('block', 'All Content Block', 'block_all_content');
 $handler->display->display_options['defaults']['title'] = FALSE;
 $handler->display->display_options['title'] = 'All Content';
+$handler->display->display_options['defaults']['fields'] = FALSE;
+/* Field: Content: Nid */
+$handler->display->display_options['fields']['nid']['id'] = 'nid';
+$handler->display->display_options['fields']['nid']['table'] = 'node';
+$handler->display->display_options['fields']['nid']['field'] = 'nid';
+$handler->display->display_options['fields']['nid']['label'] = '';
+$handler->display->display_options['fields']['nid']['exclude'] = TRUE;
+$handler->display->display_options['fields']['nid']['alter']['alter_text'] = 0;
+$handler->display->display_options['fields']['nid']['alter']['make_link'] = 0;
+$handler->display->display_options['fields']['nid']['alter']['absolute'] = 0;
+$handler->display->display_options['fields']['nid']['alter']['external'] = 0;
+$handler->display->display_options['fields']['nid']['alter']['replace_spaces'] = 0;
+$handler->display->display_options['fields']['nid']['alter']['trim_whitespace'] = 0;
+$handler->display->display_options['fields']['nid']['alter']['nl2br'] = 0;
+$handler->display->display_options['fields']['nid']['alter']['word_boundary'] = 1;
+$handler->display->display_options['fields']['nid']['alter']['ellipsis'] = 1;
+$handler->display->display_options['fields']['nid']['alter']['more_link'] = 0;
+$handler->display->display_options['fields']['nid']['alter']['strip_tags'] = 0;
+$handler->display->display_options['fields']['nid']['alter']['trim'] = 0;
+$handler->display->display_options['fields']['nid']['alter']['html'] = 0;
+$handler->display->display_options['fields']['nid']['element_label_colon'] = FALSE;
+$handler->display->display_options['fields']['nid']['element_default_classes'] = 1;
+$handler->display->display_options['fields']['nid']['hide_empty'] = 0;
+$handler->display->display_options['fields']['nid']['empty_zero'] = 0;
+$handler->display->display_options['fields']['nid']['hide_alter_empty'] = 1;
+$handler->display->display_options['fields']['nid']['link_to_node'] = 0;
+/* Field: Content: Title */
+$handler->display->display_options['fields']['title']['id'] = 'title';
+$handler->display->display_options['fields']['title']['table'] = 'node';
+$handler->display->display_options['fields']['title']['field'] = 'title';
+$handler->display->display_options['fields']['title']['alter']['alter_text'] = 0;
+$handler->display->display_options['fields']['title']['alter']['make_link'] = 0;
+$handler->display->display_options['fields']['title']['alter']['absolute'] = 0;
+$handler->display->display_options['fields']['title']['alter']['external'] = 0;
+$handler->display->display_options['fields']['title']['alter']['replace_spaces'] = 0;
+$handler->display->display_options['fields']['title']['alter']['trim_whitespace'] = 0;
+$handler->display->display_options['fields']['title']['alter']['nl2br'] = 0;
+$handler->display->display_options['fields']['title']['alter']['word_boundary'] = 0;
+$handler->display->display_options['fields']['title']['alter']['ellipsis'] = 0;
+$handler->display->display_options['fields']['title']['alter']['more_link'] = 0;
+$handler->display->display_options['fields']['title']['alter']['strip_tags'] = 0;
+$handler->display->display_options['fields']['title']['alter']['trim'] = 0;
+$handler->display->display_options['fields']['title']['alter']['html'] = 0;
+$handler->display->display_options['fields']['title']['element_label_colon'] = 0;
+$handler->display->display_options['fields']['title']['element_default_classes'] = 1;
+$handler->display->display_options['fields']['title']['hide_empty'] = 0;
+$handler->display->display_options['fields']['title']['empty_zero'] = 0;
+$handler->display->display_options['fields']['title']['hide_alter_empty'] = 1;
+$handler->display->display_options['fields']['title']['link_to_node'] = 1;
+/* Field: Content: Type */
+$handler->display->display_options['fields']['type']['id'] = 'type';
+$handler->display->display_options['fields']['type']['table'] = 'node';
+$handler->display->display_options['fields']['type']['field'] = 'type';
+$handler->display->display_options['fields']['type']['alter']['alter_text'] = 0;
+$handler->display->display_options['fields']['type']['alter']['make_link'] = 0;
+$handler->display->display_options['fields']['type']['alter']['absolute'] = 0;
+$handler->display->display_options['fields']['type']['alter']['external'] = 0;
+$handler->display->display_options['fields']['type']['alter']['replace_spaces'] = 0;
+$handler->display->display_options['fields']['type']['alter']['trim_whitespace'] = 0;
+$handler->display->display_options['fields']['type']['alter']['nl2br'] = 0;
+$handler->display->display_options['fields']['type']['alter']['word_boundary'] = 1;
+$handler->display->display_options['fields']['type']['alter']['ellipsis'] = 1;
+$handler->display->display_options['fields']['type']['alter']['more_link'] = 0;
+$handler->display->display_options['fields']['type']['alter']['strip_tags'] = 0;
+$handler->display->display_options['fields']['type']['alter']['trim'] = 0;
+$handler->display->display_options['fields']['type']['alter']['html'] = 0;
+$handler->display->display_options['fields']['type']['element_label_colon'] = 0;
+$handler->display->display_options['fields']['type']['element_default_classes'] = 1;
+$handler->display->display_options['fields']['type']['hide_empty'] = 0;
+$handler->display->display_options['fields']['type']['empty_zero'] = 0;
+$handler->display->display_options['fields']['type']['hide_alter_empty'] = 1;
+$handler->display->display_options['fields']['type']['link_to_node'] = 0;
+$handler->display->display_options['fields']['type']['machine_name'] = 0;
+/* Field: Content (historical data): Assigned Writer */
+$handler->display->display_options['fields']['field_assigned_writer-revision_id']['id'] = 'field_assigned_writer-revision_id';
+$handler->display->display_options['fields']['field_assigned_writer-revision_id']['table'] = 'field_revision_field_assigned_writer';
+$handler->display->display_options['fields']['field_assigned_writer-revision_id']['field'] = 'field_assigned_writer-revision_id';
+$handler->display->display_options['fields']['field_assigned_writer-revision_id']['label'] = 'Assigned';
+$handler->display->display_options['fields']['field_assigned_writer-revision_id']['exclude'] = TRUE;
+$handler->display->display_options['fields']['field_assigned_writer-revision_id']['alter']['alter_text'] = 0;
+$handler->display->display_options['fields']['field_assigned_writer-revision_id']['alter']['make_link'] = 0;
+$handler->display->display_options['fields']['field_assigned_writer-revision_id']['alter']['absolute'] = 0;
+$handler->display->display_options['fields']['field_assigned_writer-revision_id']['alter']['external'] = 0;
+$handler->display->display_options['fields']['field_assigned_writer-revision_id']['alter']['replace_spaces'] = 0;
+$handler->display->display_options['fields']['field_assigned_writer-revision_id']['alter']['trim_whitespace'] = 0;
+$handler->display->display_options['fields']['field_assigned_writer-revision_id']['alter']['nl2br'] = 0;
+$handler->display->display_options['fields']['field_assigned_writer-revision_id']['alter']['word_boundary'] = 1;
+$handler->display->display_options['fields']['field_assigned_writer-revision_id']['alter']['ellipsis'] = 1;
+$handler->display->display_options['fields']['field_assigned_writer-revision_id']['alter']['more_link'] = 0;
+$handler->display->display_options['fields']['field_assigned_writer-revision_id']['alter']['strip_tags'] = 0;
+$handler->display->display_options['fields']['field_assigned_writer-revision_id']['alter']['trim'] = 0;
+$handler->display->display_options['fields']['field_assigned_writer-revision_id']['alter']['html'] = 0;
+$handler->display->display_options['fields']['field_assigned_writer-revision_id']['element_label_colon'] = 0;
+$handler->display->display_options['fields']['field_assigned_writer-revision_id']['element_default_classes'] = 1;
+$handler->display->display_options['fields']['field_assigned_writer-revision_id']['hide_empty'] = 0;
+$handler->display->display_options['fields']['field_assigned_writer-revision_id']['empty_zero'] = 0;
+$handler->display->display_options['fields']['field_assigned_writer-revision_id']['hide_alter_empty'] = 1;
+$handler->display->display_options['fields']['field_assigned_writer-revision_id']['field_api_classes'] = 0;
+/* Field: Content (historical data): Assigned Editor */
+$handler->display->display_options['fields']['field_assigned_editor-revision_id']['id'] = 'field_assigned_editor-revision_id';
+$handler->display->display_options['fields']['field_assigned_editor-revision_id']['table'] = 'field_revision_field_assigned_editor';
+$handler->display->display_options['fields']['field_assigned_editor-revision_id']['field'] = 'field_assigned_editor-revision_id';
+$handler->display->display_options['fields']['field_assigned_editor-revision_id']['label'] = 'Assigned';
+$handler->display->display_options['fields']['field_assigned_editor-revision_id']['exclude'] = TRUE;
+$handler->display->display_options['fields']['field_assigned_editor-revision_id']['alter']['alter_text'] = 0;
+$handler->display->display_options['fields']['field_assigned_editor-revision_id']['alter']['make_link'] = 0;
+$handler->display->display_options['fields']['field_assigned_editor-revision_id']['alter']['absolute'] = 0;
+$handler->display->display_options['fields']['field_assigned_editor-revision_id']['alter']['external'] = 0;
+$handler->display->display_options['fields']['field_assigned_editor-revision_id']['alter']['replace_spaces'] = 0;
+$handler->display->display_options['fields']['field_assigned_editor-revision_id']['alter']['trim_whitespace'] = 0;
+$handler->display->display_options['fields']['field_assigned_editor-revision_id']['alter']['nl2br'] = 0;
+$handler->display->display_options['fields']['field_assigned_editor-revision_id']['alter']['word_boundary'] = 1;
+$handler->display->display_options['fields']['field_assigned_editor-revision_id']['alter']['ellipsis'] = 1;
+$handler->display->display_options['fields']['field_assigned_editor-revision_id']['alter']['more_link'] = 0;
+$handler->display->display_options['fields']['field_assigned_editor-revision_id']['alter']['strip_tags'] = 0;
+$handler->display->display_options['fields']['field_assigned_editor-revision_id']['alter']['trim'] = 0;
+$handler->display->display_options['fields']['field_assigned_editor-revision_id']['alter']['html'] = 0;
+$handler->display->display_options['fields']['field_assigned_editor-revision_id']['element_label_colon'] = 0;
+$handler->display->display_options['fields']['field_assigned_editor-revision_id']['element_default_classes'] = 1;
+$handler->display->display_options['fields']['field_assigned_editor-revision_id']['hide_empty'] = 0;
+$handler->display->display_options['fields']['field_assigned_editor-revision_id']['empty_zero'] = 0;
+$handler->display->display_options['fields']['field_assigned_editor-revision_id']['hide_alter_empty'] = 1;
+$handler->display->display_options['fields']['field_assigned_editor-revision_id']['field_api_classes'] = 0;
+/* Field: Workbench Moderation: State */
+$handler->display->display_options['fields']['state']['id'] = 'state';
+$handler->display->display_options['fields']['state']['table'] = 'workbench_moderation_node_history';
+$handler->display->display_options['fields']['state']['field'] = 'state';
+$handler->display->display_options['fields']['state']['label'] = 'Status';
+$handler->display->display_options['fields']['state']['alter']['alter_text'] = 0;
+$handler->display->display_options['fields']['state']['alter']['make_link'] = 0;
+$handler->display->display_options['fields']['state']['alter']['absolute'] = 0;
+$handler->display->display_options['fields']['state']['alter']['external'] = 0;
+$handler->display->display_options['fields']['state']['alter']['replace_spaces'] = 0;
+$handler->display->display_options['fields']['state']['alter']['trim_whitespace'] = 0;
+$handler->display->display_options['fields']['state']['alter']['nl2br'] = 0;
+$handler->display->display_options['fields']['state']['alter']['word_boundary'] = 1;
+$handler->display->display_options['fields']['state']['alter']['ellipsis'] = 1;
+$handler->display->display_options['fields']['state']['alter']['more_link'] = 0;
+$handler->display->display_options['fields']['state']['alter']['strip_tags'] = 0;
+$handler->display->display_options['fields']['state']['alter']['trim'] = 0;
+$handler->display->display_options['fields']['state']['alter']['html'] = 0;
+$handler->display->display_options['fields']['state']['element_label_colon'] = 0;
+$handler->display->display_options['fields']['state']['element_default_classes'] = 1;
+$handler->display->display_options['fields']['state']['hide_empty'] = 0;
+$handler->display->display_options['fields']['state']['empty_zero'] = 0;
+$handler->display->display_options['fields']['state']['hide_alter_empty'] = 1;
+$handler->display->display_options['fields']['state']['link_to_node'] = 0;
+$handler->display->display_options['fields']['state']['machine_name'] = 0;
+/* Field: Workbench Moderation: Timestamp */
+$handler->display->display_options['fields']['stamp']['id'] = 'stamp';
+$handler->display->display_options['fields']['stamp']['table'] = 'workbench_moderation_node_history';
+$handler->display->display_options['fields']['stamp']['field'] = 'stamp';
+$handler->display->display_options['fields']['stamp']['label'] = 'Last Update';
+$handler->display->display_options['fields']['stamp']['alter']['alter_text'] = 0;
+$handler->display->display_options['fields']['stamp']['alter']['make_link'] = 0;
+$handler->display->display_options['fields']['stamp']['alter']['absolute'] = 0;
+$handler->display->display_options['fields']['stamp']['alter']['external'] = 0;
+$handler->display->display_options['fields']['stamp']['alter']['replace_spaces'] = 0;
+$handler->display->display_options['fields']['stamp']['alter']['trim_whitespace'] = 0;
+$handler->display->display_options['fields']['stamp']['alter']['nl2br'] = 0;
+$handler->display->display_options['fields']['stamp']['alter']['word_boundary'] = 1;
+$handler->display->display_options['fields']['stamp']['alter']['ellipsis'] = 1;
+$handler->display->display_options['fields']['stamp']['alter']['more_link'] = 0;
+$handler->display->display_options['fields']['stamp']['alter']['strip_tags'] = 0;
+$handler->display->display_options['fields']['stamp']['alter']['trim'] = 0;
+$handler->display->display_options['fields']['stamp']['alter']['html'] = 0;
+$handler->display->display_options['fields']['stamp']['element_label_colon'] = 0;
+$handler->display->display_options['fields']['stamp']['element_default_classes'] = 1;
+$handler->display->display_options['fields']['stamp']['hide_empty'] = 0;
+$handler->display->display_options['fields']['stamp']['empty_zero'] = 0;
+$handler->display->display_options['fields']['stamp']['hide_alter_empty'] = 1;
+$handler->display->display_options['fields']['stamp']['date_format'] = 'custom';
+$handler->display->display_options['fields']['stamp']['custom_date_format'] = 'n/j/y, ga';
+/* Field: Workbench Moderation: Moderation Links */
+$handler->display->display_options['fields']['moderation_actions']['id'] = 'moderation_actions';
+$handler->display->display_options['fields']['moderation_actions']['table'] = 'workbench_moderation_node_history';
+$handler->display->display_options['fields']['moderation_actions']['field'] = 'moderation_actions';
+$handler->display->display_options['fields']['moderation_actions']['label'] = 'Action';
+$handler->display->display_options['fields']['moderation_actions']['alter']['alter_text'] = 0;
+$handler->display->display_options['fields']['moderation_actions']['alter']['make_link'] = 0;
+$handler->display->display_options['fields']['moderation_actions']['alter']['absolute'] = 0;
+$handler->display->display_options['fields']['moderation_actions']['alter']['external'] = 0;
+$handler->display->display_options['fields']['moderation_actions']['alter']['replace_spaces'] = 0;
+$handler->display->display_options['fields']['moderation_actions']['alter']['trim_whitespace'] = 0;
+$handler->display->display_options['fields']['moderation_actions']['alter']['nl2br'] = 0;
+$handler->display->display_options['fields']['moderation_actions']['alter']['word_boundary'] = 1;
+$handler->display->display_options['fields']['moderation_actions']['alter']['ellipsis'] = 1;
+$handler->display->display_options['fields']['moderation_actions']['alter']['more_link'] = 0;
+$handler->display->display_options['fields']['moderation_actions']['alter']['strip_tags'] = 0;
+$handler->display->display_options['fields']['moderation_actions']['alter']['trim'] = 0;
+$handler->display->display_options['fields']['moderation_actions']['alter']['html'] = 0;
+$handler->display->display_options['fields']['moderation_actions']['element_label_colon'] = 0;
+$handler->display->display_options['fields']['moderation_actions']['element_default_classes'] = 1;
+$handler->display->display_options['fields']['moderation_actions']['hide_empty'] = 0;
+$handler->display->display_options['fields']['moderation_actions']['empty_zero'] = 0;
+$handler->display->display_options['fields']['moderation_actions']['hide_alter_empty'] = 1;
+/* Field: Global: Custom text */
+$handler->display->display_options['fields']['nothing']['id'] = 'nothing';
+$handler->display->display_options['fields']['nothing']['table'] = 'views';
+$handler->display->display_options['fields']['nothing']['field'] = 'nothing';
+$handler->display->display_options['fields']['nothing']['label'] = 'Assigned';
+$handler->display->display_options['fields']['nothing']['alter']['text'] = '[nid]|[state]||[field_assigned_writer-revision_id]|[field_assigned_editor-revision_id]';
+$handler->display->display_options['fields']['nothing']['alter']['make_link'] = 0;
+$handler->display->display_options['fields']['nothing']['alter']['absolute'] = 0;
+$handler->display->display_options['fields']['nothing']['alter']['external'] = 0;
+$handler->display->display_options['fields']['nothing']['alter']['replace_spaces'] = 0;
+$handler->display->display_options['fields']['nothing']['alter']['trim_whitespace'] = 0;
+$handler->display->display_options['fields']['nothing']['alter']['nl2br'] = 1;
+$handler->display->display_options['fields']['nothing']['alter']['word_boundary'] = 1;
+$handler->display->display_options['fields']['nothing']['alter']['ellipsis'] = 1;
+$handler->display->display_options['fields']['nothing']['alter']['more_link'] = 0;
+$handler->display->display_options['fields']['nothing']['alter']['strip_tags'] = 1;
+$handler->display->display_options['fields']['nothing']['alter']['trim'] = 0;
+$handler->display->display_options['fields']['nothing']['alter']['html'] = 0;
+$handler->display->display_options['fields']['nothing']['element_label_colon'] = 0;
+$handler->display->display_options['fields']['nothing']['element_default_classes'] = 1;
+$handler->display->display_options['fields']['nothing']['hide_empty'] = 0;
+$handler->display->display_options['fields']['nothing']['empty_zero'] = 0;
+$handler->display->display_options['fields']['nothing']['hide_alter_empty'] = 0;
 
 /* Display: Writer Inbox Block */
 $handler = $view->new_display('block', 'Writer Inbox Block', 'block_writer_inbox');
@@ -573,21 +797,14 @@ $handler->display->display_options['defaults']['filters'] = FALSE;
 $handler->display->display_options['filters']['type']['id'] = 'type';
 $handler->display->display_options['filters']['type']['table'] = 'node';
 $handler->display->display_options['filters']['type']['field'] = 'type';
-$handler->display->display_options['filters']['type']['value'] = array(
-  'journal_article' => 'journal_article',
-  'journal_review' => 'journal_review',
-  'meeting_abstract' => 'meeting_abstract',
-  'materials_patient' => 'materials_patient',
-  'presentation' => 'presentation',
-  'report' => 'report',
-  'materials_forms' => 'materials_forms',
-  'materials_staff' => 'materials_staff',
-);
+$handler->display->display_options['filters']['type']['value'] = $content_types_filter;
+$handler->display->display_options['filters']['type']['group'] = 1;
 /* Filter criterion: Workbench Moderation: Current */
 $handler->display->display_options['filters']['current']['id'] = 'current';
 $handler->display->display_options['filters']['current']['table'] = 'workbench_moderation_node_history';
 $handler->display->display_options['filters']['current']['field'] = 'current';
 $handler->display->display_options['filters']['current']['value'] = '1';
+$handler->display->display_options['filters']['current']['group'] = 1;
 /* Filter criterion: Workbench Moderation: State */
 $handler->display->display_options['filters']['state']['id'] = 'state';
 $handler->display->display_options['filters']['state']['table'] = 'workbench_moderation_node_history';
@@ -596,6 +813,23 @@ $handler->display->display_options['filters']['state']['value'] = array(
   'draft' => 'draft',
   'writer_review' => 'writer_review',
 );
+$handler->display->display_options['filters']['state']['group'] = 1;
+/* Filter criterion: Assigned Writer is User */
+$handler->display->display_options['filters']['field_assigned_writer_value_1']['id'] = 'field_assigned_writer_value_1';
+$handler->display->display_options['filters']['field_assigned_writer_value_1']['table'] = 'field_revision_field_assigned_writer';
+$handler->display->display_options['filters']['field_assigned_writer_value_1']['field'] = 'field_assigned_writer_value';
+$handler->display->display_options['filters']['field_assigned_writer_value_1']['ui_name'] = 'Assigned Writer is User';
+$handler->display->display_options['filters']['field_assigned_writer_value_1']['operator'] = 'not empty';
+$handler->display->display_options['filters']['field_assigned_writer_value_1']['value'] = array(
+  'all' => 'all',
+);
+$handler->display->display_options['filters']['field_assigned_writer_value_1']['group'] = 2;
+/* Filter criterion: Content (historical data): Assigned Writer (field_assigned_writer) */
+$handler->display->display_options['filters']['field_assigned_writer_value']['id'] = 'field_assigned_writer_value';
+$handler->display->display_options['filters']['field_assigned_writer_value']['table'] = 'field_revision_field_assigned_writer';
+$handler->display->display_options['filters']['field_assigned_writer_value']['field'] = 'field_assigned_writer_value';
+$handler->display->display_options['filters']['field_assigned_writer_value']['operator'] = 'empty';
+$handler->display->display_options['filters']['field_assigned_writer_value']['group'] = 2;
 
 /* Display: Editor Inbox Block */
 $handler = $view->new_display('block', 'Editor Inbox Block', 'block_editor_inbox');
@@ -807,16 +1041,7 @@ $handler->display->display_options['defaults']['filters'] = FALSE;
 $handler->display->display_options['filters']['type']['id'] = 'type';
 $handler->display->display_options['filters']['type']['table'] = 'node';
 $handler->display->display_options['filters']['type']['field'] = 'type';
-$handler->display->display_options['filters']['type']['value'] = array(
-  'journal_article' => 'journal_article',
-  'journal_review' => 'journal_review',
-  'meeting_abstract' => 'meeting_abstract',
-  'materials_patient' => 'materials_patient',
-  'presentation' => 'presentation',
-  'report' => 'report',
-  'materials_forms' => 'materials_forms',
-  'materials_staff' => 'materials_staff',
-);
+$handler->display->display_options['filters']['type']['value'] = $content_types_filter;
 /* Filter criterion: Workbench Moderation: Current */
 $handler->display->display_options['filters']['current']['id'] = 'current';
 $handler->display->display_options['filters']['current']['table'] = 'workbench_moderation_node_history';
@@ -1035,16 +1260,7 @@ $handler->display->display_options['defaults']['filters'] = FALSE;
 $handler->display->display_options['filters']['type']['id'] = 'type';
 $handler->display->display_options['filters']['type']['table'] = 'node';
 $handler->display->display_options['filters']['type']['field'] = 'type';
-$handler->display->display_options['filters']['type']['value'] = array(
-  'journal_article' => 'journal_article',
-  'journal_review' => 'journal_review',
-  'meeting_abstract' => 'meeting_abstract',
-  'materials_patient' => 'materials_patient',
-  'presentation' => 'presentation',
-  'report' => 'report',
-  'materials_forms' => 'materials_forms',
-  'materials_staff' => 'materials_staff',
-);
+$handler->display->display_options['filters']['type']['value'] = $content_types_filter;
 /* Filter criterion: Workbench Moderation: Current */
 $handler->display->display_options['filters']['current']['id'] = 'current';
 $handler->display->display_options['filters']['current']['table'] = 'workbench_moderation_node_history';
@@ -1266,16 +1482,7 @@ $handler->display->display_options['defaults']['filters'] = FALSE;
 $handler->display->display_options['filters']['type']['id'] = 'type';
 $handler->display->display_options['filters']['type']['table'] = 'node';
 $handler->display->display_options['filters']['type']['field'] = 'type';
-$handler->display->display_options['filters']['type']['value'] = array(
-  'journal_article' => 'journal_article',
-  'journal_review' => 'journal_review',
-  'meeting_abstract' => 'meeting_abstract',
-  'materials_patient' => 'materials_patient',
-  'presentation' => 'presentation',
-  'report' => 'report',
-  'materials_forms' => 'materials_forms',
-  'materials_staff' => 'materials_staff',
-);
+$handler->display->display_options['filters']['type']['value'] = $content_types_filter;
 /* Filter criterion: Workbench Moderation: Current */
 $handler->display->display_options['filters']['current']['id'] = 'current';
 $handler->display->display_options['filters']['current']['table'] = 'workbench_moderation_node_history';
@@ -1497,16 +1704,7 @@ $handler->display->display_options['defaults']['filters'] = FALSE;
 $handler->display->display_options['filters']['type']['id'] = 'type';
 $handler->display->display_options['filters']['type']['table'] = 'node';
 $handler->display->display_options['filters']['type']['field'] = 'type';
-$handler->display->display_options['filters']['type']['value'] = array(
-  'journal_article' => 'journal_article',
-  'journal_review' => 'journal_review',
-  'meeting_abstract' => 'meeting_abstract',
-  'materials_patient' => 'materials_patient',
-  'presentation' => 'presentation',
-  'report' => 'report',
-  'materials_forms' => 'materials_forms',
-  'materials_staff' => 'materials_staff',
-);
+$handler->display->display_options['filters']['type']['value'] = $content_types_filter;
 /* Filter criterion: Workbench Moderation: Current */
 $handler->display->display_options['filters']['current']['id'] = 'current';
 $handler->display->display_options['filters']['current']['table'] = 'workbench_moderation_node_history';
@@ -1707,16 +1905,7 @@ $handler->display->display_options['defaults']['filters'] = FALSE;
 $handler->display->display_options['filters']['type']['id'] = 'type';
 $handler->display->display_options['filters']['type']['table'] = 'node';
 $handler->display->display_options['filters']['type']['field'] = 'type';
-$handler->display->display_options['filters']['type']['value'] = array(
-  'journal_article' => 'journal_article',
-  'journal_review' => 'journal_review',
-  'meeting_abstract' => 'meeting_abstract',
-  'materials_patient' => 'materials_patient',
-  'presentation' => 'presentation',
-  'report' => 'report',
-  'materials_forms' => 'materials_forms',
-  'materials_staff' => 'materials_staff',
-);
+$handler->display->display_options['filters']['type']['value'] = $content_types_filter;
 /* Filter criterion: Workbench Moderation: Current */
 $handler->display->display_options['filters']['current']['id'] = 'current';
 $handler->display->display_options['filters']['current']['table'] = 'workbench_moderation_node_history';
@@ -1758,6 +1947,7 @@ $translatables['an_workflow'] = array(
   t('All Content'),
   t('Displays all recent content.'),
   t('All Content Block'),
+  t('[nid]|[state]||[field_assigned_writer-revision_id]|[field_assigned_editor-revision_id]'),
   t('Writer Inbox Block'),
   t('Editor Inbox Block'),
   t('My Drafts Page'),
