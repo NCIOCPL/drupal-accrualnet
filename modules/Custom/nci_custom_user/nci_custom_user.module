@@ -5,14 +5,16 @@
  * A module that customizes various uer features for NCI sites.
  */
 function nci_custom_user_form_user_register_form_alter(&$form, &$form_state) {
-	//dpm($form, '$form');
-	//dpm($form_state, '$form_state');
-
 	$form['picture']['#access'] = TRUE;
 	$form['picture']['#title'] = '';
 	$form['picture']['picture_upload']['#description'] .= ' This photo will be viewable by all registered users if you choose to participate in conversations or comment on resources.';
 	$form['picture']['#weight'] = 5;
 	$form['account']['mail']['#title'] = 'Work-related Email';
+}
+
+function nci_custom_user_admin_paths_alter(&$paths) {
+	// Treat all user pages as not administrative.
+	$paths['user/*'] = FALSE;
 }
 
 ?>
