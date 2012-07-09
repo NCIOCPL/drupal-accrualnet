@@ -31,7 +31,7 @@ function resource_level_2_page($section) {
 
     // Now let's build the output for this page
     $output = '<div id="allConversations">';
-    $output = '<h2>'.$section.'</h2>';
+    $output .= '<h2>'.$section.'</h2>';
     $output .= '<ul>';
     foreach ($resources as $resultNid => $result) {
         // We must check if the 'title' exists, otherwise, it was not a conversation node
