@@ -1,21 +1,31 @@
 <?php
 
+module_load_include('inc', 'resource', 'types');
+
+
 /*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
 function resource_level_2_page($section) {
+    global $an_resource_types;
      $resources_per_page = 15;
     // Now we must query the node list to determine which are conversations
     $query = db_select('node', 'n');
-    $query = $query->fields('n', array('nid', 'title', 'created'))
+    $query = $query->fields('n', array('nid', 'title', 'created', 'type'))
             ->condition('n.status', 1)
-            ->condition('n.type', 'resource')
+            ->condition(
+            //->db_or()
+              //  ->condition('n.type', 'materials_patient')
+                
+                db_or()->condition('n.type', array_keys($an_resource_types))
+                    )
             ->orderBy('n.created', 'DESC') // Newly updated material first
             ->extend('PagerDefault')
             ->limit($resources_per_page)
             ->addTag('node_access');
     $queried_nodes = $query->execute()->fetchAllAssoc('nid');
+
 
 
     // Now we must store the conversations so we can customize their HTML
@@ -28,6 +38,8 @@ function resource_level_2_page($section) {
         );
 
     }
+    
+
 
     // Now let's build the output for this page
     $output = '<div id="allConversations">';
