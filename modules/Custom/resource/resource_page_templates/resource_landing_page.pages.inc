@@ -29,21 +29,28 @@ function resource_landing_page() {
     $output .= '<div id="resources-list">';
     foreach ($an_resource_menu_vocab as $menu_facet) {
         $vocab = taxonomy_vocabulary_machine_name_load('an_vocabulary_'.$menu_facet);
+        $vocab_url = 'resources/' . str_replace('an_vocabulary_', '', $vocab->machine_name);
         $taxonomy = taxonomy_get_tree($vocab->vid);
 
         $output .= '<div class="resource-issue">';
-        $output .= '<h2><a href="resources/'.str_replace('an_vocabulary_', '', $vocab->machine_name).'">'.$vocab->name.'</a></h2>';
+        $output .= '<h2><a href="'.$vocab_url.'">'.$vocab->name.'</a></h2>';
         $output .= 'What are provider-related issues? Donec at enim eget risus adipiscing euismod vitae eu
 nisl. Nullam tempus pretium purus ac auctor. Donec non nisi vel nisi tincidunt imperdiet
 dictum vitae ante.';
         $output .= '<br/><br/>';
         $termOutput = '';
         foreach ($taxonomy as $term) {
-            $termOutput .= '<a href="/taxonomy/term/'.$term->tid.'">'.$term->name . '</a> | ';
+            $old_pattern = array("/[^a-zA-Z0-9]/", "/_+/", "/_$/");
+            $new_pattern = array("_", "_", "");
+            $term_url = strtolower(preg_replace($old_pattern, $new_pattern, $term->name));
+            
+            //$termOutput .= '<a href="/taxonomy/term/'.$term->tid.'">'.$term->name . '</a> | ';
+            $termOutput .= '<a href="' . $vocab_url . '/' . $term_url . '">'.$term->name . '</a> | ';
         }
         $output .= trim(rtrim(trim($termOutput), '|')); // Removes the last |
         $output .= '</div>';
     }
+    $output .= '</div>';
 
     // Add the pager
     $output .= theme('pager');
