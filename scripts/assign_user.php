@@ -45,8 +45,7 @@ if (!(isset($nid)
 		&& (!$account_id
 		|| is_numeric($account_id))
 		)) {
-	echo 'BAD VALUES - ';
-	echo $nid . ':' . $role . ':' . $account_id . ' ';
+	echo "BAD VALUES\n\tnid: $nid\n\trole: $role\n\taccount_id: $account_id";
 	return;
 }
 
