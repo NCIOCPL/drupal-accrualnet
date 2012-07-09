@@ -4,3 +4,5 @@ package = "AccrualNet"
 core = 7.x
 version = VERSION
 files[] = resource_page_templates.module
+
+stylesheets[all][] = resources.css

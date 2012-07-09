@@ -1,0 +1,24 @@
+/* 
+    Document   : resources
+    Created on : Jul 9, 2012, 12:05:36 PM
+    Author     : ficcolm
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+/* 
+   TODO customize this sample style
+   Syntax recommendation http://www.w3.org/TR/REC-CSS2/
+*/
+
+.resource-issue {
+    border: 0.1em dashed black;
+    margin: 0em .5em 2.5em .5em;
+    padding: 1.25em;
+}
+
+.resource-issue h2 {
+    padding: 0em 0em 0em 0em; /* Top Right Bottom Left */
+    margin: 0em 0em .25em 0em; /* Top Right Bottom Left */
+}
+
