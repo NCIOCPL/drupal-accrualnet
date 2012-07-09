@@ -13,7 +13,7 @@ $GLOBALS['an_resource_menu_vocab'] = array(
     'provider_related',
     'systems_and_regulatory',
     'study',
-    'ethical',
+    'ethics',
 );
 
 $GLOBALS['an_vocabularies'] = array(
