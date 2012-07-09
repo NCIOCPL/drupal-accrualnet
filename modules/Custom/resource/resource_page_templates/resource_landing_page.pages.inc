@@ -30,9 +30,9 @@ function resource_landing_page() {
     foreach ($an_resource_menu_vocab as $menu_facet) {
         $vocab = taxonomy_vocabulary_machine_name_load('an_vocabulary_'.$menu_facet);
         $taxonomy = taxonomy_get_tree($vocab->vid);
-        
+
         $output .= '<div class="resource-issue">';
-        $output .= '<h2>'.$vocab->name.'</h2>';
+        $output .= '<h2><a href="resources/'.str_replace('an_vocabulary_', '', $vocab->machine_name).'">'.$vocab->name.'</a></h2>';
         $output .= 'What are provider-related issues? Donec at enim eget risus adipiscing euismod vitae eu
 nisl. Nullam tempus pretium purus ac auctor. Donec non nisi vel nisi tincidunt imperdiet
 dictum vitae ante.';

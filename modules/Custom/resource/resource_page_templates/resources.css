@@ -14,7 +14,7 @@
 .resource-issue {
     border: 0.1em dashed black;
     margin: 0em .5em 2.5em .5em;
-    padding: 1.25em;
+    padding: .5em 1.25em 1em 1.25em; /* Top Right Bottom Left */
 }
 
 .resource-issue h2 {
