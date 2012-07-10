@@ -1,0 +1,6 @@
+name = AccrualNet LifeCycle
+description = "Provides templates and globals for the AccrualNet Protocol Accrual Lifecycle pages. It controls the menu structure for this section of the website."
+package = "AccrualNet"
+core = 7.x
+version = VERSION
+files[] = an_lifecycle.module

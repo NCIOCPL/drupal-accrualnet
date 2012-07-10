@@ -1,0 +1,104 @@
+<?php
+
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+/*
+ * function that takes an array of parameters (see http://drupal.org/node/1343708 )
+ * and returns an array of related nodes. This should be moved into a globals module
+ * at some point.
+ * Return values:
+ * Array of related nodes or FALSE if none.
+ */
+function _an_lifecycle_load_related_nodes($entityFieldQuery){
+    $query = $entityFieldQuery;
+    $result = $query->execute();
+
+   
+    if (isset($result['node'])) {
+        $related_nids = array_keys($result['node']);
+        $related_nodes = entity_load('node', $related_nids);
+        return $related_nodes;
+    }
+    return FALSE;
+    
+}
+
+/**
+ * Implements hook_token_info().
+ *
+ * @ingroup token_example
+ */
+function an_lifecycle_token_info() {
+// Node tokens.
+  $info['tokens']['node']['system-title'] = array(
+    'name' => t('System Title'),
+    'description' => t("The title of the node formatted with only lowercase and _."),
+    'type' => 'format'
+  );
+  $info['tokens']['node']['parent-stage-system-title'] = array(
+    'name' => t('Parent Stage System Title'),
+    'description' => t("The parent stage for a Strategy (ONLY APPLICABLE FOR STRATEGIES)."),
+    'type' => 'format'
+  );
+  
+  return $info;
+}
+
+/**
+ * Implements hook_tokens().
+ *
+ * @ingroup token_example
+ */
+function an_lifecycle_tokens($type, $tokens, array $data = array(), array $options = array()) {
+  $replacements = array();
+  $sanitize = !empty($options['sanitize']);
+  $old_pattern = array("/[^a-zA-Z0-9]/", "/_+/", "/_$/");
+  $new_pattern = array("_", "_", "");
+  // Node tokens.
+  if ($type == 'node' && !empty($data['node'])) {
+    $node = $data['node'];
+
+    foreach ($tokens as $name => $original) {
+      switch ($name) {
+        case 'system-title':
+          if ($items = $node->title) {
+            $systemTitle = strtolower(preg_replace($old_pattern, $new_pattern, $items));
+            $replacements[$original] = $sanitize ? filter_xss($systemTitle) : $systemTitle;
+          }
+          break;
+          case 'parent-stage-system-title':
+            if($node->type == 'lifecycle_strategy'){ 
+                if ($items = $node->field_parent_stage['und'][0]['target_id']) {
+                    $parentNode = node_load($items);
+                    $systemTitle = strtolower(preg_replace($old_pattern, $new_pattern, $parentNode->title));
+                    $replacements[$original] = $sanitize ? filter_xss($systemTitle) : $systemTitle;
+                }
+            }
+          break;
+      }
+    }
+
+    // Chained token relationships.
+    if ($format_tokens = token_find_with_prefix($tokens, 'parent-stage-system-title')) {
+      if($node->type == 'lifecycle_strategy'){ 
+                if ($items = $node->field_parent_stage['und'][0]['target_id']) {
+                    $parentNode = node_load($items);
+                    $systemTitle = strtolower(preg_replace($old_pattern, $new_pattern, $parentNode->title));
+                   $replacements += token_generate('format', $format_tokens, array('format' => $systemTitle), $options);
+                }
+            }
+    }
+  } if ($format_tokens = token_find_with_prefix($tokens, 'system-title')) {
+      if ($items = $node->title) {
+        $systemTitle = strtolower(preg_replace($old_pattern, $new_pattern, $items));
+        $replacements += token_generate('format', $format_tokens, array('format' => $systemTitle), $options);
+      }
+    }
+
+ 
+
+  return $replacements;
+}

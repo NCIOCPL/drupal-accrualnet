@@ -16,7 +16,7 @@ $GLOBALS['an_navigation'] = array(
 	'protocol_accrual_lifecycle' => array(
                     'weight' => '0',
                     'link_title' => t('Protocol Accrual Lifecycle'),
-                    'link_path' => t('<front>'),
+                    'link_path' => t('protocol_accrual_lifecycle'),
                     'mlid' => 0,
                     'sublinks' => array (
                         'developing_a_protocol' => array(
@@ -43,23 +43,7 @@ $GLOBALS['an_navigation'] = array(
                     'link_title' => t('Resources & Tools'),
                     'link_path' => t('resources'),
                     'mlid' => 0,
-                    'level2' => array (
-                        'patient_related_issues' => array(
-                            
-                        ),
-                        'provider_related_issues' => array(
-                            
-                        ),
-                        'system_and_regulatory_issues' => array(
-                            
-                        ),
-                        'study_issues' => array(
-                            
-                        ),
-                        'ethical_issues' => array(
-                            
-                        ),
-                    ),
+             
             ),
 	'education_and_training' => array(
                     'weight' => '3',
