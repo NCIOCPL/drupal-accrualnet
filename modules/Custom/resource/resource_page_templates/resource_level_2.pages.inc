@@ -1,5 +1,6 @@
 <?php
 
+module_load_include('module', 'resource');
 module_load_include('inc', 'resource', 'types');
 module_load_include('inc', 'an_taxonomy', 'includes/resource.globals');
 
@@ -101,6 +102,8 @@ function resource_level_2_page($section) {
             $resultOutput .= '<a href="' . url('node/'.$node->nid) . '">';
             $resultOutput .= $node->title;
             $resultOutput .= '</a>';
+            $resultOutput .= _resource_output_citation($node);
+            $resultOutput .= _resource_output_taxonomy($node);
             $resultOutput .= '</div>';
             
             $output .= $resultOutput;

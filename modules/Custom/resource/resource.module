@@ -213,7 +213,7 @@ function _resource_wrap($node) {
             $resultOutput .= '</a>';
 }
 
-function _resource_citation_output($rtype, $variables) {
+/*function _resource_citation_output($rtype, $variables) {
     global $an_resource_types, $an_resource_citation_fields_A, $an_resource_citation_fields_B, $an_resource_citation_fields_C,
     $an_resource_field_citation, $an_resource_field_resource;
     $citationOutput = '<div id="resource-citation">';
@@ -264,9 +264,63 @@ function _resource_citation_output($rtype, $variables) {
     }
     $citationOutput .= '</div>';
     return $citationOutput;
+}*/
+
+function _resource_output_citation($node) {
+    global $an_resource_types, $an_resource_citation_fields_A, $an_resource_citation_fields_B, $an_resource_citation_fields_C,
+    $an_resource_field_citation, $an_resource_field_resource;
+    $citationOutput = '<div id="resource-citation">';
+    switch ($an_resource_types[$node->type]['citation']) {
+        case 'A':
+            $citation = $an_resource_citation_fields_A;
+            break;
+        case 'B':
+            $citation = $an_resource_citation_fields_B;
+            break;
+        case 'C':
+            $citation = $an_resource_citation_fields_C;
+            break;
+    }
+    foreach ($citation as $field_name => $field_properties) {
+        $field = array();
+        //$field[$field_name] = _resource_citation_change($field_name, $field_properties, $an_resource_field_citation[$field_name]);
+
+        foreach ($an_resource_field_citation[$field_name] as $prop_name => $prop_details) {
+            $field[$prop_name] = $prop_details; //_resource_citation_change($prop_name, $field_properties, $prop_details);
+        }
+        foreach ($citation[$field_name] as $diff_prop_name => $diff_prop_details) {
+            $field[$diff_prop_name] = $diff_prop_details;
+        }
+
+        $fieldOutput = '<span class="resource-citation-detail resource-' . $node->type . '-' . $field_name . '">';
+        //$fieldOutput .= $field['label'];
+        if ($field['type'] == 'datestamp' && count($node->{"field_citation_" . $field_name}) > 0) {
+
+            $fieldOutput .= date('M d, Y', $node->{"field_citation_" . $field_name}['und'][0]['value']);
+            $fieldOutput .= '. ';
+        } elseif ($field['cardinality'] > 1 || $field['cardinality'] == FIELD_CARDINALITY_UNLIMITED) {
+            
+            if (count($node->{"field_citation_".$field_name}) > 0) {
+                
+            foreach ($node->{"field_citation_" . $field_name}['und'] as $field_instance) {
+                $fieldOutput .= $field_instance['value'] . ',';
+            }
+            $fieldOutput = rtrim($fieldOutput, ',');
+            $fieldOutput .= '. ';
+            }
+        } elseif (count($node->{"field_citation_" . $field_name}) > 0) {
+            $fieldOutput .= $node->{"field_citation_" . $field_name}['und'][0]['value'];
+            $fieldOutput .= '. ';
+        }
+        $fieldOutput .= '</span>';
+
+        $citationOutput .= $fieldOutput;
+    }
+    $citationOutput .= '</div>';
+    return $citationOutput;
 }
 
-function _resource_taxonomy_output ($node) {
+function _resource_output_taxonomy ($node) {
     global $an_vocabularies;
     $taxonomyOutput = '<div id="resource-taxonomy">';
 $taxonomyOutput .= "Keywords: ";
