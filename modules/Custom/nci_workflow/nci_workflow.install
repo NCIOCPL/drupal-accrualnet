@@ -1,5 +1,7 @@
 <?php
 
+module_load_include('inc', 'resource', 'types');
+
 /**
  * Implements hook_install().
  */
@@ -74,9 +76,15 @@ function _nci_workflow_insert_values() {
 			),
 			array(
 				'name' => 'canceled',
-				'label' => 'Canceled',
+				'label' => 'Cancelled',
 				'description' => 'Removed from the workflow.',
 				'weight' => 1
+			),
+			array(
+				'name' => 'unpublished',
+				'label' => 'Unpublished',
+				'description' => 'Removed from the published state.',
+				'weight' => 2
 			)
 		);
 
@@ -118,6 +126,10 @@ function _nci_workflow_insert_values() {
 			array(
 				'from_name' => 'editor_review',
 				'to_name' => 'canceled',
+			),
+			array(
+				'from_name' => 'published',
+				'to_name' => 'unpublished',
 			)
 		);
 
@@ -190,6 +202,13 @@ function _nci_workflow_set_permissions() {
 				$admin => TRUE
 			),
 			'moderate content from editor_review to canceled' => array(
+				$anon => FALSE,
+				$auth => FALSE,
+				$writer => FALSE,
+				$anstaff => TRUE,
+				$admin => TRUE
+			),
+			'moderate content from published to unpublished' => array(
 				$anon => FALSE,
 				$auth => FALSE,
 				$writer => FALSE,
@@ -277,7 +296,11 @@ function _nci_workflow_build_taxonomy() {
 function _nci_workflow_config_access() {
 	// set any variables necessary
 	variable_set('workbench_access', 'taxonomy');
-	variable_set('workbench_access_node_type_resource', 1);
+
+	// flag each relevant content type as belonging to access.
+	global $an_resource_types;
+	foreach ($an_resource_types as $type => $props)
+		variable_set("workbench_access_node_type_$type", 1);
 
 	try {
 		_nci_workflow_build_access_terminology();

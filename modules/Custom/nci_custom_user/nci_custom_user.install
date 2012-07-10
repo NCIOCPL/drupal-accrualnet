@@ -166,6 +166,8 @@ function nci_custom_user_enable() {
 			field_create_instance($instance);
 		}
 	}
+
+	_nci_custom_user_config_images_and_avatars();
 }
 
 function nci_custom_user_uninstall() {
@@ -177,6 +179,24 @@ function nci_custom_user_uninstall() {
 			field_delete_field($field);
 		}
 	}
+}
+
+function _nci_custom_user_config_images_and_avatars() {
+	if (array_search('avatar_thumbnail', image_style_options()) !== FALSE)
+		return;
+	$style = image_style_save(array('name' => 'avatar_thumbnail'));
+	$effect = array(
+		'name' => 'image_scale',
+		'data' => array(
+			'width' => 20,
+			'height' => 20,
+			'upscale' => FALSE,
+		),
+		'isid' => $style['isid'],
+	);
+	image_effect_save($effect);
+
+	//avatar_selection_
 }
 
 ?>

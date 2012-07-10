@@ -311,4 +311,51 @@ function nci_workflow_views_api() {
 	return array('api' => 2.0);
 }
 
+/**
+ * This hook is used to set the workbench acess section appropriately for each
+ * moderation transition.
+ * @param <Node> $node
+ * @param <String> $previous_state
+ * @param <String> $new_state
+ */
+function nci_workflow_workbench_moderation_transition($node, $previous_state, $new_state) {
+	$terms = NULL;
+
+	switch ($new_state) {
+		case 'draft':
+		case 'writer_review':
+			// grab the needed tid for the access level
+			$terms = taxonomy_get_term_by_name('Writers');
+			break;
+		case 'unpublished':
+		case 'canceled':
+			// ensure that the node is unpublished if moving to an appropriate state
+			node_unpublish_action($node);
+			node_save($node);
+		default:
+			// grab the needed tid for the access level
+			$terms = taxonomy_get_term_by_name('Editors');
+			break;
+	}
+
+	if (!isset($terms))
+		return;
+
+	$tid = NULL;
+	foreach ($terms as $term) {
+		$tid = $term->tid;
+		break;
+	}
+
+	// if the tid is found, update the node and workbench access
+	if (isset($tid)) {
+		$node->workbench_access = array($tid => $tid);
+	}
+
+	// call the access node insert method
+	// (removes the node from the access db first and re-adds, avoiding
+	// key collisions)
+	workbench_access_node_insert($node);
+}
+
 ?>

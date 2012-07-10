@@ -50,7 +50,7 @@ function permissions_core_resources_enable() {
         $default_perms[$node]['edit any ' . $rtype . ' content'] = array(
             $anon => FALSE,
             $auth => FALSE,
-            $writer => FALSE,
+            $writer => TRUE,
             $anstaff => TRUE,
             $admin => TRUE
         );
