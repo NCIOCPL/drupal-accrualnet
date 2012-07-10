@@ -4,6 +4,22 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
+
+
+function DetermineTag ($potential) {
+    global $an_vocabularies;
+    $old_pattern = array("/[^a-zA-Z0-9]/", "/_+/", "/_$/");
+    $new_pattern = array("_", "_", "");
+    foreach ($an_vocabularies as $vocab) {
+        foreach ($vocab['terms'] as $tag) {
+            $formatted = strtolower(preg_replace($old_pattern, $new_pattern, $tag));
+            if ($formatted == $potential)
+                return $tag;
+        }
+    }
+    return NULL;
+}
+
 function resource_level_3_page($section, $subsection) {
     $resources_per_page = 15;
     // Now we must query the node list to determine which are conversations
@@ -29,9 +45,16 @@ function resource_level_3_page($section, $subsection) {
 
     }
 
+    $vocab = taxonomy_vocabulary_machine_name_load('an_vocabulary_'.$section);
+    $vocabName = $vocab->name;
+    $tagName = DetermineTag($subsection);
+    $tag = taxonomy_get_term_by_name($tagName);
+    print dpm($tag);
+    if ($tagName == NULL) return '';
+    
     // Now let's build the output for this page
     $output = '<div id="allConversations">';
-    $output .= '<h2>'.$section.'</h2><h3>'.$subsection.'</h3>';
+    $output .= '<h2>'.$vocabName.'</h2><h3>'.$tagName.'</h3>';
     $output .= '<ul>';
     foreach ($resources as $resultNid => $result) {
         // We must check if the 'title' exists, otherwise, it was not a conversation node

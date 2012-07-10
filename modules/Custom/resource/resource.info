@@ -7,3 +7,9 @@ version = 7.x-2.0
 dependencies[] = "an_taxonomy"
 dependencies[] = "date"
 dependencies[] = "link"
+
+files[] = "includes/citation.field.inc"
+files[] = "includes/citation.types.inc"
+files[] = "includes/resource.field.inc"
+files[] = "includes/types.inc"
+files[] = "workbench.field.inc"

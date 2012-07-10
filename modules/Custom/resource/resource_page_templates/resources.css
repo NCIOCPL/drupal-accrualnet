@@ -22,3 +22,28 @@
     margin: 0em 0em .25em 0em; /* Top Right Bottom Left */
 }
 
+.resource-citation-detail {
+    /*border: 1px solid red;*/
+}
+
+#resource-citation {
+    margin: 1em;
+}
+
+#resource-comments {
+    border: 0.1em dotted black;
+    padding: .5em 1.25em 1em 1.25em; /* Top Right Bottom Left */
+}
+
+.resource-comments {
+    border: 1px solid red;
+}
+
+.resource-level-2-item {
+    border: 0.1em dotted black;
+    margin:  1em;
+}
+
+.resource-level-2-result {
+    margin: .5em;
+}

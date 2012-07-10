@@ -8,6 +8,41 @@
  * *** */
 
 
+$GLOBALS['an_resource_citation_fields_A'] = array(
+        'author' => array(),
+        'name' => array(
+            'label' => 'Name of Journal',
+        ),
+        'date' => array(),
+        'volume' => array(),
+        'issue' => array(),
+        'pages' => array(),
+        'date2' => array(
+            'label' => 'Citation EPub Date',
+        ),
+    );
+
+$GLOBALS['an_resource_citation_fields_B'] = array(
+        'organization' => array(),
+        'date' => array(),
+    );
+    
+    // Overwrite default citation fields for Type C
+    $GLOBALS['an_resource_citation_fields_C'] = array(
+        'author' => array(),
+        'organization' => array(),
+        'name' => array(
+            'label' => 'Meeting Name',
+        ),
+        'date' => array(
+            'label' => 'Date Meeting Began',
+        ),
+        'date2' => array(
+            'label' => 'Date Meeting Ended',
+        ),
+        'location' => array(),
+    );
+
 /*
  * Internal Function
  * 
@@ -32,8 +67,9 @@ function _resource_citation_change ($key, $changes, $defaults) {
  * Type A, the second date field is actually the Citation's EPub Date.
  */
 function _resource_instance_citation_get ($defaults, $type) {
+    global $an_resource_citation_fields_A, $an_resource_citation_fields_B, $an_resource_citation_fields_C;
     // Overwrite default citation fields for Type A
-    $citation_fields_A = array(
+    /*$citation_fields_A = array(
         'author' => array(),
         'name' => array(
             'label' => 'Name of Journal',
@@ -67,14 +103,14 @@ function _resource_instance_citation_get ($defaults, $type) {
             'label' => 'Date Meeting Ended',
         ),
         'location' => array(),
-    );
+    );*/
 
     // Depending on what type of resource we have, apply the appropriate
     // citation changes (Cases may change if types.inc has changes)
     switch ($type) {
-        case 'A': return _resource_instance_citation_type($defaults, $citation_fields_A);
-        case 'B': return _resource_instance_citation_type($defaults, $citation_fields_B);
-        case 'C': return _resource_instance_citation_type($defaults, $citation_fields_C);
+        case 'A': return _resource_instance_citation_type($defaults, $an_resource_citation_fields_A);
+        case 'B': return _resource_instance_citation_type($defaults, $an_resource_citation_fields_B);
+        case 'C': return _resource_instance_citation_type($defaults, $an_resource_citation_fields_C);
     }
 }
 
