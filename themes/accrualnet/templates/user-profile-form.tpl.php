@@ -8,6 +8,11 @@
 <p>
 	<?php print render($intro_text); ?>
 </p>
-<div class="accrualnet-user-profile-form-wrapper">
-	<?php print drupal_render_children($form) ?>
-</div>
+<section class="column sidebar region profile-sidebar">
+	<?php print render($form['picture']); ?>
+</section>
+<section class="column profile-content">
+	<div class="accrualnet-user-profile-form-wrapper">
+		<?php print drupal_render_children($form) ?>
+	</div>
+</section>

@@ -89,81 +89,82 @@ function accrualnet_preprocess_user_profile(&$vars) {
 	}
 }
 
-function accrualnet_preprocess_user_picture(&$vars) {
+/* function accrualnet_preprocess_user_picture(&$vars) {
 
-}
+  }
 
-function accrualnet_preprocess_user_profile_item(&$vars) {
+  function accrualnet_preprocess_user_profile_item(&$vars) {
 
-}
+  }
 
-function accrualnet_preprocess_user_login(&$vars) {
+  function accrualnet_preprocess_user_login(&$vars) {
 
-}
+  }
 
-function accrualnet_preprocess_user_pass(&$vars) {
+  function accrualnet_preprocess_user_pass(&$vars) {
 
-}
+  }
 
-function accrualnet_preprocess_user_register_form(&$vars) {
+  function accrualnet_preprocess_user_register_form(&$vars) {
 
-	$vars['form']['account']['pass']['#title'] = t('Password');
-	unset($vars['form']['account']['pass']['pass1']['#title']);
-	unset($vars['form']['account']['pass']['pass2']['#title']);
+  $vars['form']['account']['pass']['#title'] = t('Password');
+  unset($vars['form']['account']['pass']['pass1']['#title']);
+  unset($vars['form']['account']['pass']['pass2']['#title']);
 
-	unset($vars['form']['picture']['#theme_wrappers']);
-	unset($vars['form']['picture']['select_avatar']['#title']);
+  unset($vars['form']['picture']['#theme_wrappers']);
+  unset($vars['form']['picture']['select_avatar']['#title']);
 
-	$elements = array(
-		array(
-			'element' => & $vars['form']['account']['name'],
-			'desc' => 'This username will be displayed to all registered users ' .
-			'if you participate in conversations or make comments on resources.'
-		),
-		array(
-			'element' => & $vars['form']['account']['mail'],
-			'desc' => 'Please enter a professional email address.'
-		),
-		array(
-			'element' => & $vars['form']['account']['pass'],
-			'desc' => 'Please enter a password containing both letters and numbers.'
-		),
-		array(
-			'element' => & $vars['form']['field_role']['und']['select'],
-			'desc' => 'Please select from the list the description that best ' .
-			'describes your occupation.'
-		),
-		array(
-			'element' => & $vars['form']['field_years_in_research']['und'],
-			'desc' => 'Please enter the number of years in your field or at ' .
-			'your institution.'
-		),
-		array(
-			'element' => & $vars['form']['field_institution_type']['und']['select'],
-			'desc' => 'Please select from the list the description that best ' .
-			'describes your institution.'
-		),
-		array(
-			'element' => & $vars['form']['field_areas_of_interest']['und']['select'],
-			'desc' => 'Please select one or more areas of interest.'
-		),
-		array(
-			'element' => & $vars['form']['picture']['picture_upload'],
-			'desc' => 'This profile picture will be viewable by all registered ' .
-			'users. Please select a picture to upload or select an avatar.'
-		),
-	);
+  $elements = array(
+  array(
+  'element' => & $vars['form']['account']['name'],
+  'desc' => 'This username will be displayed to all registered users ' .
+  'if you participate in conversations or make comments on resources.'
+  ),
+  array(
+  'element' => & $vars['form']['account']['mail'],
+  'desc' => 'Please enter a professional email address.'
+  ),
+  array(
+  'element' => & $vars['form']['account']['pass'],
+  'desc' => 'Please enter a password containing both letters and numbers.'
+  ),
+  array(
+  'element' => & $vars['form']['field_role']['und']['select'],
+  'desc' => 'Please select from the list the description that best ' .
+  'describes your occupation.'
+  ),
+  array(
+  'element' => & $vars['form']['field_years_in_research']['und'],
+  'desc' => 'Please enter the number of years in your field or at ' .
+  'your institution.'
+  ),
+  array(
+  'element' => & $vars['form']['field_institution_type']['und']['select'],
+  'desc' => 'Please select from the list the description that best ' .
+  'describes your institution.'
+  ),
+  array(
+  'element' => & $vars['form']['field_areas_of_interest']['und']['select'],
+  'desc' => 'Please select one or more areas of interest.'
+  ),
+  array(
+  'element' => & $vars['form']['picture']['picture_upload'],
+  'desc' => 'This profile picture will be viewable by all registered ' .
+  'users. Please select a picture to upload or select an avatar.'
+  ),
+  );
 
-	foreach ($elements as $element) {
-		_accrualnet_hover_desc($element['element'], $element['desc']);
-	}
-}
+  foreach ($elements as $element) {
+  _accrualnet_hover_desc($element['element'], $element['desc']);
+  }
+  }
 
-/**
+  /**
  * Moves the element's description (if any) to the #hover_desc key.
  * @param <type> $element the element to alter.
  * @param <type> $desc an overriding description, if desired.
  */
+
 function _accrualnet_hover_desc(&$element, $desc = '') {
 	if (empty($desc)) {
 		// lift the existing description
@@ -187,6 +188,15 @@ function accrualnet_preprocess_user_profile_form(&$vars) {
 
 		$vars['form']['account']['pass']['pass1']['#title'] = 'New Password';
 		$vars['form']['account']['pass']['pass2']['#title'] = 'Re-Type New Password';
+
+		$vars['form']['picture']['#title'] = '';
+		hide($vars['form']['picture']['picture_delete']);
+
+		$vars['form']['picture']['picture_upload']['#size'] = 0;
+		$vars['form']['picture']['picture_upload']['#description'] =
+				"You can upload a JPG, GIF, or PNG file.\n(File size limit is 2MB)";
+		$vars['form']['picture']['picture_upload']['#title'] = 'Upload Photo';
+		$vars['form']['picture']['select_avatar']['#title'] = 'Or Select an Avatar';
 	} catch (Exception $e) {
 		print_r($e->getMessage());
 	}
@@ -374,7 +384,9 @@ function accrualnet_preprocess_html(&$variables, $hook) {
 	if ($variables) {
 		//ADDED by Doyle to add menu class to body tag
 		$item = menu_get_active_trail();
-		if (count($item) > 1) {
+		if (count($item) > 1 &&
+				// ADDED by Dan to catch missing 'link_title' key
+				isset($item[1]['link_title'])) {
 			$navTitle = $item[1]['link_title'];
 			$variables['classes_array'][] = drupal_html_class('nav-section-' . $navTitle);
 		}

@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * Default theme implementation to present all user profile data.
@@ -32,6 +31,11 @@
  * @see template_preprocess_user_profile()
  */
 ?>
-<div class="profile"<?php print $attributes; ?>>
-  <?php print render($user_profile); ?>
-</div>
+<section class="column sidebar region profile-sidebar">
+	<?php print render($user_profile['user_picture']); ?>
+</section>
+<section class="column profile-content">
+	<div class="profile"<?php print $attributes; ?>>
+		<?php print render($user_profile); ?>
+	</div>
+</section>
