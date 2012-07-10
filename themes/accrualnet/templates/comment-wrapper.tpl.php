@@ -36,6 +36,17 @@
 
 // Render the comments and form first to see if we need headings.
 $comments = render($content['comments']);
+
+$content['comment_form']['subject']['#access'] = FALSE;
+
+$content['comment_form']['comment_body']['und'][0]['value']['#title'] = NULL;
+$content['comment_form']['comment_body']['und'][0]['format'] = NULL;
+
+$content['comment_form']['author']['_author']['#title'] = NULL;
+//$content['comment_form']['author']['_author']['#markup'] .= " says...";
+global $user;
+$content['comment_form']['author']['_author']['#markup'] = $user->name . ' says...';
+
 $comment_form = render($content['comment_form']);
 ?>
 <section class="comments <?php print $classes; ?>"<?php print $attributes; ?>>
