@@ -61,6 +61,19 @@ $GLOBALS['an_lifecycle_fields'] = array(
         'type' => 'text_long',
         'cardinality' => 1,
         'entity_type' => 'node',
+        'settings' => array(),
+        'bundles' => array(
+            'lifecycle_strategy',
+            'lifecycle_stage',
+        ),
+    ),
+    array(
+        'label' => 'Content',
+        'field_name' => 'content',
+        'type' => 'text_long',
+        'cardinality' => 1,
+        'entity_type' => 'node',
+        'settings' => array(),
         'bundles' => array(
             'lifecycle_strategy',
             'lifecycle_stage',
