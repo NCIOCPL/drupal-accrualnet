@@ -160,7 +160,7 @@
           <?php print $breadcrumb; ?>
       </div>
       <?php //print $messages; 
-      //print render($tabs); 
+      print render($tabs); 
       //print render($page['help']); 
       //if ($action_links): 
         //<ul class="action-links"><?php print render($action_links); ?</ul>

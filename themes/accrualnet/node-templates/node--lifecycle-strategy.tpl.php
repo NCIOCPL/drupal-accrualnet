@@ -90,7 +90,7 @@
 <div id="lifecycle-strategy">
     <div class="lifecycle-strategy-content">
         <div class="lifecycle-strategy-body">
-            <?php print render($content['body']); ?>
+            <?php print render($content['field_content']); ?>
         </div>
         <div class="lifecycle-strategy-resources">
             <h2>Reports, Articles and Tools</h2>
@@ -99,13 +99,31 @@
                 <?php foreach ($resources as $resource) : ?>
                     <?php $entity = $resource['entity'];?>
                 <div class="lifecycle-strategy-resource">
-                    <?php $urlPath = drupal_lookup_path('alias', 'node/'.$entity->nid); ?>
-                    <h3><a href="/<?php print $urlPath != FALSE ? $urlPath : '/node/'.$entity->nid ;?>"><?php print $entity->title; ?></a></h3>
-                    <p><?php print check_markup($entity->body[$language][0]['value']);?></p>
+                    <?php print _resource_output_snippet($entity);?>      
               </div>
             <?php endforeach;?>
                 
                 
+        </div>
+        <div class="test">
+            <?php
+            $query = new EntityFieldQuery();
+            // We are looking for a node
+            $query->entityCondition('entity_type', 'node')
+            // Bundle (the content type) is the Article
+            ->entityCondition('bundle', array('lifecycle_strategy', 'meeting_abstract'))
+            // Title should contain the word "drupal", just like
+            // I promised, it's a node property and not a field.
+            ->propertyCondition('title', $node->title, '=');
+            // Since the field tags is a taxonomy_term_reference, 
+            // we are looking for a "tid".
+            //->fieldCondition('tags', 'tid', 4);
+
+            // Just can keep chaining these until you're happy...
+
+                print kpr($query->execute()); // voila :)
+            ?>
+            
         </div>
     </div>
    
