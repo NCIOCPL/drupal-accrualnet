@@ -72,7 +72,8 @@ function resource_enable() {
     
     // Create the custom fields for all types of resources
     foreach (_resource_fields() as $field) {
-        field_create_field($field);
+        
+         field_read_field($field['field_name']) == FALSE ? field_create_field($field) : '';
     }
  
     // For each type of resource, create the proper field instances
@@ -82,9 +83,12 @@ function resource_enable() {
         // can be passed.
         $instances = array_merge(_resource_instances(), _resource_instance_citation($properties['citation']));
         foreach ($instances as $instance) {
-            $instance['entity_type'] = 'node';
-            $instance['bundle'] = $type;
-            field_create_instance($instance);
+            if(field_read_instance('node', 'field_' .$instance['field_name'], $type) == FALSE)
+            {
+                $instance['entity_type'] = 'node';
+                $instance['bundle'] = $type;
+                field_create_instance($instance);
+            }
         }
     }
 
@@ -104,6 +108,7 @@ function resource_enable() {
  * As of right now, does not delete all content associated with it.
  */
 function resource_disable() {
+    /*
     // Variables
     global $an_resource_types;
     // Alert the user the module has been disabled, mostly used for testing
@@ -129,6 +134,7 @@ function resource_disable() {
 
     // Purge all field information; this is from a sample, not sure what it does
     field_purge_batch(1000);
+     */
 }
 
 
