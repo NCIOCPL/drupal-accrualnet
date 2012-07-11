@@ -11,11 +11,11 @@
 module_load_include('inc', 'resource', 'includes/types');
 global $an_resource_types;
 //setup array of resource type names
-$bundle_name = array();
+$bundle_names = array();
 
 foreach ($an_resource_types as $type => $properties)
 {
-    $bundle_name[count($bundle_name)] = $type;
+    $bundle_names[count($bundle_names)] = $type;
 
 }
 
@@ -39,21 +39,19 @@ $GLOBALS['an_lifecycle_fields'] = array(
         ),
     ),
     array(
-        'label' => 'Related Resources',
-        'field_name' => 'related_resources',
+        'label' => 'Related Strategy',
+        'field_name' => 'related_strategy',
         'type' => 'entityreference',
         'cardinality' => '-1',
         'entity_type' => 'node',
         'settings' => array(
             'target_type' => 'node',
-            'handler_settings' => array('target_bundles' => $bundle_name),
+            'handler_settings' => array('target_bundles' => array('lifecycle_strategy')),
         ),
         'widget' => array(
             'type' => 'autocomplete',
         ),
-        'bundles' => array(
-            'lifecycle_strategy',
-        ),
+        'bundles' => $bundle_names,
     ),
     array(
         'label' => 'Content Summary',
