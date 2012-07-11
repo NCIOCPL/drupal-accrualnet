@@ -30,6 +30,16 @@
     margin: 1em;
 }
 
+#resource-level-3 #filter-box {
+    border: .3px dotted black;
+    padding: 1em;
+    margin: 1.5em;
+}
+
+#resource-level-3 .result {
+    margin: 0.6em;
+}
+
 #resource-comments {
     border: 0.1em dotted black;
     padding: .5em 1.25em 1em 1.25em; /* Top Right Bottom Left */

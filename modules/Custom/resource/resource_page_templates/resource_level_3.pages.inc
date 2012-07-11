@@ -5,6 +5,8 @@
  * and open the template in the editor.
  */
 
+module_load_include('inc', 'resource', 'types');
+module_load_include('inc', 'an_lifecycle', 'includes/lifecycle.globals');
 
 function DetermineTag ($potential) {
     global $an_vocabularies;
@@ -21,62 +23,20 @@ function DetermineTag ($potential) {
 }
 
 function resource_level_3_page($section, $subsection) {
+    global $an_resource_types;
+    global $an_stage_strategy;
+    print dpm($an_stage_strategy);
     $resources_per_page = 15;
-    // Now we must query the node list to determine which are conversations
-    //$query = db_select('node', 'n');
-    /*$query = $query->fields('n', array('nid', 'title', 'created'))
-            ->condition('n.status', 1)
-            ->condition('n.type', 'resource')
-            ->orderBy('n.created', 'DESC') // Newly updated material first
-            ->extend('PagerDefault')
-            ->limit($resources_per_page)
-            ->addTag('node_access');
-     * 
-     */
-    $query = new EntityFieldQuery();
-            // We are looking for a node
-            $query->entityCondition('entity_type', 'node')
-            // Bundle (the content type) is the Article
-            ->entityCondition('bundle', array('journal_article'));
-            // Title should contain the word "drupal", just like
-            // I promised, it's a node property and not a field.
-            //->propertyCondition('title', $node->title, '=');
-            // Since the field tags is a taxonomy_term_reference, 
-            // we are looking for a "tid".
-            try {
-$query->fieldCondition('field_tax_patient_related', 'tid', 2);
-            } catch (Exception $e2) {
-                return $e2;
-            }
-
-            // Just can keep chaining these until you're happy...
-
-                //print dpm($query->execute()); // voila :)
-            try {
-                $result = $query->execute();
-                print dpm( $result);
-            } catch (Exception $e) {
-                print dpm($e);
-                return $e;
-            }
-            
-    //$queried_nodes = $query->execute()->fetchAllAssoc('nid');
-
-                
-                $nid = array_pop($result['node'])->nid;
-                print dpm($nid);
-$node = node_load($nid);
-print dpm($node);
-
-    // Now we must store the conversations so we can customize their HTML
-    $resources = array();
-    foreach ($queried_nodes as $result) {
-        // We're only going to add a conversation node if it's in a group
-       
-        $resources[$result->nid] = array(
-            'title' => $result->title,
-        );
-
+    
+    $postedStage = NULL;
+    $postedStrategy = NULL;
+    if (isset($_POST['stage'])) {
+    print dpm($_POST['stage']);
+    $postedStage = $_POST['stage'];
+    }
+    if (isset($_POST['strategy'])) {
+        print dpm($_POST['strategy']);
+        $postedStrategy = $_POST['strategy'];
     }
 
     $vocab = taxonomy_vocabulary_machine_name_load('an_vocabulary_'.$section);
@@ -85,80 +45,75 @@ print dpm($node);
     $tag = array_pop(taxonomy_get_term_by_name($tagName));
     print dpm($tag);
     if ($tagName == NULL) return '';
+    
+    
+    $query = new EntityFieldQuery();
+    // We are looking for a node
+    $query->entityCondition('entity_type', 'node');
+    // 
+    $query->entityCondition('bundle', array_keys($an_resource_types));
+
+        $query->fieldCondition('field_tax_patient_related', 'tid', $tag->tid);
+        $query->pager($resources_per_page);
+
+        $result = $query->execute();
+        print dpm($result);
 
     
-    $output = '<div id="resource-level-2">';
-    $output .= '<h2>' .  $vocab->name . '</h2>';
-    $output .= $section;
- 
-   /* foreach (taxonomy_get_tree($vocab->vid) as $tag) {
-        $queryString = "SELECT f.entity_id";
-        $queryString .= " FROM {field_data_field_tax_".$section."} f";
-        $queryString .= " WHERE (";
-        foreach ($an_resource_types as $rtype => $rproperties) {
-            $queryString .= " f.bundle='".$rtype."' OR ";
+            
+    //$queried_nodes = $query->execute()->fetchAllAssoc('nid');
+    $output = '<div id="resource-level-3">';
+    $output .= '<h2>' .  $vocabName . '</h2>';
+    $output .= '<h3>' . $tagName . '</h3>';
+    
+    
+    
+    $output .= '<div id="filter-box">';
+    if ($postedStage != NULL || $postedStrategy != NULL) {
+        $output .= '<b>Filtered by:</b> ' . $postedStage;
+        if ($postedStrategy != NULL) { 
+            $output .= ' <b>--></b> ' . $postedStrategy;
         }
-        $queryString = trim(rtrim(trim($queryString), 'OR'));
-        $queryString .= ") AND f.field_tax_".$section."_tid=" . $tag->tid;
-        $queryString .= " LIMIT 2";
-      
-        $query = db_query($queryString);
-        
-
-        
-        $old_pattern = array("/[^a-zA-Z0-9]/", "/_+/", "/_$/");
-            $new_pattern = array("_", "_", "");
-            $tag_url = strtolower(preg_replace($old_pattern, $new_pattern, $tag->name));
-            
-            
-        $output .= '<div class="resource-level-3-item">';
-        $output .= '<h2><a href="/resources/'.$section.'/'.$tag_url.'">'. $tag->name . '</a></h2>';
-        $output .= '<hr/>';
-        
-        
-        foreach ($query as $result) {
-            $node = node_load($result->entity_id);
-            $resultOutput = '<div class="resource-level-2-result">';
-            $resultOutput .= '<a href="' . url('node/'.$node->nid) . '">';
-            $resultOutput .= $node->title;
-            $resultOutput .= '</a>';
-            $resultOutput .= _resource_output_citation($node);
-            $resultOutput .= _resource_output_taxonomy($node);
-            $resultOutput .= '</div>';
-            
-            $output .= $resultOutput;
+        $output .= '<br/><br/>';
+    }
+    $output .= '<form action="" method="post">';
+    $output .= '<select name="stage" onChange="this.form.submit()">';
+    $output .= '<option value="NULL" selected="selected"></option>';
+    foreach (array_keys($an_stage_strategy) as $stage) {
+        $output .= '<option value="'.$stage.'" ';
+        if ($stage == $postedStage) {
+            $output .= 'selected="selected"';
         }
-        
-        $output .= '</div>';
+        $output .= ' >'.$stage.'</option>'; 
+    }
+    $output .= '</select>';
+    $output .= '</form>';
+    if ($postedStage != NULL) {
+        $output .= '<br/>';
+        if (array_key_exists($postedStage, $an_stage_strategy)) {
+        $output .= '<form action="" method="post">';
+        $output .= '<input type="hidden" name="stage" value="'.$stage.'"/>';
+        $output .= '<select name="strategy" onChange="this.form.submit()">';
+            $output .= '<option value="NULL selected="selected"></option>';
+            foreach ($an_stage_strategy[$postedStage] as $strategy) {
+                $output .= '<option value="' . $strategy . '" ';
+                if ($strategy == $postedStrategy) {
+                    $output .= 'selected="selected"';
+                }
+                $output .= ' >' . $strategy. '</option>';
+            }
+            $output .= '</select>';
+        $output .= '</form>';
+        }
     }
     $output .= '</div>';
-    * 
-    */
     
-    // Now let's build the output for this page
-    global $an_resource_types;
-    $output = '<div id="allConversations">';
-    $output .= '<h2>'.$vocabName.'</h2><h3>'.$tagName.'</h3>';
-
-
-    $queryString = "SELECT f.entity_id";
-        $queryString .= " FROM {field_data_field_tax_".$section."} f";
-        $queryString .= " WHERE (";
-        foreach ($an_resource_types as $rtype => $rproperties) {
-            $queryString .= " f.bundle='".$rtype."' OR ";
-        }
-        $queryString = trim(rtrim(trim($queryString), 'OR'));
-        $queryString .= ") AND f.field_tax_".$section."_tid=" . $tag->tid;
-        $queryString .= " LIMIT 2";
-
-        try {
-        $query = db_query($queryString);
-        } catch (Exception $e) {
-           print dpm($e);
-        }
-        foreach ($query as $result) {
-            $node = node_load($result->entity_id);
-            $resultOutput = '<div class="resource-level-3-result">';
+    if (count($result) > 0) {
+        $result = $result['node'];
+    }
+foreach ($result as $nodeResult) {
+    $node = node_load($nodeResult->nid);
+            $resultOutput = '<div class="result">';
             $resultOutput .= '<a href="' . url('node/'.$node->nid) . '">';
             $resultOutput .= $node->title;
             $resultOutput .= '</a>';
@@ -167,7 +122,7 @@ print dpm($node);
             $resultOutput .= '</div>';
             
             $output .= $resultOutput;
-        }
+}
 
 
     // Add the pager

@@ -6,3 +6,5 @@ version = VERSION
 files[] = resource_page_templates.module
 
 stylesheets[all][] = resources.css
+
+dependecies[] = "an_lifecycle"
