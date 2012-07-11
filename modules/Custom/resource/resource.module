@@ -269,7 +269,7 @@ function _resource_wrap($node) {
 function _resource_output_citation($node) {
     global $an_resource_types, $an_resource_citation_fields_A, $an_resource_citation_fields_B, $an_resource_citation_fields_C,
     $an_resource_field_citation, $an_resource_field_resource;
-    $citationOutput = '<div id="resource-citation">';
+    $citationOutput = '<div class="resource-citation">';
     switch ($an_resource_types[$node->type]['citation']) {
         case 'A':
             $citation = $an_resource_citation_fields_A;
@@ -322,7 +322,7 @@ function _resource_output_citation($node) {
 
 function _resource_output_taxonomy ($node) {
     global $an_vocabularies;
-    $taxonomyOutput = '<div id="resource-taxonomy">';
+    $taxonomyOutput = '<div class="resource-taxonomy">';
 $taxonomyOutput .= "Keywords: ";
 foreach ($an_vocabularies as $vocab) {
     //$field_array = $node["field_tax_".$vocab['machine_stem']];
@@ -348,6 +348,19 @@ foreach ($an_vocabularies as $vocab) {
 
 $taxonomyOutput .= '</div>';
 return $taxonomyOutput;
+}
+
+function _resource_output_snippet ($node) {
+    $output = '<span class="resource-output">';
+    $output .= '<div class="resource-output-title">';
+                $output .= '<a href="' . url('node/'.$node->nid) . '">';
+            $output .= $node->title;
+            $output .= '</a>';
+                       $output .= '</div>';
+                $output .= _resource_output_citation($node);
+            $output .= _resource_output_taxonomy($node);
+ $output .= '</span>';
+ return $output;
 }
 
 

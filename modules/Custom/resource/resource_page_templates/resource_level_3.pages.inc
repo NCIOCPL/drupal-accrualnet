@@ -48,23 +48,93 @@ function resource_level_3_page($section, $subsection) {
     $vocab = taxonomy_vocabulary_machine_name_load('an_vocabulary_'.$section);
     $vocabName = $vocab->name;
     $tagName = DetermineTag($subsection);
-    $tag = taxonomy_get_term_by_name($tagName);
+    $tag = array_pop(taxonomy_get_term_by_name($tagName));
     print dpm($tag);
     if ($tagName == NULL) return '';
+
+    
+    $output = '<div id="resource-level-2">';
+    $output .= '<h2>' .  $vocab->name . '</h2>';
+    $output .= $section;
+ 
+   /* foreach (taxonomy_get_tree($vocab->vid) as $tag) {
+        $queryString = "SELECT f.entity_id";
+        $queryString .= " FROM {field_data_field_tax_".$section."} f";
+        $queryString .= " WHERE (";
+        foreach ($an_resource_types as $rtype => $rproperties) {
+            $queryString .= " f.bundle='".$rtype."' OR ";
+        }
+        $queryString = trim(rtrim(trim($queryString), 'OR'));
+        $queryString .= ") AND f.field_tax_".$section."_tid=" . $tag->tid;
+        $queryString .= " LIMIT 2";
+      
+        $query = db_query($queryString);
+        
+
+        
+        $old_pattern = array("/[^a-zA-Z0-9]/", "/_+/", "/_$/");
+            $new_pattern = array("_", "_", "");
+            $tag_url = strtolower(preg_replace($old_pattern, $new_pattern, $tag->name));
+            
+            
+        $output .= '<div class="resource-level-3-item">';
+        $output .= '<h2><a href="/resources/'.$section.'/'.$tag_url.'">'. $tag->name . '</a></h2>';
+        $output .= '<hr/>';
+        
+        
+        foreach ($query as $result) {
+            $node = node_load($result->entity_id);
+            $resultOutput = '<div class="resource-level-2-result">';
+            $resultOutput .= '<a href="' . url('node/'.$node->nid) . '">';
+            $resultOutput .= $node->title;
+            $resultOutput .= '</a>';
+            $resultOutput .= _resource_output_citation($node);
+            $resultOutput .= _resource_output_taxonomy($node);
+            $resultOutput .= '</div>';
+            
+            $output .= $resultOutput;
+        }
+        
+        $output .= '</div>';
+    }
+    $output .= '</div>';
+    * 
+    */
     
     // Now let's build the output for this page
+    global $an_resource_types;
     $output = '<div id="allConversations">';
     $output .= '<h2>'.$vocabName.'</h2><h3>'.$tagName.'</h3>';
-    $output .= '<ul>';
-    foreach ($resources as $resultNid => $result) {
-        // We must check if the 'title' exists, otherwise, it was not a conversation node
-        if (array_key_exists('title', $result)) {
-            $output .= '<li class="resource"><span class="resourceText">';            
-                $output .= $result['title'];
-            $output .= "</span></li>";
+
+
+    $queryString = "SELECT f.entity_id";
+        $queryString .= " FROM {field_data_field_tax_".$section."} f";
+        $queryString .= " WHERE (";
+        foreach ($an_resource_types as $rtype => $rproperties) {
+            $queryString .= " f.bundle='".$rtype."' OR ";
         }
-    }
-    $output .= '</ul>';
+        $queryString = trim(rtrim(trim($queryString), 'OR'));
+        $queryString .= ") AND f.field_tax_".$section."_tid=" . $tag->tid;
+        $queryString .= " LIMIT 2";
+
+        try {
+        $query = db_query($queryString);
+        } catch (Exception $e) {
+           print dpm($e);
+        }
+        foreach ($query as $result) {
+            $node = node_load($result->entity_id);
+            $resultOutput = '<div class="resource-level-3-result">';
+            $resultOutput .= '<a href="' . url('node/'.$node->nid) . '">';
+            $resultOutput .= $node->title;
+            $resultOutput .= '</a>';
+            $resultOutput .= _resource_output_citation($node);
+            $resultOutput .= _resource_output_taxonomy($node);
+            $resultOutput .= '</div>';
+            
+            $output .= $resultOutput;
+        }
+
 
     // Add the pager
     $output .= theme('pager');

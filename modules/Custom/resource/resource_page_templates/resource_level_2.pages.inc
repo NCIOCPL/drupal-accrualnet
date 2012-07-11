@@ -99,11 +99,7 @@ function resource_level_2_page($section) {
         foreach ($query as $result) {
             $node = node_load($result->entity_id);
             $resultOutput = '<div class="resource-level-2-result">';
-            $resultOutput .= '<a href="' . url('node/'.$node->nid) . '">';
-            $resultOutput .= $node->title;
-            $resultOutput .= '</a>';
-            $resultOutput .= _resource_output_citation($node);
-            $resultOutput .= _resource_output_taxonomy($node);
+            $resultOutput .= _resource_output_snippet($node);
             $resultOutput .= '</div>';
             
             $output .= $resultOutput;
