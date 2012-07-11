@@ -23,16 +23,50 @@ function DetermineTag ($potential) {
 function resource_level_3_page($section, $subsection) {
     $resources_per_page = 15;
     // Now we must query the node list to determine which are conversations
-    $query = db_select('node', 'n');
-    $query = $query->fields('n', array('nid', 'title', 'created'))
+    //$query = db_select('node', 'n');
+    /*$query = $query->fields('n', array('nid', 'title', 'created'))
             ->condition('n.status', 1)
             ->condition('n.type', 'resource')
             ->orderBy('n.created', 'DESC') // Newly updated material first
             ->extend('PagerDefault')
             ->limit($resources_per_page)
             ->addTag('node_access');
-    $queried_nodes = $query->execute()->fetchAllAssoc('nid');
+     * 
+     */
+    $query = new EntityFieldQuery();
+            // We are looking for a node
+            $query->entityCondition('entity_type', 'node')
+            // Bundle (the content type) is the Article
+            ->entityCondition('bundle', array('journal_article'));
+            // Title should contain the word "drupal", just like
+            // I promised, it's a node property and not a field.
+            //->propertyCondition('title', $node->title, '=');
+            // Since the field tags is a taxonomy_term_reference, 
+            // we are looking for a "tid".
+            try {
+$query->fieldCondition('field_tax_patient_related', 'tid', 2);
+            } catch (Exception $e2) {
+                return $e2;
+            }
 
+            // Just can keep chaining these until you're happy...
+
+                //print dpm($query->execute()); // voila :)
+            try {
+                $result = $query->execute();
+                print dpm( $result);
+            } catch (Exception $e) {
+                print dpm($e);
+                return $e;
+            }
+            
+    //$queried_nodes = $query->execute()->fetchAllAssoc('nid');
+
+                
+                $nid = array_pop($result['node'])->nid;
+                print dpm($nid);
+$node = node_load($nid);
+print dpm($node);
 
     // Now we must store the conversations so we can customize their HTML
     $resources = array();
