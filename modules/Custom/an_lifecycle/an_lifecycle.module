@@ -156,21 +156,27 @@ function an_lifecycle_enable() {
     
     // Create the custom fields for all types of resources
     foreach (_an_lifecycle_fields() as $field) {
-        field_create_field($field);
+        //Check to see if this field exists:
+        field_read_field($field['field_name']) == FALSE ? field_create_field($field) : '';
+        //field_create_field($field);
     }
     
     $instance = array();
     foreach ($an_lifecycle_fields as $field) {
         foreach($field['bundles'] as $bundle) {
-            $instance['field_name'] = 'field_' . $field['field_name'];
-            $instance['entity_type'] = $field['entity_type'];
-            $instance['label'] = $field['label'];
-            
-            if (array_key_exists('widget', $field)) { 
-                $instance[count($instances)-1]['widget'] = $field['widget'];
+            //if this instance does not already exist.
+            if(field_read_instance($field['entity_type'], 'field_' .$field['field_name'], $bundle) == FALSE)
+            {
+                $instance['field_name'] = 'field_' . $field['field_name'];
+                $instance['entity_type'] = $field['entity_type'];
+                $instance['label'] = $field['label'];
+
+                if (array_key_exists('widget', $field)) { 
+                    $instance[count($instances)-1]['widget'] = $field['widget'];
+                }
+                $instance['bundle'] = $bundle;
+                field_create_instance($instance);
             }
-             $instance['bundle'] = $bundle;
-            field_create_instance($instance);
         }
     }
    
@@ -189,6 +195,7 @@ function an_lifecycle_enable() {
 
 function an_lifecycle_disable() {
     // Variables
+    /*
     global $an_lifecycle_types;
     // Alert the user the module has been disabled, mostly used for testing
     drupal_set_message($message = 'Resource Module Disabled.');
@@ -212,7 +219,7 @@ function an_lifecycle_disable() {
     }
 
     // Purge all field information; this is from a sample, not sure what it does
-    field_purge_batch(1000);
+    field_purge_batch(1000);*/
 }
 
 
