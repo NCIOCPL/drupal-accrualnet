@@ -29,7 +29,7 @@ $GLOBALS['an_lifecycle_fields'] = array(
         'entity_type' => 'node',
         'settings' => array(
             'target_type' => 'node',
-            'handler_settings' => array('target_bundles' => array('lifecycle_stage')),
+            'handler_settings' => array('target_bundles' => array('lifecycle_strategy')),
         ),
         'widget' => array(
             'type' => 'autocomplete',
