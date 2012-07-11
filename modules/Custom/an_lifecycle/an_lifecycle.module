@@ -12,6 +12,15 @@
  * Return values:
  * Array of related nodes or FALSE if none.
  */
+
+// lifecycle Types
+module_load_include('inc', 'an_lifecycle', 'includes/types');
+// lifecycle stage fields
+module_load_include('inc', 'an_lifecycle', 'includes/lifecycle.field');
+// lifecycle strategy Fields
+//module_load_include('inc', 'an_lifecycle', 'includes/lifecycle_strategy.field');
+
+
 function _an_lifecycle_load_related_nodes($entityFieldQuery){
     $query = $entityFieldQuery;
     $result = $query->execute();
@@ -102,3 +111,118 @@ function an_lifecycle_tokens($type, $tokens, array $data = array(), array $optio
 
   return $replacements;
 }
+
+/*
+ * hook_node_info()
+ * 
+ * Sets up the Resource content type
+ */
+function an_lifecycle_node_info() {
+    global $an_lifecycle_types;
+    $lifecycleTypes = array();
+    // For every resource type, create the content type
+    foreach ($an_lifecycle_types as $type => $properties) {
+        $lifecycleTypes[$type] = array (
+            'name' => $properties['name'],
+            'base' => 'node_content',
+            'description' => $properties['description'],
+            'custom' => TRUE, // Line for Debugging
+        );
+        // If the content type has a title defined, set it
+        if (array_key_exists('title', $properties)) {
+            $lifecycleTypes[$type]['has_title'] = TRUE;
+            $lifecycleTypes[$type]['title_label'] = $properties['title'];
+        } else {
+            $lifecycleTypes[$type]['has_title'] = FALSE;
+        }
+    }
+    return $lifecycleTypes;
+}
+
+/**
+ *hook_enable implementation.
+ * 
+ * Sets up content types and fields for the lifecycle section of the AN Site.
+ * @global type $an_lifecycle_types
+ * @global type $an_lifecycle_fields 
+ */
+function an_lifecycle_enable() {
+    
+    
+    global $an_lifecycle_fields;
+    // Rebuild the types --this may be unnecessary
+    node_types_rebuild();
+   
+    
+    // Create the custom fields for all types of resources
+    foreach (_an_lifecycle_fields() as $field) {
+        field_create_field($field);
+    }
+    
+    $instance = array();
+    foreach ($an_lifecycle_fields as $field) {
+        foreach($field['bundles'] as $bundle) {
+            $instance['field_name'] = 'field_' . $field['field_name'];
+            $instance['entity_type'] = $field['entity_type'];
+            $instance['label'] = $field['label'];
+            
+            if (array_key_exists('widget', $field)) { 
+                $instance[count($instances)-1]['widget'] = $field['widget'];
+            }
+             $instance['bundle'] = $bundle;
+            field_create_instance($instance);
+        }
+    }
+   
+        
+    
+}
+
+
+/*
+ * hook_disable()
+ * 
+ * Removes the content type, instances of fields, and specific content type fields. 
+ * As of right now, does not delete all content associated with it.
+ */
+
+
+function an_lifecycle_disable() {
+    // Variables
+    global $an_lifecycle_types;
+    // Alert the user the module has been disabled, mostly used for testing
+    drupal_set_message($message = 'Resource Module Disabled.');
+    
+    // Remove all of the fields created for any type of resource
+    foreach (array_keys(_an_lifecycle_fields()) as $field) {
+        field_delete_field($field);
+    }
+    
+    // For each type of resource, remove all instances associated with it
+    foreach ($an_lifecycle_types as $type => $properties) {
+        $instances = field_info_instances('node', $type);
+        foreach ($instances as $instanceName => $instance) {
+            field_delete_instance($instance);
+        }
+    }
+
+    // Remove each resource type as a recognized piece of content type for drupal
+    foreach (array_keys($an_lifecycle_types) as $type) {
+        node_type_delete($type);
+    }
+
+    // Purge all field information; this is from a sample, not sure what it does
+    field_purge_batch(1000);
+}
+
+
+
+
+function _an_lifecycle_fields() {
+    
+    // Generic Resource Fields
+    $fields = _an_lifecycle_field_lifecycle();
+    return $fields;
+}
+
+
