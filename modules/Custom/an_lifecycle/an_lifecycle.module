@@ -5,25 +5,24 @@
  * and open the template in the editor.
  */
 
-/*
- * function that takes an array of parameters (see http://drupal.org/node/1343708 )
- * and returns an array of related nodes. This should be moved into a globals module
- * at some point.
- * Return values:
- * Array of related nodes or FALSE if none.
- */
 
-// lifecycle Types
+
+// include lifecycle Types
 module_load_include('inc', 'an_lifecycle', 'includes/types');
-// lifecycle stage fields
+// include lifecycle fields
 module_load_include('inc', 'an_lifecycle', 'includes/lifecycle.field');
-//lifecycle node alias settings
+//include lifecycle node alias settings
 module_load_include('inc', 'an_lifecycle', 'includes/lifecycle.alias');
 
-// lifecycle strategy Fields
-//module_load_include('inc', 'an_lifecycle', 'includes/lifecycle_strategy.field');
 
-
+/**
+ *takes an array of parameters (see http://drupal.org/node/1343708 )
+ * and returns an array of related nodes. This should be moved into a globals module
+ * at some point.
+ * @param type $entityFieldQuery
+ * @param type $pager
+ * @return type 
+ */
 function _an_lifecycle_load_related_nodes($entityFieldQuery, $pager = FALSE){
     $result = $entityFieldQuery->execute();
     $output = array();
@@ -46,7 +45,7 @@ function _an_lifecycle_load_related_nodes($entityFieldQuery, $pager = FALSE){
  * @ingroup token_example
  */
 function an_lifecycle_token_info() {
-// Node tokens.
+// Define Node tokens.
   $info['tokens']['node']['system-title'] = array(
     'name' => t('System Title'),
     'description' => t("The title of the node formatted with only lowercase and _."),

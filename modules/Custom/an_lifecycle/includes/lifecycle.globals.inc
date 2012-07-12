@@ -5,6 +5,11 @@
  * and open the template in the editor.
  */
 
+/**
+ *Provides the navigation structure for the lifecycle section of the AN site.
+ * @global type $GLOBALS['an_stage_strategy']
+ * @name $an_stage_strategy 
+ */
 $GLOBALS['an_stage_strategy'] = array(
     'Developing a Trial' => array(
         'Strategy1',

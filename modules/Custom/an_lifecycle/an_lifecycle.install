@@ -7,7 +7,10 @@
 
 module_load_include('module', 'an_lifecycle', 'an_lifecycle');
 
-
+/**
+ *Implements hook_uninstall() to clean up everything created by this module.
+ * @global type $an_lifecycle_types 
+ */
 function an_lifecycle_uninstall() {
     // Variables
     

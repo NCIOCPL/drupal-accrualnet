@@ -1,13 +1,18 @@
 <?php
 /* * ***
- * Created By: Lauren
- * Created On: June 27, 2012
+ * Created By: Doyle
+ * Created On: July 1, 2012
  *
- * Last Updated By: Lauren
- * Last Updated On: June 29, 2012
+ * Last Updated By: Doyle
+ * Last Updated On: July 12, 2012
  * *** */
 
-// All of the Resource Types
+
+/**
+ * Define types needed by the lifecycle section of the AN Site
+ * @global type $GLOBALS['an_lifecycle_types']
+ * @name $an_lifecycle_types 
+ */
 $GLOBALS['an_lifecycle_types'] = array(
     'lifecycle_stage' => array(
         // Content Properties

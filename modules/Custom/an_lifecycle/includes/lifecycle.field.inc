@@ -1,14 +1,16 @@
 <?php
 /* * ***
- * Created By: Lauren
- * Created On: June 25, 2012
+ * Created By: Doyle
+ * Created On:  July 5, 2012
  *
- * Last Updated By: Lauren
- * Last Updated On: June 29, 2012
+ * Last Updated By: Doyle
+ * Last Updated On: July 12, 2012
  * *** */
 
-// Resource Types
+// Load Resource Types
 module_load_include('inc', 'resource', 'includes/types');
+
+//Set array of resource types for entity_reference fields
 global $an_resource_types;
 //setup array of resource type names
 $resource_bundle_names = array();
@@ -19,6 +21,13 @@ foreach ($an_resource_types as $type => $unused)
 
 }
 
+/**
+ * Setup fields needed/used by the an_lifecycle section of the site. This includes
+ * the related_strategy field which is palced on all resource types.
+ * Contains information to create the field and the field instance.
+ * @global type $GLOBALS['an_lifecycle_fields']
+ * @name $an_lifecycle_fields 
+ */
 $GLOBALS['an_lifecycle_fields'] = array(
     // Machine Name => Label
     array(
@@ -122,6 +131,12 @@ $GLOBALS['an_lifecycle_fields'] = array(
     ),
 );
 
+
+/**
+ *Returns array of fields containing only information needed to create the field.
+ * @global type $an_lifecycle_fields
+ * @return string 
+ */
 function _an_lifecycle_field_lifecycle() {
     // Variables
     global $an_lifecycle_fields;
