@@ -38,7 +38,7 @@ $GLOBALS['an_navigation'] = array(
                         ''
                     ),
             ),
-	'resources_and_tools' => array(
+	'resources' => array(
                     'weight' => '2',
                     'link_title' => t('Resources & Tools'),
                     'link_path' => t('resources'),
