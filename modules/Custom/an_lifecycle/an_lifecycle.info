@@ -4,5 +4,7 @@ package = "AccrualNet"
 core = 7.x
 version = VERSION
 dependencies[] = link
+dependencies[] = token
+dependencies[] = pathauto
 dependencies[] = entityreference
 files[] = an_lifecycle.module

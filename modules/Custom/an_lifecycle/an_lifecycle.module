@@ -17,6 +17,9 @@
 module_load_include('inc', 'an_lifecycle', 'includes/types');
 // lifecycle stage fields
 module_load_include('inc', 'an_lifecycle', 'includes/lifecycle.field');
+//lifecycle node alias settings
+module_load_include('inc', 'an_lifecycle', 'includes/lifecycle.alias');
+
 // lifecycle strategy Fields
 //module_load_include('inc', 'an_lifecycle', 'includes/lifecycle_strategy.field');
 
@@ -152,6 +155,7 @@ function an_lifecycle_enable() {
     
     
     global $an_lifecycle_fields;
+    global $an_node_alias;
     // Rebuild the types --this may be unnecessary
     node_types_rebuild();
    
@@ -181,6 +185,13 @@ function an_lifecycle_enable() {
                 field_create_instance($instance);
             }
         }
+    }
+    
+    //set node alias'
+    foreach($an_node_alias as $type => $alias) {
+        $varname = 'pathauto_node_'.$type.'_pattern';
+        variable_set($varname, $alias);
+    //$types[] = $type;
     }
    
         
