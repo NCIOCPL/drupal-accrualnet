@@ -147,7 +147,37 @@ $GLOBALS['nci_user_fields'] = array(
 				)
 			)
 		)
-	)
+	),
+    'profile_color' => array(
+        'field' => array(
+			'field_name' => 'profile_color',
+			'type' => 'list_text',
+			'cardinality' => 1,
+			'settings' => array(
+				'allowed_values' => array(
+					'Black',
+					'Red',
+					'Orange',
+					'Blue',
+					'Green'
+				),
+			),
+		),
+		'instance' => array(
+			'field_name' => 'profile_color',
+			'entity_type' => 'user',
+			'label' => t('Profile Colors'),
+			'bundle' => 'user',
+			'required' => FALSE,
+			'settings' => array(
+				'user_register_form' => 0,
+			),
+			'widget' => array(
+				'type' => 'options_select',
+				'weight' => $field_weight++,
+			)
+		)
+    )
 );
 
 function nci_custom_user_enable() {
@@ -168,6 +198,9 @@ function nci_custom_user_enable() {
 	}
 
 	_nci_custom_user_config_images_and_avatars();
+}
+function nci_custom_user_disable() {
+
 }
 
 function nci_custom_user_uninstall() {
