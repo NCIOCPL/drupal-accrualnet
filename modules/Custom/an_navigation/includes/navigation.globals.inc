@@ -18,12 +18,7 @@ $GLOBALS['an_navigation'] = array(
                     'link_title' => t('Protocol Accrual Lifecycle'),
                     'link_path' => t('protocol_accrual_lifecycle'),
                     'mlid' => 0,
-                    'sublinks' => array (
-                        'developing_a_protocol' => array(
-                            
-                        ),
-                        ''
-                    ),
+                    
             ),
     
 	'communities' => array(
@@ -31,12 +26,8 @@ $GLOBALS['an_navigation'] = array(
                     'link_title' => t('Communities'),
                     'link_path' => t('node/1'),
                     'mlid' => 0,
-                    'sublinks' => array (
-                        'developing_a_protocol' => array(
-                            
-                        ),
-                        ''
-                    ),
+                    
+                        
             ),
 	'resources' => array(
                     'weight' => '2',
