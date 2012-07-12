@@ -103,32 +103,7 @@ $GLOBALS['an_lifecycle_fields'] = array(
             'lifecycle_strategy',
         ),
     ),
-    array(
-         'label' => 'Meta Keywords',
-        'description' => 'Provide keywords for this page that will be used for tagging for search engines.',
-        'field_name' => 'meta_keywords',
-        'type' => 'text',
-        'cardinality' => 1,
-        'entity_type' => 'node',
-        'settings' => array(),
-        'bundles' => array(
-            'lifecycle_strategy',
-            'lifecycle_stage',
-        ),
-    ),
-    array(
-        'label' => 'Meta Description',
-        'description' => 'Provide a description for this page that will be displayed under the title in search results for external search engines like google.',
-        'field_name' => 'meta_description',
-        'type' => 'text',
-        'cardinality' => 1,
-        'entity_type' => 'node',
-        'settings' => array(),
-        'bundles' => array(
-            'lifecycle_strategy',
-            'lifecycle_stage',
-        ),
-    ),
+    
 );
 
 
