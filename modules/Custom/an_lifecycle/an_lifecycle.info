@@ -3,4 +3,6 @@ description = "Provides templates and globals for the AccrualNet Protocol Accrua
 package = "AccrualNet"
 core = 7.x
 version = VERSION
+dependencies[] = link
+dependencies[] = entityreference
 files[] = an_lifecycle.module
