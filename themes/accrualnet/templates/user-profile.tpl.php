@@ -30,12 +30,28 @@
  *   Where the html is handled for each item in the group.
  * @see template_preprocess_user_profile()
  */
+module_load_include('inc', 'nci_custom_user', 'includes\profilecolors');
+global $nci_user_profile_colors;
+kprint_r(get_defined_vars());
+$account = $elements['#account'];
+$profileColor = 'Black';
+if ($account->profile_color != NULL) {
+    //kprint_r($account->profile_color);
+    $profileColor = $nci_user_profile_colors[$account->profile_color['und'][0]['value']];
+}
+kprint_r($profileColor);
+kprint_r($account);
 ?>
+<span class="nci-profile<?php print '-'.$profileColor; ?>">
+<h1><?php print $account->name; ?></h1>
 <section class="column sidebar region profile-sidebar">
+        <span id="test">
 	<?php print render($user_profile['user_picture']); ?>
+        </span>
 </section>
 <section class="column profile-content">
 	<div class="profile"<?php print $attributes; ?>>
 		<?php print render($user_profile); ?>
 	</div>
 </section>
+</span>
