@@ -89,18 +89,17 @@
 <div id="lifecycle-stage">
     <div class="lifecycle-stage-content">
         <div class="lifecycle-stage-body">
-            <?php print render($content['field_content']); ?>
-            <?php print kpr($content);?>
+            <?php print $node->field_content[$language][0]['value']; ?>
         </div>
         <div class="lifecycle-stage-strategies">
             <h2>Best Practices</h2>
-             <?php $strategies = $node->field_child_strategies[$language]; ?>           
+             <?php $strategies = $node->field_child_strategies == null ? array() :$node->field_child_strategies[$language] ; ?>
                 <?php foreach ($strategies as $strategy) : ?>
                     <?php $entity = $strategy['entity'];?>
                 <div class="lifecycle-stage-strategy">
                     <?php $urlPath = drupal_lookup_path('alias', 'node/'.$entity->nid); ?>
                     <h3><a href="/<?php print $urlPath != FALSE ? $urlPath : '/node/'.$entity->nid ;?>"><?php print $entity->title; ?></a></h3>
-                    <p><?php $language = 'und';?><?php print check_markup($entity->field_content_summary[$language][0]['value']);?></p>
+                    <p><?php print check_markup($entity->field_content_summary[$language][0]['value']);?></p>
               </div>
             <?php endforeach;?>
                 

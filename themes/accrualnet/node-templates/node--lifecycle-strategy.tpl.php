@@ -78,15 +78,36 @@
  * language, e.g. $node->body['en'], thus overriding any language negotiation
  * rule that was previously applied.
  *
+ * <?php foreach ($resources as $resource) : ?>
+                    <div class="lifecycle-strategy-resource">
+                        <?php print _resource_output_snippet($resource);?>      
+                    </div>
+                <?php endforeach;?>
+ * 
+ * 
+ * 
  * @see template_preprocess()
  * @see template_preprocess_node()
  * @see zen_preprocess_node()
  * @see template_process()
  */
 
+//This query will need to be updated if field_related_strategy is every used for content
+//besides resources.
+$query = new EntityFieldQuery();
+// We are looking for a node
+$query->entityCondition('entity_type', 'node')
+ ->fieldCondition('field_related_strategy', 'target_id', $node->nid)
+ ->propertyCondition("status", 1)
+ ->pager(5);
+
+
+// Just can keep chaining these until you're happy...
+$resources = _an_lifecycle_load_related_nodes($query, TRUE);
+   
+            
 
 ?>
-<?php $language = 'und';?>
 <div id="lifecycle-strategy">
     <div class="lifecycle-strategy-content">
         <div class="lifecycle-strategy-body">
@@ -94,37 +115,14 @@
         </div>
         <div class="lifecycle-strategy-resources">
             <h2>Reports, Articles and Tools</h2>
-           
-            <?php $resources = $node->field_related_resources[$language]; ?>
-                <?php foreach ($resources as $resource) : ?>
-                    <?php $entity = $resource['entity'];?>
-                <div class="lifecycle-strategy-resource">
-                    <?php print _resource_output_snippet($entity);?>      
-              </div>
-            <?php endforeach;?>
-                
-                
-        </div>
-        <div class="test">
-            <?php
-            $query = new EntityFieldQuery();
-            // We are looking for a node
-            $query->entityCondition('entity_type', 'node')
-            // Bundle (the content type) is the Article
-            ->entityCondition('bundle', array('lifecycle_strategy', 'meeting_abstract'))
-            // Title should contain the word "drupal", just like
-            // I promised, it's a node property and not a field.
-            ->propertyCondition('title', $node->title, '=');
-            // Since the field tags is a taxonomy_term_reference, 
-            // we are looking for a "tid".
-            //->fieldCondition('tags', 'tid', 4);
-
-            // Just can keep chaining these until you're happy...
-
-                print kpr($query->execute()); // voila :)
-            ?>
+                    <?php foreach($resources['nodes'] as $mynode):?> 
+            <div class="lifecycle-strategy-resource">
+                        <?php print _resource_output_snippet($mynode); ?>
+            </div>
+                    <?php endforeach;?>
+            
+                <?php print render($resources['pager']['#markup']); ?>
             
         </div>
     </div>
-   
 </div>
