@@ -26,7 +26,7 @@ function _an_lifecycle_load_related_nodes($entityFieldQuery, $pager = FALSE){
     $output = array();
   // return the nodes as teasers
   if (!empty($result['node'])) {
-    $output['nodes'] = node_view_multiple(node_load_multiple(array_keys($result['node'])), 'teaser');
+    $output['nodes'] = entity_load('node', array_keys($result['node']));
     if($pager)
         $output['pager']['#markup'] = theme('pager', $entityFieldQuery->pager);
   }
