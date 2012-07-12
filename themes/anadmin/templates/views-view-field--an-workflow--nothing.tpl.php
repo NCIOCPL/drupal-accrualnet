@@ -34,51 +34,40 @@ list($nid, $state, $actions, $writer, $editor) = explode('|', $output);
 $action_list = explode('<br />', $actions, -1);
 $can_moderate = (isset($action_list[0]));
 
-// make a simple array from the assigned users
-$assigned_users = array(
-	'Writer' => $writer,
-	'AccrualNet Staff' => $editor
-);
-
 // get the appropriate role of users to list
 $role = nci_workflow_get_role($state);
 
-// print the current role:
-//print $role . ': ';
+// choose between the assigned writer and editor
+$assigned_user = '';
+switch($role)
+{
+	case 'Writer':
+		$assigned_user = $writer;
+		break;
+	case 'AccrualNet Staff':
+		$assigned_user = $editor;
+		break;
+	default:
+}
 
 // if users for the appropriate role are available...
 if (isset($_SESSION['current_users'][$role])) {
+	$current_users = $_SESSION['current_users'][$role];
+
 	// and the current user can moderate the current state...
 	if ($can_moderate) {
-		global $user;
 
-		$user_id = $user->uid;
+		// retrieve the workflow assign users form and render it
+		print drupal_render(drupal_get_form('nci_workflow_assign_form',
+								$nid, $role, $assigned_user,
+								$current_users));
 
-		$display = $view->current_display;
-		$div_id = "${display}_assigned_to_$nid";
-		$sel_name = "assign_to_${nid}_select";
-
-		// generate a select list
-		print '<form autocomplete="off">';
-		print "<select name=$sel_name onchange='submitChosenUser(\"$display\", this.value, $nid, \"$role\")'>";
-		print '<option value="">- none -</option>';
-		foreach ($_SESSION['current_users'][$role] as $id => $name) {
-			print '<option';
-			if ($assigned_users[$role] == $id)
-				print ' selected="selected"';
-			print ' value="' . $id . '">' . $name . '</option>';
-		}
-		print '</select>';
-		print '</form>';
-
-		// add a div to receive return output
-		print "<div class='assign_to_status' id='$div_id'>&nbsp</div>";
+		// done!
 		return;
 	} else {
 		// if the user can't moderate, just display the current user
-		$id = $assigned_users[$role];
-		if (isset($_SESSION['current_users'][$role][$id])) {
-			print $_SESSION['current_users'][$role][$id];
+		if (isset($current_users[$assigned_user])) {
+			print $current_users[$assigned_user];
 			return;
 		}
 	}
