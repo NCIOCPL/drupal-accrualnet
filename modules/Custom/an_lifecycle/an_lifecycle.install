@@ -1,0 +1,40 @@
+<?php
+
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+module_load_include('module', 'an_lifecycle', 'an_lifecycle');
+
+
+function an_lifecycle_uninstall() {
+    // Variables
+    
+    global $an_lifecycle_types;
+    // Alert the user the module has been disabled, mostly used for testing
+    drupal_set_message($message = 'LifeCycle Module UNINSTALLED.');
+    
+    // Remove all of the fields created for any type of resource
+    foreach (array_keys(_an_lifecycle_fields()) as $field) {
+        field_delete_field($field);
+    }
+    
+    // For each type of resource, remove all instances associated with it
+    foreach ($an_lifecycle_types as $type => $properties) {
+        $instances = field_info_instances('node', $type);
+        foreach ($instances as $instanceName => $instance) {
+            field_delete_instance($instance);
+        }
+    }
+
+    // Remove each resource type as a recognized piece of content type for drupal
+    foreach (array_keys($an_lifecycle_types) as $type) {
+        node_type_delete($type);
+    }
+
+    // Purge all field information; this is from a sample, not sure what it does
+    field_purge_batch(1000);
+}
+
+
