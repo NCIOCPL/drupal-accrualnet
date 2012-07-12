@@ -358,4 +358,97 @@ function nci_workflow_workbench_moderation_transition($node, $previous_state, $n
 	workbench_access_node_insert($node);
 }
 
+function nci_workflow_assign_form($form, &$form_state, $nid, $role, $assigned_user, $current_users) {
+	$status_id = "assign_select_$nid";
+
+	$form += array(
+		'#type' => 'form',
+		'#attributes' => array(
+			'autocomplete' => 'off'
+		)
+	);
+
+	$options = array('' => '- none -');
+	$value = '';
+	foreach ($current_users as $uid => $name) {
+		if ($assigned_user == $uid)
+			$value = $uid;
+		$options[$uid] = $name;
+	}
+
+	// build the AJAX element
+	$ajax = array(
+		'callback' => 'nci_workflow_assign_js',
+		'wrapper' => $status_id,
+		'method' => 'replace',
+		'effect' => 'fade',
+		'progress' => array(
+			'type' => 'throbber',
+			'message' => ''
+		)
+	);
+
+	$form['assign_select'] = array(
+		'#type' => 'select',
+		'#options' => $options,
+		'#value' => array($value),
+		'#ajax' => $ajax
+	);
+
+	// add a div to receive return output
+	$form['assign_status'] = array(
+		'#type' => 'container',
+		'#id' => $status_id,
+		'#attributes' => array(
+			'class' => array('assign_to_status')
+		),
+		'inner' => array(
+			'#markup' => '&nbsp'
+		),
+	);
+
+	return $form;
+}
+
+function nci_workflow_assign_js($form, $form_state) {
+
+	// get the machine name for the role
+	$role = $form_state['build_info']['args'][1];
+	$field_name = "field_assigned_" . (($role == 'Writer') ? 'writer' : 'editor');
+
+
+	$nid = $form_state['build_info']['args'][0];
+	$assigned_user = $form_state['input']['assign_select'];
+
+	$node = node_load($nid);
+	$node = workbench_moderation_node_current_load($node);
+
+	if (empty($assigned_user)) {
+		// clear the field if the user is empty
+		$node->$field_name = array();
+		$output = 'unassigned.';
+	} else {
+		// assign the field with the chosen uid
+		$node->$field_name = array(
+			'und' => array(
+				0 => array(
+					'value' => $assigned_user
+				)
+			)
+		);
+		$output = 'assigned.';
+	}
+
+	// preserve the current moderation state
+	$node->workbench_moderation_state_new = $node->workbench_moderation['current']->state;
+	$node->workbench_moderation_state_current = $node->workbench_moderation['current']->state;
+
+	node_save($node);
+
+	//$output .= kprint_r($node, TRUE, '$node post-save');
+	$form['assign_status']['inner']['#markup'] = $output;
+
+	return $form['assign_status'];
+}
+
 ?>
