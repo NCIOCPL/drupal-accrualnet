@@ -83,7 +83,7 @@ function resource_enable() {
         // can be passed.
         $instances = array_merge(_resource_instances(), _resource_instance_citation($properties['citation']));
         foreach ($instances as $instance) {
-            if(field_read_instance('node', 'field_' .$instance['field_name'], $type) == FALSE)
+            if(field_read_instance('node', $instance['field_name'], $type) == FALSE)
             {
                 $instance['entity_type'] = 'node';
                 $instance['bundle'] = $type;
@@ -134,7 +134,9 @@ function resource_disable() {
 
     // Purge all field information; this is from a sample, not sure what it does
     field_purge_batch(1000);
+     * 
      */
+     
 }
 
 
