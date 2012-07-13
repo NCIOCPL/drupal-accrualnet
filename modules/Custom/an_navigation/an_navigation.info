@@ -2,6 +2,7 @@ name = AccrualNet Navigation
 description = "Provides navigation and associated blocks."
 package = "AccrualNet Navigation"
 dependencies[] = resource_page_templates
+dependencies[] = menu
 core = 7.x
 version = VERSION
 files[] = an_navigation.module

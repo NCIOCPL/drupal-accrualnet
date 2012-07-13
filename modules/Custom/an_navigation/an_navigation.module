@@ -73,7 +73,6 @@ function _an_navigation_resources_submenu($parentID, $base_path){
                     'plid' => $parentID,
                 ),
             );
-         menu_edit_item_validate(array(), $menu_entry);
             
         $plid_lvl2 = menu_link_save($menu_entry['values']);
         
@@ -96,8 +95,7 @@ function _an_navigation_resources_submenu($parentID, $base_path){
                     'plid' => $plid_lvl2,
                 ),
             );
-            // Validate and transform the item, so it conforms with Drupal standards.
-            menu_edit_item_validate(array(), $menu_entry);
+            
             // Save the item to database.
             menu_link_save($menu_entry['values']);
             $level2_weight++;
@@ -159,7 +157,6 @@ function _an_navigation_protocol_accrual_lifecycle_submenu($parentID, $base_path
                     'plid' => $parentID,
                 ),
             );
-         menu_edit_item_validate(array(), $menu_entry);
             
         $plid_lvl2 = menu_link_save($menu_entry['values']);
         
@@ -182,8 +179,7 @@ function _an_navigation_protocol_accrual_lifecycle_submenu($parentID, $base_path
                     'plid' => $plid_lvl2,
                 ),
             );
-            // Validate and transform the item, so it conforms with Drupal standards.
-            menu_edit_item_validate(array(), $menu_entry);
+            
             // Save the item to database.
             menu_link_save($menu_entry['values']);
             $level2_weight++;
@@ -236,8 +232,7 @@ function an_navigation_enable() {
                 'router_path' => $values['link_path'].'/%',
             ),
         );
-        // Validate and transform the item, so it conforms with Drupal standards.
-        menu_edit_item_validate(array(), $menu_entry);
+        
         // Save the item to database.
         $menu_id[$menu_item] = menu_link_save($menu_entry['values']);
         $function = '_an_navigation_'.$menu_item.'_submenu';
@@ -267,8 +262,7 @@ function _nci_create_menu_entry(){
                 'mlid' => 0,           
             ),
         );
-        // Validate and transform the item, so it conforms with Drupal standards.
-        //menu_edit_item_validate(array(), $menu_entry);
+        
         // Save the item to database.
         menu_link_save($menu_entry['values']);
     }
