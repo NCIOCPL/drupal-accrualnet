@@ -89,7 +89,7 @@
 <div id="lifecycle-stage">
     <div class="lifecycle-stage-content">
         <div class="lifecycle-stage-body">
-            <?php print $node->field_content[$language][0]['value']; ?>
+            <?php print render($content['field_content']); ?>
         </div>
         <div class="lifecycle-stage-strategies">
             <h2>Best Practices</h2>
@@ -99,7 +99,9 @@
                 <div class="lifecycle-stage-strategy">
                     <?php $urlPath = drupal_lookup_path('alias', 'node/'.$entity->nid); ?>
                     <h3><a href="/<?php print $urlPath != FALSE ? $urlPath : '/node/'.$entity->nid ;?>"><?php print $entity->title; ?></a></h3>
+                    <?php if(!empty($entity->field_content_summary)): ?>
                     <p><?php print check_markup($entity->field_content_summary[$language][0]['value']);?></p>
+                    <?php endif;?>
               </div>
             <?php endforeach;?>
                 
