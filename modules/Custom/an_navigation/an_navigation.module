@@ -171,15 +171,21 @@ function _an_navigation_protocol_accrual_lifecycle_submenu($parentID, $base_path
         
         //get all child strategies
         $strategyQuery = new EntityFieldQuery();
-        $strategyQuery->entityCondition('entity_type', 'node')
-        ->entityCondition('bundle', 'lifecycle_strategy')
-        ->fieldCondition('field_related_strategy', 'target_id', $stage->nid)
-        ->propertyCondition("status", 1);
-        $strategyNodes = array();
-        $strategyNodes['nodes'] = array();
-        $strategyNodes = _an_lifecycle_load_related_nodes($strategyQuery);
+       // $strategyQuery->entityCondition('entity_type', 'node')
+       // ->entityCondition('bundle', 'lifecycle_strategy')
+       // ->fieldCondition('field_child_strategies', 'target_id', $stage->nid)
+      //  ->propertyCondition("status", 1);
+        if(!empty($stage->field_child_strategies)) {
+            $strategyQuery = new EntityFieldQuery();
+            $test = array_values($stage->field_child_strategies['und']);
+            $strategyQuery->entityCondition('entity_type', 'node')
+            ->entityCondition('bundle', 'lifecycle_strategy')
+            ->propertyCondition('nid', array_values($stage->field_child_strategies['und']));
+            $strategyNodes = _an_lifecycle_load_related_nodes($strategyQuery);
         
-            foreach ($strategyNodes['nodes'] as $strategy) {
+        
+        
+            foreach ($strategyNodes['nodes'] as $strategy){
                 $menu_strategy = $strategy->title;
                 //setup the menu item structure
                 $menu_entry = array(
@@ -197,7 +203,30 @@ function _an_navigation_protocol_accrual_lifecycle_submenu($parentID, $base_path
                 menu_link_save($menu_entry['values']);
                 $level2_weight++;
             }
-        
+        }
+        print kpr($stage);
+        //$strategies = $stage->field_child_strategies == null ? array() : $stage->field_child_strategies['und'];
+               
+            //foreach ($strategyNodes['nodes'] as $strategy) {
+        /*foreach ($stage->field_child_strategies as $strategy){
+                $menu_strategy = $strategy->title;
+                //setup the menu item structure
+                $menu_entry = array(
+                    'values' => array(
+                        'menu_name' => 'an-main-nav',
+                        'weight' => $level2_weight,
+                        'link_title' => $menu_strategy,
+                        'link_path' => 'node/'.$strategy->nid,
+                        'module' => t('menu'),
+                        'mlid' => 0,
+                        'plid' => $plid_lvl2,
+                    ),
+                );
+                // Save the item to database.
+                menu_link_save($menu_entry['values']);
+                $level2_weight++;
+            }
+        */
         /*
         foreach ($strategies as $menu_strategy) {
             //replace all special characters (not a-z, A-Z, 0-9) with '_' to represent
