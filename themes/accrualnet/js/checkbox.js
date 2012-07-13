@@ -25,12 +25,14 @@ jQuery.each($('.form-type-checkbox'), function() {
     $found = true;
    /*$(this).find('label').addClass('checked');*/
    $(this).addClass('checked');
+   $(this).attr('checked', true);
   break;
     }
     }
     if (!$found) {
         /*$(this).find('label').addClass('unchecked');*/
         $(this).addClass('unchecked');
+        $(this).removeAttr('checked');
     }
     
     
@@ -39,23 +41,20 @@ jQuery.each($('.form-type-checkbox'), function() {
    
     
 });
-  var testy = '.form-item-field-role-und-select-' + Drupal.settings.myvarname[0];
-          alert(testy);
-          /*$(testy).addClass('supatest');*/
-          $('.form-item-field-role-und-select-Administration/Management').addClass('supatest');
-        for(key in Drupal.settings.myvarname) {
-           /* alert(key); works */
-           /*$('field_role[und][select]['.key.']').addClass('supatest');*/
-          /* $('.form-item-field-role-und-select-' + (string) key).addClass('supatest');*/
-          var test2 = 'form-item-field-role-und-select-' + Drupal.settings.myvarname[key];
-       /*   alert(test2);
-          $(test2).addClass('supatest');*/
-        }
-        var $j = jQuery.noConflict();
-        $('.form-type-checkbox').attr('checked', true);
-        
-        $('.form-type-checkbox').click(function () {
-            $(this).removeClass('supatest');
+
+        $('.form-type-checkbox').change(function () {
+            if ($(this).hasClass('checked')) {
+                $(this).addClass('unchecked');
+                $(this).removeClass('checked');
+                $(this).removeAttr('checked');
+                return true;
+            } else if ($(this).hasClass('unchecked')) {
+                $(this).removeClass('unchecked');
+                $(this).addClass('checked');
+                $(this).attr('checked', 'checked');
+                return true;
+            }
+            return false;
         });
 
     
