@@ -137,13 +137,22 @@ function _an_navigation_protocol_accrual_lifecycle_submenu($parentID, $base_path
     
     
     $level1_weight = 0;
-    foreach ($an_stage_strategy as $menu_stage => $strategies )
+    
+    $stageQuery = new EntityFieldQuery();
+    $stageQuery->entityCondition('entity_type', 'node')
+    ->entityCondition('bundle', 'lifecycle_stage')
+    ->propertyCondition("status", 1);
+    
+  
+    
+    $stageNodes = _an_lifecycle_load_related_nodes($stageQuery);
+    
+    //Create all 1st level Stage nodes.
+    foreach ($stageNodes['nodes'] as $stage )
     {
-        //print dpm($menu_stage);
-        //print dpm($values);
-        $old_pattern = array("/[^a-zA-Z0-9]/", "/_+/", "/_$/");
-        $new_pattern = array("_", "_", "");
-        $stage_url = strtolower(preg_replace($old_pattern, $new_pattern, $menu_stage));
+        
+        $menu_stage = $stage->title;
+
             
         $level2_weight = 0;
         $menu_entry = array(
@@ -151,7 +160,7 @@ function _an_navigation_protocol_accrual_lifecycle_submenu($parentID, $base_path
                     'menu_name' => 'an-main-nav',
                     'weight' => $level1_weight,
                     'link_title' => $menu_stage,
-                    'link_path' => $base_path.'/' .$stage_url,
+                    'link_path' => 'node/'.$stage->nid,
                     'module' => t('menu'),
                     'mlid' => 0,
                     'plid' => $parentID,
@@ -160,6 +169,36 @@ function _an_navigation_protocol_accrual_lifecycle_submenu($parentID, $base_path
             
         $plid_lvl2 = menu_link_save($menu_entry['values']);
         
+        //get all child strategies
+        $strategyQuery = new EntityFieldQuery();
+        $strategyQuery->entityCondition('entity_type', 'node')
+        ->entityCondition('bundle', 'lifecycle_strategy')
+        ->fieldCondition('field_related_strategy', 'target_id', $stage->nid)
+        ->propertyCondition("status", 1);
+        $strategyNodes = array();
+        $strategyNodes['nodes'] = array();
+        $strategyNodes = _an_lifecycle_load_related_nodes($strategyQuery);
+        
+            foreach ($strategyNodes['nodes'] as $strategy) {
+                $menu_strategy = $strategy->title;
+                //setup the menu item structure
+                $menu_entry = array(
+                    'values' => array(
+                        'menu_name' => 'an-main-nav',
+                        'weight' => $level2_weight,
+                        'link_title' => $menu_strategy,
+                        'link_path' => 'node/'.$strategy->nid,
+                        'module' => t('menu'),
+                        'mlid' => 0,
+                        'plid' => $plid_lvl2,
+                    ),
+                );
+                // Save the item to database.
+                menu_link_save($menu_entry['values']);
+                $level2_weight++;
+            }
+        
+        /*
         foreach ($strategies as $menu_strategy) {
             //replace all special characters (not a-z, A-Z, 0-9) with '_' to represent
             //what the url path should be
@@ -183,7 +222,7 @@ function _an_navigation_protocol_accrual_lifecycle_submenu($parentID, $base_path
             // Save the item to database.
             menu_link_save($menu_entry['values']);
             $level2_weight++;
-        }
+        }*/
         
         $level1_weight++;
         
@@ -248,7 +287,7 @@ function an_navigation_enable() {
 }
 
 
-
+/*
 function _nci_create_menu_entry(){
     foreach ($an_navigation as $menu_item => $values)
     {
@@ -268,7 +307,7 @@ function _nci_create_menu_entry(){
     }
     //menu_rebuild();
 }
-
+*/
 
 function _nci_get_sub_navigation(){
     //$newTree = menu_build_tree('an-main-nav');
