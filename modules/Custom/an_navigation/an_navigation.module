@@ -204,7 +204,6 @@ function _an_navigation_protocol_accrual_lifecycle_submenu($parentID, $base_path
                 $level2_weight++;
             }
         }
-        print kpr($stage);
         //$strategies = $stage->field_child_strategies == null ? array() : $stage->field_child_strategies['und'];
                
             //foreach ($strategyNodes['nodes'] as $strategy) {
