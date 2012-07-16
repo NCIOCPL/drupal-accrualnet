@@ -34,6 +34,9 @@ function resource_level_3_page($section, $subsection) {
     if (isset($_POST['stage'])) {
         print dpm($_POST['stage']);
         $postedStage = $_POST['stage'];
+        if ($postedStage == "NULL") {
+            $postedStage = NULL;
+        }
         /* print dpm($postedStage);
           if (strstr($postedStage, '&')) {
           $stages = explode('&', $postedStage);
@@ -47,6 +50,9 @@ function resource_level_3_page($section, $subsection) {
     if (isset($_POST['strategy'])) {
         //print dpm($_POST['strategy']);
         $postedStrategy = $_POST['strategy'];
+        if ($postedStrategy == "NULL") {
+            $postedStrategy = NULL;
+        }
     }
 
     $vocab = taxonomy_vocabulary_machine_name_load('an_vocabulary_' . $section);
@@ -92,6 +98,8 @@ $foundStrat = NULL;
     $query->entityCondition('entity_type', 'node');
     // 
     $query->entityCondition('bundle', array_keys($an_resource_types));
+    //print dpm($vocab);
+    $query->fieldCondition('field_tax_'.$section, 'tid', $tag->tid);
     //$query->fieldCondition('field_related_strategy', 'target_id', $tag->tid);
     //$query->propertyCondition('title', $node->title, '=');
     try {
@@ -121,6 +129,7 @@ $foundStrat = NULL;
     $output .= '<h2>' . $vocabName . '</h2>';
     $output .= '<h3>' . $tagName . '</h3>';
 
+    $output .= '<?php drupal_get_form("ajax_example_simplest"); ?>';
 
     $output .= '<div id="filter-box">';
     if ($postedStage != NULL || $postedStrategy != NULL) {
