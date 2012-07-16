@@ -196,6 +196,12 @@ function accrualnet_preprocess_user_profile_form(&$vars) {
 				"You can upload a JPG, GIF, or PNG file.\n(File size limit is 2MB)";
 		$vars['form']['picture']['picture_upload']['#title'] = 'Upload Photo';
 		$vars['form']['picture']['select_avatar']['#title'] = 'Or Select an Avatar';
+
+		$vars['form']['picture']['#attached']['js'] = array(
+			drupal_get_path('theme', 'accrualnet') . '/js/photo_crop.js',
+		);
+
+		//print kprint_r($vars, TRUE, '$vars');
 	} catch (Exception $e) {
 		print_r($e->getMessage());
 	}
