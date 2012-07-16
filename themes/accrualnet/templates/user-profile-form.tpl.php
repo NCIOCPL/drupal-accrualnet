@@ -22,9 +22,9 @@ $output = "";
 <section class="column profile-content">
 	<div class="accrualnet-user-profile-form-wrapper">
 		<?php
-                 //print drupal_render_children($form);
-                $output .= drupal_render($form['account']);
-                $output = str_replace('*', '<img src="/'.path_to_theme().'/accrualnet-internals/images/global/test.jpg" />', $output);
+                $output .= print drupal_render_children($form);
+                //$output .= drupal_render($form['account']);
+                //$output = str_replace('*', '<img src="/'.path_to_theme().'/accrualnet-internals/images/global/test.jpg" />', $output);
                 print $output
                 ?>
 	</div>
