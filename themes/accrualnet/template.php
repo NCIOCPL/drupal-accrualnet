@@ -477,6 +477,8 @@ function accrualnet_preprocess_page(&$variables, $hook) {
 	} else {
 		$variables['secondary_menu_heading'] = '';
 	}
+       
+        
 }
 
 /**
@@ -541,6 +543,8 @@ function accrualnet_preprocess_node(&$variables, $hook) {
 	}
 
 	$variables['title_attributes_array']['class'][] = 'node-title';
+        
+       
 }
 
 /**
