@@ -1,9 +1,21 @@
 <?php
 
+//include files for this module.
+//module_load_include('inc', 'nci_custom_user', 'nci_custom_user');
 /**
  * @file
  * A module that customizes various uer features for NCI sites.
  */
+
+//function nci_custom_user_forms(){
+    //$forms['nci_custom_user_profile_picture_form']['callback'] = 'nci_custom_user_profile_picture_form';
+    //$forms['nci_custom_user_profile_picture_crop_form']['callback'] = 'nci_custom_user_profile_picture_crop_form';
+    //return $forms;
+//}
+
+
+
+
 function nci_custom_user_form_user_register_form_alter(&$form, &$form_state) {
 	$form['picture']['#access'] = TRUE;
 	$form['picture']['#title'] = '';
