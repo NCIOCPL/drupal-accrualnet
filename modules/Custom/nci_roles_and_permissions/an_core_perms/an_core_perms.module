@@ -287,10 +287,10 @@ function an_core_perms_enable()
           ),
           'use advanced search' => array(
               $anon => FALSE,
-              $auth => TRUE,
+              $auth => FALSE,
               $writer => FALSE,
               $anstaff => FALSE,
-              $admin => TRUE
+              $admin => FALSE
           ),
       ),
       //Shortcut Permissions
