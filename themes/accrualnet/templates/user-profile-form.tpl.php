@@ -22,8 +22,6 @@ $form['account']['roles']['#access'] = FALSE;
 
 $form['account']['name']['#title'] = "";
 $form['account']['pass']['#title_display'] = "after";
-$scriptURL = path_to_theme() . '/js/script.js';
-drupal_add_js($scriptURL);
 $output = "";
 
 
