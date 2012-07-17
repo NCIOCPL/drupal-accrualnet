@@ -136,14 +136,33 @@ section.profile-sidebar fieldset {
     text-transform: uppercase;
 }
 
-.accrualnet-user-profile-form-wrapper div.password-strength-title {
+.accrualnet-user-profile-form-wrapper div.password-strength{
     color: black;
-    font-weight: bold;
+    font-weight: normal;
+    float: right;
+    margin-right: 50%;
+    margin-top: 45px;
+    width: 170px;
+    visibility: hidden;
+}
+div.password-strength-text {
+    float: right;
+}
+
+.form-type-password-confirm .description {
+    width:0px;
+    height:0px;
+    overflow: hidden;
 }
 
 .accrualnet-user-profile-form-wrapper div.password-confirm {
-    color: #9AB83F;
-    font-weight: bold;
+    color: black;
+    font-weight: normal;
+    float: right;
+    margin-right: 50%;
+    margin-top: 45px;
+    width: 180px;
+    visibility: hidden;
 }
 
 
@@ -347,6 +366,9 @@ font-family: Arial, Helvetica, sans-serif;
 #Green.profile-colors-selected {
     background-color: #9AB83F;
 }
+#Purple.profile-colors-selected {
+    background-color: #54316E;
+}
 #Orange.profile-colors-selected {
     background-color: #DC6E23;
 }
@@ -359,6 +381,17 @@ margin-left: auto;
 margin-right: auto;
 text-align: center;
 }
+input {
+    float: left;
+}
+.description {
+    float: left;
+}
+
+.form-item label {
+    padding-top: 20px;
+}
+
 
 .profile-colors-options span {
     margin: 5px;
@@ -396,4 +429,8 @@ div.profile-colors-selected div#Blue {
 div.profile-colors-options span#Green,
 div.profile-colors-selected div#Green {
     background-color: #9AB83F;
+}
+div.profile-colors-options span#Purple,
+div.profile-colors-selected div#Purple {
+    background-color: #54316E;
 }

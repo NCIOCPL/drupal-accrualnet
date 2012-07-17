@@ -21,7 +21,7 @@
 
         
         var $selectedValues = Drupal.settings.selectedValues;
-        alert($selectedValues);
+        
         /*if (($selectedValues.index('ROLE_OTHER')) != -1) {*/
         if (jQuery.inArray('ROLE_OTHER', $selectedValues)) {
             $('.form-item-field-role-und-select-select-or-other').addClass('checked');
@@ -30,7 +30,7 @@
             $('.form-item-field-areas-of-interest-und-select-select-or-other').addClass('checked');
         }
         
-        alert($selectedValues);
+        
         jQuery.each($('.form-type-checkbox'), function()  {
             var $inputvalue = $(this).children('input').val();
             var $found = false;

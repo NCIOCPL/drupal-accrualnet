@@ -4,6 +4,8 @@
  * and open the template in the editor.
  */
 
+
+$form['account']['name']['#description'] = "Test";
 module_load_include('inc', 'nci_custom_user', 'includes\profilecolors');
 global $nci_user_profile_colors;
 kprint_r($form);
@@ -105,41 +107,50 @@ $form['actions']['cancel']['#value'] = 'Cancel';
             if (count($form[$select]['und']) > 0) {
                 $output .= '<div id="' . $select . '" class="selectBox">';
                 $output .= '<span class="selected">';
-                
-                $output .= $index;
                 $output .='</span><span class="selectArrow">&#9660</span>';
                 $output .= '<div class="selectOptions">';
 
-                if (array_key_exists('safe_value', $form[$select]['und']['#default_value'])) {
-                    $safeValue = $form[$select]['und']['#default_value']['safe_value'];
-                    if (!array_key_exists($safeValue, $form[$select]['und']['#options'])) {
-                        $safeValue = "select_or_other";
-                    }
-                    foreach ($form[$select]['und']['#options'] as $selectOptionKey => $selectOptionValue) {
-                        if ($selectOptionValue == $safeValue)
-                            $class = 'selectOption selectedd';
-                        else
-                            $class = 'selectOption';
-                        $output .= '<span class="' . $class . '" id="' . $selectOptionKey . '">' . $selectOptionValue . '</span>';
-                    }
-                } else {
-                    $index = $form[$select]['und']['#default_value'][0];
+                if (array_key_exists('#default_value', $form[$select]['und'])) {
+                    $safeValue = NULL;
+                    if ($form[$select]['und']['#default_value'] != NULL) {
 
-                    foreach ($form[$select]['und']['#options'] as $selectOptionKey => $selectOptionValue) {
-                        if ($selectOptionKey == $index)
-                            $class = 'selectOption selectedd';
-                        else
-                            $class = 'selectOption';
-                        $output .= '<span class="' . $class . '" id="' . $selectOptionKey . '">' . $selectOptionValue . '</span>';
-                    }
-                }
-                if (array_key_exists('#other', $form[$select]['und'])) {
-                    if ($safeValue == "select_or_other") {
-                    $output .= '<span class="selectOption select_or_other selectedd">' . $form[$select]['und']['#other'] . '</span>';
+                        if (array_key_exists('safe_value', $form[$select]['und']['#default_value'])) {
+                            $safeValue = $form[$select]['und']['#default_value']['safe_value'];
+                            if (!array_key_exists($safeValue, $form[$select]['und']['#options'])) {
+                                $safeValue = "select_or_other";
+                            }
+                            foreach ($form[$select]['und']['#options'] as $selectOptionKey => $selectOptionValue) {
+                                if ($selectOptionValue == $safeValue)
+                                    $class = 'selectOption selectedd';
+                                else
+                                    $class = 'selectOption';
+                                $output .= '<span class="' . $class . '" id="' . $selectOptionKey . '">' . $selectOptionValue . '</span>';
+                            }
+                        } else {
+                            $index = $form[$select]['und']['#default_value'][0];
+
+                            foreach ($form[$select]['und']['#options'] as $selectOptionKey => $selectOptionValue) {
+                                if ($selectOptionKey == $index)
+                                    $class = 'selectOption selectedd';
+                                else
+                                    $class = 'selectOption';
+                                $output .= '<span class="' . $class . '" id="' . $selectOptionKey . '">' . $selectOptionValue . '</span>';
+                            }
+                        }
                     } else {
-                        $output .= '<span class="selectOption select_or_other">' . $form[$select]['und']['#other'] . '</span>';
+                        foreach ($form[$select]['und']['#options'] as $selectOptionKey => $selectOptionValue) {
+                            $output .= '<span class="selectOption" id="' . $selectOptionKey . '">' . $selectOptionValue . '</span>';
+                        }
+                    }
+                    if (array_key_exists('#other', $form[$select]['und'])) {
+                        if ($safeValue == "select_or_other") {
+                            $output .= '<span class="selectOption select_or_other selectedd">' . $form[$select]['und']['#other'] . '</span>';
+                        } else {
+                            $output .= '<span class="selectOption select_or_other">' . $form[$select]['und']['#other'] . '</span>';
+                        }
                     }
                 }
+
                 $output .= '</div>';
                 $output .= '<div class="select-spacer">&nbsp;</div>';
                 $output .= '</div>';
