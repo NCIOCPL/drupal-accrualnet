@@ -13,9 +13,10 @@ $account = $form['account'];
 $color = $nci_user_profile_colors[0];
 if (count($form['profile_color']['und']) > 0) {
     if (array_key_exists('#value', $form['profile_color']['und'])) {
-if (count($form['profile_color']['und']['#value']) > 0) {
-    $color = $nci_user_profile_colors[array_pop($form['profile_color']['und']['#value'])];
-}
+        if (count($form['profile_color']['und']['#value']) > 0) {
+            //$color = $nci_user_profile_colors[array_pop($form['profile_color']['und']['#value'])];
+            $color = $nci_user_profile_colors[0];
+        }
     }
 }
 
