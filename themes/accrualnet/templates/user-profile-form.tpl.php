@@ -3,7 +3,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-kprint_r($form);
+//kprint_r($form);
 
 
 // Form Changes
@@ -16,8 +16,12 @@ $output = "";
 	<?php print render($intro_text); ?>
 </p>
 <section class="column sidebar region profile-sidebar">
-	<?php print render($form['picture']); ?>
-    <img class="image" src="/<?php print path_to_theme(); ?>/accrualnet-internals/images/global/test.jpg" />
+    
+    <?php
+            print drupal_render($form['picture']);
+    
+    ?>
+    <!--img class="image" src="/<?php //print path_to_theme(); ?>/accrualnet-internals/images/global/test.jpg" /-->
 </section>
 <section class="column profile-content">
 	<div class="accrualnet-user-profile-form-wrapper">

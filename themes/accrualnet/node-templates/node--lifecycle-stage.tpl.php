@@ -82,33 +82,56 @@
  * @see template_preprocess_node()
  * @see zen_preprocess_node()
  * @see template_process()
+ * 
+ * 
+ * This template will serve as both a page-view and non page-view template for the
+ * lifecycle-stage content type. This is done using the $page flag. 
+ * 
+ * 
  */
 
 ?>
-<?php $language = 'und';?>
-<div id="lifecycle-stage">
-    <div class="lifecycle-stage-content">
-        <div class="lifecycle-stage-body">
-            <?php print render($content['field_content']); ?>
+
+
+
+<article class="node-<?php print $node->nid; ?> <?php print $classes; ?> clearfix"<?php print $attributes; ?>>
+    <?php if ($title_prefix || $title_suffix || $display_submitted || $unpublished || !$page && $title): ?>
+        <header>
+        <?php print render($title_prefix); ?>
+        <?php if (!$page && $title): ?>
+            <h2<?php print $title_attributes; ?>><a href="<?php print $node_url; ?>"><?php print $title; ?></a></h2>
+        <?php endif; ?>
+        <?php print render($title_suffix); ?>
+        <?php if ($unpublished): ?>
+            <p class="unpublished"><?php print t('Unpublished'); ?></p>
+        <?php endif; ?>
+        </header>
+    <?php endif; ?>
+    <?php $language = 'und';?>
+    <div id="lifecycle-stage">
+        <div class="lifecycle-stage-content">
+            <div class="lifecycle-stage-body">
+                <?php print render($content['field_content']); ?>
+            </div>
+            <div class="lifecycle-stage-strategies">
+                <h2>Best Practices</h2>
+                <?php $strategies = $node->field_child_strategies == null ? array() :$node->field_child_strategies[$language] ; ?>
+                    <?php foreach ($strategies as $strategy) : ?>
+                        <?php $entity = $strategy['entity'];?>
+                    <div class="lifecycle-stage-strategy">
+                        <?php $urlPath = drupal_lookup_path('alias', 'node/'.$entity->nid); ?>
+                        <h3><a href="/<?php print $urlPath != FALSE ? $urlPath : '/node/'.$entity->nid ;?>"><?php print $entity->title; ?></a></h3>
+                        <?php if(!empty($entity->field_content_summary)): ?>
+                        <p><?php print check_markup($entity->field_content_summary[$language][0]['value']);?></p>
+                        <?php endif;?>
+                </div>
+                <?php endforeach;?>
+
+
+            </div>
         </div>
-        <div class="lifecycle-stage-strategies">
-            <h2>Best Practices</h2>
-             <?php $strategies = $node->field_child_strategies == null ? array() :$node->field_child_strategies[$language] ; ?>
-                <?php foreach ($strategies as $strategy) : ?>
-                    <?php $entity = $strategy['entity'];?>
-                <div class="lifecycle-stage-strategy">
-                    <?php $urlPath = drupal_lookup_path('alias', 'node/'.$entity->nid); ?>
-                    <h3><a href="/<?php print $urlPath != FALSE ? $urlPath : '/node/'.$entity->nid ;?>"><?php print $entity->title; ?></a></h3>
-                    <?php if(!empty($entity->field_content_summary)): ?>
-                    <p><?php print check_markup($entity->field_content_summary[$language][0]['value']);?></p>
-                    <?php endif;?>
-              </div>
-            <?php endforeach;?>
-                
-                
+        <div class="lifecycle-stage-related">
+            <!-- Insert Related Node Content Here -->
         </div>
     </div>
-    <div class="lifecycle-stage-related">
-        <!-- Insert Related Node Content Here -->
-    </div>
-</div>
+</article>

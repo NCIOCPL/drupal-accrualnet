@@ -9,10 +9,3 @@ jQuery(document).ready(function($) {
 		alert("Browsed for url " + $(this).val());
 	});
 });
-
-
-/*function($) {
-	var size = $('input').size();
-	alert ("Matched " + size + " elements.");
-	//.change(function() {alert('Handler for .change() called.');});
-}(jQuery);*/
