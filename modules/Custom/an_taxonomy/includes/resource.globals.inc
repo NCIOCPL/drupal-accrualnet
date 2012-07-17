@@ -13,7 +13,7 @@ $GLOBALS['an_resource_menu_vocab'] = array(
     'provider_related',
     'systems_and_regulatory',
     'study',
-    'ethics',
+    'ethical',
 );
 
 $GLOBALS['an_vocabularies'] = array(
@@ -63,7 +63,7 @@ $GLOBALS['an_vocabularies'] = array(
 	)),
 	array(
 		'name' => 'Ethical Issues',
-		'machine_stem' => 'ethics',
+		'machine_stem' => 'ethical',
 		'terms' => array(
 			'Consent',
 			'Financial Incentives',
