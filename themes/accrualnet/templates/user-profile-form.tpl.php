@@ -27,9 +27,9 @@ $output = "";
 
 /* drupal_add_js('Drupal.behaviors.password = function () {};', 'inline', 'header'); */
 $selectedValuesOnLoad = array();
-$selectedValuesFieldRole = $form['field_role']['und']['#default_value'];
+$selectedValuesFieldRole = $form['field_occupation']['und']['#default_value'];
 foreach ($selectedValuesFieldRole as $selected) {
-    if (!in_array($selected, $form['field_role']['und']['#options'])) {
+    if (!in_array($selected, $form['field_occupation']['und']['#options'])) {
         $selectedValuesOnLoad[] = "ROLE_OTHER";
     } else {
         $selectedValuesOnLoad[] = $selected;
@@ -94,7 +94,7 @@ $form['actions']['cancel']['#value'] = 'Cancel';
         //kprint_r( $test);
         $output .= $test;
 
-        $output .= drupal_render($form['field_role']);
+        $output .= drupal_render($form['field_occupation']);
 
 
 
