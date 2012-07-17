@@ -7,3 +7,5 @@ version = 7.x-1.0
 
 dependencies[] = "select_or_other"
 dependencies[] = "avatar_selection"
+
+files[] = "includes/profilecolors.inc"
