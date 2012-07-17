@@ -34,7 +34,8 @@ function _accrualnet_preprocess_html(&$variables, $hook) {
     'forms.css',
     'fields.css',
     'print.css',
-    'AccrualNet.css'
+    'AccrualNet.css',
+	'user.css'
   );
   if (theme_get_setting('accrualnet_layout') == 'accrualnet-fixed-width') {
     // Replace the fixed-width.css file.

@@ -229,57 +229,14 @@ header#page-header {
     padding-left: 10px;
 }
 
-/*****************
-* User Profile styles (Dan)
-*****************/
-
-.profile-sidebar {
-	float:left;
-	margin-left: 0;
-	margin-right: -25%;
-	width:25%;
+/** Added by Lauren **/
+.unchecked {
+    background-image: url('/sites/AccrualNet/themes/accrualnet/accrualnet-internals/images/global/checkbox_unchecked.jpg'); 
+    background-repeat:no-repeat;
+    background-position:left center; 
 }
-
-.profile-content {
-	float:left;
-	margin-left: 25%;
-	margin-right: -100%;
-	width: 75%;
-}
-
-section.profile-sidebar > span.user-picture > a > img:after {
-	-moz-transform: skew(35deg);
-    -moz-transform-origin: center top;
-    background-color: rgba(84, 49, 110, 0.75);
-    bottom: -10px;
-    content: "";
-    height: 10px;
-    left: 0;
-    position: absolute;
-    width: 100%;
-}
-
-section.profile-sidebar > span.user-picture > a > img:before {
-	-moz-transform: skewY(55deg);
-    -moz-transform-origin: center top;
-    background-color: rgba(84, 49, 110, 0.75);
-    content: "";
-    height: 100%;
-    position: absolute;
-    right: -7px;
-    top: 5px;
-    width: 7px;
-}
-
-section.profile-sidebar span.user-picture a img {
-	background-color: white;
-    border: 1px solid rgba(84, 49, 110, 0.7);
-    margin: 0 auto;
-    overflow: visible;
-    position: relative;
-    /*width: 85%;*/
-}
-
-section.profile-sidebar fieldset {
-	border:none;
+.checked {
+    background-image: url('/sites/AccrualNet/themes/accrualnet/accrualnet-internals/images/global/checkbox_checked.jpg'); 
+    background-repeat:no-repeat;
+    background-position:left center; 
 }
