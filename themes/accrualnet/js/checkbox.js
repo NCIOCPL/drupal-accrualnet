@@ -73,6 +73,7 @@
                 $(this).attr('checked', 'checked');
                 
             }
+            return false;
          
         });
 
