@@ -29,7 +29,6 @@
 
 <?php
 unset($_SESSION['current_users']);
-drupal_add_js('sites/accrualnet.cancer.gov/scripts/assign_user.js');
 ?>
 
 <div class="<?php print $classes; ?>">
