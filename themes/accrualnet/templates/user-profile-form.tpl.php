@@ -73,6 +73,7 @@ drupal_add_js("
 
 $form['actions']['submit']['#value'] = 'Save Changes';
 $form['actions']['cancel']['#value'] = 'Cancel';
+ kprint_r($form['picture']['picture']['#value']);
 ?>
 
 <p>
