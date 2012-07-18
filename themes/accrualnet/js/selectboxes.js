@@ -25,7 +25,7 @@
         // padding of the menu as it slides up and down.
         $('div.select-spacer').each(function () {
             $(this).appendTo($(this).parent());
-            $(this).height($(this).prev().height()+25);
+            $(this).height($(this).prev().height()+32);
             $(this).hide();
         });
         
@@ -49,10 +49,18 @@
             $(this).attr('value',$(this).children('div.selectOptions').children('.selectedd').attr('value'));
             
             // When clicking on the arrow or in the selected box, toggle the 
-            // options up or down.
+            // options up or down. Also, change the colors and clear the
+            // visible SELECTed option.
             $(this).children('span.selected,span.selectArrow').click(function(){
+                // First, expand the border, then slide
+                $(this).parent().css('border-width', '3px');
+                
+                // Toggle the options
                 $(this).parent().children('div.selectOptions').slideToggle();
                 $(this).parent().children('div.select-spacer').slideToggle();
+
+                // Remove whatever is in the current SELECTed box
+                $(this).parent().children('span.selected').html(" ");
             });
 
             // When selecting an OPTION, set the value accordingly and slide the 
@@ -70,6 +78,7 @@
                 // Add the class to the newly selected choice.
                 $(this).addClass('selectedd');
                 
+                
                 // Roll the options list back up.
                 $(this).parent().slideUp();
                 $(this).parent().parent().children('div.select-spacer').slideUp();
@@ -84,6 +93,10 @@
                     $(this).parent().parent().parent().children('select').val($(this).attr('id'));
                     $(this).parent().parent().parent().parent().children('.form-type-textfield').css('display', 'none');
                 }
+                
+                // Fix the border
+                // This should be the last thing we do
+                $(this).parent().parent().css('border-width', '1px');
                 
             });
         });

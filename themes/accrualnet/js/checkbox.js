@@ -22,13 +22,14 @@
         
         var $selectedValues = Drupal.settings.selectedValues;
         
-        /*if (($selectedValues.index('ROLE_OTHER')) != -1) {*/
-        if (jQuery.inArray('ROLE_OTHER', $selectedValues)) {
-            $('.form-item-field-role-und-select-select-or-other').addClass('checked');
+        if (jQuery.inArray('ROLE_OTHER', $selectedValues, 0) >= 0) {
+            $('.form-item-field-occupation-und-select-select-or-other').addClass('checked');
         }
-        if (jQuery.inArray('AOI_OTHER', $selectedValues)) {
+        if (jQuery.inArray('AOI_OTHER', $selectedValues, 0) >= 0) {
+            alert('wtf');
             $('.form-item-field-areas-of-interest-und-select-select-or-other').addClass('checked');
         }
+    
         
         
         jQuery.each($('.form-type-checkbox'), function()  {
@@ -36,17 +37,15 @@
             var $found = false;
             for (key in $selectedValues) {
     
-                /*if ($clslst.indexOf($selectedValues[key]) > -1) {*/
                 if ($selectedValues[key] == $inputvalue) {
                     $found = true;
-                    /*$(this).find('label').addClass('checked');*/
+    
                     $(this).addClass('checked');
                     $(this).attr('checked', true);
                     break;
                 }
             }
             if (!$found || !$(this).hasClass('checked')) {
-                /*$(this).find('label').addClass('unchecked');*/
                 $(this).addClass('unchecked');
                 $(this).removeAttr('checked');
             }
@@ -57,19 +56,24 @@
     
         });
 
-        $('.form-type-checkbox').click(function () {
-            if ($(this).hasClass('checked')) {
+
+       
+        $('div.form-type-checkbox').click(function () {
+            var $isChecked = $(this).hasClass('checked');
+            var $isUnchecked = $(this).hasClass('unchecked');
+            alert($(this).html());
+            if ($isChecked) {
                 $(this).addClass('unchecked');
                 $(this).removeClass('checked');
                 $(this).removeAttr('checked');
-                return true;
-            } else if ($(this).hasClass('unchecked')) {
+                
+            } else if ($isUnchecked) {
                 $(this).removeClass('unchecked');
                 $(this).addClass('checked');
                 $(this).attr('checked', 'checked');
-                return true;
+                
             }
-            return false;
+         
         });
 
     

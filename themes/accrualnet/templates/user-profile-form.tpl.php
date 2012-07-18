@@ -5,17 +5,19 @@
  */
 
 
-$form['account']['name']['#description'] = "Test";
+$form['account']['name']['#description'] = "?";
+$form['account']['name']['#access'] = TRUE;
+$form['account']['mail']['#description'] = "?";
+$form['account']['current_pass']['#access'] = FALSE;
 module_load_include('inc', 'nci_custom_user', 'includes\profilecolors');
 global $nci_user_profile_colors;
-kprint_r($form);
+print kprint_r($form);
 $account = $form['account'];
 $color = $nci_user_profile_colors[0];
 if (count($form['profile_color']['und']) > 0) {
     if (array_key_exists('#value', $form['profile_color']['und'])) {
         if (count($form['profile_color']['und']['#value']) > 0) {
-            //$color = $nci_user_profile_colors[array_pop($form['profile_color']['und']['#value'])];
-            $color = $nci_user_profile_colors[0];
+            $color = $nci_user_profile_colors[array_pop($form['profile_color']['und']['#value'])];
         }
     }
 }
@@ -57,7 +59,16 @@ drupal_add_js(path_to_theme() . '/js/checkbox.js', 'file');
 drupal_add_js(path_to_theme() . '/js/profilecolors.js', 'file');
 drupal_add_js(path_to_theme() . '/js/selectboxes.js', 'file');
 drupal_add_js(path_to_theme() . '/js/inputdarken.js', 'file');
-drupal_add_js(array('selectedValues' => $selectedValuesOnLoad), 'setting');
+drupal_add_js(path_to_theme() . '/js/profilehelp.js', 'file');
+drupal_add_js(path_to_theme() . '/js/profileavatars.js', 'file');
+drupal_add_js(array('selectedValues' => $selectedValuesOnLoad, 'pathToTheme' => path_to_theme()), 'setting');
+drupal_add_js("
+    (function ($) {
+        $(document).ready(function() {
+            $('.form-required').html('<img class=\"required-img\" src=\"/".path_to_theme()."/accrualnet-internals/images/global/required.png\" />');
+        
+        });
+    }) (jQuery);", 'inline');
 
 
 $form['actions']['submit']['#value'] = 'Save Changes';
@@ -71,11 +82,39 @@ $form['actions']['cancel']['#value'] = 'Cancel';
 
 <section class="column sidebar region profile-sidebar">
     <?php print render($form['picture']); ?>
-    <img class="image" src="/<?php print path_to_theme(); ?>/accrualnet-internals/images/global/test.jpg" />
+    <div class="profile-avatars-wrapper">
+        <div class="form-item">
+        <label>Choose Avatar</label>
+        </div>
+        <div class="profile-avatars-images">
+        <div class="profile-avatars-male">
+        <?php
+        foreach ($nci_user_profile_colors as $colorValue => $colorOpt) {
+            print '<span class="avatar-option" id="' . $colorOpt . '" title="male">';
+            print '<img src="/' . path_to_theme() . '/accrualnet-internals/images/avatars/male/'.$colorOpt.'.png" />';
+                print '</span>';
+        }
+        ?>
+        </div>
+                <div class="profile-avatars-female">
+        <?php
+        foreach ($nci_user_profile_colors as $colorValue => $colorOpt) {
+            print '<span class="avatar-option" id="' . $colorOpt . '" title="female">';
+            print '<img src="/' . path_to_theme() . '/accrualnet-internals/images/avatars/female/'.$colorOpt.'.png" />';
+                print '</span>';
+        }
+        ?>
+        </div>
+    </div>
+        
+    </div>
+    
+    <br/><br/><br/>
     <div class="profile-colors-wrapper">
         <?php
         print drupal_render($form['profile_color']);
         ?>
+        
         <div class="profile-colors-container">
             <div class="profile-colors-selected" id="<?php print $color; ?>"></div>
             <div class="profile-colors-options">
@@ -86,6 +125,7 @@ $form['actions']['cancel']['#value'] = 'Cancel';
                 ?>
             </div>
         </div>
+
     </div>
 </section>
 <section class="column profile-content">
@@ -95,9 +135,8 @@ $form['actions']['cancel']['#value'] = 'Cancel';
 
         $output .= drupal_render($form['account']['name']);
         $output .= drupal_render($form['account']['mail']);
-        $test = drupal_render($form['account']['pass']);
-        //kprint_r( $test);
-        $output .= $test;
+
+        $output .= drupal_render($form['account']['pass']);
 
         $output .= drupal_render($form['field_occupation']);
 
@@ -160,6 +199,8 @@ $form['actions']['cancel']['#value'] = 'Cancel';
             }
         }
         $output .= drupal_render($form['field_areas_of_interest']);
+        $output .= '<br/>';
+        $output .= drupal_render($form['actions']);
 
         $output .= drupal_render_children($form);
 
@@ -168,8 +209,9 @@ $form['actions']['cancel']['#value'] = 'Cancel';
 
 //kprint_r(form_builder($form['#form_id'], $form['account']['pass'], NULL));
 //                $output .= drupal_render($form['account']);
-        $output = str_replace('*', '<img src="/' . path_to_theme() . '/accrualnet-internals/images/global/test.jpg" />', $output);
-        print $output
+        //$output = str_replace('*', '<img src="/' . path_to_theme() . '/accrualnet-internals/images/global/required.png" />', $output);
+        //$output = str_replace('<div class="description">', '<div class="description"><img src="/' . path_to_theme() . '/accrualnet-internals/images/global/help.png" />', $output);
+        print $output;
         ?>
     </div>
 </section>

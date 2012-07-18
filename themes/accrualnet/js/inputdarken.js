@@ -10,22 +10,24 @@
 
 (function ($) {
     $(document).ready(function() {
-        
+
         // When the document first loads, nothing has been edited
         var $lastedit = null;
         
         // Whenever an input value is changed, it's color should be darkened
-        $('input').click(function() {
-            // If applicable, remove the last edited object's darker border color,
+        $('.form-type-textfield > input, .form-type-password > input').click(function() {
+            // If applicable, remove the last edited object's thicker border,
             // then set the last edited object to be what we just clicked on
             if ($lastedit == null) {
                 $lastedit = $(this);
             } else {
-                $lastedit.css('border-color', '#D5FF87');
+                $lastedit.css('border-width', '1px');
                 $lastedit = $(this);
             }
-            // Add the darkened CSS as a border color
-            $(this).css('border-color', '#9AB83F');
+            
+            // Increase the pixels of the border when editing
+            $(this).css('border-width', '3px');
+            
         });
         
     });
