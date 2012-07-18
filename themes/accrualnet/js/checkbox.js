@@ -11,7 +11,7 @@
 (function ($) {
 
     $(document).ready(function(){
-        $('.form-checkbox').css('display', 'none');
+        /*$('.form-checkbox').css('display', 'none');*/
         /*.accrualnet-user-profile-form-wrapper .form-checkbox {*/
     
     /*display: none;*/
