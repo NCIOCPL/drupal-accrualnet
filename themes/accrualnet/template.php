@@ -200,7 +200,6 @@ function accrualnet_preprocess_user_profile_form(&$vars) {
 		//$vars['form']['picture']['#attached']['js'] = array(
 		//	drupal_get_path('theme', 'accrualnet') . '/js/photo_crop.js',
 		//);
-
 		//print kprint_r($vars, TRUE, '$vars');
 	} catch (Exception $e) {
 		print_r($e->getMessage());
@@ -254,13 +253,53 @@ function accrualnet_form_element_label($variables) {
 	return ' <label' . drupal_attributes($attributes) . '>' . $t($format, array('!title' => $title, '!required' => $required, '!desc' => $desc)) . "</label>\n";
 }
 
-function accrualnet_preprocess_search_results(&$vars) {
-	//print kprint_r($vars, true, 'search results');
+function accrualnet_preprocess_search_results(&$variables) {
+	// define the number of results being shown on a page
+	$itemsPerPage = 10;
+
+	// get the current page
+	$currentPage = $_REQUEST['page'] + 1;
+	$path = $_REQUEST['q'];
+	$path_parts = explode('/', $path);
+
+	$search_term = strtoupper($path_parts[count($path_parts)-1]);
+
+	// get the total number of results from the $GLOBALS
+	$total = $GLOBALS['pager_total_items'][0];
+
+	// perform calculation
+	$start = 10 * $currentPage - 9;
+	$end = $itemsPerPage * $currentPage;
+	if ($end > $total)
+		$end = $total;
+
+	// set this html to the $variables
+	$variables['search_totals'] = "\"$search_term\" GAVE $total RESULTS";
+
+
+	//print kpr($variables, true, 'search results');
 }
 
 function accrualnet_preprocess_search_result(&$vars) {
 	//print kprint_r($vars, true, 'search result');
 }
+
+/* function accrualnet_search_page($results) {
+  print kpr($results, true, 'search page');
+
+  $output['prefix']['#markup'] = '<ol class="search-results">';
+
+  foreach ($results as $entry) {
+  $output[] = array(
+  '#theme' => 'search_result',
+  '#result' => $entry,
+  '#module' => 'my_module_name',
+  );
+  }
+  $output['suffix']['#markup'] = '</ol>' . theme('pager');
+
+  return $output;
+  } */
 
 /**
  * Return a themed breadcrumb trail.
@@ -477,8 +516,6 @@ function accrualnet_preprocess_page(&$variables, $hook) {
 	} else {
 		$variables['secondary_menu_heading'] = '';
 	}
-       
-        
 }
 
 /**
@@ -543,8 +580,6 @@ function accrualnet_preprocess_node(&$variables, $hook) {
 	}
 
 	$variables['title_attributes_array']['class'][] = 'node-title';
-        
-       
 }
 
 /**

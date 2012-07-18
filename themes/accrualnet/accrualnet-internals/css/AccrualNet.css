@@ -240,3 +240,18 @@ header#page-header {
     background-repeat:no-repeat;
     background-position:left center; 
 }
+
+/** Added by Dan **/
+.search-count{
+	width: 50%;
+	float: left;
+	font-weight: bold;
+}
+
+.search-pager{
+	float: right;
+}
+
+.search-results{
+	clear: both;
+}
