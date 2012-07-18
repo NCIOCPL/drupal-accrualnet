@@ -61,7 +61,6 @@
         $('div.form-type-checkbox').click(function () {
             var $isChecked = $(this).hasClass('checked');
             var $isUnchecked = $(this).hasClass('unchecked');
-            alert($(this).html());
             if ($isChecked) {
                 $(this).addClass('unchecked');
                 $(this).removeClass('checked');
