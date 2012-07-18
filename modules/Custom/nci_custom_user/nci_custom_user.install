@@ -6,6 +6,12 @@ $field_weight = 0;
 module_load_include('inc', 'nci_custom_user', 'includes/profilecolors');
 global $nci_user_profile_colors;
 
+$avatars = array();
+foreach ($nci_user_profile_colors as $color) {
+    $avatars[] = "male/".$color;
+    $avatars[] = "female/".$color;
+}
+
 $GLOBALS['nci_user_fields'] = array(
     'field_occupation' => array(
         'field' => array(
@@ -178,6 +184,31 @@ $GLOBALS['nci_user_fields'] = array(
                 'weight' => $field_weight++,
             )
         )
+    ),
+    'avatar_image' => array(
+        'field' => array(
+            'field_name' => 'avatar_image',
+            'type' => 'list_text',
+            'cardinality' => 1,
+            'settings' => array(
+                'allowed_values' => $avatars,
+            ),
+        ),
+        'instance' => array(
+            'field_name' => 'avatar_image',
+            'entity_type' => 'user',
+            'label' => t('Choose Avatar'),
+            /*'description' => t('This setting will let you choose an avatar if you prefer that to uploading an image.'),*/
+            'bundle' => 'user',
+            'required' => FALSE,
+            'settings' => array(
+                'user_register_form' => 1,
+            ),
+            'widget' => array(
+                'type' => 'options_select',
+                'weight' => $field_weight++,
+            )
+        )
     )
 );
 
@@ -202,12 +233,10 @@ function nci_custom_user_enable() {
 }
 
 function nci_custom_user_disable() {
-    if (field_info_field('profile_color')) {
-        field_delete_field('profile_color');
+    if (field_info_field('avatar_image')) {
+        field_delete_field('avatar_image');
     }
-    if (field_info_field('field_role')) {
-        field_delete_field('field_role');
-    }
+    
 }
 
 function nci_custom_user_uninstall() {
