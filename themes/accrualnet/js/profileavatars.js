@@ -11,17 +11,51 @@
 (function ($) {
 
     $(document).ready(function() {
-        $('#edit-picture-upload').click(function () {
-            
+        var $pathToTheme = Drupal.settings.pathToTheme;
+                    var $target = $('.user-picture').children('a').children('img');
+         
+         $('<p class="user-img-or">Or</p>').insertAfter($('.imagecrop-button'));
+         $('<p class="user-img-or">Or</p>').insertAfter($('.form-item-files-picture-upload'));
+         
+         
+        $('input#edit-picture-upload').change(function () {
+            $target.attr('src', '/' + $pathToTheme + '/accrualnet-internals/images/needtoupload.jpg');
+            $('select#edit-avatar-image-und').val('_none');
+            $('.picked').removeClass('picked');
+        });
+        
+        $('.picked').each(function () {
+            $target.attr('src', $(this).children('img').attr('src'));
+            $target.css('width', '200px');
+            $('input#edit-picture-upload').val('');
+        });
+        
+        $('.imagecrop-button').click(function () {
+           $target.attr('src', Drupal.settings.avatarfile);
+           $('select#edit-avatar-image-und').val('_none');
+           $('.picked').removeClass('picked');
+           $('input#edit-picture-upload').val('');
         });
 
         $('.avatar-option').click(function() {
-            var $target = $('.user-picture').children('a').children('img');
             var $newsrc = $(this).children('img').attr('src');
             $target.css('width', '200px');
             $target.attr('src', $newsrc);
-
-            $('input#edit-picture-upload').val($(this).attr('id').toString() + ".png");
+            
+            var $gender = $(this).attr('title');
+            var $color = $(this).attr('id');
+            
+            $('select#edit-avatar-image-und').children().each(function () {
+                if ($(this).html() == ($gender + '/' + $color)) {
+                     $('select#edit-avatar-image-und').val($(this).val());
+                }
+            });
+            
+            $('input#edit-picture-upload').val('');
+            
+            $('.picked').removeClass('picked');
+            $(this).addClass('picked');
+            
         });
         
 

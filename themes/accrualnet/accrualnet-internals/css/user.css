@@ -229,11 +229,13 @@ section.profile-sidebar fieldset {
     /* border: 1px solid cyan; */
     clear:both;
     vertical-align: middle;
+    position: relative;
 }
 .accrualnet-user-profile-form-wrapper .form-item label{
     font-size: 13px;
     font-weight: bold;
     text-transform: uppercase;
+    padding: 5px 0px;
 }
 
 .accrualnet-user-profile-form-wrapper .form-item .form-required {
@@ -258,9 +260,9 @@ section.profile-sidebar fieldset {
 .accrualnet-user-profile-form-wrapper div.password-strength{
     color: black;
     font-weight: normal;
-    float: right;
-    margin-right: 20%;
-    margin-top: 45px;
+    position: absolute;
+    left: 525px;
+    top: 25px;
     width: 170px;
     visibility: hidden;
 }
@@ -277,9 +279,9 @@ div.password-strength-text {
 .accrualnet-user-profile-form-wrapper div.password-confirm {
     color: black;
     font-weight: normal;
-    float: right;
-    margin-right: 20%;
-    margin-top: 45px;
+    position: absolute;
+    left: 525px;
+    top: 25px;
     width: 180px;
     visibility: hidden;
 }
@@ -518,7 +520,8 @@ input {
     vertical-align:middle;
 }
 .accrualnet-user-profile-form-wrapper .description {
-    float: left;
+    position: absolute;
+    left: 500px;
     /*font-weight: bold;
     border: 1px solid #9AB83F;
     background-color: #fff;
@@ -534,10 +537,55 @@ input {
 
     padding-left: 10px;
     width:30px;
+}
+.accrualnet-user-profile-form-wrapper .form-type-textfield .description {
+    top: auto;
+    bottom: auto;
+       left: 525px;
+}
+.accrualnet-user-profile-form-wrapper .field-type-text .description {
+   position: absolute;
+   top: 15px;
+   left: 450px;
+}
+.accrualnet-user-profile-form-wrapper #edit-field-occupation .description {
+    top: 2px;
+    left: 80px;
+}
+.accrualnet-user-profile-form-wrapper #edit-field-institution-type .description {
+    top: 2px;
+    left: 115px;
+}
+.accrualnet-user-profile-form-wrapper #edit-field-years-in-research .description {
+    top: 2px;
+    left: 190px;
+}
+.accrualnet-user-profile-form-wrapper #edit-field-areas-of-interest .description {
+    top: 2px;
+    left: 130px;
+}
 
+span.picked {
+        opacity:1.0;
+filter:alpha(opacity=100); /* For IE8 and earlier */
 }
 
 
+
+.accrualnet-user-profile-form-wrapper .field-type-list-text .description,
+.accrualnet-user-profile-form-wrapper .field-widget-options-select .description,
+.accrualnet-user-profile-form-wrapper .field-widget-select-or-other .description {
+    position: absolute;
+    top: 15px;
+    left: 500px;
+}
+
+.user-img-or {
+    color:#54316E;
+    font-weight: bold;
+    text-transform: uppercase;
+    margin-left: -25px;
+}
 
 .description img {
     height: 28px;
@@ -545,7 +593,7 @@ input {
 }
 
 
-.form-item-name, .form-item-mail {
+.form-item-name, .form-item-mail, .form-item-pass {
     padding-bottom: 45px;
 }
 

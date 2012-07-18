@@ -10,9 +10,14 @@
 
 (function ($) {
     $(document).ready(function() {
-        $('.password-strength').css('visibility', 'hidden');
-        $('.password-field').click(function () {
-           $(this).children('.password-strength').css('visibility', 'visible');
+        
+
+        $('input.password-field').keyup(function () {
+            if ($(this).val().length < 1) {
+                $(this).parent().children('.password-strength').css('visibility', 'hidden');
+            } else {
+                $(this).parent().children('.password-strength').css('visibility', 'visible');
+            }
         });
         
         

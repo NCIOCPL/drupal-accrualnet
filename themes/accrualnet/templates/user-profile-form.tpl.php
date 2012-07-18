@@ -8,6 +8,10 @@
 $form['account']['name']['#description'] = "?";
 $form['account']['name']['#access'] = TRUE;
 $form['account']['mail']['#description'] = "?";
+$form['field_years_in_research']['und']['#description'] = "?";
+$form['field_institution_type']['und']['#description'] = "?";
+$form['field_occupation']['und']['#description'] = "?";
+$form['field_areas_of_interest']['und']['#description'] = "?";
 $form['account']['current_pass']['#access'] = FALSE;
 module_load_include('inc', 'nci_custom_user', 'includes\profilecolors');
 global $nci_user_profile_colors;
@@ -58,13 +62,19 @@ foreach ($selectedValuesFieldAOI as $selected) {
 foreach ($selectedValuesOnLoad as &$value) {
     //$value = str_replace(' ', '-', $value);
 }
+global $base_url;
+$path = path_to_theme();
+$slash = strpos($path, '/') + 1;
+$path = substr($path, 0, strpos($path, '/', $slash));
+$pictureFilename = $base_url . '/' . $path .'/files/styles/js_crop/public/pictures/';
+$pictureFilename .= $form['picture']['picture']['#value']->filename;
 drupal_add_js(path_to_theme() . '/js/checkbox.js', 'file');
 drupal_add_js(path_to_theme() . '/js/profilecolors.js', 'file');
 drupal_add_js(path_to_theme() . '/js/selectboxes.js', 'file');
 drupal_add_js(path_to_theme() . '/js/inputdarken.js', 'file');
 drupal_add_js(path_to_theme() . '/js/profilehelp.js', 'file');
 drupal_add_js(path_to_theme() . '/js/profileavatars.js', 'file');
-drupal_add_js(array('selectedValues' => $selectedValuesOnLoad, 'pathToTheme' => path_to_theme()), 'setting');
+drupal_add_js(array('selectedValues' => $selectedValuesOnLoad, 'pathToTheme' => path_to_theme(), 'avatarfile' => $pictureFilename), 'setting');
 drupal_add_js("
     (function ($) {
         $(document).ready(function() {
@@ -72,6 +82,9 @@ drupal_add_js("
         
         });
     }) (jQuery);", 'inline');
+
+
+
 /*drupal_add_js("
     (function ($) {
         $(document).ready(function() {
@@ -87,10 +100,22 @@ drupal_add_js("
         });
     }) (jQuery);", 'inline');*/
 
-
+//print kprint_r($form['picture']['picture']);
 $form['actions']['submit']['#value'] = 'Save Changes';
 $form['actions']['cancel']['#value'] = 'Cancel';
+//print kprint_r($form);
+if (count($form['avatar_image']['und']['#default_value']) > 0) {
+    $avatarTMP = array_pop($form['avatar_image']['und']['#default_value']);
+    $avatarTMP = $form['avatar_image']['und']['#options'][$avatarTMP];
+    $avatarTMP = explode("/", $avatarTMP);
+    $avatarIMG = array(
+        'gender' => $avatarTMP[0],
+        'color' => $avatarTMP[1],
+    );
 
+} else {
+    $avatarIMG = NULL;
+}
 ?>
 
 <p>
@@ -101,14 +126,16 @@ $form['actions']['cancel']['#value'] = 'Cancel';
 <section class="column sidebar region profile-sidebar<?php print ' ' . $color; ?>">
     <?php print render($form['picture']); ?>
     <div class="profile-avatars-wrapper">
-        <div class="form-item">
-        <label>Choose Avatar</label>
-        </div>
+        <?php print drupal_render($form['avatar_image']); ?>
         <div class="profile-avatars-images">
         <div class="profile-avatars-male">
         <?php
         foreach ($nci_user_profile_colors as $colorValue => $colorOpt) {
-            print '<span class="avatar-option" id="' . $colorOpt . '" title="male">';
+            if ($avatarIMG['gender'] == 'male' && $avatarIMG['color'] == $colorOpt) {
+                print '<span class="avatar-option picked" id="' . $colorOpt . '" title="male">';
+            } else {
+                print '<span class="avatar-option" id="' . $colorOpt . '" title="male">';
+            }
             print '<img src="/' . path_to_theme() . '/accrualnet-internals/images/avatars/male/'.$colorOpt.'.png" />';
                 print '</span>';
         }
@@ -117,7 +144,11 @@ $form['actions']['cancel']['#value'] = 'Cancel';
                 <div class="profile-avatars-female">
         <?php
         foreach ($nci_user_profile_colors as $colorValue => $colorOpt) {
+            if ($avatarIMG['gender'] == 'female' && $avatarIMG['color'] == $colorOpt) {
+                print '<span class="avatar-option picked" id="' . $colorOpt . '" title="female">';
+            } else {
             print '<span class="avatar-option" id="' . $colorOpt . '" title="female">';
+            }
             print '<img src="/' . path_to_theme() . '/accrualnet-internals/images/avatars/female/'.$colorOpt.'.png" />';
                 print '</span>';
         }

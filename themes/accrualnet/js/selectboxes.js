@@ -18,8 +18,16 @@
         // Move the created fake SELECT boxes into the surrounding DIV of the 
         // real SELECT boxes. This is required for recognizing the original
         // SELECT boxes and editing their values.
-        $('#field_years_in_research').appendTo('.form-item-field-years-in-research-und');
+        if ($('.form-item-field-years-in-research-und').find('.description').html() != null) {
+             $('#field_years_in_research').insertBefore($('.form-item-field-years-in-research-und > .description'));
+        } else {
+            $('#field_years_in_research').appendTo('.form-item-field-years-in-research-und');
+        }
+        if ($('.form-item-field-institution-type-und-select').find('.description').html() != null) {
+            $('#field_institution_type').insertBefore($('.form-item-field-institution-type-und-select > .description'));
+        } else {
         $('#field_institution_type').appendTo('.form-item-field-institution-type-und-select');
+        }
         
         // Set the height of the spacer and set it to hide. This is needed for
         // padding of the menu as it slides up and down.

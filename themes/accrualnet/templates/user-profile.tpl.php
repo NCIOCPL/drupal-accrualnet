@@ -39,14 +39,36 @@ if ($account->profile_color != NULL) {
     //kprint_r($account->profile_color);
     $profileColor = $nci_user_profile_colors[$account->profile_color['und'][0]['value']];
 }
+drupal_add_js("(function ($) { $(document).ready(function() {  
+    $('.field-name-avatar-image').css('display', 'none');  
+    $('.field-name-profile-color').css('display', 'none'); 
+    }); }) (jQuery);", 'inline');
 ////kprint_r($profileColor);
 //kprint_r($account);
+if (count($avatar_image) > 0) {
+    $simulatedAvatarArray = array();
+    foreach ($nci_user_profile_colors as $color) {
+        $simulatedAvatarArray[] = 'male/'.$color;
+        $simulatedAvatarArray[] = 'female/'.$color;
+    }
+    $avatarTMP = $avatar_image[0]['value'];
+    $avatarTMP = $simulatedAvatarArray[$avatarTMP];
+    $avatarSRC = '/' . path_to_theme() . '/accrualnet-internals/images/avatars/' . $avatarTMP . '.png';
+    drupal_add_js("
+        (function ($) {
+        $(document).ready(function() {
+            $('.user-picture').children('a').children('img').attr('src', '".$avatarSRC."');
+            $('.user-picture').children('a').children('img').css('width', '200px');
+        });
+    }) (jQuery);
+        ", 'inline');
+}
 ?>
 <span class="nci-profile<?php print '-'.$profileColor; ?>">
 
 <section class="column sidebar region profile-sidebar">
         
-	<?php print render($user_profile['user_picture']); ?>
+	<?php print drupal_render($user_profile['user_picture']); ?>
            
         
     <div class="edit-profile-button">
@@ -56,7 +78,9 @@ if ($account->profile_color != NULL) {
 <section class="column profile-content">
     <h1 class="field-label"><?php print $account->name; ?></h1>
 	<div class="profile"<?php print $attributes; ?>>
-		<?php print render($user_profile); ?>
+		<?php 
+print drupal_render($user_profile); 
+?>
 	</div>
 </section>
 </span>
