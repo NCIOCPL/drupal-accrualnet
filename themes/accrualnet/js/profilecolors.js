@@ -13,12 +13,13 @@
         
         // When the page first loads, set the SELECT value to be that of which 
         // is already stored in the database.
-        $('select#edit-profile-color-und').children().each(function () {
+        $('.profile-colors-option').each(function () {
             // Find the correct color to set the value properly
-            if ($(this).html() == $('.profile-colors-selected').attr('id')) {
-               $('select#edit-profile-color-und').val($(this).attr('value'));
-            }
+           if ($(this).attr('id') == $('.profile-colors-selected').attr('id')) {
+               $('select#edit-profile-color-und').val($(this).attr('title'));
+           }
         });
+
         
         
         // If the user clicks on one of the colors, change the colors in the 

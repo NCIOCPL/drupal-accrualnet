@@ -9,14 +9,21 @@
  ***/
 
 (function ($) {
+
     $(document).ready(function() {
+        $('#edit-picture-upload').click(function () {
+            
+        });
 
         $('.avatar-option').click(function() {
             var $target = $('.user-picture').children('a').children('img');
+            var $newsrc = $(this).children('img').attr('src');
             $target.css('width', '200px');
-            
-            $target.attr('src', $(this).children('img').attr('src'));
+            $target.attr('src', $newsrc);
+
+            $('input#edit-picture-upload').val($(this).attr('id').toString() + ".png");
         });
         
+
     });
 }) (jQuery);
