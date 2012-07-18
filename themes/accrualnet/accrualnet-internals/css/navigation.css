@@ -267,6 +267,10 @@ nav#block-an-navigation-left-nav > ul > li::before {
 }​
 nav{}
 
+nav#block-an-navigation-left-nav ul li.first a.active-trail {
+    border: 1px solid rgba(84,49,110, .7);
+}
+
 nav#block-an-navigation-left-nav ul li a { 
    
     box-sizing:border-box;
