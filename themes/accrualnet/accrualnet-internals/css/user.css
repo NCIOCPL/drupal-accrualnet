@@ -483,6 +483,7 @@ input {
     text-align: center;*/
 
     padding-left: 10px;
+    width:30px;
 
 }
 
@@ -600,3 +601,5 @@ filter:alpha(opacity=100); /* For IE8 and earlier */
     
    
 }​
+
+
