@@ -11,8 +11,8 @@ $form['account']['mail']['#description'] = "?";
 $form['account']['current_pass']['#access'] = FALSE;
 module_load_include('inc', 'nci_custom_user', 'includes\profilecolors');
 global $nci_user_profile_colors;
-print kprint_r($form);
-print kprint_r(get_defined_vars());
+//print kprint_r($form);
+//print kprint_r(get_defined_vars());
 $account = $form['account'];
 $color = $nci_user_profile_colors[0];
 if (count($form['profile_color']['und']) > 0) {
