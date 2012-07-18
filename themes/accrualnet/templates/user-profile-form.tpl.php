@@ -12,12 +12,15 @@ $form['account']['current_pass']['#access'] = FALSE;
 module_load_include('inc', 'nci_custom_user', 'includes\profilecolors');
 global $nci_user_profile_colors;
 print kprint_r($form);
+print kprint_r(get_defined_vars());
 $account = $form['account'];
 $color = $nci_user_profile_colors[0];
 if (count($form['profile_color']['und']) > 0) {
     if (array_key_exists('#value', $form['profile_color']['und'])) {
         if (count($form['profile_color']['und']['#value']) > 0) {
+            if (is_array($form['profile_color']['und']['#value'])) {
             $color = $nci_user_profile_colors[array_pop($form['profile_color']['und']['#value'])];
+            }
         }
     }
 }
@@ -69,11 +72,25 @@ drupal_add_js("
         
         });
     }) (jQuery);", 'inline');
+drupal_add_js("
+    (function ($) {
+        $(document).ready(function() {
+            $('#edit-picture-upload').change(function () {
+                alert($(this).val());
+                for (x in $(this).data('events')) {
+                alert(x);
+                }
+                
+                alert($(this).data('handle'));
+            });
+        
+        });
+    }) (jQuery);", 'inline');
 
 
 $form['actions']['submit']['#value'] = 'Save Changes';
 $form['actions']['cancel']['#value'] = 'Cancel';
- kprint_r($form['picture']['picture']['#value']);
+
 ?>
 
 <p>
