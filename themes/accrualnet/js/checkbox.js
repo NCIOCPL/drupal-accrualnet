@@ -41,13 +41,13 @@
                     $found = true;
     
                     $(this).addClass('checked');
-                    $(this).attr('checked', true);
+                    $(this).children('input').attr('checked', true);
                     break;
                 }
             }
             if (!$found || !$(this).hasClass('checked')) {
                 $(this).addClass('unchecked');
-                $(this).removeAttr('checked');
+                $(this).children('input').removeAttr('checked');
             }
     
     
@@ -64,12 +64,12 @@
             if ($isChecked) {
                 $(this).addClass('unchecked');
                 $(this).removeClass('checked');
-                $(this).removeAttr('checked');
+                $(this).children('input').removeAttr('checked');
                 
             } else if ($isUnchecked) {
                 $(this).removeClass('unchecked');
                 $(this).addClass('checked');
-                $(this).attr('checked', 'checked');
+                $(this).children('input').attr('checked', 'checked');
                 
             }
             return false;
