@@ -18,7 +18,7 @@
  * - $front_page: The URL of the front page. Use this instead of $base_path,
  *   when linking to the front page. This includes the language domain or
  *   prefix.
- * - $logo: The path to the logo image, as defined in theme configuration.
+ * - $logo: The path to the logo , as defined in theme configuration.
  * - $site_name: The name of the site, empty when display has been disabled
  *   in theme settings.
  * - $site_slogan: The slogan of the site, empty when display has been disabled
@@ -67,7 +67,29 @@
  * @see template_preprocess_page()
  * @see zen_preprocess_page()
  * @see template_process()
+ * 
+ * 
  */
+module_load_include('inc', 'nci_custom_user', 'includes\profilecolors');
+
+if($logged_in) {
+    global $user;
+    global $nci_user_profile_colors;
+    $profileColor = 'Black';
+    //load the current user profile
+    $currentUser = user_load($user->uid);
+    //check to see if the user has a profile color selected;
+    $profile_color_value = field_get_items('user', $currentUser, 'profile_color');
+    if($profile_color_value)
+    { 
+       $profileColor =  $nci_user_profile_colors[$profile_color_value[0]['value']];
+    
+    //print kpr($profileColor);
+      // print render($currentUser['picture']);
+    }
+    
+
+}
 ?>
 
 <div id="page">
@@ -99,22 +121,33 @@
       </hgroup><!-- /#name-and-slogan -->
     <?php endif; ?>
 
-      
-      <?php if ($secondary_menu): ?>
-      <nav id="secondary-menu" role="navigation">
-        <?php print theme('links__system_secondary_menu', array(
-          'links' => $secondary_menu,
-          'attributes' => array(
-            'class' => array('links', 'inline', 'clearfix'),
-          ),
-          'heading' => array(
-            'text' => $secondary_menu_heading,
-            'level' => 'h2',
-            'class' => array('element-invisible'),
-          ),
-        )); ?>
-      </nav>
-    <?php endif; ?>
+      <div class="header-right header-<?php print $profileColor; ?>">
+          <?php print theme_image_style(
+                array(
+                    'style_name' => 'thumbnail',
+                    'path' => $currentUser->picture->uri,
+                    'attributes' => array(
+                        'class' => 'avatar'
+                    )            
+                )
+            ); ?>
+          <span class="user-welcome-text">Hi, <?php print '';?></span>
+        <?php if ($secondary_menu): ?>
+        <nav id="secondary-menu" role="navigation">
+            <?php print theme('links__system_secondary_menu', array(
+            'links' => $secondary_menu,
+            'attributes' => array(
+                'class' => array('links', 'inline', 'clearfix'),
+            ),
+            'heading' => array(
+                'text' => $secondary_menu_heading,
+                'level' => 'h2',
+                'class' => array('element-invisible'),
+            ),
+            )); ?>
+        </nav>
+        <?php endif; ?>
+      </div>
       
       <div id="site-wide-search-box">
           <?php $block = module_invoke('search', 'block_view', 'form');
