@@ -192,12 +192,15 @@ nav#block-an-navigation-left-nav ul  {
 }
 
 nav#block-an-navigation-left-nav a {
-    padding: 5px;
+    padding: 10px 10px 10px 20px;
+    
 }
+
 
 
 nav#block-an-navigation-left-nav ul li {
     border: 1px solid rgba(84,49,110,.7);
+    border-bottom: none;
     width: 85%;
     margin: 0 auto;
     background-color: white;
@@ -265,7 +268,7 @@ nav#block-an-navigation-left-nav > ul > li::before {
 nav{}
 
 nav#block-an-navigation-left-nav ul li a { 
-    border: 1px solid rgba(84,49,110, .5);
+   
     box-sizing:border-box;
     display:block
     
@@ -289,14 +292,17 @@ nav#block-an-navigation-left-nav ul li > ul li.active-trail {
 }
 
 nav#block-an-navigation-left-nav ul li > ul li a {
-    font: 400 10px/1.4  Helvetica, Verdana, Arial, sans-serif;
+    font: 400 12px/1.4  Helvetica, Verdana, Arial, sans-serif;
     text-align: left;
     text-decoration: none;
-    text-transform: uppercase;
     
-    padding-left: 15px;
+    padding-left: 30px;
     box-sizing: border-box;
     display:block;
+}
+
+nav#block-an-navigation-left-nav ul li.active-trail > ul {
+    margin-bottom: 5px;
 }
 
 nav#block-an-navigation-left-nav > ul > li.last a{
