@@ -593,9 +593,9 @@ filter:alpha(opacity=100); /* For IE8 and earlier */
     font-size: 14px;
     font-weight: 900;
     border: 1px solid #9AB83F;
-    -moz-box-shadow: 3px 3px 5px #9AB83F;
-    -webkit-box-shadow: 3px 3px 5px #9AB83F;
-    box-shadow: 3px 3px 5px #9AB83F;
+    -moz-box-shadow: 3px 3px #9AB83F;
+    -webkit-box-shadow: 3px 3px  #9AB83F;
+    box-shadow: 3px 3px  #9AB83F;
     width: 200px;
     margin: 0 auto;
     
