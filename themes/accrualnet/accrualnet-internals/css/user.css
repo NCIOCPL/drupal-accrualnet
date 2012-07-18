@@ -15,21 +15,53 @@
 * User Profile styles (Dan)
 *****************/
 
+
+/******************************************************
+        Added by Doyle 7/17 - should be checked to make sure its not duplciated
+        copied from another file.
+********************************************************/
 .profile-sidebar {
-	float:left;
-	margin-left: 0;
-	margin-right: -25%;
-	width: 25%;
+	  /* Span 1 column, starting in 1st column from left. */
+        float: left;
+        width: 280px;
+        margin-left: 0px;
+        margin-right: -280px;
         
 }
 
 .profile-content {
-	float:left;
-	margin-left: 25%;
-	margin-right: -100%;
-	width: 75%;
+	  float: left;
+        width: 880px;
+        margin-left: 320px;
+        margin-right: -1200px;
         
 }
+
+
+
+fieldset {
+    width: 280px;
+}
+
+input[type="file"] {
+    width: 240px;
+}
+
+.form-item-files-picture-upload .description {
+    clear:both;
+}
+.profile-content > .form-item {
+    margin-left: 40px;
+}
+
+.accrualnet-user-profile-form-wrapper .form-item .form-required  {
+    margin-left: -40px;
+}
+
+/************************************************************************
+            END DOYLES ADDS
+*************************************************************************/
+
 
 section.profile-sidebar > span.user-picture > a > img:after {
 	-moz-transform: skew(35deg);
