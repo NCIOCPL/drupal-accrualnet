@@ -149,62 +149,6 @@ function an_contrib_perm_enable() {
 		$anstaff => FALSE,
 		$admin => TRUE
 	),
-	'administer mini panels' => array(
-		$anon => FALSE,
-		$auth => FALSE,
-		$writer => FALSE,
-		$anstaff => FALSE,
-		$admin => TRUE
-	),
-	'create mini panels' => array(
-		$anon => FALSE,
-		$auth => FALSE,
-		$writer => FALSE,
-		$anstaff => FALSE,
-		$admin => TRUE
-	),
-	'administer panel-nodes' => array(
-		$anon => FALSE,
-		$auth => FALSE,
-		$writer => FALSE,
-		$anstaff => FALSE,
-		$admin => TRUE
-	),
-	'create panel-nodes' => array(
-		$anon => FALSE,
-		$auth => FALSE,
-		$writer => FALSE,
-		$anstaff => FALSE,
-		$admin => TRUE
-	),
-	'delete any panel-nodes' => array(
-		$anon => FALSE,
-		$auth => FALSE,
-		$writer => FALSE,
-		$anstaff => FALSE,
-		$admin => TRUE
-	),
-	'delete own panel-nodes' => array(
-		$anon => FALSE,
-		$auth => FALSE,
-		$writer => FALSE,
-		$anstaff => FALSE,
-		$admin => TRUE
-	),
-	'edit any panel-nodes' => array(
-		$anon => FALSE,
-		$auth => FALSE,
-		$writer => FALSE,
-		$anstaff => FALSE,
-		$admin => TRUE
-	),
-	'edit own panel-nodes' => array(
-		$anon => FALSE,
-		$auth => FALSE,
-		$writer => FALSE,
-		$anstaff => FALSE,
-		$admin => TRUE
-	),
 		),
 		$workbench = array(
 	'access workbench' => array(
