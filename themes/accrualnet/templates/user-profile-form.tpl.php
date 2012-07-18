@@ -98,7 +98,7 @@ $form['actions']['cancel']['#value'] = 'Cancel';
 </p>
 
 
-<section class="column sidebar region profile-sidebar">
+<section class="column sidebar region profile-sidebar<?php print ' ' . $color; ?>">
     <?php print render($form['picture']); ?>
     <div class="profile-avatars-wrapper">
         <div class="form-item">
