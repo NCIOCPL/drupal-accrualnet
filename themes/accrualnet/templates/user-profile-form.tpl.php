@@ -72,7 +72,7 @@ drupal_add_js("
         
         });
     }) (jQuery);", 'inline');
-drupal_add_js("
+/*drupal_add_js("
     (function ($) {
         $(document).ready(function() {
             $('#edit-picture-upload').change(function () {
@@ -85,7 +85,7 @@ drupal_add_js("
             });
         
         });
-    }) (jQuery);", 'inline');
+    }) (jQuery);", 'inline');*/
 
 
 $form['actions']['submit']['#value'] = 'Save Changes';
