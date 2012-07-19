@@ -290,7 +290,7 @@ function an_core_perms_enable()
               $auth => FALSE,
               $writer => FALSE,
               $anstaff => FALSE,
-              $admin => FALSE
+              $admin => TRUE
           ),
       ),
       //Shortcut Permissions
