@@ -62,7 +62,7 @@ $GLOBALS['nci_user_fields'] = array(
             'field_name' => 'field_institution_type',
             'entity_type' => 'user',
             'label' => t('Institution Type'),
-            'description' => t('Please select the type of institution you work for from the dropdown below'),
+            'description' => t('Please select the type of institution you work for from the dropdown below.'),
             'bundle' => 'user',
             'required' => FALSE,
             'settings' => array(
@@ -104,7 +104,7 @@ $GLOBALS['nci_user_fields'] = array(
             'field_name' => 'field_years_in_research',
             'entity_type' => 'user',
             'label' => t('Years in Clinical Research'),
-            'description' => t('Please select how many years you have been in the field from the dropdown below'),
+            'description' => t('Please select how many years you have been in the field from the dropdown below.'),
             'bundle' => 'user',
             'required' => FALSE,
             'settings' => array(
@@ -177,7 +177,7 @@ $GLOBALS['nci_user_fields'] = array(
             'bundle' => 'user',
             'required' => FALSE,
             'settings' => array(
-                'user_register_form' => 0,
+                'user_register_form' => 1,
             ),
             'widget' => array(
                 'type' => 'options_select',
@@ -233,10 +233,7 @@ function nci_custom_user_enable() {
 }
 
 function nci_custom_user_disable() {
-    if (field_info_field('avatar_image')) {
-        field_delete_field('avatar_image');
-    }
-    
+
 }
 
 function nci_custom_user_uninstall() {

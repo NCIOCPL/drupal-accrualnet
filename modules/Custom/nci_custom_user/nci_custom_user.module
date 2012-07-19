@@ -13,8 +13,19 @@
     //return $forms;
 //}
 
-
-
+/*
+ * hook_user_login(&$edit, $account)
+ * 
+ * Added By: Lauren
+ * Added On: July 19, 2012
+ * 
+ * TIR # 1828
+ * 
+ * Redirects a user to the homepage (host/). String indicates path after base URL.
+ */
+function nci_custom_user_user_login (&$edit, $account) {
+    $edit['redirect'] = '';
+}
 
 function nci_custom_user_form_user_register_form_alter(&$form, &$form_state) {
 	$form['picture']['#access'] = TRUE;
