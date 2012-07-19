@@ -87,7 +87,6 @@ if($logged_in) {
     //print kpr($profileColor);
       // print render($currentUser['picture']);
     }
-    
 
 }
 ?>
@@ -122,16 +121,18 @@ if($logged_in) {
     <?php endif; ?>
 
       <div class="header-right header-<?php print $profileColor; ?>">
+          <div class="user-blerb">
           <?php print theme_image_style(
                 array(
-                    'style_name' => 'thumbnail',
+                    'style_name' => 'js_crop_scale_30',
                     'path' => $currentUser->picture->uri,
                     'attributes' => array(
                         'class' => 'avatar'
                     )            
                 )
             ); ?>
-          <span class="user-welcome-text">Hi, <?php print '';?></span>
+          <div class="user-welcome-text">Hi <?php print t($user->name);?>!</div>
+          </div>
         <?php if ($secondary_menu): ?>
         <nav id="secondary-menu" role="navigation">
             <?php print theme('links__system_secondary_menu', array(

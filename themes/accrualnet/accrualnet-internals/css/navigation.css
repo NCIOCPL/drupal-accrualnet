@@ -12,8 +12,8 @@
  **************************************/
  #navigation {  height: 100%; clear:both; background: transparent; }
  
- nav {  width: 100%;   margin: 0px auto 0px auto; }
- 
+ nav#main-menu {  width: 100%;   margin: 0px auto 0px auto; }
+ nav#secondary-menu { margin: 0 auto; float: right;}
  nav ul,
  nav ul li.leaf,
  nav ul li.collapsed,
@@ -131,6 +131,44 @@ only screen and (max-device-width : 320px){
 /*******************************************
             Secondary Menu
 *********************************************/
+
+.header-right {
+    float:right;
+    
+    margin: 30px 20px;
+}
+
+.header-right img {
+    float:left;
+}
+
+.header-right .user-blerb {
+    float: left;
+    margin: 0px 20px;
+    color: #2D2D2D;
+    font-weight: 900;
+    font-size: 14px;
+}
+
+.header-right .user-welcome-text {
+    margin: 10px 10px;
+    float:right;
+}
+
+.header-Orange .user-welcome-text {
+    color: #DC6E23;
+}
+.header-Red .user-welcome-text {
+    color: #C74532;
+}
+.header-Blue .user-welcome-text {
+    color: #105693;
+}
+.header-Purple .user-welcome-text {
+    color: #54316E;
+}
+    
+}
 
 nav#secondary-menu ul{
     float:right;
