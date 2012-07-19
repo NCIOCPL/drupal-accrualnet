@@ -5,14 +5,19 @@
  */
 
 
-$form['account']['name']['#description'] = "?";
+
 $form['account']['name']['#access'] = TRUE;
-$form['account']['mail']['#description'] = "?";
-$form['field_years_in_research']['und']['#description'] = "?";
-$form['field_institution_type']['und']['#description'] = "?";
-$form['field_occupation']['und']['#description'] = "?";
-$form['field_areas_of_interest']['und']['#description'] = "?";
+
+
 $form['account']['current_pass']['#access'] = FALSE;
+$form['field_institution_type']['und']['#description'] = "";
+
+/*
+$form['account']['name']['#description'] = 'This username will be displayed to 
+    all registered users if you participate in conversations or make comments
+    on resources';
+$form['account']['pass']['#description'] = 'Please enter a password containing both letters and numbers.';*/
+
 module_load_include('inc', 'nci_custom_user', 'includes\profilecolors');
 global $nci_user_profile_colors;
 //print kprint_r($form);
@@ -43,6 +48,7 @@ $output = "";
 $selectedValuesOnLoad = array();
 $selectedValuesFieldRole = $form['field_occupation']['und']['#default_value'];
 foreach ($selectedValuesFieldRole as $selected) {
+        $selected = str_replace('&amp;', '&', $selected);
     if (!in_array($selected, $form['field_occupation']['und']['#options'])) {
         $selectedValuesOnLoad[] = "ROLE_OTHER";
     } else {
@@ -50,27 +56,28 @@ foreach ($selectedValuesFieldRole as $selected) {
     }
 }
 $selectedValuesFieldAOI = $form['field_areas_of_interest']['und']['#default_value'];
+
 foreach ($selectedValuesFieldAOI as $selected) {
+    $selected = str_replace('&amp;', '&', $selected);
     if (!in_array($selected, $form['field_areas_of_interest']['und']['#options'])) {
         $selectedValuesOnLoad[] = "AOI_OTHER";
     } else {
         $selectedValuesOnLoad[] = $selected;
     }
 }
-//$selectedValuesOnLoad = array_merge($form['field_role']['und']['#default_value'], $form['field_areas_of_interest']['und']['#default_value']);
-//$selectedValuesOnLoad = $form['field_role']['und']['#default_value'];
-foreach ($selectedValuesOnLoad as &$value) {
-    //$value = str_replace(' ', '-', $value);
-}
+
 global $base_url;
 $path = path_to_theme();
 $slash = strpos($path, '/') + 1;
 $path = substr($path, 0, strpos($path, '/', $slash));
+$pictureFilename = '';
+if ($form['picture']['picture']['#value'] != NULL) {
 $pictureFilename = $base_url . '/' . $path .'/files/styles/js_crop/public/pictures/';
 $pictureFilename .= $form['picture']['picture']['#value']->filename;
+}
 drupal_add_js(path_to_theme() . '/js/checkbox.js', 'file');
 drupal_add_js(path_to_theme() . '/js/profilecolors.js', 'file');
-drupal_add_js(path_to_theme() . '/js/selectboxes.js', 'file');
+//drupal_add_js(path_to_theme() . '/js/selectboxes.js', 'file');
 drupal_add_js(path_to_theme() . '/js/inputdarken.js', 'file');
 drupal_add_js(path_to_theme() . '/js/profilehelp.js', 'file');
 drupal_add_js(path_to_theme() . '/js/profileavatars.js', 'file');

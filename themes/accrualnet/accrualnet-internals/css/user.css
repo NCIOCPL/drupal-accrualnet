@@ -55,9 +55,11 @@ input[type="file"] {
     margin-left: 40px;
 }
 
-.accrualnet-user-profile-form-wrapper .form-item .form-required  {
+.accrualnet-user-profile-form-wrapper .form-item .form-required, 
+.accrualnet-user-register-form-wrapper .form-item .form-required {
     margin-left: -40px;
 }
+
 
 
 .edit-profile-button a,
@@ -217,7 +219,8 @@ section.profile-sidebar fieldset {
     color: #C74532;
 }
 
-.accrualnet-user-profile-form-wrapper  {
+.accrualnet-user-profile-form-wrapper,
+.accrualnet-user-register-form-wrapper{
     /*border: 1px solid red;*/
     font-family: Arial, Helvetica, sans-serif;
     font-size: 13px;
@@ -225,32 +228,36 @@ section.profile-sidebar fieldset {
     color: black;
 }
 
-.accrualnet-user-profile-form-wrapper .form-item {
+.accrualnet-user-profile-form-wrapper .form-item, 
+.accrualnet-user-register-form-wrapper .form-item {
     /* border: 1px solid cyan; */
     clear:both;
     vertical-align: middle;
     position: relative;
 }
-.accrualnet-user-profile-form-wrapper .form-item label{
+.accrualnet-user-profile-form-wrapper .form-item label,
+.accrualnet-user-register-form-wrapper .form-item label {
     font-size: 13px;
     font-weight: bold;
     text-transform: uppercase;
     padding: 5px 0px;
 }
 
-.accrualnet-user-profile-form-wrapper .form-item .form-required {
+.accrualnet-user-profile-form-wrapper .form-item .form-required,
+.accrualnet-user-register-form-wrapper .form-item .form-required{
     float: left;
     padding-right: .75em;
 }
 
-.accrualnet-user-profile-form-wrapper .form-item input {
+.accrualnet-user-profile-form-wrapper .form-item input, 
+.accrualnet-user-register-form-wrapper .form-item input{
     color: black;
     border-width: 1px;
     border-color: #9AB83F;
     width: 500px;
 }
 
-.accrualnet-user-profile-form-wrapper input#edit-name {
+input#edit-name {
     font-size: 25px;
     font-weight: normal;
     text-transform: uppercase;
@@ -262,15 +269,17 @@ section.profile-sidebar fieldset {
     font-weight: normal;
     position: absolute;
     left: 525px;
-    top: 25px;
+    top: 35px;
     width: 170px;
     visibility: hidden;
 }
+
+
 div.password-strength-text {
     float: right;
 }
 
-.form-type-password-confirm .description {
+.form-type-password-confirm .password-suggestions {
     width:0px;
     height:0px;
     overflow: hidden;
@@ -281,13 +290,14 @@ div.password-strength-text {
     font-weight: normal;
     position: absolute;
     left: 525px;
-    top: 25px;
+    top: 35px;
     width: 180px;
     visibility: hidden;
 }
 
 
-.accrualnet-user-profile-form-wrapper .form-item .form-type-checkbox label {
+.accrualnet-user-profile-form-wrapper .form-item .form-type-checkbox label,
+.accrualnet-user-register-form-wrapper .form-item .form-type-checkbox label{
     margin-left: 25px;
     color: black;
     font-weight: normal;
@@ -365,7 +375,7 @@ span.selectOption:hover {
 
 
 
-.accrualnet-user-profile-form-wrapper .form-actions input {
+/*.accrualnet-user-profile-form-wrapper*/ .form-actions input {
     border: 2px solid #9AB83F;
 
   color:#9AB83F;
@@ -398,7 +408,7 @@ font-family: Arial, Helvetica, sans-serif;
 
 }
 
-.accrualnet-user-profile-form-wrapper .form-actions input:hover {
+/*.accrualnet-user-profile-form-wrapper*/ .form-actions input:hover {
     border: 2px solid #9AB83F;
 
   color:#fff;
@@ -502,6 +512,7 @@ h1.field-label {
 .profile-colors-selected {
     height: 25px;
     margin: 0px 5px 3px 5px;
+    
 }
 
 
@@ -519,7 +530,8 @@ input {
     float: left;
     vertical-align:middle;
 }
-.accrualnet-user-profile-form-wrapper .description {
+.accrualnet-user-profile-form-wrapper .description,
+.accrualnet-user-register-form-wrapper .description{
     position: absolute;
     left: 500px;
     /*font-weight: bold;
@@ -538,29 +550,40 @@ input {
     padding-left: 10px;
     width:30px;
 }
-.accrualnet-user-profile-form-wrapper .form-type-textfield .description {
+.accrualnet-user-profile-form-wrapper .form-type-textfield .description, 
+.accrualnet-user-register-form-wrapper .form-type-textfield .description {
     top: auto;
     bottom: auto;
        left: 525px;
 }
-.accrualnet-user-profile-form-wrapper .field-type-text .description {
+.accrualnet-user-profile-form-wrapper .field-type-text .description, 
+.accrualnet-user-register-form-wrapper .field-type-text .description {
    position: absolute;
    top: 15px;
    left: 450px;
 }
-.accrualnet-user-profile-form-wrapper #edit-field-occupation .description {
+ .form-item-name .description {
+     position: absolute;
+    top: 25px;
+    right: 5px;
+}
+.form-item-pass .description {
+    top: 2px;
+    left: 110px;
+}
+ #edit-field-occupation .description {
     top: 2px;
     left: 80px;
 }
-.accrualnet-user-profile-form-wrapper #edit-field-institution-type .description {
+ #edit-field-institution-type .description {
     top: 2px;
     left: 115px;
 }
-.accrualnet-user-profile-form-wrapper #edit-field-years-in-research .description {
+ #edit-field-years-in-research .description {
     top: 2px;
     left: 190px;
 }
-.accrualnet-user-profile-form-wrapper #edit-field-areas-of-interest .description {
+ #edit-field-areas-of-interest .description {
     top: 2px;
     left: 130px;
 }
@@ -682,7 +705,9 @@ filter:alpha(opacity=100); /* For IE8 and earlier */
 
 
 #user-profile-form div.profile-colors-wrapper,
-#user-profile-form div.profile-avatars-wrapper {
+#user-profile-form div.profile-avatars-wrapper,
+#user-register-form div.profile-colors-wrapper,
+#user-register-form div.profile-avatars-wrapper {
     color: #9AB83F;
     font-family: Verdana, sans-serif;
     text-transform: uppercase;
@@ -697,6 +722,13 @@ filter:alpha(opacity=100); /* For IE8 and earlier */
     width: 240px;
     
    
-}​
+}
 
 
+#username-warning {
+    color: #696969;
+    font-style: italic;
+    padding-top: 0px;
+    margin-top: -20px;
+    left:0px;
+}

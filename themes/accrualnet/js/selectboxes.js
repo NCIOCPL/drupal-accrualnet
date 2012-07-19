@@ -11,7 +11,7 @@
 
 (function ($) {
     $(document).ready(function() {
-        
+
         // Hide all of the select boxes now that this script is called.
         $('.form-type-select > select').css('display', 'none');
 
@@ -96,10 +96,12 @@
                 // no longer desired).
                 if ($(this).hasClass('select_or_other')) {
                     $(this).parent().parent().parent().children('select').val('select_or_other');
-                    $(this).parent().parent().parent().parent().children('.form-type-textfield').css('display', 'block');
+                    $(this).parent().parent().parent().parent().children('.form-type-textfield').toggle();
+                    $(this).parent().parent().parent().parent().children('.form-type-textfield').children('input').toggle();
                 } else {
                     $(this).parent().parent().parent().children('select').val($(this).attr('id'));
-                    $(this).parent().parent().parent().parent().children('.form-type-textfield').css('display', 'none');
+                    $(this).parent().parent().parent().parent().children('.form-type-textfield').toggle();
+                    $(this).parent().parent().parent().parent().children('.form-type-textfield').children('input').toggle();
                 }
                 
                 // Fix the border

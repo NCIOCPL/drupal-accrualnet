@@ -20,16 +20,16 @@
  * @see template_preprocess_search_results()
  */
 ?>
-<?php //kprint_r(get_defined_vars());  ?>
+<?php print kprint_r(get_defined_vars());  ?>
 <?php if ($search_results): ?>
 	<h2><?php print t('Search results'); ?></h2>
 	<div class="search-pager"><?php print $pager; ?></div>
-	<div class="search-count"><?php print $search_totals; ?></div>
+	<div class="search-count"><?php print strtoupper($search_totals); ?></div>
 	<ol class="search-results <?php print $module; ?>-results">
 		<?php print $search_results; ?>
 	</ol>
 	<div class="search-pager"><?php print $pager; ?></div>
 <?php else : ?>
-	<h2><?php print t('Your search yielded no results'); ?></h2>
+	<h2><?php print $search_totals; ?></h2>
 	<?php print search_help('search#noresults', drupal_help_arg()); ?>
 <?php endif; ?>

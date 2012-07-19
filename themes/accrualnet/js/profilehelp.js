@@ -10,7 +10,6 @@
 
 (function ($) {
     $(document).ready(function() {
-        
 
         $('input.password-field').keyup(function () {
             if ($(this).val().length < 1) {
@@ -24,7 +23,7 @@
         
         
         var $pathToTheme = Drupal.settings.pathToTheme;
-        $('.accrualnet-user-profile-form-wrapper').find('.description').each(function () {
+        $('.accrualnet-user-profile-form-wrapper, .accrualnet-user-register-form-wrapper').find('.description').each(function () {
             var $help = $(this).html();
             $(this).html('<img src="/' + $pathToTheme + '/accrualnet-internals/images/global/help.png" title="' + $help + '" />');
             $(this).hover(function () {

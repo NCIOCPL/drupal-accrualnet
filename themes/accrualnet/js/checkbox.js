@@ -11,19 +11,21 @@
 (function ($) {
 
     $(document).ready(function(){
-        
+
         // Hide all of the checkboxes
-        $('.form-checkbox').css('display', 'none');
+       $('.form-checkbox').css('display', 'none');
 
         // Get the values that a user already has selected
         var $selectedValues = Drupal.settings.selectedValues;
-        
+      
         // Error handling for the "select_or_other" module
         if (jQuery.inArray('ROLE_OTHER', $selectedValues, 0) >= 0) {
             $('.form-item-field-occupation-und-select-select-or-other').addClass('checked');
+            $('input#edit-field-occupation-und-select-select-or-other').attr('checked', true);
         }
         if (jQuery.inArray('AOI_OTHER', $selectedValues, 0) >= 0) {
             $('.form-item-field-areas-of-interest-und-select-select-or-other').addClass('checked');
+            $('input#edit-field-areas-of-interest-und-select-select-or-other').attr('checked', true);
         }
 
         // For every checkbox we have, figure out if it's supposed to start out 
@@ -49,10 +51,10 @@
                 }
             }
             
-            // If an item was not found or not checked, then we must ensure that 
+            // If an item was not found AND not checked, then we must ensure that 
             // it does not have a checked attribute and that we add the unchecked 
             // CLASS (dark square).
-            if (!$found || !$(this).hasClass('checked')) {
+            if (!$found && !$(this).hasClass('checked')) {
                 $(this).addClass('unchecked');
                 $(this).children('input').removeAttr('checked');
             }
@@ -61,13 +63,15 @@
 
 
        
-        // Every time we click on a DIV with a checkbox in it, we must toggle it
+        // Every time we click on a DIV with a checkbox in it, we must toggle it.
+        // Also, we must make sure to toggle the Other box if SELECT_OR_OTHER is
+        // chosen.
         $('div.form-type-checkbox').click(function () {
             // First, determine if it's checked or unchecked so we don't
             // recalculate these values.
             var $isChecked = $(this).hasClass('checked');
             var $isUnchecked = $(this).hasClass('unchecked');
-            
+
             // If it is already checked, uncheck it and remove that INPUT's
             // checked attribute. Else, do opposite.
             if ($isChecked) {
@@ -80,9 +84,16 @@
                 $(this).children('input').attr('checked', 'checked');
             }
             
+            
+            
             // Return FALSE so it doesn't loop through again.
+            // DO NOT PUT "return false;" !!!!!!!!!!!!!!!!!!!
+            // JS will not recognize this and this script will loop through twice.
+            //return FALSE;
             return false;
-         
+            // IDK... I had to add return false back in and now it works again.
+            // I'm really not sure what's going on with this... Maybe ending 
+            // both jQuery and JS scripts? But it works now.
         });
 
     });
