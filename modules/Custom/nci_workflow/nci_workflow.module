@@ -5,7 +5,7 @@ $GLOBALS['role_mod_state_map'] = array(
 	'AccrualNet Staff' => array(1 => 'New', 'Editorial Review', 'Published')
 );
 
-function nci_workflow_form_resource_node_form_alter(&$form, &$form_state) {
+function nci_workflow_form_alter(&$form, &$form_state) {
 	if ($form['#action'] == '/node/add/resource') {
 		// hide most of the elements
 		$form['field_tax_patient_related']['#access'] = FALSE;
@@ -21,53 +21,92 @@ function nci_workflow_form_resource_node_form_alter(&$form, &$form_state) {
 		$form['field_assigned_writer']['#access'] = FALSE;
 		$form['field_assigned_editor']['#access'] = FALSE;
 	} else {
-		$role = "Writer";
-		$form_widget = &$form['field_assigned_writer'];
-		$node_widget = &$form['#node']->field_assigned_writer;
-		nci_workflow_fill_users($form_widget, $node_widget, $role);
+		global $user;
 
-		$role = "AccrualNet Staff";
-		$form_widget = &$form['field_assigned_editor'];
-		$node_widget = &$form['#node']->field_assigned_editor;
-		nci_workflow_fill_users($form_widget, $node_widget, $role);
+		if (isset($form['field_assigned_writer'])) {
+			$role = "Writer";
+			$form_widget = &$form['field_assigned_writer'];
+			$node_widget = &$form['#node']->field_assigned_writer;
+			nci_workflow_fill_users($form_widget, $node_widget, $role);
+		}
+
+		if (isset($form['field_assigned_editor'])) {
+			$role = "AccrualNet Staff";
+			$form_widget = &$form['field_assigned_editor'];
+			$node_widget = &$form['#node']->field_assigned_editor;
+			nci_workflow_fill_users($form_widget, $node_widget, $role);
+		}
 	}
 }
 
 function nci_workflow_fill_users(&$form_widget, $node_widget, $role) {
 // query the database to fill the assigned users fields with appropriate data
-
-	$query = "SELECT an_users.uid, an_users.name as user_name, rid, role_name " .
-			"FROM " .
-			"(SELECT an_users_roles.uid, an_users_roles.rid, an_role.name AS role_name " .
-			"FROM an_users_roles  " .
-			"INNER JOIN an_role  " .
-			"ON an_users_roles.rid = an_role.rid " .
-			"WHERE an_role.name in ('" . $role . "')) " .
-			"AS role_uids " .
-			"INNER JOIN an_users " .
-			"ON an_users.uid = role_uids.uid;";
-
-	$result = db_query($query);
-
-	foreach ($result as $record) {
-		$rows[] = $record;
-	}
-
-	if (!isset($rows))
-		return;
-
 	// get the current value, if it exists
+	$value = null;
 	if (isset($node_widget['und']['0']['value'])) {
 		$value = $node_widget['und']['0']['value'];
-		// update the default value to match
-		$form_widget['und']['#default_value'] = $value;
 	}
 
-// fill the select options with the available users
-	foreach ($rows as $row) {
-		$uid = $row->uid;
-		$username = $row->user_name;
-		$form_widget['und']['#options'][$uid] = $username;
+	// determine if the current user has access to the intended field
+	global $user;
+	// if the current user's roles contain either the role to assign or
+	// administrator, allow the field to be populated and set
+	$access = (array_search($role, $user->roles) !== FALSE ||
+			array_search('administrator', $user->roles) !== FALSE);
+
+	// if access is allowed...
+	if ($access) {
+		$query = "SELECT an_users.uid, an_users.name as user_name, rid, role_name " .
+				"FROM " .
+				"(SELECT an_users_roles.uid, an_users_roles.rid, an_role.name AS role_name " .
+				"FROM an_users_roles  " .
+				"INNER JOIN an_role  " .
+				"ON an_users_roles.rid = an_role.rid " .
+				"WHERE an_role.name in ('" . $role . "')) " .
+				"AS role_uids " .
+				"INNER JOIN an_users " .
+				"ON an_users.uid = role_uids.uid;";
+
+		$result = db_query($query);
+
+		foreach ($result as $record) {
+			$rows[] = $record;
+		}
+
+		if (!isset($rows))
+			return;
+
+		// set the current value, if it exists
+		if (isset($value)) {
+			// update the default value to match
+			$form_widget['und']['#default_value'] = $value;
+		}
+
+		// fill the select options with the available users
+		foreach ($rows as $row) {
+			$uid = $row->uid;
+			$username = $row->user_name;
+			$form_widget['und']['#options'][$uid] = $username;
+		}
+	} else {
+		// remove the select entirely and drop the current value in as
+		// markup
+
+		$markup = '<i>unassigned</i>';
+		if (isset($value)) {
+			// look up the related user
+			$assigned = user_load($value);
+			if (isset($assigned)) {
+				$markup = $assigned->name;
+			}
+		}
+
+		// preserve the title and replace the select with the markup
+		$form_widget['und'] = array(
+			'#type' => 'item',
+			'#title' => $form_widget['und']['#title'],
+			'#markup' => $markup
+		);
 	}
 }
 
