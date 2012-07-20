@@ -94,10 +94,11 @@
 
 //This query will need to be updated if field_related_strategy is every used for content
 //besides resources.
+global $an_resource_types;
 $query = new EntityFieldQuery();
 // We are looking for a node
 $query->entityCondition('entity_type', 'node')
- ->entityCondition('bundle', 'lifecycle_strategy')
+ ->entityCondition('bundle', array_keys($an_resource_types))
  ->fieldCondition('field_related_strategy', 'target_id', $node->nid)
  ->propertyCondition("status", 1)
  ->pager(5);
