@@ -408,7 +408,7 @@ font-family: Arial, Helvetica, sans-serif;
 
 }
 
-/*.accrualnet-user-profile-form-wrapper*/ .form-actions input:hover {
+/*.accrualnet-user-profile-form-wrapper*/ .form-actions input:hover, .form-actions input:active {
     border: 2px solid #9AB83F;
 
   color:#fff;
