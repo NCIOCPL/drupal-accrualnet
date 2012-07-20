@@ -519,6 +519,7 @@ h1.field-label {
 input.select-or-other-other {
     margin-top: 0px;
     margin-bottom: 45px;
+    display:none;
 }
 
 .profile-colors-options {

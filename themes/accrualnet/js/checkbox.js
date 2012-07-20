@@ -22,10 +22,14 @@
         if (jQuery.inArray('ROLE_OTHER', $selectedValues, 0) >= 0) {
             $('.form-item-field-occupation-und-select-select-or-other').addClass('checked');
             $('input#edit-field-occupation-und-select-select-or-other').attr('checked', true);
+            $('.form-item-field-occupation-und-select-select-or-other').parent().parent().next().css('display', 'block');
+            $('.form-item-field-occupation-und-select-select-or-other').parent().parent().next().children('input').css('display', 'block');
         }
         if (jQuery.inArray('AOI_OTHER', $selectedValues, 0) >= 0) {
             $('.form-item-field-areas-of-interest-und-select-select-or-other').addClass('checked');
             $('input#edit-field-areas-of-interest-und-select-select-or-other').attr('checked', true);
+            $('.form-item-field-areas-of-interest-und-select-select-or-other').parent().parent().next().css('display', 'block');
+            $('.form-item-field-areas-of-interest-und-select-select-or-other').parent().parent().next().children('input').css('display', 'block');
         }
 
         // For every checkbox we have, figure out if it's supposed to start out 
@@ -60,7 +64,7 @@
             }
 
         });
-
+        
 
        
         // Every time we click on a DIV with a checkbox in it, we must toggle it.
@@ -84,16 +88,23 @@
                 $(this).children('input').attr('checked', 'checked');
             }
             
+            if ($(this).children('input').val() == 'select_or_other') {
+                $(this).parent().parent().next().toggle();
+                $(this).parent().parent().next().children('input').toggle();
+            }
             
-            
+              
             // Return FALSE so it doesn't loop through again.
             // DO NOT PUT "return false;" !!!!!!!!!!!!!!!!!!!
             // JS will not recognize this and this script will loop through twice.
-            //return FALSE;
+            //return FALSE;    
             return false;
             // IDK... I had to add return false back in and now it works again.
             // I'm really not sure what's going on with this... Maybe ending 
             // both jQuery and JS scripts? But it works now.
+            
+            // Ok more investigation... return false will keep the non-Other values
+            // from executing twice.
         });
 
     });

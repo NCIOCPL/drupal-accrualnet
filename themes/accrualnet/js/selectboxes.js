@@ -44,7 +44,10 @@
             $(this).parent().parent().parent().next().css('display', 'block');
         });
         
-        
+        if ($('select#edit-field-institution-type-und-select').val() == 'select_or_other') {
+            $('div.form-item-field-institution-type-und-other').css('display', 'block');
+            $('input#edit-field-institution-type-und-other').css('display', 'block');
+        }
         
         // This controls the fake SELECT box and its actions as it mimics and sets 
         // the original SELECT box.

@@ -77,7 +77,7 @@ $pictureFilename .= $form['picture']['picture']['#value']->filename;
 }
 drupal_add_js(path_to_theme() . '/js/checkbox.js', 'file');
 drupal_add_js(path_to_theme() . '/js/profilecolors.js', 'file');
-//drupal_add_js(path_to_theme() . '/js/selectboxes.js', 'file');
+drupal_add_js(path_to_theme() . '/js/selectboxes.js', 'file');
 drupal_add_js(path_to_theme() . '/js/inputdarken.js', 'file');
 drupal_add_js(path_to_theme() . '/js/profilehelp.js', 'file');
 drupal_add_js(path_to_theme() . '/js/profileavatars.js', 'file');

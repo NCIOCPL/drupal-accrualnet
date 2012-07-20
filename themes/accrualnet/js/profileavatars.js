@@ -12,10 +12,10 @@
 
     $(document).ready(function() {
         var $pathToTheme = Drupal.settings.pathToTheme;
-                    var $target = $('.user-picture').children('a').children('img');
+        var $target = $('.user-picture').children('a').children('img');
          
-         $('<p class="user-img-or">Or</p>').insertAfter($('.imagecrop-button'));
-         $('<p class="user-img-or">Or</p>').insertAfter($('.form-item-files-picture-upload'));
+        $('<p class="user-img-or">Or</p>').insertAfter($('.imagecrop-button'));
+        $('<p class="user-img-or">Or</p>').insertAfter($('.form-item-files-picture-upload'));
          
          
         $('input#edit-picture-upload').change(function () {
@@ -28,13 +28,15 @@
             $target.attr('src', $(this).children('img').attr('src'));
             $target.css('width', '200px');
             $('input#edit-picture-upload').val('');
+            $('.imagecrop-button').css('display', 'none');
+            $('.imagecrop-button').next().css('visibility', 'hidden');
         });
         
         $('.imagecrop-button').click(function () {
-           $target.attr('src', Drupal.settings.avatarfile);
-           $('select#edit-avatar-image-und').val('_none');
-           $('.picked').removeClass('picked');
-           $('input#edit-picture-upload').val('');
+            $target.attr('src', Drupal.settings.avatarfile);
+            $('select#edit-avatar-image-und').val('_none');
+            $('.picked').removeClass('picked');
+            $('input#edit-picture-upload').val('');
         });
 
         $('.avatar-option').click(function() {
@@ -47,7 +49,7 @@
             
             $('select#edit-avatar-image-und').children().each(function () {
                 if ($(this).html() == ($gender + '/' + $color)) {
-                     $('select#edit-avatar-image-und').val($(this).val());
+                    $('select#edit-avatar-image-und').val($(this).val());
                 }
             });
             
@@ -55,6 +57,9 @@
             
             $('.picked').removeClass('picked');
             $(this).addClass('picked');
+            
+            $('.imagecrop-button').css('display', 'none');
+            $('.imagecrop-button').next().css('visibility', 'hidden');
             
         });
         
