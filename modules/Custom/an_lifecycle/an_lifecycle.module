@@ -14,6 +14,8 @@ module_load_include('inc', 'an_lifecycle', 'includes/lifecycle.field');
 //include lifecycle node alias settings
 module_load_include('inc', 'an_lifecycle', 'includes/lifecycle.alias');
 
+module_load_include('inc', 'an_lifecycle', 'includes/lifecycle.globals');
+
 
 /**
  *takes an array of parameters (see http://drupal.org/node/1343708 )
