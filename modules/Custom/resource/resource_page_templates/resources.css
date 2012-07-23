@@ -26,9 +26,9 @@
     /*border: 1px solid red;*/
 }
 
-.resource-citation {
+/*.resource-citation {
     margin: 1em;
-}
+}*/
 
 #resource-level-3 #filter-box {
     border: .3px dotted black;
@@ -56,4 +56,26 @@
 
 .resource-level-2-result {
     margin: .5em;
+}
+
+div.resource-output{
+	clear: both;
+}
+
+div.resource-output-image{
+	float: left;
+	clear: both;
+
+	font-family: Arial, sans-serif;
+	font-size: 13px;
+	color: #2d2d2d;
+	margin-right: 30px;
+}
+
+div.resource-output-title a:visited {
+	color: #626262;
+}
+
+div.resource-output-title a:hover {
+	font-weight: bold;
 }
