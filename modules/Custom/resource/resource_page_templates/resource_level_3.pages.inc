@@ -265,6 +265,7 @@ function resource_level_3_stage_form($form, &$form_state, $vocab_name, $tag_name
 				$value = $stage;
 			$options[$stage] = $stage;
 		}
+                
 
 		// build the AJAX element
 		$ajax = array(
@@ -283,7 +284,7 @@ function resource_level_3_stage_form($form, &$form_state, $vocab_name, $tag_name
 			'#id' => 'filter-box',
 			'filter_markup' => array('#markup' => $filter_markup),
 			'stage_select' => array(
-				'#type' => 'select',
+				'#type' => 'checkboxes',
 				'#attributes' => array('name' => 'stage'),
 				'#options' => $options,
 				'#value' => array($value),

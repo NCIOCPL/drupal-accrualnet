@@ -35,14 +35,188 @@ function resource_page_templates_menu() {
     'type' => MENU_SUGGESTED_ITEM,
     'file' => 'resource_level_2.pages.inc',
   );
-  $items['resources/%/%'] = array (
+  /*$items['resources/%/%'] = array (
     //'title' => 'Resources and Tools Level 3',
     'page callback' => 'resource_level_3_page',
     'access arguments' => array('access content'),
     'page arguments' => array(1,2),
     'type' => MENU_SUGGESTED_ITEM,
     'file' => 'resource_level_3.pages.inc',
+  );*/
+  $items['resources/%/%'] = array(
+    'title' => 'Resources and Tools Level 3',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('resource_ajax_filter', 1, 2),
+    'access callback' => TRUE,
+    'weight' => 1,
   );
 
   return $items;
+}
+
+
+/**
+ * AJAX-enabled checkboxes that allow for filtering of literature and tools results. 
+ */
+function resource_ajax_filter($form, &$form_state, $facet, $term) {
+    global $an_stage_strategy;
+
+    
+    $vocab = taxonomy_vocabulary_machine_name_load('an_vocabulary_' . $facet);
+    $vocabName = $vocab->name;
+    $tagName = DetermineTag($term);
+    $tag = array_pop(taxonomy_get_term_by_name($tagName));
+    if ($tagName == NULL)
+		return '';
+  
+    
+  
+    
+    
+  $form['checkboxes_fieldset'] = array(
+    '#title' => t("Filter Results"),
+    // The prefix/suffix provide the div that we're replacing, named by
+    // #ajax['wrapper'] above.
+    '#prefix' => '<div id="filter-results">',
+    '#suffix' => '</div>',
+    '#type' => 'fieldset',
+    '#description' => t('This is where we get automatically generated checkboxes'),
+  );
+  
+  
+  
+  
+  
+  $stageQuery = new EntityFieldQuery();
+    $stageQuery->entityCondition('entity_type', 'node')
+    ->entityCondition('bundle', 'lifecycle_stage')
+    ->propertyCondition("status", 1);
+     $stageNodes = _an_lifecycle_load_related_nodes($stageQuery);
+    
+    //Create all 1st level Stage nodes.
+    foreach ($stageNodes['nodes'] as $stage ) {
+     $form['checkboxes_fieldset'][$stage->nid] = array(
+          '#type' => 'checkbox',
+          '#title' => $stage->title,
+          '#prefix' => "<div class=\"checkbox-$stage->nid\">",
+          '#suffix' => '</div>',
+          '#ajax' => array(
+            'callback' => 'resource_ajax_callback',
+            'wrapper' => 'results-div',
+            'effect' => 'slide',
+            'progress' => array('type' => 'none'),
+           ),  
+      );
+      $form['checkboxes_fieldset'][$stage->nid.'-child'] = array(
+            '#title' => t(""),
+            // The prefix/suffix provide the div that we're replacing, named by
+            // #ajax['wrapper'] above.
+            '#prefix' => '<div id="'.$stage->nid.'-div">',
+            '#suffix' => '</div>',
+            '#type' => 'fieldset',
+      );
+      $strategyIDs = field_get_items('node', $stage, 'field_child_strategies');
+       if(!empty($strategyIDs)) {
+            $strategyQuery = new EntityFieldQuery();
+            $strategyQuery->entityCondition('entity_type', 'node')
+            ->entityCondition('bundle', 'lifecycle_strategy')
+            ->propertyCondition('nid', array_values($strategyIDs));
+            $strategyNodes = _an_lifecycle_load_related_nodes($strategyQuery);
+            foreach ($strategyNodes['nodes'] as $strategy){
+               
+                 $form['checkboxes_fieldset'][$stage->nid.'-child'][$strategy->nid] = array(
+                    '#type' => 'checkbox',
+                    '#title' => "$strategy->title",
+                    '#default_value' => '0', 
+                    '#prefix' => "<div class=\"parent-$stage->nid \">",
+                    '#suffix' => '</div>',
+                    '#ajax' => array(
+                        'callback' => 'resource_ajax_callback',
+                        'wrapper' => 'results-div',
+                        'effect' => 'slide',
+                        'progress' => array('type' => 'none'),
+                    ),    
+                );
+                // Save the item to database.
+                
+            }
+        }
+    }
+    
+    //TODO: Add resource types filtering into the equasion and make it look decent.  
+    $form['checkboxes_fieldset']['resource-types'] = array();
+
+    $params = array();
+    //for each key in the values array - check to see if its one of our check boxes.
+    //We need a way to determine if the node is a Stage or a Strategy so that we can 
+    //do the logic to pull in all of the child strategies or not. We also need to make sure
+    //that the child strategy isn't selected... if it is, than we don't want to pull in the others.
+    foreach(array_keys($form_state['values']) as $nodeID ){
+        //if this checkbox is set.
+        if($form_state['values'][$nodeID] == 1){
+            $params[$nodeID] = $nodeID;
+        }
+    }
+    $resources = _resource_ajax_load_results($params, $facet, $tag);
+
+    if($resources)
+    {
+        $resultsOutput = "";
+        foreach($resources['nodes'] as $mynode){
+            $resultsOutput .= "<div class=\"lifecycle-strategy-resource\">";
+            $resultsOutput .= _resource_output_snippet($mynode); 
+            $resultsOutput .= "</div>";
+        }
+    }
+    $form['results'] = array(
+        '#title' => t("Literature & Tools"),
+        // The prefix/suffix provide the div that we're replacing, named by
+        // #ajax['wrapper'] above.
+        '#prefix' => '<div id="results-div">',
+        '#suffix' => '</div>',
+        '#type' => 'fieldset',
+        '#description' => $resultsOutput,
+    );
+
+ 
+
+    return $form;
+}
+
+/**
+ * Callback element needs only select the portion of the form to be updated.
+ * Since #ajax['callback'] return can be HTML or a renderable array (or an
+ * array of commands), we can just return a piece of the form.
+ * See @link ajax_example_advanced.inc AJAX Advanced Commands for more details
+ * on AJAX framework commands.
+ *
+ * @return renderable array (the checkboxes fieldset)
+ */
+function resource_ajax_callback($form, $form_state) {
+  return $form['results'];
+}
+
+function _resource_ajax_load_results($params, $facetName, $tag){
+    //if nothing has been selected yet
+    //if(empty($params))
+       // return FALSE;
+    global $an_resource_types;
+    $query = new EntityFieldQuery();
+    // We are looking for a node
+    $query->entityCondition('entity_type', 'node')
+        ->entityCondition('bundle', array_keys($an_resource_types));
+    if(!empty($params))
+    {
+        $query->fieldCondition('field_related_strategy', 'target_id', array_keys($params), 'IN');
+    }
+    $query->fieldCondition('field_tax_' . $facetName, 'tid', $tag->tid)
+        ->propertyCondition("status", 1)
+        ->pager(10);
+
+
+    // Just can keep chaining these until you're happy...
+    $resources = _an_lifecycle_load_related_nodes($query, TRUE);
+    return $resources;
+    
+    
 }
