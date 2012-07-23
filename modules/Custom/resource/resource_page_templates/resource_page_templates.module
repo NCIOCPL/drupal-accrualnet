@@ -182,7 +182,7 @@ function resource_ajax_filter($form, &$form_state, $facet, $term) {
                 );
     }
     
-    $params = array();
+    $params = array( );
     //for each key in the values array - check to see if its one of our check boxes.
     //We need a way to determine if the node is a Stage or a Strategy so that we can 
     //do the logic to pull in all of the child strategies or not. We also need to make sure
@@ -190,7 +190,10 @@ function resource_ajax_filter($form, &$form_state, $facet, $term) {
     foreach(array_keys($form_state['values']) as $nodeID ){
         //if this checkbox is set.
         if($form_state['values'][$nodeID] == 1){
-            $params[$nodeID] = $nodeID;
+            if(is_string($nodeID))
+                $params['types'][$nodeID] = $nodeID;
+            else
+                $params['ids'][$nodeID] = $nodeID;
         }
     }
     $resources = _resource_ajax_load_results($params, $facet, $tag);
@@ -240,16 +243,29 @@ function _resource_ajax_load_results($params, $facetName, $tag){
     $query = new EntityFieldQuery();
     // We are looking for a node
     $query->entityCondition('entity_type', 'node')
-        ->entityCondition('bundle', array_keys($an_resource_types));
-    if(!empty($params))
-    {
-        $query->fieldCondition('field_related_strategy', 'target_id', array_keys($params), 'IN');
-    }
-    $query->fieldCondition('field_tax_' . $facetName, 'tid', $tag->tid)
+        ->fieldCondition('field_tax_' . $facetName, 'tid', $tag->tid)
         ->propertyCondition("status", 1)
         ->pager(10);
-
-
+    //Conditional Query Logic
+    
+    //If a lifecycle checkbox is selected
+    if(array_key_exists('ids', $params))
+    {
+        
+        $query->fieldCondition('field_related_strategy', 'target_id', array_keys($params['ids']), 'IN');
+        
+    }
+    //if a resource type is selected
+    if(array_key_exists('types', $params))
+    {
+        
+        $query->entityCondition('bundle', array_keys($params['types']));
+        
+    }
+    else
+    {
+        $query->entityCondition('bundle', array_keys($an_resource_types));
+    }
     // Just can keep chaining these until you're happy...
     $resources = _an_lifecycle_load_related_nodes($query, TRUE);
     return $resources;

@@ -371,11 +371,14 @@ function _resource_output_snippet($node) {
 	$output .= '<div class="resource-text">';
 	$output .= '<div class="resource-output-title">';
 	$output .= '<a href="' . url('node/' . $node->nid) . '">';
-	$output .= $node->title;
+	//$output .= $node->title;
+        $output .= check_plain($node->title);
+        //$output .= filter_xss($node->title);
 	$output .= '</a>';
 	$output .= '</div>';
-	$output .= _resource_output_citation($node);
-	$output .= _resource_output_taxonomy($node);
+        //$output .= _resource_output_citation($node);
+	$output .= filter_xss(_resource_output_citation($node));
+	$output .= filter_xss(_resource_output_taxonomy($node));
 	$output .= '</div>';
 	$output .= '</span>';
 	return $output;
