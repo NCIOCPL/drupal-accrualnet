@@ -59,7 +59,8 @@ function _an_lifecycle_create_nodes () {
             $nodeStrat->status = 1;
             $nodeStrat->comment = 1;
             
-            $nodeStrat->title = $stratShort;
+            $nodeStrat->title = $stratLong;
+            $nodeStrat->nav_label = $stratShort;
             $nodeStrat->created = time();
             $nodeStrat->changed = time();
             

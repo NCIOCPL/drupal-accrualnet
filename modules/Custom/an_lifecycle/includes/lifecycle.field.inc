@@ -31,6 +31,17 @@ foreach ($an_resource_types as $type => $unused)
 $GLOBALS['an_lifecycle_fields'] = array(
     // Machine Name => Label
     array(
+        'label' => 'Navigation Label',
+        'field_name' => 'nav_label',
+        'type' => 'text',
+        'cardinality' => '1',
+        'entity_type' => 'node',
+        'settings' => array(),
+        'bundles' => array(
+            'lifecycle_strategy',
+        ),
+    ),
+    array(
         'label' => 'Content Summary',
         'description' => 'Provide a summary paragraph for this content to be displayed as a snippet on other pages.',
         'field_name' => 'content_summary',
