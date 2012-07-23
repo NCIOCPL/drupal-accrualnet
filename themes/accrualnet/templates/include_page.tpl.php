@@ -121,18 +121,20 @@ if($logged_in) {
     <?php endif; ?>
 
       <div class="header-right header-<?php print $profileColor; ?>">
-          <div class="user-blerb">
-          <?php print theme_image_style(
-                array(
-                    'style_name' => 'js_crop_scale_30',
-                    'path' => $currentUser->picture->uri,
-                    'attributes' => array(
-                        'class' => 'avatar'
-                    )            
-                )
-            ); ?>
-          <div class="user-welcome-text">Hi <?php print t($user->name);?>!</div>
-          </div>
+          <?php if($logged_in): ?>
+            <div class="user-blerb">
+            <?php print theme_image_style(
+                    array(
+                        'style_name' => 'js_crop_scale_30',
+                        'path' => $currentUser->picture->uri,
+                        'attributes' => array(
+                            'class' => 'avatar'
+                        )            
+                    )
+                ); ?>
+            <div class="user-welcome-text">Hi <?php print t($user->name);?>!</div>
+            </div>
+          <?php endif;?>
         <?php if ($secondary_menu): ?>
         <nav id="secondary-menu" role="navigation">
             <?php print theme('links__system_secondary_menu', array(

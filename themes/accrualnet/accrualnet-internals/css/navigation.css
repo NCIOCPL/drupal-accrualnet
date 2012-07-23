@@ -315,6 +315,9 @@ nav#block-an-navigation-left-nav ul li a {
     display:block
     
 }
+nav#block-an-navigation-left-nav ul li a.active-trail {
+    border:1px solid rgba(84,49,110, .7);
+}
 nav#block-an-navigation-left-nav ul li > ul {
     background: white;
     padding-bottom: 0;
@@ -372,3 +375,30 @@ nav#block-an-navigation-left-nav li a.active {
     display:block;
 }
 
+/******************************************************************************
+                    Literature & Tools Filtering
+*******************************************************************************/
+
+#filter-results fieldset,
+#results-div fieldset{
+    width: 100%;
+}
+
+#filter-results fieldset fieldset {
+    border:none;
+    padding: 5px 0 5px 20px;
+}
+
+#filter-results .form-type-checkbox {
+    margin: 5px 0;
+}
+
+#filter-results input{
+    margin-top: 4px;
+    margin-right: 4px;
+}
+
+#filter-results #lifecycle-filter,
+#filter-results #resource-type-filter{
+    float: left;
+}
