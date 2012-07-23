@@ -20,9 +20,9 @@
  * @see template_preprocess_search_results()
  */
 ?>
-<?php print kprint_r(get_defined_vars());  ?>
 <?php if ($search_results): ?>
-	<h2><?php print t('Search results'); ?></h2>
+	<h2 class="search-title"><?php print t('SITE WIDE SEARCH RESULTS'); ?></h2>
+	<hr class="search-divider" />
 	<div class="search-pager"><?php print $pager; ?></div>
 	<div class="search-count"><?php print strtoupper($search_totals); ?></div>
 	<ol class="search-results <?php print $module; ?>-results">

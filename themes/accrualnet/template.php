@@ -287,7 +287,7 @@ function accrualnet_preprocess_search_results(&$variables) {
     if ($total > 1 || $total == 0) {
         $variables['search_totals'] = "\"$searchTerm\" gave $total results";
     } else {
-        $variables['search_totals'] = "\"$searchTerm\" GAVE $total result";
+        $variables['search_totals'] = "\"$searchTerm\" gave $total result";
     }
 
 }
