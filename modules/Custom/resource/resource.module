@@ -294,24 +294,24 @@ function _resource_output_citation($node) {
 			$field[$diff_prop_name] = $diff_prop_details;
 		}
 
-		$fieldOutput = '<span class="resource-citation-detail resource-' . $node->type . '-' . $field_name . '">';
+		$fieldOutput = '<span class="resource-citation-detail resource-' . filter_xss($node->type) . '-' . filter_xss($field_name) . '">';
 		//$fieldOutput .= $field['label'];
 		if ($field['type'] == 'datestamp' && count($node->{"field_citation_" . $field_name}) > 0) {
 
-			$fieldOutput .= date('M d, Y', $node->{"field_citation_" . $field_name}['und'][0]['value']);
+			$fieldOutput .= filter_xss(date('M d, Y', $node->{"field_citation_" . $field_name}['und'][0]['value']));
 			$fieldOutput .= '. ';
 		} elseif ($field['cardinality'] > 1 || $field['cardinality'] == FIELD_CARDINALITY_UNLIMITED) {
 
 			if (count($node->{"field_citation_" . $field_name}) > 0) {
 
 				foreach ($node->{"field_citation_" . $field_name}['und'] as $field_instance) {
-					$fieldOutput .= $field_instance['value'] . ',';
+					$fieldOutput .= filter_xss($field_instance['value']) . ',';
 				}
 				$fieldOutput = rtrim($fieldOutput, ',');
 				$fieldOutput .= '. ';
 			}
 		} elseif (count($node->{"field_citation_" . $field_name}) > 0) {
-			$fieldOutput .= $node->{"field_citation_" . $field_name}['und'][0]['value'];
+			$fieldOutput .= filter_xss($node->{"field_citation_" . $field_name}['und'][0]['value']);
 			$fieldOutput .= '. ';
 		}
 		$fieldOutput .= '</span>';
@@ -384,7 +384,7 @@ function _resource_output_snippet($node) {
 	$output .= '</a>';
 	$output .= '</div>';
         //$output .= _resource_output_citation($node);
-	$output .= filter_xss(_resource_output_citation($node));
+	$output .= _resource_output_citation($node);
 	$output .= filter_xss(_resource_output_taxonomy($node));
 	$output .= '</div>';
 	$output .= '</span>';
