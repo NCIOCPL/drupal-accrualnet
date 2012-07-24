@@ -123,13 +123,10 @@ if($logged_in) {
       <div class="header-right header-<?php print $profileColor; ?>">
           <?php if($logged_in): ?>
             <div class="user-blerb">
-            <?php print theme_image_style(
+            <?php print theme('user_picture',
                     array(
-                        'style_name' => 'js_crop_scale_30',
-                        'path' => $currentUser->picture->uri,
-                        'attributes' => array(
-                            'class' => 'avatar'
-                        )            
+                        'account' => $user,
+                        'style_name' => 'js_crop_scale_30',         
                     )
                 ); ?>
             <div class="user-welcome-text">Hi <?php print t($user->name);?>!</div>
