@@ -47,7 +47,7 @@ function an_navigation_block_view($delta = '') {
  * 
  */
 
-function _an_navigation_resources_submenu($parentID, $base_path){
+function _an_navigation_literature_submenu($parentID, $base_path){
     
     global $an_resource_menu_vocab;
    // global $an_vocabularies;

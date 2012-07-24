@@ -29,10 +29,10 @@ $GLOBALS['an_navigation'] = array(
                     
                         
             ),
-	'resources' => array(
+	'literature' => array(
                     'weight' => '2',
-                    'link_title' => t('Resources & Tools'),
-                    'link_path' => t('resources'),
+                    'link_title' => t('Literature & Tools'),
+                    'link_path' => t('literature'),
                     'mlid' => 0,
              
             ),
