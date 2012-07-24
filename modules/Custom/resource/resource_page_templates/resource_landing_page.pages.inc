@@ -29,7 +29,7 @@ function resource_landing_page() {
     $output .= '<div id="resources-list">';
     foreach ($an_resource_menu_vocab as $menu_facet) {
         $vocab = taxonomy_vocabulary_machine_name_load('an_vocabulary_'.$menu_facet);
-        $vocab_url = '/resources/' . str_replace('an_vocabulary_', '', $vocab->machine_name);
+        $vocab_url = '/literature/' . str_replace('an_vocabulary_', '', $vocab->machine_name);
         $taxonomy = taxonomy_get_tree($vocab->vid);
 
         $output .= '<div class="resource-issue">';

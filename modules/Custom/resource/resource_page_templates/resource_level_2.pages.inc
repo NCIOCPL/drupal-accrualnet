@@ -92,7 +92,7 @@ function resource_level_2_page($section) {
             
             
         $output .= '<div class="resource-level-2-item">';
-        $output .= '<h2><a href="/resources/'.$section.'/'.$tag_url.'">'. $tag->name . '</a></h2>';
+        $output .= '<h2><a href="/literature/'.$section.'/'.$tag_url.'">'. $tag->name . '</a></h2>';
         $output .= '<hr/>';
         
         

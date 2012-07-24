@@ -40,14 +40,14 @@ module_load_include('inc', 'an_lifecycle',' lifecycle.globals');
 module_load_include('inc', 'resource', 'types');
 
 function resource_page_templates_menu() {
-  $items['resources'] = array(
+  $items['literature'] = array(
     //'title' => 'Resources and Tools',
     'page callback' => 'resource_landing_page',
     'access arguments' => array('access content'),
     'type' => MENU_SUGGESTED_ITEM,
     'file' => 'resource_landing_page.pages.inc',
   );
-  $items['resources/%'] = array (
+  $items['literature/%'] = array (
     //'title' => 'Resources and Tools Level 2',
     'page callback' => 'resource_level_2_page',
     'access arguments' => array('access content'),
@@ -63,8 +63,8 @@ function resource_page_templates_menu() {
     'type' => MENU_SUGGESTED_ITEM,
     'file' => 'resource_level_3.pages.inc',
   );*/
-  $items['resources/%/%'] = array(
-    'title' => 'Resources and Tools Level 3',
+  $items['literature/%/%'] = array(
+    'title' => 'Literature and Tools Level 3',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('resource_ajax_filter', 1, 2),
     'access callback' => TRUE,
