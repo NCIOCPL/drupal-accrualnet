@@ -8,228 +8,228 @@ global $nci_user_profile_colors;
 
 $avatars = array();
 foreach ($nci_user_profile_colors as $color) {
-    $avatars[] = "male/".$color;
-    $avatars[] = "female/".$color;
+	$avatars[] = "male/" . $color;
+	$avatars[] = "female/" . $color;
 }
 
 $GLOBALS['nci_user_fields'] = array(
-    'field_occupation' => array(
-        'field' => array(
-            'field_name' => 'field_occupation',
-            'type' => 'text',
-            'cardinality' => -1
-        ),
-        'instance' => array(
-            'field_name' => 'field_occupation',
-            'entity_type' => 'user',
-            'label' => t('Occupation'),
-            'description' => t('Please select an occupation(s) from the list below.'),
-            'bundle' => 'user',
-            'required' => TRUE,
-            'settings' => array(
-                'user_register_form' => 1,
-            ),
-            'widget' => array(
-                'type' => 'select_or_other_buttons',
-                'weight' => $field_weight++,
-                'settings' => array(
-                    'available_options' => t("Administration/Management\n" .
-                            "Clinical Research Associate/Coordinator\n" .
-                            "Data Managers\n" .
-                            "Data Monitor/Auditor\n" .
-                            "Executive\n" .
-                            "Nurse\n" .
-                            "Physician\n" .
-                            "Principal Investigator\n" .
-                            "Recruitment Coordinator\n" .
-                            "Site Coordinator\n" .
-                            "Site Investigator\n" .
-                            "Statistician\n" .
-                            "Study Coordinator\n" .
-                            "Study Sponsor\n"),
-                    'other' => t('Other, Please Specify')
-                )
-            )
-        )
-    ),
-    'field_institution_type' => array(
-        'field' => array(
-            'field_name' => 'field_institution_type',
-            'type' => 'text',
-            'cardinality' => 1
-        ),
-        'instance' => array(
-            'field_name' => 'field_institution_type',
-            'entity_type' => 'user',
-            'label' => t('Institution Type'),
-            'description' => t('Please select the type of institution you work for from the dropdown below.'),
-            'bundle' => 'user',
-            'required' => FALSE,
-            'settings' => array(
-                'user_register_form' => 1,
-            ),
-            'widget' => array(
-                'type' => 'select_or_other',
-                'weight' => $field_weight++,
-                'settings' => array(
-                    'available_options' => t(
-                            "Academic\n" .
-                            "Community Hospital\n" .
-                            "Government\n" .
-                            "Industry (Pharmaceutical/ Biotechnology, CROs/Recruitment)\n" .
-                            "NCI Comprehensive Cancer Center\n" .
-                            "NCI-supported Community Program\n" .
-                            "Private Practice\n"),
-                    'other' => t('Other, Please Specify')
-                )
-            )
-        )
-    ),
-    'field_years_in_research' => array(
-        'field' => array(
-            'field_name' => 'field_years_in_research',
-            'type' => 'list_text',
-            'cardinality' => 1,
-            'settings' => array(
-                'allowed_values' => array(
-                    'Less than 3 years',
-                    '3 to 5',
-                    '6-10',
-                    '11-20',
-                    '20+'
-                ),
-            ),
-        ),
-        'instance' => array(
-            'field_name' => 'field_years_in_research',
-            'entity_type' => 'user',
-            'label' => t('Years in Clinical Research'),
-            'description' => t('Please select how many years you have been in the field from the dropdown below.'),
-            'bundle' => 'user',
-            'required' => FALSE,
-            'settings' => array(
-                'user_register_form' => 1,
-            ),
-            'widget' => array(
-                'type' => 'options_select',
-                'weight' => $field_weight++,
-            )
-        )
-    ),
-    'field_areas_of_interest' => array(
-        'field' => array(
-            'field_name' => 'field_areas_of_interest',
-            'type' => 'text',
-            'cardinality' => -1
-        ),
-        'instance' => array(
-            'field_name' => 'field_areas_of_interest',
-            'entity_type' => 'user',
-            'label' => t('Areas of Interest'),
-            'description' => t('Please select area(s) which you are interested in.'),
-            'bundle' => 'user',
-            'required' => FALSE,
-            'settings' => array(
-                'user_register_form' => 1,
-            ),
-            'widget' => array(
-                'type' => 'select_or_other_buttons',
-                'weight' => $field_weight++,
-                'settings' => array(
-                    'available_options' => t("Communication Strategies\n" .
-                            "Community Outreach\n" .
-                            "Data Analysis\n" .
-                            "Data Management\n" .
-                            "Grant Writing\n" .
-                            "Human Research Protections\n" .
-                            "IT Systems\n" .
-                            "Low Literacy\n" .
-                            "Medical Ethics\n" .
-                            "Minority Recruitment\n" .
-                            "Protocol Development\n" .
-                            "Public Relations\n" .
-                            "Recruitment\n" .
-                            "Regulatory Affairs\n" .
-                            "Research Project Manager\n" .
-                            "Research Site Management\n" .
-                            "Training & Education\n" .
-                            "Social Media\n" .
-                            "Study Design\n"),
-                    'other' => t('Other, Please Specify')
-                )
-            )
-        )
-    ),
-    'profile_color' => array(
-        'field' => array(
-            'field_name' => 'profile_color',
-            'type' => 'list_text',
-            'cardinality' => 1,
-            'settings' => array(
-                'allowed_values' => array_keys($nci_user_profile_colors),
-            ),
-        ),
-        'instance' => array(
-            'field_name' => 'profile_color',
-            'entity_type' => 'user',
-            'label' => t('Profile Colors'),
-            'description' => t('This setting allows you to customize how both you and others see your profile.'),
-            'bundle' => 'user',
-            'required' => FALSE,
-            'settings' => array(
-                'user_register_form' => 1,
-            ),
-            'widget' => array(
-                'type' => 'options_select',
-                'weight' => $field_weight++,
-            )
-        )
-    ),
-    'avatar_image' => array(
-        'field' => array(
-            'field_name' => 'avatar_image',
-            'type' => 'list_text',
-            'cardinality' => 1,
-            'settings' => array(
-                'allowed_values' => $avatars,
-            ),
-        ),
-        'instance' => array(
-            'field_name' => 'avatar_image',
-            'entity_type' => 'user',
-            'label' => t('Choose Avatar'),
-            /*'description' => t('This setting will let you choose an avatar if you prefer that to uploading an image.'),*/
-            'bundle' => 'user',
-            'required' => FALSE,
-            'settings' => array(
-                'user_register_form' => 1,
-            ),
-            'widget' => array(
-                'type' => 'options_select',
-                'weight' => $field_weight++,
-            )
-        )
-    )
+	'field_occupation' => array(
+		'field' => array(
+			'field_name' => 'field_occupation',
+			'type' => 'text',
+			'cardinality' => -1
+		),
+		'instance' => array(
+			'field_name' => 'field_occupation',
+			'entity_type' => 'user',
+			'label' => t('Occupation'),
+			'description' => t('Please select an occupation(s) from the list below.'),
+			'bundle' => 'user',
+			'required' => TRUE,
+			'settings' => array(
+				'user_register_form' => 1,
+			),
+			'widget' => array(
+				'type' => 'select_or_other_buttons',
+				'weight' => $field_weight++,
+				'settings' => array(
+					'available_options' => t("Administration/Management\n" .
+							"Clinical Research Associate/Coordinator\n" .
+							"Data Managers\n" .
+							"Data Monitor/Auditor\n" .
+							"Executive\n" .
+							"Nurse\n" .
+							"Physician\n" .
+							"Principal Investigator\n" .
+							"Recruitment Coordinator\n" .
+							"Site Coordinator\n" .
+							"Site Investigator\n" .
+							"Statistician\n" .
+							"Study Coordinator\n" .
+							"Study Sponsor\n"),
+					'other' => t('Other, Please Specify')
+				)
+			)
+		)
+	),
+	'field_institution_type' => array(
+		'field' => array(
+			'field_name' => 'field_institution_type',
+			'type' => 'text',
+			'cardinality' => 1
+		),
+		'instance' => array(
+			'field_name' => 'field_institution_type',
+			'entity_type' => 'user',
+			'label' => t('Institution Type'),
+			'description' => t('Please select the type of institution you work for from the dropdown below.'),
+			'bundle' => 'user',
+			'required' => FALSE,
+			'settings' => array(
+				'user_register_form' => 1,
+			),
+			'widget' => array(
+				'type' => 'select_or_other',
+				'weight' => $field_weight++,
+				'settings' => array(
+					'available_options' => t(
+							"Academic\n" .
+							"Community Hospital\n" .
+							"Government\n" .
+							"Industry (Pharmaceutical/ Biotechnology, CROs/Recruitment)\n" .
+							"NCI Comprehensive Cancer Center\n" .
+							"NCI-supported Community Program\n" .
+							"Private Practice\n"),
+					'other' => t('Other, Please Specify')
+				)
+			)
+		)
+	),
+	'field_years_in_research' => array(
+		'field' => array(
+			'field_name' => 'field_years_in_research',
+			'type' => 'list_text',
+			'cardinality' => 1,
+			'settings' => array(
+				'allowed_values' => array(
+					'Less than 3 years',
+					'3 to 5',
+					'6-10',
+					'11-20',
+					'20+'
+				),
+			),
+		),
+		'instance' => array(
+			'field_name' => 'field_years_in_research',
+			'entity_type' => 'user',
+			'label' => t('Years in Clinical Research'),
+			'description' => t('Please select how many years you have been in the field from the dropdown below.'),
+			'bundle' => 'user',
+			'required' => FALSE,
+			'settings' => array(
+				'user_register_form' => 1,
+			),
+			'widget' => array(
+				'type' => 'options_select',
+				'weight' => $field_weight++,
+			)
+		)
+	),
+	'field_areas_of_interest' => array(
+		'field' => array(
+			'field_name' => 'field_areas_of_interest',
+			'type' => 'text',
+			'cardinality' => -1
+		),
+		'instance' => array(
+			'field_name' => 'field_areas_of_interest',
+			'entity_type' => 'user',
+			'label' => t('Areas of Interest'),
+			'description' => t('Please select area(s) which you are interested in.'),
+			'bundle' => 'user',
+			'required' => FALSE,
+			'settings' => array(
+				'user_register_form' => 1,
+			),
+			'widget' => array(
+				'type' => 'select_or_other_buttons',
+				'weight' => $field_weight++,
+				'settings' => array(
+					'available_options' => t("Communication Strategies\n" .
+							"Community Outreach\n" .
+							"Data Analysis\n" .
+							"Data Management\n" .
+							"Grant Writing\n" .
+							"Human Research Protections\n" .
+							"IT Systems\n" .
+							"Low Literacy\n" .
+							"Medical Ethics\n" .
+							"Minority Recruitment\n" .
+							"Protocol Development\n" .
+							"Public Relations\n" .
+							"Recruitment\n" .
+							"Regulatory Affairs\n" .
+							"Research Project Manager\n" .
+							"Research Site Management\n" .
+							"Training & Education\n" .
+							"Social Media\n" .
+							"Study Design\n"),
+					'other' => t('Other, Please Specify')
+				)
+			)
+		)
+	),
+	'profile_color' => array(
+		'field' => array(
+			'field_name' => 'profile_color',
+			'type' => 'list_text',
+			'cardinality' => 1,
+			'settings' => array(
+				'allowed_values' => array_keys($nci_user_profile_colors),
+			),
+		),
+		'instance' => array(
+			'field_name' => 'profile_color',
+			'entity_type' => 'user',
+			'label' => t('Profile Colors'),
+			'description' => t('This setting allows you to customize how both you and others see your profile.'),
+			'bundle' => 'user',
+			'required' => FALSE,
+			'settings' => array(
+				'user_register_form' => 1,
+			),
+			'widget' => array(
+				'type' => 'options_select',
+				'weight' => $field_weight++,
+			)
+		)
+	),
+	'avatar_image' => array(
+		'field' => array(
+			'field_name' => 'avatar_image',
+			'type' => 'list_text',
+			'cardinality' => 1,
+			'settings' => array(
+				'allowed_values' => $avatars,
+			),
+		),
+		'instance' => array(
+			'field_name' => 'avatar_image',
+			'entity_type' => 'user',
+			'label' => t('Choose Avatar'),
+			/* 'description' => t('This setting will let you choose an avatar if you prefer that to uploading an image.'), */
+			'bundle' => 'user',
+			'required' => FALSE,
+			'settings' => array(
+				'user_register_form' => 1,
+			),
+			'widget' => array(
+				'type' => 'options_select',
+				'weight' => $field_weight++,
+			)
+		)
+	)
 );
 
 function nci_custom_user_enable() {
-    global $nci_user_fields;
+	global $nci_user_fields;
 
-    // create each field and add an instance to the user
-    foreach ($nci_user_fields as $field => $config) {
-        // check if field is not already created
-        if (!field_info_field($field)) {
-            // create the field...
-            $field_config = $config['field'];
-            field_create_field($field_config);
+	// create each field and add an instance to the user
+	foreach ($nci_user_fields as $field => $config) {
+		// check if field is not already created
+		if (!field_info_field($field)) {
+			// create the field...
+			$field_config = $config['field'];
+			field_create_field($field_config);
 
-            // and create the instance
-            $instance = $config['instance'];
-            field_create_instance($instance);
-        }
-    }
+			// and create the instance
+			$instance = $config['instance'];
+			field_create_instance($instance);
+		}
+	}
 
-    _nci_custom_user_config_images_and_avatars();
+	_nci_custom_user_config_image_styles();
 }
 
 function nci_custom_user_disable() {
@@ -237,34 +237,71 @@ function nci_custom_user_disable() {
 }
 
 function nci_custom_user_uninstall() {
-    global $nci_user_fields;
+	global $nci_user_fields;
 
-    // delete each field that was previously created
-    foreach ($nci_user_fields as $field => $config) {
-        if (field_info_field($field)) {
-            field_delete_field($field);
-        }
-    }
+	// delete each field that was previously created
+	foreach ($nci_user_fields as $field => $config) {
+		if (field_info_field($field)) {
+			field_delete_field($field);
+		}
+	}
 }
 
-function _nci_custom_user_config_images_and_avatars() {
-    if (array_search('avatar_thumbnail', image_style_options()) === FALSE) {
-        $style = image_style_save(array('name' => 'avatar_thumbnail'));
-        $effect = array(
-            'name' => 'image_scale',
-            'data' => array(
-                'width' => 20,
-                'height' => 20,
-                'upscale' => FALSE,
-            ),
-            'isid' => $style['isid'],
-        );
-        image_effect_save($effect);
-    }
+function _nci_custom_user_config_image_styles() {
+	if (array_search('js_crop', image_style_options()) === FALSE) {
+		$style = image_style_save(array('name' => 'js_crop'));
 
-    $prev_style = variable_get('avatar_selection_imagecache_preset');
-    variable_set('avatar_selection_imagecache_preset', 'avatar_thumbnail');
-    drupal_set_message("Updated avatar selection style from '$prev_style' to 'avatar_thumbnail'.");
+		$effect = array(
+			'name' => 'imagecrop_javascript',
+			'data' => array(
+				'width' => 250,
+				'height' => 250,
+				'xoffset' => 'center',
+				'yoffset' => 'center',
+				'resizable' => 1,
+				'downscaling' => 0,
+				'aspect_ratio' => 'KEEP',
+				'disable_if_no_data' => 0
+			),
+			'isid' => $style['isid'],
+		);
+		image_effect_save($effect);
+
+		$effect = array(
+			'name' => 'image_scale',
+			'data' => array(
+				'width' => 250,
+				'height' => '',
+				'upscale' => 1,
+			),
+			'isid' => $style['isid'],
+		);
+		image_effect_save($effect);
+	}
+
+	if (array_search('js_crop_scale_30', image_style_options()) === FALSE) {
+		$style = image_style_save(array('name' => 'js_crop_scale_30'));
+
+		$effect = array(
+			'name' => 'imagecrop_reuse',
+			'data' => array(
+				'imagecrop_style' => 'js_crop',
+			),
+			'isid' => $style['isid'],
+		);
+		image_effect_save($effect);
+
+		$effect = array(
+			'name' => 'image_scale',
+			'data' => array(
+				'width' => 30,
+				'height' => 30,
+				'upscale' => 0,
+			),
+			'isid' => $style['isid'],
+		);
+		image_effect_save($effect);
+	}
 }
 
 ?>

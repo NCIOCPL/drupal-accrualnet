@@ -4,7 +4,7 @@ package = "AccrualNet"
 core = 7.x
 version = 7.x-1.0
 
-
 dependencies[] = "select_or_other"
+dependencies[] = "imagecrop"
 
 files[] = "includes/profilecolors.inc"
