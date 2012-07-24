@@ -13,7 +13,7 @@
     $(document).ready(function(){
 
         // Hide all of the checkboxes
-       $('.form-checkbox').css('display', 'none');
+       /*$('.form-checkbox').css('display', 'none');*/
 
         // Get the values that a user already has selected
         var $selectedValues = Drupal.settings.selectedValues;
