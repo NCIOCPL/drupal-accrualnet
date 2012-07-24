@@ -16,7 +16,7 @@ function an_contrib_perm_enable() {
 
 	$contrib_perms = array(
 		//Block
-		$avatar = array(
+		/*$avatar = array(
 	'access avatars' => array(
 		$anon => TRUE,
 		$auth => TRUE,
@@ -38,7 +38,7 @@ function an_contrib_perm_enable() {
 		$anstaff => FALSE,
 		$admin => TRUE
 	),
-		),
+		),*/
 		$custom_search = array(
 	/*'administer custom search' => array(
 		$anon => FALSE,

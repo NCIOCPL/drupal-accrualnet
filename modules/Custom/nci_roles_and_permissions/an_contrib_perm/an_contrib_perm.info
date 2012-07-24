@@ -6,7 +6,6 @@ dependencies[] = an_roles
 dependencies[] = views
 dependencies[] = panels
 dependencies[] = workbench
-dependencies[] = avatar_selection
 dependencies[] = og
 core = 7.x
 version = VERSION
