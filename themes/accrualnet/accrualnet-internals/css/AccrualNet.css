@@ -230,6 +230,14 @@ header#page-header {
 }
 
 /** Added by Lauren **/
+.form-type-checkbox label,
+.form-type-checkbox label{
+    margin-left: 25px;
+    color: black;
+    font-weight: normal;
+    font-size: 13px;
+}
+
 .unchecked {
     background-image: url('../images/global/checkbox_unchecked.jpg'); 
     background-repeat:no-repeat;

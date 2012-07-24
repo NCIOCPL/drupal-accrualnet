@@ -11,25 +11,31 @@
 (function ($) {
 
     $(document).ready(function(){
-
+        
         // Hide all of the checkboxes
-       /*$('.form-checkbox').css('display', 'none');*/
+       $('.form-checkbox').css('display', 'none');
 
         // Get the values that a user already has selected
         var $selectedValues = Drupal.settings.selectedValues;
-      
-        // Error handling for the "select_or_other" module
-        if (jQuery.inArray('ROLE_OTHER', $selectedValues, 0) >= 0) {
-            $('.form-item-field-occupation-und-select-select-or-other').addClass('checked');
-            $('input#edit-field-occupation-und-select-select-or-other').attr('checked', true);
-            $('.form-item-field-occupation-und-select-select-or-other').parent().parent().next().css('display', 'block');
-            $('.form-item-field-occupation-und-select-select-or-other').parent().parent().next().children('input').css('display', 'block');
-        }
-        if (jQuery.inArray('AOI_OTHER', $selectedValues, 0) >= 0) {
-            $('.form-item-field-areas-of-interest-und-select-select-or-other').addClass('checked');
-            $('input#edit-field-areas-of-interest-und-select-select-or-other').attr('checked', true);
-            $('.form-item-field-areas-of-interest-und-select-select-or-other').parent().parent().next().css('display', 'block');
-            $('.form-item-field-areas-of-interest-und-select-select-or-other').parent().parent().next().children('input').css('display', 'block');
+        
+        if ($selectedValues != null) { // Handler for checkboxes where previous selected not known
+           
+            // These are in the User Profile / User Registration pages
+            // 
+            // Error handling for the "select_or_other" module
+            if (jQuery.inArray('ROLE_OTHER', $selectedValues, 0) >= 0) {
+                $('.form-item-field-occupation-und-select-select-or-other').addClass('checked');
+                $('input#edit-field-occupation-und-select-select-or-other').attr('checked', true);
+                $('.form-item-field-occupation-und-select-select-or-other').parent().parent().next().css('display', 'block');
+                $('.form-item-field-occupation-und-select-select-or-other').parent().parent().next().children('input').css('display', 'block');
+            }
+            // 
+            if (jQuery.inArray('AOI_OTHER', $selectedValues, 0) >= 0) {
+                $('.form-item-field-areas-of-interest-und-select-select-or-other').addClass('checked');
+                $('input#edit-field-areas-of-interest-und-select-select-or-other').attr('checked', true);
+                $('.form-item-field-areas-of-interest-und-select-select-or-other').parent().parent().next().css('display', 'block');
+                $('.form-item-field-areas-of-interest-und-select-select-or-other').parent().parent().next().children('input').css('display', 'block');
+            }
         }
 
         // For every checkbox we have, figure out if it's supposed to start out 
@@ -70,41 +76,56 @@
         // Every time we click on a DIV with a checkbox in it, we must toggle it.
         // Also, we must make sure to toggle the Other box if SELECT_OR_OTHER is
         // chosen.
-        $('div.form-type-checkbox').click(function () {
-            // First, determine if it's checked or unchecked so we don't
-            // recalculate these values.
-            var $isChecked = $(this).hasClass('checked');
-            var $isUnchecked = $(this).hasClass('unchecked');
+        $('div.form-type-checkbox').click(function (e) {
+            
+            // This line right here is not what keeps the LABEL from selecting
+            // the checkbox twice.
+            if (e.target.nodeName != 'LABEL') {
+                // First, determine if it's checked or unchecked so we don't
+                // recalculate these values.
+                var $isChecked = $(this).hasClass('checked');
+                var $isUnchecked = $(this).hasClass('unchecked');
 
-            // If it is already checked, uncheck it and remove that INPUT's
-            // checked attribute. Else, do opposite.
-            if ($isChecked) {
-                $(this).addClass('unchecked');
-                $(this).removeClass('checked');
-                $(this).children('input').removeAttr('checked');
-            } else if ($isUnchecked) {
-                $(this).removeClass('unchecked');
-                $(this).addClass('checked');
-                $(this).children('input').attr('checked', 'checked');
-            }
+                // If it is already checked, uncheck it and remove that INPUT's
+                // checked attribute. Else, do opposite.
+                if ($isChecked) {
+                    $(this).addClass('unchecked');
+                    $(this).removeClass('checked');
+                    $(this).children('input').removeAttr('checked');
+                } else if ($isUnchecked) {
+                    $(this).removeClass('unchecked');
+                    $(this).addClass('checked');
+                    $(this).children('input').attr('checked', 'checked');
+                }
             
-            if ($(this).children('input').val() == 'select_or_other') {
-                $(this).parent().parent().next().toggle();
-                $(this).parent().parent().next().children('input').toggle();
+                if ($(this).children('input').val() == 'select_or_other') {
+                    $(this).parent().parent().next().toggle();
+                    $(this).parent().parent().next().children('input').toggle();   
+                }
+                
             }
-            
               
             // Return FALSE so it doesn't loop through again.
             // DO NOT PUT "return false;" !!!!!!!!!!!!!!!!!!!
             // JS will not recognize this and this script will loop through twice.
-            //return FALSE;    
-            return false;
+            //return FALSE; 
+            //if ($(this).parent().parent().parent().hasClass('select-or-other')) {
+            //return false;
+            //}
             // IDK... I had to add return false back in and now it works again.
             // I'm really not sure what's going on with this... Maybe ending 
             // both jQuery and JS scripts? But it works now.
             
             // Ok more investigation... return false will keep the non-Other values
             // from executing twice.
+            
+            // Final investigation results... clicking on the DIV was not the problem,
+            // it was clicking on the LABEL that fired the click twice. UN/BINDing
+            // handlers didn't seem to really work, but there are two different event
+            // target names passed in when you put a parameter in there:
+            // LABEL & INPUT. I just didn't execute the code if it was LABEL so we
+            // don't need the return false; FYI- clicking on the div has the
+            // target node name of DIV. This is officially solved. -Lauren
         });
 
     });
