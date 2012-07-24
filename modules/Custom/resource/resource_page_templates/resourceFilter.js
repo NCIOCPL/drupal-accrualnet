@@ -7,7 +7,7 @@
 (function ($) {
     $(document).ready(function() {
         
-        
+        //$('#resource-ajax-filter').insertAfter($('#block-an-navigation-left-nav'));
         
     });
 
