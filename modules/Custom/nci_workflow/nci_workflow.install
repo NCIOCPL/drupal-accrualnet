@@ -170,21 +170,21 @@ function _nci_workflow_set_permissions() {
 				$anon => FALSE,
 				$auth => FALSE,
 				$writer => TRUE,
-				$anstaff => FALSE,
+				$anstaff => TRUE,
 				$admin => TRUE
 			),
 			'moderate content from writer_review to editor_review' => array(
 				$anon => FALSE,
 				$auth => FALSE,
 				$writer => TRUE,
-				$anstaff => FALSE,
+				$anstaff => TRUE,
 				$admin => TRUE
 			),
 			'moderate content from writer_review to draft' => array(
 				$anon => FALSE,
 				$auth => FALSE,
 				$writer => TRUE,
-				$anstaff => FALSE,
+				$anstaff => TRUE,
 				$admin => TRUE
 			),
 			'moderate content from editor_review to published' => array(
