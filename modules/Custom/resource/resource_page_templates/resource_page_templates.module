@@ -107,7 +107,7 @@ function resource_ajax_filter($form, &$form_state, $facet, $term) {
     '#title' => t("Lifecycle Filter"),
     // The prefix/suffix provide the div that we're replacing, named by
     // #ajax['wrapper'] above.
-    '#prefix' => '<div id="lifecycle-filter">',
+    '#prefix' => '<div id="lifecycle-filter" class="form-type-checkbox">',
     '#suffix' => '</div>',
     '#type' => 'fieldset',
   );
@@ -182,7 +182,7 @@ function resource_ajax_filter($form, &$form_state, $facet, $term) {
           '#title' => t("Resource Type Filter"),
             // The prefix/suffix provide the div that we're replacing, named by
             // #ajax['wrapper'] above.
-            '#prefix' => '<div id="resource-type-filter">',
+            '#prefix' => '<div id="resource-type-filter" class="form-type-checkbox">',
             '#suffix' => '</div>',
             '#type' => 'fieldset',
     );
