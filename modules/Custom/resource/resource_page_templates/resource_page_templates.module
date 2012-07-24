@@ -116,61 +116,66 @@ function resource_ajax_filter($form, &$form_state, $facet, $term) {
   
   
   
-  $stageQuery = new EntityFieldQuery();
+    $stageQuery = new EntityFieldQuery();
     $stageQuery->entityCondition('entity_type', 'node')
     ->entityCondition('bundle', 'lifecycle_stage')
     ->propertyCondition("status", 1);
      $stageNodes = _an_lifecycle_load_related_nodes($stageQuery);
     
-    //Create all 1st level Stage nodes.
-    foreach ($stageNodes['nodes'] as $stage ) {
-     $form['filter_results_fieldset']['lifecycle'][$stage->nid] = array(
-          '#type' => 'checkbox',
-          '#title' => $stage->title,
-          '#prefix' => "<div class=\"checkbox-$stage->nid stage-checkbox\">",
-          '#suffix' => '</div>',
-          '#ajax' => array(
-            'callback' => 'resource_ajax_callback',
-            'wrapper' => 'results-div',
-            'effect' => 'slide',
-            'progress' => array('type' => 'none'),
-           ),  
-      );
-      $form['filter_results_fieldset']['lifecycle'][$stage->nid.'-child'] = array(
-            '#title' => t(""),
-            // The prefix/suffix provide the div that we're replacing, named by
-            // #ajax['wrapper'] above.
-            '#prefix' => '<div id="'.$stage->nid.'-div" class="strategy-rollup">',
+     //We only need to build this if it is the first time the page is being rendered. 
+     //Not building it every time will cut down on the number of SQL calls.
+     if(!empty($form['filter_results_fieldset']['lifecycle']))
+     {
+         //Create all 1st level Stage nodes.
+        foreach ($stageNodes['nodes'] as $stage ) {
+        $form['filter_results_fieldset']['lifecycle'][$stage->nid] = array(
+            '#type' => 'checkbox',
+            '#title' => $stage->title,
+            '#prefix' => "<div class=\"checkbox-$stage->nid stage-checkbox\">",
             '#suffix' => '</div>',
-            '#type' => 'fieldset',
-      );
-      $strategyIDs = field_get_items('node', $stage, 'field_child_strategies');
-       if(!empty($strategyIDs)) {
-            $strategyQuery = new EntityFieldQuery();
-            $strategyQuery->entityCondition('entity_type', 'node')
-            ->entityCondition('bundle', 'lifecycle_strategy')
-            ->propertyCondition('nid', array_values($strategyIDs));
-            $strategyNodes = _an_lifecycle_load_related_nodes($strategyQuery);
-            foreach ($strategyNodes['nodes'] as $strategy){
-               
-                 $form['filter_results_fieldset']['lifecycle'][$stage->nid.'-child'][$strategy->nid] = array(
-                    '#type' => 'checkbox',
-                    '#title' => "$strategy->title",
-                    '#default_value' => '0', 
-                    '#prefix' => "<div class=\"parent-$stage->nid strategy-checkbox\">",
-                    '#suffix' => '</div>',
-                    '#ajax' => array(
-                        'callback' => 'resource_ajax_callback',
-                        'wrapper' => 'results-div',
-                        'effect' => 'slide',
-                        'progress' => array('type' => 'none'),
-                    ),    
-                );
-                // Save the item to database.
-                
+            '#ajax' => array(
+                'callback' => 'resource_ajax_callback',
+                'wrapper' => 'results-div',
+                'effect' => 'slide',
+                'progress' => array('type' => 'none'),
+            ),  
+        );
+        $form['filter_results_fieldset']['lifecycle'][$stage->nid.'-child'] = array(
+                '#title' => t(""),
+                // The prefix/suffix provide the div that we're replacing, named by
+                // #ajax['wrapper'] above.
+                '#prefix' => '<div id="'.$stage->nid.'-div" class="strategy-rollup">',
+                '#suffix' => '</div>',
+                '#type' => 'fieldset',
+        );
+        $strategyIDs = field_get_items('node', $stage, 'field_child_strategies');
+        if(!empty($strategyIDs)) {
+                $strategyQuery = new EntityFieldQuery();
+                $strategyQuery->entityCondition('entity_type', 'node')
+                ->entityCondition('bundle', 'lifecycle_strategy')
+                ->propertyCondition('nid', array_values($strategyIDs));
+                $strategyNodes = _an_lifecycle_load_related_nodes($strategyQuery);
+                foreach ($strategyNodes['nodes'] as $strategy){
+
+                    $form['filter_results_fieldset']['lifecycle'][$stage->nid.'-child'][$strategy->nid] = array(
+                        '#type' => 'checkbox',
+                        '#title' => "$strategy->title",
+                        '#default_value' => '0', 
+                        '#prefix' => "<div class=\"parent-$stage->nid strategy-checkbox\">",
+                        '#suffix' => '</div>',
+                        '#ajax' => array(
+                            'callback' => 'resource_ajax_callback',
+                            'wrapper' => 'results-div',
+                            'effect' => 'slide',
+                            'progress' => array('type' => 'none'),
+                        ),    
+                    );
+                    // Save the item to database.
+
+                }
             }
         }
-    }
+     }
     
     //TODO: Add resource types filtering into the equasion and make it look decent.  
     $form['filter_results_fieldset']['resource-types'] = array(
@@ -198,18 +203,26 @@ function resource_ajax_filter($form, &$form_state, $facet, $term) {
                 );
     }
     
-    $params = array( );
     //for each key in the values array - check to see if its one of our check boxes.
     //We need a way to determine if the node is a Stage or a Strategy so that we can 
     //do the logic to pull in all of the child strategies or not. We also need to make sure
     //that the child strategy isn't selected... if it is, than we don't want to pull in the others.
+    
     foreach(array_keys($form_state['values']) as $nodeID ){
         //if this checkbox is set.
         if($form_state['values'][$nodeID] == 1){
-            if(is_string($nodeID))
+            //if they selected a resource type.
+            if(is_string($nodeID)){
                 $params['types'][$nodeID] = $nodeID;
-            else
-                $params['ids'][$nodeID] = $nodeID;
+            }
+            //if they selected a stage.
+            elseif(array_key_exists($nodeID, $stageNodes['nodes']) ){
+                $params['stageIDs'][$nodeID] = $nodeID;
+            }
+            //if they selected a strategy.
+            else {
+                $params['strategyIDs'][$nodeID] = $nodeID;
+            }
         }
     }
     $resources = _resource_ajax_load_results($params, $facet, $tag);
@@ -266,11 +279,19 @@ function _resource_ajax_load_results($params, $facetName, $tag){
     //Conditional Query Logic
     
     //If a lifecycle checkbox is selected
-    if(array_key_exists('ids', $params))
+    if(array_key_exists('stageIDs', $params))
     {
-        
-        $query->fieldCondition('field_related_strategy', 'target_id', array_keys($params['ids']), 'IN');
-        
+        //get all strategies in this stage.
+        foreach($params['stageIDs'] as $stageID){
+            $stage = node_load($stageID);
+            $strategyIDs = field_get_items('node', $stage, 'field_child_strategies');
+            $query->fieldCondition('field_related_strategy', 'target_id', array_values($strategyIDs), 'IN');
+        }
+    }
+    if(array_key_exists('strategyIDs', $params)){
+        foreach($params['strategyIDs'] as $strategyID){
+            $query->fieldCondition('field_related_strategy', 'target_id', $strategyID);
+        }
     }
     //if a resource type is selected
     if(array_key_exists('types', $params))
