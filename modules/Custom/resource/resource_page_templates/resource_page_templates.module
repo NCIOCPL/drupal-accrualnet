@@ -221,6 +221,7 @@ function resource_ajax_filter($form, &$form_state, $facet, $term) {
             $resultsOutput .= _resource_output_snippet($mynode); 
             $resultsOutput .= "</div>";
         }
+		$resultsOutput .= render($resources['pager']['#markup']);
     }
     $form['results'] = array(
         '#title' => t("Literature & Tools"),
