@@ -123,9 +123,9 @@ if($logged_in) {
       <div class="header-right header-<?php print $profileColor; ?>">
           <?php if($logged_in): ?>
             <div class="user-blerb">
-            <?php print theme('user_picture',
+            <?php print theme('image_style',
                     array(
-                        'account' => $user,
+                        'path' => $currentUser->picture->uri,
                         'style_name' => 'js_crop_scale_30',         
                     )
                 ); ?>
