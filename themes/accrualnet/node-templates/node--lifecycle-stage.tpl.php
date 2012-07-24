@@ -117,7 +117,7 @@
                 <h2>Best Practices</h2>
                 <?php $strategies = $node->field_child_strategies == null ? array() :$node->field_child_strategies[$language] ; ?>
                     <?php foreach ($strategies as $strategy) : ?>
-                        <?php $entity = $strategy['entity'];?>
+                        <?php $entity = node_load($strategy['target_id']);?>
                     <div class="lifecycle-stage-strategy">
                         <?php $urlPath = drupal_lookup_path('alias', 'node/'.$entity->nid); ?>
                         <h3><a href="/<?php print $urlPath != FALSE ? $urlPath : '/node/'.$entity->nid ;?>"><?php print $entity->title; ?></a></h3>
