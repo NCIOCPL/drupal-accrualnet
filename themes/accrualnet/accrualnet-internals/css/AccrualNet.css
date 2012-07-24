@@ -284,3 +284,15 @@ h2.element-invisible{
 .search-pager .item-list .pager{
 	margin: 0px;
 }
+
+#content .search-form,
+#content .search-title,
+#content .search-pager,
+#content .search-count,
+#content .search-results{
+	color: #2d2d2d;
+}
+
+#content a:visited {
+	color: #626262;
+}
