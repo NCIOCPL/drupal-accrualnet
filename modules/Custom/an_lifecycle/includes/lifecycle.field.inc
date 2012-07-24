@@ -32,6 +32,7 @@ $GLOBALS['an_lifecycle_fields'] = array(
     // Machine Name => Label
     array(
         'label' => 'Navigation Label',
+        'description' => 'A shortened title of the Lifecycle Strategy used for navigation.',
         'field_name' => 'nav_label',
         'type' => 'text',
         'cardinality' => '1',
