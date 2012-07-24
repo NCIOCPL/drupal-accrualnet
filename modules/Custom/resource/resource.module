@@ -271,6 +271,12 @@ function _resource_wrap($node) {
 function _resource_output_citation($node) {
 	global $an_resource_types, $an_resource_citation_fields_A, $an_resource_citation_fields_B, $an_resource_citation_fields_C,
 	$an_resource_field_citation, $an_resource_field_resource;
+
+	// error check: if the node type can't be looked up in $an_resource_types,
+	// then no citation can be generated.  - Dan
+	if (!isset($an_resource_types[$node->type]))
+		return '';
+
 	$citationOutput = '<div class="resource-citation">';
 	switch ($an_resource_types[$node->type]['citation']) {
 		case 'A':
@@ -296,23 +302,24 @@ function _resource_output_citation($node) {
 
 		$fieldOutput = '<span class="resource-citation-detail resource-' . filter_xss($node->type) . '-' . filter_xss($field_name) . '">';
 		//$fieldOutput .= $field['label'];
-		if ($field['type'] == 'datestamp' && count($node->{"field_citation_" . $field_name}) > 0) {
+		// edit: as all branch cases directly refer to the ['und'] element, wrap the entire
+		// tree in a check for the existence of the element and factor out the sub-checks.
+		// - Dan
+		if (isset($node->{"field_citation_" . $field_name}['und'])) {
+			if ($field['type'] == 'datestamp') {
 
-			$fieldOutput .= filter_xss(date('M d, Y', $node->{"field_citation_" . $field_name}['und'][0]['value']));
-			$fieldOutput .= '. ';
-		} elseif ($field['cardinality'] > 1 || $field['cardinality'] == FIELD_CARDINALITY_UNLIMITED) {
-
-			if (count($node->{"field_citation_" . $field_name}) > 0) {
-
+				$fieldOutput .= filter_xss(date('M d, Y', $node->{"field_citation_" . $field_name}['und'][0]['value']));
+				$fieldOutput .= '. ';
+			} elseif ($field['cardinality'] > 1 || $field['cardinality'] == FIELD_CARDINALITY_UNLIMITED) {
 				foreach ($node->{"field_citation_" . $field_name}['und'] as $field_instance) {
 					$fieldOutput .= filter_xss($field_instance['value']) . ',';
 				}
 				$fieldOutput = rtrim($fieldOutput, ',');
 				$fieldOutput .= '. ';
+			} else {
+				$fieldOutput .= filter_xss($node->{"field_citation_" . $field_name}['und'][0]['value']);
+				$fieldOutput .= '. ';
 			}
-		} elseif (count($node->{"field_citation_" . $field_name}) > 0) {
-			$fieldOutput .= filter_xss($node->{"field_citation_" . $field_name}['und'][0]['value']);
-			$fieldOutput .= '. ';
 		}
 		$fieldOutput .= '</span>';
 
@@ -379,11 +386,11 @@ function _resource_output_snippet($node) {
 	$output .= '<div class="resource-output-title">';
 	$output .= '<a href="' . url('node/' . $node->nid) . '">';
 	//$output .= $node->title;
-        $output .= check_plain($node->title);
-        //$output .= filter_xss($node->title);
+	$output .= check_plain($node->title);
+	//$output .= filter_xss($node->title);
 	$output .= '</a>';
 	$output .= '</div>';
-        //$output .= _resource_output_citation($node);
+	//$output .= _resource_output_citation($node);
 	$output .= _resource_output_citation($node);
 	$output .= filter_xss(_resource_output_taxonomy($node));
 	$output .= '</div>';
