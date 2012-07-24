@@ -355,11 +355,18 @@ function _resource_output_taxonomy($node) {
 function _resource_output_snippet($node) {
 	$type_image = '';
 	try {
-		$theme_path = drupal_get_path('theme', 'accrualnet');
+		//$theme_path = drupal_get_path('theme', 'accrualnet');
 
-		$type_image = "/$theme_path/accrualnet-internals/images/icons/$node->type.png";
+		$type_image = "/images/icons/$node->type.png";
 
-		$type_image = "<img src='$type_image' width='125' height='55'>";
+		//global $base_url;
+		//$type_image = $base_url . $type_image;
+
+		$type_image = file_build_uri($type_image);
+
+		$type_image = image_style_url('search_result_icon', $type_image);
+
+		$type_image = "<img src='$type_image'>";
 	} catch (Exception $e) {
 		$type_image = $e->getMessage();
 	}
