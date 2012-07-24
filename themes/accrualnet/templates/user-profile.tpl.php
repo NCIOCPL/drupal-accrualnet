@@ -33,7 +33,7 @@
 module_load_include('inc', 'nci_custom_user', 'includes\profilecolors');
 global $nci_user_profile_colors;
 
-kprint_r(get_defined_vars());
+//kprint_r(get_defined_vars());
 
 $account = $elements['#account'];
 $profileColor = 'Black';
