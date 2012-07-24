@@ -91,3 +91,31 @@ div.resource-taxonomy{
 div.resource-citation{
 	letter-spacing: -.018em;
 }
+
+
+#resource-ajax-filter #edit-filter-results-fieldset {
+    border: 1px solid #105693;
+    width: 90%;
+}
+
+.stage-checkbox .form-type-checkbox {
+    padding-left: 5px;
+    max-width: 90%;
+}
+
+.strategy-checkbox .form-type-checkbox {
+    max-width: 80%;
+}
+
+
+#resource-ajax-filter .checked,
+#resource-ajax-filter .unchecked {
+    background-position:left top; 
+    min-height: 20px;
+    padding: 4px 0px;
+}
+
+#resource-ajax-filter .form-type-checkbox label {
+    line-height: 12px;
+    display: block;
+}
