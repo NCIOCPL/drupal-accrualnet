@@ -58,24 +58,36 @@
     margin: .5em;
 }
 
-div.resource-output{
-	clear: both;
-}
 
 div.resource-output-image{
 	float: left;
 	clear: both;
 
-	font-family: Arial, sans-serif;
-	font-size: 13px;
-	color: #2d2d2d;
 	margin-right: 30px;
 }
 
-div.resource-output-title a:visited {
-	color: #626262;
+div.resource-text{
+	float: left;
+	font-size: 13px;
 }
 
-div.resource-output-title a:hover {
+div.resource-output-title a {
+	color: inherit;
+}
+
+div.resource-output-title a:visited {
+	letter-spacing: .018em;
+}
+
+div.resource-output-title a:hover,
+div.resource-output-title a:active{
 	font-weight: bold;
+}
+
+div.resource-taxonomy{
+	letter-spacing: .006em;
+}
+
+div.resource-citation{
+	letter-spacing: -.018em;
 }
