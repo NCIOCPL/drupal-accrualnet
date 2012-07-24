@@ -19,6 +19,21 @@ function resource_page_templates_ctools_plugin_api($module, $api) {
 
 }*/
 
+
+function DetermineTag($potential) {
+	global $an_vocabularies;
+	$old_pattern = array("/[^a-zA-Z0-9]/", "/_+/", "/_$/");
+	$new_pattern = array("_", "_", "");
+	foreach ($an_vocabularies as $vocab) {
+		foreach ($vocab['terms'] as $tag) {
+			$formatted = strtolower(preg_replace($old_pattern, $new_pattern, $tag));
+			if ($formatted == $potential)
+				return $tag;
+		}
+	}
+	return NULL;
+}
+
 //Load the an lifecycles globals.
 module_load_include('inc', 'an_lifecycle',' lifecycle.globals');
 //add resource types global.
