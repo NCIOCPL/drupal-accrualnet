@@ -60,7 +60,7 @@ function _an_lifecycle_create_nodes () {
             $nodeStrat->comment = 1;
             
             $nodeStrat->title = $stratLong;
-            $nodeStrat->nav_label = $stratShort;
+            $nodeStrat->field_nav_label[$nodeStrat->language][]['value'] = $stratShort;
             $nodeStrat->created = time();
             $nodeStrat->changed = time();
             
