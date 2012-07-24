@@ -69,6 +69,7 @@ div.resource-output-image{
 div.resource-text{
 	float: left;
 	font-size: 13px;
+	width: 80%;
 }
 
 div.resource-output-title a {
