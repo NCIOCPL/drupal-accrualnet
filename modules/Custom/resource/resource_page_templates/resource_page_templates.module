@@ -127,7 +127,7 @@ function resource_ajax_filter($form, &$form_state, $facet, $term) {
      $form['filter_results_fieldset']['lifecycle'][$stage->nid] = array(
           '#type' => 'checkbox',
           '#title' => $stage->title,
-          '#prefix' => "<div class=\"checkbox-$stage->nid\">",
+          '#prefix' => "<div class=\"checkbox-$stage->nid stage-checkbox\">",
           '#suffix' => '</div>',
           '#ajax' => array(
             'callback' => 'resource_ajax_callback',
@@ -140,7 +140,7 @@ function resource_ajax_filter($form, &$form_state, $facet, $term) {
             '#title' => t(""),
             // The prefix/suffix provide the div that we're replacing, named by
             // #ajax['wrapper'] above.
-            '#prefix' => '<div id="'.$stage->nid.'-div">',
+            '#prefix' => '<div id="'.$stage->nid.'-div" class="strategy-rollup">',
             '#suffix' => '</div>',
             '#type' => 'fieldset',
       );
@@ -157,7 +157,7 @@ function resource_ajax_filter($form, &$form_state, $facet, $term) {
                     '#type' => 'checkbox',
                     '#title' => "$strategy->title",
                     '#default_value' => '0', 
-                    '#prefix' => "<div class=\"parent-$stage->nid \">",
+                    '#prefix' => "<div class=\"parent-$stage->nid strategy-checkbox\">",
                     '#suffix' => '</div>',
                     '#ajax' => array(
                         'callback' => 'resource_ajax_callback',
