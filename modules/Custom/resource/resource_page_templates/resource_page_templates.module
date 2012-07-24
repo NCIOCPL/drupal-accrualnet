@@ -89,7 +89,8 @@ function resource_ajax_filter($form, &$form_state, $facet, $term) {
     if ($tagName == NULL)
 		return '';
   
-    
+    drupal_add_js(drupal_get_path('module', 'resource_page_templates') . '/resourceFilter.js', 'file');
+    drupal_add_js(drupal_get_path('theme', 'accrualnet') . '/js/checkbox.js', 'file');
   
     
     
