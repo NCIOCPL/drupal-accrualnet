@@ -32,7 +32,7 @@ function protocol_accrual_lifecycle() {
         $contentNode = array_pop($nodes['nodes']);
         
         $output .= '<div class="landing-page-image">';
-        $output .= '<img src="'.drupal_get_path('theme', 'accrualnet').'/accrualnet-internals/images/avatars/black.png" width="400"/>';   //TODO: implement image field
+        $output .= '<img src="'.drupal_get_path('theme', 'accrualnet').'/accrualnet-internals/images/avatars/male/black.png" width="400"/>';   //TODO: implement image field
         $output .= '</div>';
         $output .= '<div class="landing-page-text">';
         $content = field_get_items('node', $contentNode, 'field_content');
