@@ -82,39 +82,116 @@
  * @see zen_preprocess_node()
  * @see template_process()
  */
+module_load_include('inc', 'resource', 'includes/types');
+global $an_resource_types;
 ?>
-<article class="node-<?php print $node->nid; ?> <?php print $classes; ?> clearfix"<?php print $attributes; ?>>
+<?php if (!in_array($type, array_keys($an_resource_types))): ?>
+    <article class="node-<?php print $node->nid; ?> <?php print $classes; ?> clearfix"<?php print $attributes; ?>>
 
-  <?php if ($title_prefix || $title_suffix || $display_submitted || $unpublished || !$page && $title): ?>
-    <header>
-      <?php print render($title_prefix); ?>
-      <?php if (!$page && $title): ?>
-        <h2<?php print $title_attributes; ?>><a href="<?php print $node_url; ?>"><?php print $title; ?></a></h2>
-      <?php endif; ?>
-      <?php print render($title_suffix); ?>
+    <?php if ($title_prefix || $title_suffix || $display_submitted || $unpublished || !$page && $title): ?>
+            <header>
+            <?php print render($title_prefix); ?>
+            <?php if (!$page && $title): ?>
+                    <h2<?php print $title_attributes; ?>><a href="<?php print $node_url; ?>"><?php print $title; ?></a></h2>
+                <?php endif; ?>
+                <?php print render($title_suffix); ?>
 
-      <?php if ($display_submitted): ?>
-        <p class="submitted">
-          <?php print $user_picture; ?>
-          <?php print $submitted; ?>
-        </p>
-      <?php endif; ?>
+                <?php if ($display_submitted): ?>
+                    <p class="submitted">
+                    <?php print $user_picture; ?>
+                    <?php print $submitted; ?>
+                    </p>
+                    <?php endif; ?>
 
-      <?php if ($unpublished): ?>
-        <p class="unpublished"><?php print t('Unpublished'); ?></p>
-      <?php endif; ?>
-    </header>
-  <?php endif; ?>
+                <?php if ($unpublished): ?>
+                    <p class="unpublished"><?php print t('Unpublished'); ?></p>
+                <?php endif; ?>
+            </header>
+            <?php endif; ?>
 
-  <?php
-    // We hide the comments and links now so that we can render them later.
-    hide($content['comments']);
-    hide($content['links']);
-    print render($content);
-  ?>
+        <?php
+        // We hide the comments and links now so that we can render them later.
+        hide($content['comments']);
+        hide($content['links']);
+        print render($content);
+        ?>
 
-  <?php print render($content['links']); ?>
+        <?php print render($content['links']); ?>
 
-  <?php print render($content['comments']); ?>
+        <?php print render($content['comments']); ?>
 
-</article><!-- /.node -->
+    </article><!-- /.node -->
+    <?php else: ?>
+
+    <?php
+// Module Global Variables
+    module_load_include('module', 'resource');
+    global $an_resource_field_citation;
+    global $an_resource_citation_fields_A, $an_resource_citation_fields_B, $an_resource_citation_fields_C;
+    global $an_resource_field_resource;
+    global $an_vocabularies;
+    ?>
+    <div class="resource-content <?php print $type; ?>">
+    <?php
+    $citationOutput = _resource_output_citation($node);
+    $taxonomyOutput = _resource_output_taxonomy($node);
+
+
+
+
+
+
+
+// Related Links
+    $linksOutput = '<div id="resource-links">';
+    $linksOutput .= '<h3>Links</h3>';
+    $linksOutput .= '<ul>';
+    foreach ($field_links as $link) {
+        $linksOutput .= '<li>';
+        $linksOutput .= '<a href="' . $link['url'] . '">';
+        $linksOutput .= $link['title'];
+        $linksOutput .= '</a>';
+        $linksOutput .= '</li>';
+    }
+    $linksOutput .= '</ul></div>';
+
+
+    $fieldsToRender = $an_resource_field_resource;
+    array_pop($fieldsToRender); // This should remove links
+
+
+    $resourceOutput = '<div class="resource-resource">';
+    foreach ($fieldsToRender as $rfield) {
+        // Make sure the field returns a result
+        if (count(${"field_" . $rfield["field_name"]}) > 0) {
+            // Make sure that result is of value
+            if (strlen(${"field_" . $rfield["field_name"]}[0]["value"]) > 0) {
+
+                $rfieldOutput = '<div id="resource-' . $rfield["field_name"] . '">';
+                $rfieldOutput .= '<h3>' . $rfield["label"] . '</h3>';
+                foreach (${"field_" . $rfield["field_name"]} as $instance) {
+                    $rfieldOutput .= $instance['safe_value'];
+                }
+                $rfieldOutput .= '</div>';
+                $resourceOutput .= $rfieldOutput;
+            }
+        }
+    }
+
+    $resourceOutput .= '</div>';
+
+// Comments
+    $commentsOutput = '<div id="resource-comments">';
+    $commentsOutput .= render($elements['comments']);
+    $commentsOutput .= '</div>';
+
+
+// Build the page
+    print $citationOutput;
+    print $taxonomyOutput;
+    print $linksOutput;
+    print $resourceOutput;
+    print $commentsOutput;
+    ?>
+    </div>
+    <?php endif; ?>

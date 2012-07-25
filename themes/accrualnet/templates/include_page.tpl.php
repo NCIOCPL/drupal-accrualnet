@@ -89,9 +89,42 @@ if($logged_in) {
     }
 
 }
+
+/*******************************************************************************
+ * Area Color
+ ******************************************************************************/
+$areaColor = null;
+$setArea = null;
+$urlStr = check_plain($_GET['q']);
+$areaColors = array(
+    'literature' => 'Blue',
+    'content' => 'Blue',
+);
+foreach ($areaColors as $area => $color) {
+    if (! substr_compare($urlStr, $area, 0, strlen($area), TRUE)) {
+        $areaColor = $color;
+        $setArea = $area;
+    }
+}
+
+/*******************************************************************************
+ *****                            Title Additions                          *****
+ ******************************************************************************/
+$titleAdditions = null;
+global $pager_total_items;
+switch ($setArea) {
+    case 'literature':
+        $titleAdditions = ($pager_total_items) ? ' <span id="title-results-number">('.$pager_total_items[0].')</span>' : '';
+        $titleAdditions .= '<span id="title-results-pager">'.$pager.'</span>';
+        break;
+}
+/*
+if ($pager_total_items != null) {
+    $titleAdditions = ' <span id="title-results-number">('.$pager_total_items[0].')</span>';
+}*/
 ?>
 
-<div id="page">
+<div id="page"<?php if ($areaColor) print ' class="'.$areaColor.'"'; ?>>
     <div id="ncibanner" class="clearfix">
         <ul>
         <li class="nciLogo"><a title="The National Cancer Institute" href="http://www.cancer.gov">The National Cancer Institute</a></li>
@@ -203,7 +236,7 @@ if($logged_in) {
       <a id="main-content"></a>
       <?php print render($title_prefix); ?>
       <?php if ($title): ?>
-        <h1 class="title" id="page-title"><?php print $title; ?></h1>
+        <h1 class="title" id="page-title"><?php print $title . $titleAdditions; ?></h1>
       <?php endif; ?>
       <?php print render($title_suffix); ?>
       <?php print render($page['content']); ?>
