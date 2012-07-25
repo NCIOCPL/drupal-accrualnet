@@ -16,7 +16,7 @@ $GLOBALS['an_navigation'] = array(
 	'protocol_accrual_lifecycle' => array(
                     'weight' => '0',
                     'link_title' => t('Protocol Accrual Lifecycle'),
-                    'link_path' => t('node/21'),
+                    'link_path' => t('protocol_accrual_lifecycle'),
                     'mlid' => 0,
                     
             ),
