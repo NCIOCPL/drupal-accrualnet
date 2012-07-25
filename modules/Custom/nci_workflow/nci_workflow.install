@@ -130,6 +130,22 @@ function _nci_workflow_insert_values() {
 			array(
 				'from_name' => 'published',
 				'to_name' => 'unpublished',
+			),
+			array(
+				'from_name' => 'unpublished',
+				'to_name' => 'draft',
+			),
+			array(
+				'from_name' => 'unpublished',
+				'to_name' => 'editor_review',
+			),
+			array(
+				'from_name' => 'canceled',
+				'to_name' => 'draft',
+			),
+			array(
+				'from_name' => 'canceled',
+				'to_name' => 'editor_review',
 			)
 		);
 
@@ -209,6 +225,34 @@ function _nci_workflow_set_permissions() {
 				$admin => TRUE
 			),
 			'moderate content from published to unpublished' => array(
+				$anon => FALSE,
+				$auth => FALSE,
+				$writer => FALSE,
+				$anstaff => TRUE,
+				$admin => TRUE
+			),
+			'moderate content from unpublished to draft' => array(
+				$anon => FALSE,
+				$auth => FALSE,
+				$writer => FALSE,
+				$anstaff => TRUE,
+				$admin => TRUE
+			),
+			'moderate content from canceled to draft' => array(
+				$anon => FALSE,
+				$auth => FALSE,
+				$writer => FALSE,
+				$anstaff => TRUE,
+				$admin => TRUE
+			),
+			'moderate content from unpublished to editor_review' => array(
+				$anon => FALSE,
+				$auth => FALSE,
+				$writer => FALSE,
+				$anstaff => TRUE,
+				$admin => TRUE
+			),
+			'moderate content from canceled to editor_review' => array(
 				$anon => FALSE,
 				$auth => FALSE,
 				$writer => FALSE,
@@ -318,7 +362,10 @@ function _nci_workflow_config_access() {
 					'%message' => $e->getMessage()), WATCHDOG_ERROR);
 	}
 
-	_nci_workflow_set_default_access();
+	// skip for now, it's far more likely that this is enabled before relevent
+	// content; and setting resource types to a single access state is
+	// undesired in the face of valid content
+	//_nci_workflow_set_default_access();
 }
 
 function _nci_workflow_build_access_terminology() {
@@ -331,6 +378,9 @@ function _nci_workflow_build_access_terminology() {
 	// set this vocab as default
 	variable_set('workbench_access_taxonomy',
 			array($vocab->machine_name => $vocab->machine_name));
+
+	// prevent workbench access from grabbing new content types
+	variable_set('workbench_access_auto_assign', false);
 
 	// load the terms under the vocabulary
 	$terms = taxonomy_get_tree($vocab->vid);
@@ -432,19 +482,25 @@ function _nci_workflow_set_access_roles() {
 	}
 }
 
+/**
+ * Sets the access section for all appropriate existing nodes to 'Writers'.
+ */
 function _nci_workflow_set_default_access() {
-	// select nids not already present in the workbench_access_node
-	$result = db_query('SELECT nid ' .
-					'FROM an_node as n ' .
-					'WHERE NOT EXISTS ' .
-					'(SELECT n.nid ' .
-					'FROM an_workbench_access_node as wan ' .
-					'WHERE n.nid = wan.nid)');
+	global $an_resource_types;
 
 	$nids = array();
 
-	foreach ($result as $record) {
-		$nids[] = $record->nid;
+	// grab all the nids for each resource type
+	foreach ($an_resource_types as $type => $definition) {
+		$query = new EntityFieldQuery();
+		$query->entityCondition('entity_type', 'node')
+				->entityCondition('bundle', $type);
+		//->range($offset, $limit);
+		$results = $query->execute();
+
+		foreach (array_keys($results['node']) as $nid) {
+			$nids[] = $nid;
+		}
 	}
 
 	// grab the needed term
@@ -455,7 +511,10 @@ function _nci_workflow_set_default_access() {
 		break;
 	}
 
-	$values = array();
+	// update all nodes to the 'writers' access level
+	workbench_access_mass_update($nids, $term->tid, array('access_scheme' => 'taxonomy'));
+
+	/*$values = array();
 	foreach ($nids as $nid) {
 		$values[] = array(
 			'nid' => $nid,
@@ -469,6 +528,7 @@ function _nci_workflow_set_default_access() {
 		$query->values($record);
 	}
 	$query->execute();
+	*/
 }
 
 function _nci_workflow_config_moderation() {

@@ -280,7 +280,7 @@ function nci_workflow_workbench_moderation_transition($node, $previous_state, $n
 }
 
 function nci_workflow_assign_form($form, &$form_state, $nid, $role, $assigned_user, $current_users) {
-	$status_id = "assign_select_$nid";
+	$status_id = check_plain("assign_select_$nid");
 
 	$form += array(
 		'#type' => 'form',

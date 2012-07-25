@@ -238,8 +238,8 @@ function an_contrib_perm_enable() {
 	'view all unpublished content' => array(
 		$anon => FALSE,
 		$auth => TRUE,
-		$writer => FALSE,
-		$anstaff => FALSE,
+		$writer => TRUE,
+		$anstaff => TRUE,
 		$admin => TRUE
 	),
 	'view moderation history' => array(
