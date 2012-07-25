@@ -348,9 +348,9 @@ function _resource_output_taxonomy($node) {
 			$new_pattern = array("_", "_", "");
 			$term_url = strtolower(preg_replace($old_pattern, $new_pattern, $termName));
 
-			$taxonomyOutput .= '<a href="' . $vocab_url . '/' . $term_url . '">';
+			//$taxonomyOutput .= '<a href="' . $vocab_url . '/' . $term_url . '">';
 			$taxonomyOutput .= $termName;
-			$taxonomyOutput .= '</a>';
+			//$taxonomyOutput .= '</a>';
 			$taxonomyOutput .= ' &nbsp;&nbsp;';
 		}
 	}
@@ -374,11 +374,14 @@ function _resource_output_snippet($node) {
 		$type_image = image_style_url('search_result_icon', $type_image);
 
 		$type_image = "<img src='$type_image'>";
+                
+                $type_image = '/' . drupal_get_path('theme', 'accrualnet') . '/accrualnet-internals/images/icons/' . $node->type . '.png';
+                $type_image = '<img class="resource-snippet" src="'.$type_image.'"/>';
 	} catch (Exception $e) {
 		$type_image = $e->getMessage();
 	}
 
-	$output = '<span class="resource-output">';
+	$output = '<div class="resource-output">';
 	$output .= '<div class="resource-output-image">';
 	$output .= $type_image;
 	$output .= '</div>';
@@ -394,7 +397,7 @@ function _resource_output_snippet($node) {
 	$output .= _resource_output_citation($node);
 	$output .= filter_xss(_resource_output_taxonomy($node));
 	$output .= '</div>';
-	$output .= '</span>';
+	$output .= '</div>';
 	return $output;
 }
 

@@ -77,7 +77,7 @@
         // Also, we must make sure to toggle the Other box if SELECT_OR_OTHER is
         // chosen.
         $('div.form-type-checkbox').click(function (e) {
-            
+            alert(e.target.nodeName);
             // This line right here is not what keeps the LABEL from selecting
             // the checkbox twice.
             if (e.target.nodeName != 'LABEL') {

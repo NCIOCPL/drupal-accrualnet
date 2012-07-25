@@ -349,3 +349,7 @@ h2.element-invisible{
 }
 
 
+img.resource-snippet {
+    width: 200px;
+    height: auto;
+}

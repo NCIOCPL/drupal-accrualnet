@@ -374,31 +374,3 @@ nav#block-an-navigation-left-nav li a.active {
     width: 100%;
     display:block;
 }
-
-/******************************************************************************
-                    Literature & Tools Filtering
-*******************************************************************************/
-
-#filter-results fieldset,
-#results-div fieldset{
-    width: 100%;
-}
-
-#filter-results fieldset fieldset {
-    border:none;
-    padding: 5px 0 5px 20px;
-}
-
-#filter-results .form-type-checkbox {
-    margin: 5px 0;
-}
-
-#filter-results input{
-    margin-top: 4px;
-    margin-right: 4px;
-}
-
-#filter-results #lifecycle-filter,
-#filter-results #resource-type-filter{
-    float: left;
-}

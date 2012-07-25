@@ -95,19 +95,18 @@ function resource_ajax_filter($form, &$form_state, $facet, $term) {
     
     
   $form['filter_results_fieldset'] = array(
-    '#title' => t("Filter Results"),
     // The prefix/suffix provide the div that we're replacing, named by
     // #ajax['wrapper'] above.
     '#prefix' => '<div id="filter-results">',
     '#suffix' => '</div>',
     '#type' => 'fieldset',
-    '#description' => t('This is where we get automatically generated checkboxes'),
+    '#description' => 'Show Only',
   );
   $form['filter_results_fieldset']['lifecycle'] = array(
     '#title' => t("Lifecycle Filter"),
     // The prefix/suffix provide the div that we're replacing, named by
     // #ajax['wrapper'] above.
-    '#prefix' => '<div id="lifecycle-filter" class="form-type-checkbox">',
+    '#prefix' => '<div id="lifecycle-filter">',
     '#suffix' => '</div>',
     '#type' => 'fieldset',
   );
@@ -182,7 +181,7 @@ function resource_ajax_filter($form, &$form_state, $facet, $term) {
           '#title' => t("Resource Type Filter"),
             // The prefix/suffix provide the div that we're replacing, named by
             // #ajax['wrapper'] above.
-            '#prefix' => '<div id="resource-type-filter" class="form-type-checkbox">',
+            '#prefix' => '<div id="resource-type-filter">',
             '#suffix' => '</div>',
             '#type' => 'fieldset',
     );
@@ -192,7 +191,7 @@ function resource_ajax_filter($form, &$form_state, $facet, $term) {
                     '#type' => 'checkbox',
                     '#title' => $values['name'],
                     '#default_value' => '0', 
-                    '#prefix' => '<div class="$resourceType ">',
+                    '#prefix' => '<div class="'.$resourceType.' rtype-checkbox">',
                     '#suffix' => '</div>',
                     '#ajax' => array(
                         'callback' => 'resource_ajax_callback',
