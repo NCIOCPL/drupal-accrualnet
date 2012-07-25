@@ -66,6 +66,7 @@ $GLOBALS['an_lifecycle_fields'] = array(
         'bundles' => array(
             'lifecycle_strategy',
             'lifecycle_stage',
+            'landing_page'
         ),
     ),
     array(
@@ -115,6 +116,46 @@ $GLOBALS['an_lifecycle_fields'] = array(
             'lifecycle_strategy',
         ),
     ),
+    array(
+        'label' => t('Content Blocks'),
+        'field_name' => 'content_blocks',
+        'description' => '',
+        'type' => 'entityreference',
+        'cardinality' => '3',
+        'entity_type' => 'node',
+        'settings' => array(
+            'target_type' => 'node',
+            'handler_settings' => array('target_bundles' => array('content_block')),
+        ),
+        'widget' => array(
+            'type' => 'autocomplete',
+        ),
+        'bundles' => array(
+            'landing_page'
+        ),
+    ),
+    array(
+        'field_name' => 'landing_page_type',
+        'label' => t('Landing Page Type'),
+        'cardinality' => '1',
+        'entity_type' => 'node',
+        'description' => '',
+        'type' => 'list_text',
+        'settings' => array(
+            'allowed_values' => array(
+                '0' => t('Protocol Accrual Lifecycle'),
+                '1' => t('Literature & Tools'),
+                '2' => t('Communities'),
+                '3' => t('Education & Training'),
+            ),
+        ),
+        'widget' => array(
+            'type' => 'options_select',
+        ),
+        'bundles' => array(
+            'landing_page'
+        ),
+    )
     
 );
 

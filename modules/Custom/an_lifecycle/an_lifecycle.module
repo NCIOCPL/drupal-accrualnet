@@ -162,6 +162,20 @@ function an_lifecycle_node_info() {
     return $lifecycleTypes;
 }
 
+
+function an_lifecycle_menu() {
+  $items['protocol_accrual_lifecycle'] = array(
+    'title' => 'Protocol Accrual Lifecycle',
+    'page callback' => 'protocol_accrual_lifecycle',
+    'access arguments' => array('access content'),
+    'type' => MENU_SUGGESTED_ITEM,
+    'file' => 'includes/protocol_accrual_lifecycle.pages.inc',
+  );
+
+  return $items;
+}
+
+
 /**
  *hook_enable implementation.
  * 

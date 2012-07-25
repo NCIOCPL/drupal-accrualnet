@@ -26,6 +26,11 @@ $GLOBALS['an_lifecycle_types'] = array(
         'description' => 'TBD',
         'title' => 'Strategy Name',
     ),
+    'landing_page' => array(
+        'name' => 'Landing Page',
+        'description' => 'A landing page item (1st level navigation page).',
+        'title' => 'Landing Page'
+    )
     
 );
 ?>
