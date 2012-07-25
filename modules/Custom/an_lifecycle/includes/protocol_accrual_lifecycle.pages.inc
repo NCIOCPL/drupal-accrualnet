@@ -32,8 +32,16 @@ function protocol_accrual_lifecycle() {
         $contentNode = array_pop($nodes['nodes']);
         
         $output .= '<div class="landing-page-image">';
-        $output .= '<img src="'.drupal_get_path('theme', 'accrualnet').'/accrualnet-internals/images/avatars/male/black.png" width="400"/>';   //TODO: implement image field
-        $output .= '</div>';
+        $image = field_get_items('node', $contentNode, 'field_landing_page_image');
+        if($image)
+        {
+            $output .= theme('image_style',  array(
+                            'path' => $image[0]['uri'],
+                            'style_name' => 'large',         
+                        )
+                    );
+        }
+         $output .= '</div>';
         $output .= '<div class="landing-page-text">';
         $content = field_get_items('node', $contentNode, 'field_content');
         if($content){
@@ -54,9 +62,10 @@ function protocol_accrual_lifecycle() {
         $counter = 1;
         foreach($nodes['nodes'] as $stage){
     
-            $output .= '<div class="lifecycle-stage">';
+             $last = $counter == count($nodes['nodes']) ? 'last' : '';
+             $output .= '<div class="lifecycle-stage '.$last.'">';
              $urlPath = drupal_lookup_path('alias', 'node/'.$entity->nid) != FALSE ?  drupal_lookup_path('alias', 'node/'.$entity->nid) : '/node/'.$entity->nid;           
-             $output .= '<h3><a href="/'.$urlPath.'">Stage '.$counter.': '.$stage->title.'</a></h3>';
+             $output .= '<h3><a href="/'.$urlPath.'">STAGE '.$counter.': '.$stage->title.'</a></h3>';
              $contentSummary = field_get_items('node', $stage, 'field_content_summary');
              if($contentSummary){
                  $output.= '<p>';
