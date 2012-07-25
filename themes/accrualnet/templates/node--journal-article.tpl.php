@@ -21,8 +21,9 @@ module_load_include('module', 'resource');
 
 
 // Title and Title of Resource
-$titleOutput = '<h2>' . $an_resource_types[$type]['name'] . '</h2>';
-$titleOutput .= '<h1>'. $title . '</h1>';
+?>
+<div class="resource-content <?php print $type;?>">
+<?php
 
 
 // Citation
@@ -183,3 +184,4 @@ print $resourceOutput;
 print $commentsOutput;
 
 ?>
+</div>
