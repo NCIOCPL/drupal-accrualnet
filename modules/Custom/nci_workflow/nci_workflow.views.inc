@@ -33,7 +33,7 @@ function nci_workflow_views_query_alter(&$view, &$query) {
 					global $user;
 
 					$query->where[$where_ix]['conditions'][$cond_ix]['value'] =
-							$user->uid;
+							check_plain($user->uid);
 					$query->where[$where_ix]['conditions'][$cond_ix]['operator'] =
 							'=';
 				}
