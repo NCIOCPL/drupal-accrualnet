@@ -348,15 +348,15 @@ h2.element-invisible{
 	margin: 0px;
 }
 
-#content .search-form,
-#content .search-title,
-#content .search-pager,
-#content .search-count,
-#content .search-results{
+body  .search-form,
+body  .search-title,
+body .search-pager,
+body .search-count,
+body .search-results{
 	color: #2d2d2d;
 }
 
-#content a:visited {
+body a:visited {
 	color: #626262;
 }
 
