@@ -19,6 +19,39 @@ h1.title{
     margin: 15px 0;
 }
 
+/*************************************************************
+            Landing Page Styles
+*************************************************************/
+.landing-page-header {
+
+}
+
+.landing-page-image {
+    float:left;
+    margin: 0px 20px 00px 0;
+}
+
+
+/*Must clear both on this div instead of header div because image is floated*/
+#literature-landing-page #resources-list,
+#protocol-landing-page .lifecycle-stages{
+    clear:both;
+}
+
+
+
+
+/*Must clear both on this div instead of header div because image is floated*/
+#protocol-landing-page .lifecycle-stages {
+    clear:both;
+}
+
+#protocol-landing-page .lifecycle-stage {
+    border-bottom: 3px dotted #d2d2d2;
+}
+
+
+/****************************End LAnding PAge STyles***********/
 
 #ncibanner {
 	background-color: #fff;
@@ -316,19 +349,3 @@ h2.element-invisible{
 }
 
 
-/*****************************************************************************
-                LIFECYCLE STYLES
-******************************************************************************/
-
-.landing-page-image {
-    float:left;
-    margin: 0px 20px 00px 0;
-}
-
-#protocol-landing-page .lifecycle-stages {
-    clear:both;
-}
-
-#protocol-landing-page .lifecycle-stage {
-    border-bottom: 3px dotted #d2d2d2;
-}
