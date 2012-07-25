@@ -67,7 +67,7 @@ if (isset($_SESSION['current_users'][$role])) {
 	} else {
 		// if the user can't moderate, just display the current user
 		if (isset($current_users[$assigned_user])) {
-			print $current_users[$assigned_user];
+			print check_plain($current_users[$assigned_user]);
 			return;
 		}
 	}
