@@ -19,6 +19,14 @@ h1.title{
     margin: 15px 0;
 }
 
+h2,
+h2.title {
+    font-size: 17px;
+    font-weight: 900;
+    text-transform: uppercase;
+    border-bottom: 3px dotted #d2d2d2;
+}
+
 /*************************************************************
             Landing Page Styles
 *************************************************************/
@@ -28,18 +36,18 @@ h1.title{
 
 .landing-page-image {
     float:left;
-    margin: 0px 20px 00px 0;
+    width: 50%;
 }
-
+.landing-page-text {
+    width: 50%;
+    margin-left: 50%;
+}
 
 /*Must clear both on this div instead of header div because image is floated*/
 #literature-landing-page #resources-list,
 #protocol-landing-page .lifecycle-stages{
     clear:both;
 }
-
-
-
 
 /*Must clear both on this div instead of header div because image is floated*/
 #protocol-landing-page .lifecycle-stages {
@@ -48,6 +56,10 @@ h1.title{
 
 #protocol-landing-page .lifecycle-stage {
     border-bottom: 3px dotted #d2d2d2;
+}
+
+#protocol-landing-page  .last {
+    border-bottom: none;
 }
 
 
@@ -349,7 +361,41 @@ h2.element-invisible{
 }
 
 
-img.resource-snippet {
-    width: 200px;
-    height: auto;
+
+/********************Lifecycle Styling***************************/
+
+.lifecycle-stage-image {
+    float:left;
+    width: 60%;
+    text-align:left;
 }
+.lifecycle-stage-body {
+    width: 40%;
+    margin-left: 60%;
+}
+
+.lifecycle-stage-content{
+    clear:both;
+}
+
+.lifecycle-stage-strategy {
+    border-bottom: 3px dotted #d2d2d2;
+    clear:both;
+}
+.lifecycle-strategy-icon {
+    float:left;
+    width: 10%;
+    text-align:center;
+}
+.lifecycle-strategy-icon img {
+    
+}
+.lifecycle-strategy-teaser {
+    width: 90%;
+    margin-left: 10%;
+}
+
+.lifecycle-stage-strategies .last {
+    border-bottom: none;
+}
+/********************End Lifecycle Styling***********************/
