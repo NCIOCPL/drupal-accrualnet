@@ -19,13 +19,46 @@ module_load_include('inc', 'an_taxonomy', 'includes/resources.globals');
 function resource_landing_page() {
     global $an_vocabularies, $an_resource_menu_vocab;
     
- // Now let's build the output for this page
-    $output = '<div id="resource-description">';
-    $output .= 'AccrualNet supports succesful clinical trial accrual at each stage by providing:';
-    $output .= '<br/><br/><ul>';
-    $output .= '<li>Linkable access to existing tools and materials</li>';
-    $output .= '<li>A searchable, annotated list of published journal articles on clinical trial recruitment</li>';
-    $output .= '</ul><br/>';
+    
+    
+    /******Added by Doyle 7/24*******/
+    
+    $output = "";
+    
+    // Now let's build the output for this page
+    //$output .= '<div id="resource-description">'; not very descriptive... so modified to resource-landing-page
+    $output .= '<div id="literature-landing-page">';
+    //in the landing page type field - 1 = Literature and Tools.
+    $query = new EntityFieldQuery();
+    $query->entityCondition('entity_type', 'node')
+            ->entityCondition('bundle', 'landing_page')
+            ->fieldCondition('field_landing_page_type', 'value', 1)
+            ->propertyCondition('status', 1);
+    $nodes = _an_lifecycle_load_related_nodes($query); 
+    
+    
+    //if we got a node back, pop it off the array. There should only ever be 1 
+    //landing page of any type, so we do not care if it has multiple.
+    if(!empty($nodes['nodes'])){
+        $contentNode = array_pop($nodes['nodes']);
+        $output .= '<div class="landing-page-header">';
+        $output .= '<div class="landing-page-image">';
+        $output .= '<img src="'.drupal_get_path('theme', 'accrualnet').'/accrualnet-internals/images/avatars/male/black.png" width="400"/>';   //TODO: implement image field
+        $output .= '</div>';
+        $output .= '<div class="landing-page-text">';
+        $content = field_get_items('node', $contentNode, 'field_content');
+        if($content){
+            $output .= filter_xss_admin($content[0]['value']);
+        }
+        $output .= '</div>'; //end landing page text
+        $output .= '</div>'; //end landing page header
+    }
+    /*****End Added by Doyle*********/
+  //  $output .= 'AccrualNet supports succesful clinical trial accrual at each stage by providing:';
+  //  $output .= '<br/><br/><ul>';
+  //  $output .= '<li>Linkable access to existing tools and materials</li>';
+  //  $output .= '<li>A searchable, annotated list of published journal articles on clinical trial recruitment</li>';
+  //  $output .= '</ul><br/>';
     $output .= '<div id="resources-list">';
     foreach ($an_resource_menu_vocab as $menu_facet) {
         $vocab = taxonomy_vocabulary_machine_name_load('an_vocabulary_'.$menu_facet);
@@ -50,12 +83,12 @@ dictum vitae ante.';
         $output .= trim(rtrim(trim($termOutput), '|')); // Removes the last |
         $output .= '</div>';
     }
-    $output .= '</div>';
+    $output .= '</div>'; //end div resource list
 
     // Add the pager
     $output .= theme('pager');
 
-    $output .= '</div>';
+    $output .= '</div>'; //end div resource landing page
     return $output;
  
 }
