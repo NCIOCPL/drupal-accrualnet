@@ -1050,11 +1050,13 @@ $handler->display->display_options['filters']['type']['id'] = 'type';
 $handler->display->display_options['filters']['type']['table'] = 'node';
 $handler->display->display_options['filters']['type']['field'] = 'type';
 $handler->display->display_options['filters']['type']['value'] = $content_types_filter;
+$handler->display->display_options['filters']['type']['group'] = 1;
 /* Filter criterion: Workbench Moderation: Current */
 $handler->display->display_options['filters']['current']['id'] = 'current';
 $handler->display->display_options['filters']['current']['table'] = 'workbench_moderation_node_history';
 $handler->display->display_options['filters']['current']['field'] = 'current';
 $handler->display->display_options['filters']['current']['value'] = '1';
+$handler->display->display_options['filters']['current']['group'] = 1;
 /* Filter criterion: Workbench Moderation: State */
 $handler->display->display_options['filters']['state']['id'] = 'state';
 $handler->display->display_options['filters']['state']['table'] = 'workbench_moderation_node_history';
@@ -1063,7 +1065,27 @@ $handler->display->display_options['filters']['state']['value'] = array(
 	'new' => 'new',
 	'editor_review' => 'editor_review',
 	'published' => 'published',
+	'canceled' => 'canceled',
+	'unpublished' => 'unpublished',
 );
+$handler->display->display_options['filters']['state']['group'] = 1;
+/* Filter criterion: Assigned Editor is User */
+$handler->display->display_options['filters']['field_assigned_editor_value_1']['id'] = 'field_assigned_editor_value_1';
+$handler->display->display_options['filters']['field_assigned_editor_value_1']['table'] = 'field_revision_field_assigned_editor';
+$handler->display->display_options['filters']['field_assigned_editor_value_1']['field'] = 'field_assigned_editor_value';
+$handler->display->display_options['filters']['field_assigned_editor_value_1']['ui_name'] = 'Assigned Editor is User';
+$handler->display->display_options['filters']['field_assigned_editor_value_1']['operator'] = 'not empty';
+$handler->display->display_options['filters']['field_assigned_editor_value_1']['value'] = array(
+	'all' => 'all',
+);
+$handler->display->display_options['filters']['field_assigned_editor_value_1']['group'] = 2;
+/* Filter criterion: Content (historical data): Assigned Editor (field_assigned_editor) */
+$handler->display->display_options['filters']['field_assigned_editor_value']['id'] = 'field_assigned_editor_value';
+$handler->display->display_options['filters']['field_assigned_editor_value']['table'] = 'field_revision_field_assigned_editor';
+$handler->display->display_options['filters']['field_assigned_editor_value']['field'] = 'field_assigned_editor_value';
+$handler->display->display_options['filters']['field_assigned_editor_value']['operator'] = 'empty';
+$handler->display->display_options['filters']['field_assigned_editor_value']['group'] = 2;
+
 
 /* Display: My Drafts Page */
 $handler = $view->new_display('page', 'My Drafts Page', 'page_my_drafts');

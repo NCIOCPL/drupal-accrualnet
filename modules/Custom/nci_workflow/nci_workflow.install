@@ -403,7 +403,7 @@ function _nci_workflow_build_access_terminology() {
 	foreach ($sections as $section) {
 		try {
 			// clear and save section
-			workbench_access_section_delete($section);
+			//workbench_access_section_delete($section);
 			workbench_access_section_save($section);
 		} catch (Exception $e) {
 			watchdog('nci_workflow', 'Failed to save section %access_id - %reason',
