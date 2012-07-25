@@ -11,6 +11,8 @@
    Syntax recommendation http://www.w3.org/TR/REC-CSS2/
 */
 
+
+
 h1,
 h1.title{
     font-size: 25px;
@@ -27,6 +29,10 @@ h2.title {
     border-bottom: 3px dotted #d2d2d2;
 }
 
+.Blue h1 {
+    color: #105693;
+}
+
 /*************************************************************
             Landing Page Styles
 *************************************************************/
@@ -36,11 +42,11 @@ h2.title {
 
 .landing-page-image {
     float:left;
-    width: 50%;
+    width: 60%;
 }
 .landing-page-text {
-    width: 50%;
-    margin-left: 50%;
+    width: 40%;
+    margin-left: 60%;
 }
 
 /*Must clear both on this div instead of header div because image is floated*/
@@ -64,6 +70,13 @@ h2.title {
 
 
 /****************************End LAnding PAge STyles***********/
+
+#title-results-number { 
+    color: #2D2D2D; 
+    opacity: 0.75;
+    filter:alpha(opacity=75);
+}
+
 
 #ncibanner {
 	background-color: #fff;
@@ -381,6 +394,7 @@ body a:visited {
 .lifecycle-stage-strategy {
     border-bottom: 3px dotted #d2d2d2;
     clear:both;
+    min-height: 110px;
 }
 .lifecycle-strategy-icon {
     float:left;
@@ -395,7 +409,14 @@ body a:visited {
     margin-left: 10%;
 }
 
-.lifecycle-stage-strategies .last {
+.lifecycle-stage-strategies .last,
+.lifecycle-strategy-body .last{
     border-bottom: none;
+}
+
+.lifecycle-activity {
+    padding-bottom: 20px;
+    border-bottom: 3px dotted #d2d2d2;
+    clear:both;
 }
 /********************End Lifecycle Styling***********************/
