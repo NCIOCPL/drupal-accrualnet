@@ -64,7 +64,22 @@
 ?>
 <?php //kprint_r(get_defined_vars()); ?>
 <li class="<?php print $classes; ?>"<?php print $attributes; ?>>
-	<?php print _resource_output_snippet($result['node']); ?>
+	<?php 
+		global $an_resource_types;
+		$node = $result['node'];
+
+		if(isset($an_resource_types[$node->type]))
+			print _resource_output_snippet($node);
+		else {
+			$output = "<div class='node-output-title search'>";
+			$output .= '<a href="' . url('node/' . check_plain($node->nid)) . '">';
+			$output .= check_plain($node->title);
+			$output .= '</a>';
+			$output .= '</div>';
+
+			print $output;
+		}
+	?>
 
   <!--<?php /*print render($title_prefix); ?>
   <h3 class="title"<?php print $title_attributes; ?>>
