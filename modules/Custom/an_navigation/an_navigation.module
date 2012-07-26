@@ -10,6 +10,8 @@
 module_load_include('inc', 'an_navigation', 'includes/navigation.globals');
 module_load_include('inc', 'an_lifecycle', 'includes/lifecycle.globals');
 module_load_include('inc', 'an_taxonomy', 'includes/resource.globals');
+module_load_include('inc', 'an_education_pages', 'includes/education.globals');
+module_load_include('inc', 'resource', 'types');
 
 function an_navigation_block_info(){
     $blocks['left-nav'] = array(
@@ -110,13 +112,38 @@ function _an_navigation_literature_submenu($parentID, $base_path){
     
     
 }
-/* _an_navigation_education_and_training_submenu() - Creates the array of sub-menu
+/* _an_navigation_education_submenu() - Creates the array of sub-menu
  * items for the education and training section. Dynamically builds out menu entries
- * based on taxonomy.
+ * based on specified types of education content.
  * 
  */
-function _an_navigation_education_and_training_submenu(){
-    
+function _an_navigation_education_submenu($parentID, $base_path){
+    global $an_resource_types, $an_education_menu_vocab;
+
+    $level1_weight = 0;
+    foreach ($an_education_menu_vocab as $type)
+    {
+		if(!isset($an_resource_types[$type]))
+			continue;
+
+        $type_info = $an_resource_types[$type];
+
+        $menu_entry = array(
+                'values' => array(
+                    'menu_name' => 'an-main-nav',
+                    'weight' => $level1_weight,
+                    'link_title' => $type_info['name'],
+                    'link_path' => "$base_path/$type" ,
+                    'module' => t('menu'),
+                    'mlid' => 0,
+                    'plid' => $parentID,
+                ),
+            );
+
+        $plid_lvl2 = menu_link_save($menu_entry['values']);
+
+        $level1_weight++;
+    }  
 }
 /* _an_navigation_communities_submenu() - Creates the array of sub-menu
  * items for the communities section. Dynamically builds out menu entries

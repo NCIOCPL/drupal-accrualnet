@@ -1,6 +1,8 @@
 name = AccrualNet Navigation
 description = "Provides navigation and associated blocks."
 package = "AccrualNet Navigation"
+dependencies[] = an_education_pages
+dependencies[] = resource
 dependencies[] = resource_page_templates
 dependencies[] = menu
 core = 7.x

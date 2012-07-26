@@ -36,10 +36,10 @@ $GLOBALS['an_navigation'] = array(
                     'mlid' => 0,
              
             ),
-	'education_and_training' => array(
+	'education' => array(
                     'weight' => '3',
                     'link_title' => t('Education & Training'),
-                    'link_path' => t('http://localhost/node/25'),
+                    'link_path' => t('education'),
                     'mlid' => 0,           
             ),
 	

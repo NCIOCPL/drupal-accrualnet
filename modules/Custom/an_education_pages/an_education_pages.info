@@ -1,0 +1,14 @@
+name = AN Education and Training Templates
+description = "Provides navigation and associated blocks."
+package = "AccrualNet"
+core = 7.x
+version = VERSION
+files[] = an_education_pages.module
+files[] = "includes/education.globals.inc"
+
+stylesheets[all][] = education.css
+
+dependencies[] = "an_lifecycle"
+dependencies[] = "resource"
+dependencies[] = "resource_page_templates"
+

@@ -97,10 +97,6 @@ div.resource-text{
 div.resource-output-title a {
 	color: #105693;
 }
-img.resource-snippet {
-    width: 200px;
-    height: auto;
-}
 
 div.resource-output-title a:visited {
 	/*letter-spacing: .018em;*/
@@ -115,14 +111,14 @@ div.resource-output-title a:active{
 }
 
 div.resource-taxonomy{
-	letter-spacing: .006em;
+	letter-spacing: .004em;
         color: #2D2D2D;
         opacity:0.75;
 filter:alpha(opacity=75); /* For IE8 and earlier */
 }
 
 div.resource-citation{
-	letter-spacing: -.018em;
+	/*letter-spacing: -.018em;*/
 }
 
 /******************************************************************************
