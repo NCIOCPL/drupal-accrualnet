@@ -184,7 +184,8 @@ function nci_workflow_workbench_content_alter(&$output) {
 		);
 	}
 
-	if (array_search('AccrualNet Staff', $roles) !== FALSE) {
+	if (array_search('AccrualNet Staff', $roles) !== FALSE
+			|| array_search('administrator', $roles) !== FALSE ) {
 		$output['workbench_editor_inbox'] = array(
 			'#view' => 'an_workflow',
 			'#view_display' => 'block_editor_inbox',
