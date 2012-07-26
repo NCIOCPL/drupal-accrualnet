@@ -82,91 +82,76 @@
  * @see template_preprocess_node()
  * @see zen_preprocess_node()
  * @see template_process()
- * 
- * 
- * This template will serve as both a page-view and non page-view template for the
- * lifecycle-stage content type. This is done using the $page flag. 
- * 
- * 
  */
 
-$featuredCarousel = field_get_items('node', $node, 'field_featured_carousel');
-
-
+$blocks = field_get_items('node', $node, 'field_content_blocks');
 ?>
 
 
-
-<article class="node-<?php print $node->nid; ?> <?php print $classes; ?> clearfix"<?php print $attributes; ?>>
-    <?php if ($title_prefix || $title_suffix || $display_submitted || $unpublished || !$page && $title): ?>
-        <header>
-        <?php print render($title_prefix); ?>
-        <?php if (!$page && $title): ?>
-            <h2<?php print $title_attributes; ?>><a href="<?php print $node_url; ?>"><?php print $title; ?></a></h2>
-        <?php endif; ?>
-        <?php print render($title_suffix); ?>
-        <?php if ($unpublished): ?>
-            <p class="unpublished"><?php print t('Unpublished'); ?></p>
-        <?php endif; ?>
-        </header>
-    <?php endif; ?>
-    <?php $language = 'und';?>
-    <div id="lifecycle-stage">
-        <div class="lifecycle-stage-header">
-            <div class="lifecycle-stage-image">
-                <?php $stageImage = field_get_items('node', $node, 'field_stage_image');?>
-                <?php if(!empty($stageImage)):?>
-                    <?php print theme('image_style',  array(
-                                'path' => $stageImage[0]['uri'],
-                                'style_name' => 'large',         
-                            )
-                        );?>
-                <?php endif;?>
-            </div>
-            <div class="lifecycle-stage-body">
-                <?php $bodycontent = field_get_items('node', $node, 'field_content');?>
-                <?php if(!empty($bodycontent)):?>
-                    <?php print filter_xss_admin($bodycontent[0]['value']); ?>
-                <?php endif;?>
-            </div>
-        </div>
-          <div class="lifecycle-stage-content">
-            <div class="lifecycle-stage-strategies">
-                <h2>Strategies</h2>
-                <?php $strategies = $node->field_child_strategies == null ? array() :$node->field_child_strategies[$language] ; ?>
-                <?php $counter = count($strategies);?>
-                <?php foreach ($strategies as $strategy) : ?>
-                        <?php $entity = node_load($strategy['target_id']);?>
-                        
-                    <div class="lifecycle-stage-strategy <?php print $counter == 1 ? 'last' : ''; ?>">
-                        <div class="lifecycle-strategy-icon">
-                            <?php $strategyIcon = field_get_items('node', $entity, 'field_strategy_icon');?>
-                            <?php if(!empty($strategyIcon)):?>
-                                <?php print theme('image_style',  array(
-                                            'path' => $strategyIcon[0]['uri'],
-                                            'style_name' => 'thumbnail',         
-                                        )
-                                    );?>
-                            <?php endif;?>
-                        </div>
-                        <div class="lifecycle-strategy-teaser">
-                        <?php $urlPath = drupal_lookup_path('alias', 'node/'.$entity->nid); ?>
-                        <h3><a href="/<?php print $urlPath != FALSE ? $urlPath : '/node/'.$entity->nid ;?>"><?php print $entity->title; ?></a></h3>
-                        <?php if(!empty($entity->field_content_summary)): ?>
-                        <p><?php print check_markup($entity->field_content_summary[$language][0]['value']);?></p>
-                        <?php endif;?>
-                        </div>
-                    </div>
-                    <?php $counter--;?>
-                <?php endforeach;?>
-
-
-            </div>
-        </div>
-        <div class="lifecycle-stage-related">
-        <?php if($featuredCarousel):?>
-            <?php print render(node_view(node_load($featuredCarousel[0]['target_id'])));?>
-        <?php endif; ?>
-        </div>
+<div class="jcarousel featured-content-carousel">
+    
+    <div class="featured-carousel-slides">
+    <?php if($blocks):?>
+    <?php $arr = array();?>
+        <?php foreach ($blocks as $block):?>
+            <li class="slide">
+                <?php print render(node_view(node_load($block['target_id'])));?>
+            </li>
+        <?php endforeach;?>
+    
+    <?php endif;?> 
+    <div class="slideshowControls">
+        <?php foreach ($blocks as $block):?>
+            <div class="slideshowControl"><div><?php print check_plain($block['entity']->title);?></div></div>
+        <?php endforeach;?>
     </div>
-</article>
+    </div>
+    
+</div>
+
+
+
+<script>
+jQuery(function ($) {
+        // Get the li elements
+        var li = $( '.featured-carousel-slides li' ).hide(),
+            controls = $( '.featured-carousel-slides .slideshowControl' ),
+            selectedIndex = -1,
+            slideshowPause = false;
+        
+        function slideshowSelect( i ) {
+            $( li[selectedIndex] ).hide();
+            $( controls[selectedIndex] ).removeClass( 'selected' );
+            
+            $( li[i] ).show();
+            $( controls[i] ).addClass( 'selected' );
+            
+            selectedIndex = i;
+        }
+        
+        window.setInterval( function () {
+            if ( !slideshowPause ) {
+                var index = (selectedIndex + 1) % li.length;
+                slideshowSelect( index );   
+            }
+            
+        }, 15000 );
+        
+        // Show the first one
+        slideshowSelect( 0 );
+        
+        $( '.slideshowControl' ).click(
+            function ( event, ele ) {
+                slideshowSelect( $( this ).index() );
+                slideshowPause = true;
+            });
+
+        //$('.next-tip-button').click(
+        //function (event, ele) {
+        //   var index = (selectedIndex + 1) % li.length;
+        //   slideshowSelect( index );
+        //});
+    });
+
+
+</script>

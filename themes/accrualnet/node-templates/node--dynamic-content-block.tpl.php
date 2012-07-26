@@ -82,91 +82,91 @@
  * @see template_preprocess_node()
  * @see zen_preprocess_node()
  * @see template_process()
- * 
- * 
- * This template will serve as both a page-view and non page-view template for the
- * lifecycle-stage content type. This is done using the $page flag. 
- * 
- * 
  */
 
-$featuredCarousel = field_get_items('node', $node, 'field_featured_carousel');
 
+
+//NOTE: Assuming that there is enough content to have the number requested.
+//THIS COULD FAIL IF NOT!!
+//
+//
+//field_display_format is required
+$format = field_get_items('node', $node, 'field_display_format');
+//field_order_by is required
+$order = field_get_items('node', $node, 'field_order_by');
+//field_featured_type is required so it must be here.
+$types = field_get_items('node', $node, 'field_featured_type');
+//get image(if it exists)
+$image = field_get_items('node', $node, 'field_featured_image');
+
+
+//Build out the entityFieldQuery for this content type.
+$query = new EntityFieldQuery();
+$query->entityCondition('entity_type', 'node')
+ ->entityCondition('bundle', array_values($types))
+ ->propertyCondition('status', 1);
+ //Switch statement for the range
+switch($format[0]['value'])
+{
+    case 'listing':
+        $query->range(0,6);
+        break;
+    case 'listing_image':
+        $query->range(0,3);
+        break;
+    default:
+        //this should never be reachable.
+        break;
+}
+ 
+switch($order[0]['value']){
+    case 'alpha':
+        $query->propertyOrderBy('title', 'ASC');
+        break;
+    case 'date_recent':
+        $query->propertyOrderBy('created',  'DESC');
+        break;
+    case 'manual':
+        //if manual, dont do anything, we are going to use the order they are inserted in the node.
+        break;
+    default:
+        //this should never be reachable.
+        break;
+}
+ 
+
+$featuredContent = _an_lifecycle_load_related_nodes($query, TRUE);
 
 ?>
-
-
-
-<article class="node-<?php print $node->nid; ?> <?php print $classes; ?> clearfix"<?php print $attributes; ?>>
-    <?php if ($title_prefix || $title_suffix || $display_submitted || $unpublished || !$page && $title): ?>
-        <header>
-        <?php print render($title_prefix); ?>
-        <?php if (!$page && $title): ?>
-            <h2<?php print $title_attributes; ?>><a href="<?php print $node_url; ?>"><?php print $title; ?></a></h2>
-        <?php endif; ?>
-        <?php print render($title_suffix); ?>
-        <?php if ($unpublished): ?>
-            <p class="unpublished"><?php print t('Unpublished'); ?></p>
-        <?php endif; ?>
-        </header>
-    <?php endif; ?>
-    <?php $language = 'und';?>
-    <div id="lifecycle-stage">
-        <div class="lifecycle-stage-header">
-            <div class="lifecycle-stage-image">
-                <?php $stageImage = field_get_items('node', $node, 'field_stage_image');?>
-                <?php if(!empty($stageImage)):?>
-                    <?php print theme('image_style',  array(
-                                'path' => $stageImage[0]['uri'],
-                                'style_name' => 'large',         
+<div class="featured-content-title">
+    <span class="feature-header"><?php print filter_xss($node->title);?><span>
+</div>
+<div class="featured-content-block">
+    <?php $counter = 1;?>
+    <?php foreach($featuredContent['nodes'] as $item):?>
+        <?php if($counter == 1 || $counter == 4):?>
+            <div class="featured-content-section-<?php print $counter;?>">
+        <?php endif;?>
+        
+            <?php $urlPath = drupal_lookup_path('alias', 'node/'.$item->nid); ?>
+                <?php print _featured_content_display($item, FALSE, FALSE, FALSE);?>
+            
+        
+        <?php if($counter == 3 || $counter == 6):?>
+            </div>
+        <?php endif;?>
+        <?php $counter++;?>
+    <?php endforeach;?>
+    
+    <?php if($format[0]['value'] == 'listing_image'):?>
+        <div class="featured-content-picture">
+            <?php if($image): ?>
+                <?php print theme('image_style',  array(
+                                'path' => $image[0]['uri'],
+                                'style_name' => 'medium',         
                             )
                         );?>
-                <?php endif;?>
-            </div>
-            <div class="lifecycle-stage-body">
-                <?php $bodycontent = field_get_items('node', $node, 'field_content');?>
-                <?php if(!empty($bodycontent)):?>
-                    <?php print filter_xss_admin($bodycontent[0]['value']); ?>
-                <?php endif;?>
-            </div>
+            <?php endif;?>
         </div>
-          <div class="lifecycle-stage-content">
-            <div class="lifecycle-stage-strategies">
-                <h2>Strategies</h2>
-                <?php $strategies = $node->field_child_strategies == null ? array() :$node->field_child_strategies[$language] ; ?>
-                <?php $counter = count($strategies);?>
-                <?php foreach ($strategies as $strategy) : ?>
-                        <?php $entity = node_load($strategy['target_id']);?>
-                        
-                    <div class="lifecycle-stage-strategy <?php print $counter == 1 ? 'last' : ''; ?>">
-                        <div class="lifecycle-strategy-icon">
-                            <?php $strategyIcon = field_get_items('node', $entity, 'field_strategy_icon');?>
-                            <?php if(!empty($strategyIcon)):?>
-                                <?php print theme('image_style',  array(
-                                            'path' => $strategyIcon[0]['uri'],
-                                            'style_name' => 'thumbnail',         
-                                        )
-                                    );?>
-                            <?php endif;?>
-                        </div>
-                        <div class="lifecycle-strategy-teaser">
-                        <?php $urlPath = drupal_lookup_path('alias', 'node/'.$entity->nid); ?>
-                        <h3><a href="/<?php print $urlPath != FALSE ? $urlPath : '/node/'.$entity->nid ;?>"><?php print $entity->title; ?></a></h3>
-                        <?php if(!empty($entity->field_content_summary)): ?>
-                        <p><?php print check_markup($entity->field_content_summary[$language][0]['value']);?></p>
-                        <?php endif;?>
-                        </div>
-                    </div>
-                    <?php $counter--;?>
-                <?php endforeach;?>
-
-
-            </div>
-        </div>
-        <div class="lifecycle-stage-related">
-        <?php if($featuredCarousel):?>
-            <?php print render(node_view(node_load($featuredCarousel[0]['target_id'])));?>
-        <?php endif; ?>
-        </div>
-    </div>
-</article>
+    <?php endif;?>
+</div>

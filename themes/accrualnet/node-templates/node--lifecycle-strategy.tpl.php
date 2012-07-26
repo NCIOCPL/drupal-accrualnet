@@ -115,12 +115,14 @@ $resources = _an_lifecycle_load_related_nodes($query, TRUE);
         <div class="lifecycle-strategy-body">
             <?php $activities = field_get_items('node', $node, 'field_activities');?>
             <?php $counter = 1; ?>
-            <?php foreach($activities as $activity): ?>
-                <div class="lifecycle-activity <?php print $counter == count($activities) ? 'last' : '';?>">
-                <?php print $activity['safe_value']; ?>
-                </div>
-                <?php $counter ++;?>
-            <?php endforeach;?>
+            <?php if($activities):?>
+                <?php foreach($activities as $activity): ?>
+                    <div class="lifecycle-activity <?php print $counter == count($activities) ? 'last' : '';?>">
+                    <?php print $activity['safe_value']; ?>
+                    </div>
+                    <?php $counter ++;?>
+                <?php endforeach;?>
+            <?php endif;?>
         </div>
         <div class="lifecycle-strategy-resources">
             <h2>Reports, Articles and Tools</h2>
