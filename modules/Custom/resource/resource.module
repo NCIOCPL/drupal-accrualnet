@@ -300,7 +300,7 @@ function _resource_output_citation($node) {
 			$field[$diff_prop_name] = $diff_prop_details;
 		}
 
-		$fieldOutput = '<span class="resource-citation-detail resource-' . filter_xss($node->type) . '-' . filter_xss($field_name) . '">';
+		$fieldOutput = '<span class="resource-citation-detail resource-' . check_plain($node->type) . '-' . filter_xss($field_name) . '">';
 		//$fieldOutput .= $field['label'];
 		// edit: as all branch cases directly refer to the ['und'] element, wrap the entire
 		// tree in a check for the existence of the element and factor out the sub-checks.
@@ -359,7 +359,12 @@ function _resource_output_taxonomy($node) {
 	return $taxonomyOutput;
 }
 
-function _resource_output_snippet($node) {
+function _resource_output_snippet($node, $image = TRUE, $citation = TRUE, $taxonomy = TRUE) {
+    
+    $noImageClass = '-no-image'; 
+    
+    if($image){
+        $noImageClass = '';
 	$type_image = '';
 	try {
 		//$theme_path = drupal_get_path('theme', 'accrualnet');
@@ -380,12 +385,16 @@ function _resource_output_snippet($node) {
 	} catch (Exception $e) {
 		$type_image = $e->getMessage();
 	}
-
+    }
 	$output = '<div class="resource-output">';
+    if($image)
+    {
 	$output .= '<div class="resource-output-image">';
 	$output .= $type_image;
 	$output .= '</div>';
-	$output .= '<div class="resource-text">';
+    }
+    
+	$output .= '<div class="resource-text'.$noImageClass.'">';
 	$output .= '<div class="resource-output-title">';
 	$output .= '<a href="' . url('node/' . $node->nid) . '">';
 	//$output .= $node->title;
@@ -394,8 +403,14 @@ function _resource_output_snippet($node) {
 	$output .= '</a>';
 	$output .= '</div>';
 	//$output .= _resource_output_citation($node);
+    if($citation)
+    {
 	$output .= _resource_output_citation($node);
+    }
+    if($taxonomy)
+    {
 	$output .= filter_xss_admin(_resource_output_taxonomy($node));
+    }
 	$output .= '</div>';
 	$output .= '</div>';
 	return $output;
