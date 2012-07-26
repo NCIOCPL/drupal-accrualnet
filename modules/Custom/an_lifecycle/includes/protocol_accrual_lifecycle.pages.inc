@@ -25,7 +25,7 @@ function protocol_accrual_lifecycle() {
     
     
     $output = '<div id="protocol-landing-page">';
-    
+    $contentNode = array();
     //if we got a node back, pop it off the array. There should only ever be 1 
     //landing page of any type, so we do not care if it has multiple.
     if(!empty($nodes['nodes'])){
@@ -77,6 +77,13 @@ function protocol_accrual_lifecycle() {
         }
     }
     $output .= '</div>';
+      //if there is a landing page created for this... print out its carousel.
+    if(!empty($contentNode)){
+        $featuredCarousel = field_get_items('node', $contentNode, 'field_featured_carousel');
+        if($featuredCarousel){
+            $output .= render(node_view(node_load($featuredCarousel[0]['target_id'])));
+        }
+    }
  
     $output .= '</div>';
     return $output;

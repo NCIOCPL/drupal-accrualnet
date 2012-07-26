@@ -1,0 +1,10 @@
+name = AccrualNet Featured Content Modules
+description = "Provides content types and templates for featured content blocks."
+package = "AccrualNet"
+core = 7.x
+version = VERSION
+
+dependencies[] = an_lifecycle
+dependencies[] = resource
+
+files[] = featured_content.module

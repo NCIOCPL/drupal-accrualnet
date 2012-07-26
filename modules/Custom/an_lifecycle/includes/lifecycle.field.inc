@@ -133,24 +133,6 @@ $GLOBALS['an_lifecycle_fields'] = array(
         ),
     ),
     array(
-        'label' => t('Content Blocks'),
-        'field_name' => 'content_blocks',
-        'description' => '',
-        'type' => 'entityreference',
-        'cardinality' => '3',
-        'entity_type' => 'node',
-        'settings' => array(
-            'target_type' => 'node',
-            'handler_settings' => array('target_bundles' => array('content_block')),
-        ),
-        'widget' => array(
-            'type' => 'autocomplete',
-        ),
-        'bundles' => array(
-            'landing_page'
-        ),
-    ),
-    array(
         'field_name' => 'landing_page_type',
         'label' => t('Landing Page Type'),
         'cardinality' => '1',
