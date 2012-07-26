@@ -41,18 +41,28 @@
 }
 
 #resource-comments {
-    border: 0.1em dotted black;
-    padding: .5em 1.25em 1em 1.25em; /* Top Right Bottom Left */
-}
 
-.resource-comments {
-    border: 1px solid red;
 }
 
 .resource-level-2-item {
-    border: 0.1em dotted black;
-    margin:  1em;
+    border-bottom: 3px dotted #d2d2d2;
+    margin: 30px 0px;
 }
+.resource-level-2-item h2.resource-title-2 {
+    border: none;
+}
+.resource-level-2-item h2.resource-title-2 a, 
+.resource-level-2-item h2.resource-title-2 a:visited, 
+.resource-level-2-item h2.resource-title-2 a:active, 
+.resource-level-2-item h2.resource-title-2 a:hover {
+    color: #105693;
+    font-weight: normal;
+    font-size: 17px;
+}
+.resource-level-2-item h2.resource-title-2 a:hover {
+    text-decoration: none;
+}
+
 
 .resource-level-2-result {
     margin: .5em;
@@ -61,39 +71,54 @@
 
 div.resource-output-image{
 	float: left;
-	margin-right: 20px;
+        width: 20%;
+        height: 100%;
+        margin-top: auto;
+        margin-bottom: auto;
         vertical-align:top;
         
 }
 div.resource-output {
     position: relative;
     clear: both;
-    padding-bottom: 20px;
+    padding: 20px 0px;
     min-height: 80px;
 }
 div.resource-text{
-	position:relative;
+	width: 79%;
+        margin-left: 21%;
 	font-size: 13px;
-        margin-top: 0px;
-        margin-bottom: auto;
+        top: 0px;
+        right: 0px;
         vertical-align: top;
+        
 }
 
 div.resource-output-title a {
-	color: inherit;
+	color: #105693;
+}
+img.resource-snippet {
+    width: 200px;
+    height: auto;
 }
 
 div.resource-output-title a:visited {
-	letter-spacing: .018em;
+	/*letter-spacing: .018em;*/
+        border: 1px solid red;
+        color: #105693;
 }
 
 div.resource-output-title a:hover,
 div.resource-output-title a:active{
 	font-weight: bold;
+        color: #105693;
 }
 
 div.resource-taxonomy{
 	letter-spacing: .006em;
+        color: #2D2D2D;
+        opacity:0.75;
+filter:alpha(opacity=75); /* For IE8 and earlier */
 }
 
 div.resource-citation{
@@ -124,6 +149,9 @@ div.resource-citation{
 #filter-results #lifecycle-filter,
 #filter-results #resource-type-filter{
     float: left;
+    width: 95%;
+    padding:0px;
+    margin: 0px;
 }
 
 #filter-results .form-wrapper {
@@ -136,6 +164,9 @@ div.resource-citation{
     text-transform: uppercase;
     border-bottom: 1px dotted #105693;
     font-weight: bold;
+    padding-left: 10px;
+    
+    margin: 5px 7px 10px 7px;
 }
 
 #lifecycle-filter {
@@ -146,10 +177,22 @@ div.resource-citation{
 #resource-ajax-filter #edit-filter-results-fieldset {
     border: none;
     width: 100%;
+    padding:0px;
+    margin:0px;
 }
 
 #resource-ajax-filter #filter-results {
     border: 1px solid #105693;
+        -moz-box-shadow: 3px 3px #105693;
+    -webkit-box-shadow: 3px 3px  #105693;
+    box-shadow: 3px 3px  #105693;
+    width: 220px;
+    margin-left: auto;
+    margin-right: auto;
+}
+#filter-results .fieldset-wrapper {
+    margin:0px;
+    padding:0px;
     width: 100%;
 }
 .stage-checkbox, .rtype-checkbox {
@@ -219,4 +262,57 @@ div.resource-citation{
     color: #9AB83f;
     font-size: 20px;
     margin-left: -5px;
+}
+
+/*******************************************************************************
+ ****                         Results Pager                                 ****
+ ******************************************************************************/
+
+.literature-pager li.pager-current, 
+.literature-pager li a:hover, 
+.literature-pager li a:active {
+    color: #105693;
+    font-weight: bold;
+    text-decoration: underline;
+    opacity: 1.0;
+    filter:alpha(opacity=100);
+}
+
+.literature-pager li a, 
+.literature-pager li a:visited {
+    color: #2D2D2D;
+            opacity:0.75;
+filter:alpha(opacity=75); /* For IE8 and earlier */
+    text-decoration: none;
+    
+}
+
+#title-results-pager {
+    float: right;
+    font-size: 13px;
+    
+}
+#title-results-pager ul {
+    list-style-type: none;
+}
+#title-results-pager li {
+    float: left;
+    padding:0px 2px;
+}
+#resource-links a, #resource-links a:hover, #resource-links a:visited, #resource-links a:active {
+    color: #2D2D2D;
+}
+#resource-links a:hover {
+    font-weight: bold;
+}
+#resource-links ul {
+    padding:0px;
+    margin: 2px 0px 0px 20px;
+}
+.resource-content h3 {
+    font-size: 13px;
+    font-weight: bold;
+    color: #105693;
+    margin-bottom: 1px;
+    margin-top: 40px;
 }

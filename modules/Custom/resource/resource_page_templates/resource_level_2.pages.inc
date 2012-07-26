@@ -69,7 +69,7 @@ function resource_level_2_page($section) {
 
     $vocab = taxonomy_vocabulary_machine_name_load('an_vocabulary_'.$section);
     $output = '<div id="resource-level-2">';
-    $output .= '<h2>' .  $vocab->name . '</h2>';
+    $output .= ($vocab->description) ? ($vocab->description) : 'This vocabulary has no description set... PLEASE SET BEFORE LAUNCH!';
  
     foreach (taxonomy_get_tree($vocab->vid) as $tag) {
         $queryString = "SELECT f.entity_id";
@@ -83,19 +83,15 @@ function resource_level_2_page($section) {
         $queryString .= " LIMIT 2";
       
         $query = db_query($queryString);
-        
 
-        
         $old_pattern = array("/[^a-zA-Z0-9]/", "/_+/", "/_$/");
             $new_pattern = array("_", "_", "");
             $tag_url = strtolower(preg_replace($old_pattern, $new_pattern, $tag->name));
             
             
         $output .= '<div class="resource-level-2-item">';
-        $output .= '<h2><a href="/literature/'.$section.'/'.$tag_url.'">'. $tag->name . '</a></h2>';
-        $output .= '<hr/>';
-        
-        
+        $output .= '<h2 class="resource-title-2"><a href="/literature/'.$section.'/'.$tag_url.'">'. $tag->name . '</a></h2>';
+
         foreach ($query as $result) {
             $node = node_load($result->entity_id);
             $resultOutput = '<div class="resource-level-2-result">';

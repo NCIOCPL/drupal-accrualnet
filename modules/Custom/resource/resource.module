@@ -395,7 +395,7 @@ function _resource_output_snippet($node) {
 	$output .= '</div>';
 	//$output .= _resource_output_citation($node);
 	$output .= _resource_output_citation($node);
-	$output .= filter_xss(_resource_output_taxonomy($node));
+	$output .= filter_xss_admin(_resource_output_taxonomy($node));
 	$output .= '</div>';
 	$output .= '</div>';
 	return $output;

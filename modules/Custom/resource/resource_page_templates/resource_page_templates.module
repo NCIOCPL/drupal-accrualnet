@@ -237,7 +237,7 @@ function resource_ajax_filter($form, &$form_state, $facet, $term) {
 		$resultsOutput .= render($resources['pager']['#markup']);
     }
     $form['results'] = array(
-        '#title' => t("Literature & Tools"),
+//        '#title' => t("Literature & Tools"),
         // The prefix/suffix provide the div that we're replacing, named by
         // #ajax['wrapper'] above.
         '#prefix' => '<div id="results-div">',

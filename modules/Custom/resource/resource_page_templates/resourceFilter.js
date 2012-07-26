@@ -19,6 +19,11 @@
 
         $('#content').append($('#results-div'));
         
+        $('ul.pager').addClass('literature-pager');
+        $('li.pager-ellipsis').css('display', 'none');
+        $('li.pager-last').css('display', 'none');
+        $('#title-results-pager').append($('ul.pager').clone());
+        
         $('.strategy-rollup').css('display', 'none');
         
         $('.stage-checkbox').click(function (e) {
