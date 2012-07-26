@@ -10,9 +10,14 @@
    TODO customize this sample style
    Syntax recommendation http://www.w3.org/TR/REC-CSS2/
 */
-.landing-page-block{
+.landing-page-block,
+.level-2-block{
 	border-top: 3px dotted #d2d2d2;
     clear:both;
+}
+
+div.landing-page-block .pager{
+	float:right;
 }
 
 

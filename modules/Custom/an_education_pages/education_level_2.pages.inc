@@ -17,7 +17,7 @@ function education_level_2_page($section) {
 	drupal_add_css($css_path, array('type' => 'file'));
 
 	global $an_resource_types;
-	
+
 	$output = "";
 
 	if (!isset($an_resource_types[$section]))
@@ -31,24 +31,19 @@ function education_level_2_page($section) {
 	//$output .= '<div id="resource-description">'; not very descriptive... so modified to resource-landing-page
 	$output .= "<div id='$section_tag-landing-page'>";
 
-	// find all nodes of the materials_staff and materials_patient types
-	//in the landing page type field - 2 = Education and Training.
-	/* $query = new EntityFieldQuery();
-	  $query->entityCondition('entity_type', 'node')
-	  ->entityCondition('bundle', 'landing_page')
-	  ->fieldCondition('field_landing_page_type', 'value', 3)
-	  ->propertyCondition('status', 1);
-	  $nodes = _an_lifecycle_load_related_nodes($query);
+	$output .= '<div class="landing-page-header">';
+	$output .= '<div class="landing-page-image">';
 
+	$file_url = '/' . drupal_get_path('theme', 'accrualnet') . '/accrualnet-internals/images/avatars/male/black.png';
 
-	  //if we got a node back, pop it off the array. There should only ever be 1
-	  //landing page of any type, so we do not care if it has multiple.
-	  if (!empty($nodes['nodes'])) {
-	  $contentNode = array_pop($nodes['nodes']);
-	  $output .= _landing_page_output_snippet($contentNode);
-	  } */
+	$output .= '<img src="' . $file_url . '" width="400"/>';   //TODO: implement image field
+	$output .= '</div>';
+	$output .= '<div class="landing-page-text">';
+	$output .= "Placeholder text!";
+	$output .= '</div>'; //end landing page text
+	$output .= '</div>'; //end landing page header
 
-	$output .= "<div class='$section_tag-nodes level-2-block'>";
+	$output .= "<div class='$section_tag-nodes landing-page-block'>";
 
 	// find all nodes of the materials_staff and materials_patient types
 	//in the landing page type field - 2 = Education and Training.
@@ -76,45 +71,5 @@ function education_level_2_page($section) {
 	$output .= "</div>";
 	$output .= "</div>";
 
-	/* $output .= '<div id="resource-level-2">';
-	  $output .= '<h2>' .  $vocab->name . '</h2>';
-
-	  foreach (taxonomy_get_tree($vocab->vid) as $tag) {
-	  $queryString = "SELECT f.entity_id";
-	  $queryString .= " FROM {field_data_field_tax_".$section."} f";
-	  $queryString .= " WHERE (";
-	  foreach ($an_resource_types as $rtype => $rproperties) {
-	  $queryString .= " f.bundle='".$rtype."' OR ";
-	  }
-	  $queryString = trim(rtrim(trim($queryString), 'OR'));
-	  $queryString .= ") AND f.field_tax_".$section."_tid=" . $tag->tid;
-	  $queryString .= " LIMIT 2";
-
-	  $query = db_query($queryString);
-
-
-
-	  $old_pattern = array("/[^a-zA-Z0-9]/", "/_+/", "/_$/");
-	  $new_pattern = array("_", "_", "");
-	  $tag_url = strtolower(preg_replace($old_pattern, $new_pattern, $tag->name));
-
-
-	  $output .= '<div class="resource-level-2-item">';
-	  $output .= '<h2><a href="/literature/'.$section.'/'.$tag_url.'">'. $tag->name . '</a></h2>';
-	  $output .= '<hr/>';
-
-
-	  foreach ($query as $result) {
-	  $node = node_load($result->entity_id);
-	  $resultOutput = '<div class="resource-level-2-result">';
-	  $resultOutput .= _resource_output_snippet($node);
-	  $resultOutput .= '</div>';
-
-	  $output .= $resultOutput;
-	  }
-
-	  $output .= '</div>';
-	  }
-	  $output .= '</div>'; */
 	return $output;
 }
