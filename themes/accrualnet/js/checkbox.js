@@ -11,9 +11,19 @@
 (function ($) {
 
     $(document).ready(function(){
-        
+
         // Hide all of the checkboxes
-       $('.form-checkbox').css('display', 'none');
+        // IE for some reason won't perform the click properly if the checkboxes
+        // are not actually shown. So, if the browser is IE, position it somewhere
+        // no one would ever see. Otherwise we can just not display it, which of
+        // course makes a thousand times more sense. Thanks IE.
+        if (! $.browser.msie) {
+            $('.form-checkbox').css('display', 'none');
+        } else {
+            $('.form-checkbox').each(function () {
+                $(this).css('position', 'absolute').css('left', '-5000px').css('top', '-500px');
+            });
+        }
 
         // Get the values that a user already has selected
         var $selectedValues = Drupal.settings.selectedValues;
@@ -77,7 +87,7 @@
         // Also, we must make sure to toggle the Other box if SELECT_OR_OTHER is
         // chosen.
         $('div.form-type-checkbox').click(function (e) {
-            alert(e.target.nodeName);
+
             // This line right here is not what keeps the LABEL from selecting
             // the checkbox twice.
             if (e.target.nodeName != 'LABEL') {
@@ -105,27 +115,27 @@
                 
             }
               
-            // Return FALSE so it doesn't loop through again.
-            // DO NOT PUT "return false;" !!!!!!!!!!!!!!!!!!!
-            // JS will not recognize this and this script will loop through twice.
-            //return FALSE; 
-            //if ($(this).parent().parent().parent().hasClass('select-or-other')) {
-            //return false;
-            //}
-            // IDK... I had to add return false back in and now it works again.
-            // I'm really not sure what's going on with this... Maybe ending 
-            // both jQuery and JS scripts? But it works now.
+        // Return FALSE so it doesn't loop through again.
+        // DO NOT PUT "return false;" !!!!!!!!!!!!!!!!!!!
+        // JS will not recognize this and this script will loop through twice.
+        //return FALSE; 
+        //if ($(this).parent().parent().parent().hasClass('select-or-other')) {
+        //return false;
+        //}
+        // IDK... I had to add return false back in and now it works again.
+        // I'm really not sure what's going on with this... Maybe ending 
+        // both jQuery and JS scripts? But it works now.
             
-            // Ok more investigation... return false will keep the non-Other values
-            // from executing twice.
+        // Ok more investigation... return false will keep the non-Other values
+        // from executing twice.
             
-            // Final investigation results... clicking on the DIV was not the problem,
-            // it was clicking on the LABEL that fired the click twice. UN/BINDing
-            // handlers didn't seem to really work, but there are two different event
-            // target names passed in when you put a parameter in there:
-            // LABEL & INPUT. I just didn't execute the code if it was LABEL so we
-            // don't need the return false; FYI- clicking on the div has the
-            // target node name of DIV. This is officially solved. -Lauren
+        // Final investigation results... clicking on the DIV was not the problem,
+        // it was clicking on the LABEL that fired the click twice. UN/BINDing
+        // handlers didn't seem to really work, but there are two different event
+        // target names passed in when you put a parameter in there:
+        // LABEL & INPUT. I just didn't execute the code if it was LABEL so we
+        // don't need the return false; FYI- clicking on the div has the
+        // target node name of DIV. This is officially solved. -Lauren
         });
 
     });
