@@ -6,7 +6,7 @@
  */
 
 $gid = $group_group['und'][0]['value'];
-print kprint_r(get_defined_vars());
+//print kprint_r(get_defined_vars());
 /*
 $query = new EntityFieldQuery();
 $query->entityCondition('entity_type', 'og_membership')
@@ -36,7 +36,7 @@ $convos = array();
 foreach ($query as $result) {
     $convos[] = node_load($result->etid);
 }
-print kprint_r($convos);
+//print kprint_r($convos);
 ?>
 <?php if ($body) print $body[0]['safe_value']; ?>
 <?php
