@@ -1,6 +1,6 @@
 name = AccrualNet Navigation
 description = "Provides navigation and associated blocks."
-package = "AccrualNet Navigation"
+package = "AccrualNet"
 dependencies[] = an_education_pages
 dependencies[] = resource
 dependencies[] = resource_page_templates
