@@ -99,6 +99,10 @@ $urlStr = check_plain($_GET['q']);
 $areaColors = array(
     'literature' => 'Blue',
     'content' => 'Blue',
+    'communities' => 'Orange',
+    'education' => 'Red',
+    'protocol_accrual_lifecycle' => 'Purple',
+    'protocol_accrual_lifecycle'
 );
 foreach ($areaColors as $area => $color) {
     if (! substr_compare($urlStr, $area, 0, strlen($area), TRUE)) {
@@ -106,6 +110,10 @@ foreach ($areaColors as $area => $color) {
         $setArea = $area;
     }
 }
+print kprint_r($_GET);
+print kprint_r(get_defined_vars());
+print kprint_r($urlStr);
+print kprint_r($areaColor);
 
 /*******************************************************************************
  *****                            Title Additions                          *****
