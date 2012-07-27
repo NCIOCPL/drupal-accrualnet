@@ -133,38 +133,25 @@ if ($pager_total_items != null) {
         </ul>
   </div>
 <div id="header" class="header">
-<header id="page-header" role="banner">
+    <header id="page-header" role="banner">
 
-    <?php if ($logo): ?>
-      <a href="<?php print $front_page; ?>" title="<?php print t('Home'); ?>" rel="home" id="logo"><img src="<?php print $logo; ?>" alt="<?php print t('Home'); ?>" /></a>
-    <?php endif; ?>
 
+        <div class="header-content">
     <?php if ($site_name || $site_slogan): ?>
       <hgroup id="name-and-slogan">
-        <?php if ($site_name): ?>
+        
           <h1 id="site-name">
-            <a href="<?php print $front_page; ?>" title="<?php print t('Home'); ?>" rel="home"><span><?php print $site_name; ?></span></a>
+            <a href="<?php print $front_page; ?>" title="<?php print t('Home'); ?>" rel="home"><span class="site-name-accrual">Accrual</span><span class="site-name-net">Net<span class="tm">TM</span></span></a>
           </h1>
-        <?php endif; ?>
+      
 
-        <?php if ($site_slogan): ?>
-          <h2 id="site-slogan"><?php print $site_slogan; ?></h2>
-        <?php endif; ?>
+          <h2 id="site-slogan"><span class="site-slogan">STRATEGIES, TOOLS AND RESOURCES TO SUPPORT ACCRUAL TO CLINICAL TRIALS</span></h2>
+    
       </hgroup><!-- /#name-and-slogan -->
     <?php endif; ?>
 
       <div class="header-right header-<?php print $profileColor; ?>">
-          <?php if($logged_in): ?>
-            <div class="user-blerb">
-            <?php print theme('image_style',
-                    array(
-                        'path' => $currentUser->picture->uri,
-                        'style_name' => 'js_crop_scale_30',         
-                    )
-                ); ?>
-            <div class="user-welcome-text">Hi <?php print t($user->name);?>!</div>
-            </div>
-          <?php endif;?>
+          
         <?php if ($secondary_menu): ?>
         <nav id="secondary-menu" role="navigation">
             <?php print theme('links__system_secondary_menu', array(
@@ -180,16 +167,27 @@ if ($pager_total_items != null) {
             )); ?>
         </nav>
         <?php endif; ?>
-      </div>
-      
-      <div id="site-wide-search-box">
+          <?php if($logged_in): ?>
+            <div class="user-blerb">
+                <div class="user-welcome-text">Hi <?php print t($user->name);?>!</div>    
+                <div class="user-welcome-image">
+                <?php print theme('image_style',
+                    array(
+                        'path' => $currentUser->picture->uri,
+                        'style_name' => 'js_crop_scale_30',         
+                    )
+                ); ?>
+                </div>
+            
+            </div>
+          <?php endif;?>
+           <div id="site-wide-search-box">
           <?php $block = module_invoke('search', 'block_view', 'form');
 
             print render($block);?>
-      </div>
-      
-    <?php print render($page['header']); ?>
-
+           </div>
+     </div> <!-- end header right -->
+   </div> <!-- end header-content -->
       <div id="navigation">
 
       <?php if ($main_menu): ?>

@@ -11,6 +11,51 @@
    Syntax recommendation http://www.w3.org/TR/REC-CSS2/
 */
 
+h1#site-name {
+    border: none;
+}
+h1#site-name .site-name-accrual {
+    font-size: 55px;
+    font-weight: bolder;
+    text-transform:none;
+    vertical-align:bottom;
+}
+h1#site-name .site-name-net {
+    font-size: 55px;
+    font-weight: bolder;
+    text-transform:none;
+    vertical-align:bottom;
+}
+h1#site-name .tm {
+    font-size: 15px;
+    font-weight: bolder;
+    vertical-align: super;
+}
+
+h2#site-slogan {
+    font-size: 16px;
+    font-weight: bold;
+    text-transform: none;
+    border: none;
+}
+
+#page-header .header-content {
+    overflow:hidden;
+    position:relative;
+}
+
+#page-header .header-content hgroup{
+    position:absolute;
+    bottom: 20px;
+}
+.header-content ul{
+    margin: 0;
+    -webkit-margin-before: 0em;
+    -webkit-margin-after: 0em;
+    -webkit-margin-start: 0px;
+    -webkit-margin-end: 0px;
+    -webkit-padding-start: 0px;
+}
 
 
 h1,
@@ -263,7 +308,9 @@ html, body {
 }
 
 #main-wrapper {
-    border-top: 1px solid #FF9A30;
+    
+    border-top: 1px solid rgb(154, 184, 63);
+    border-top: 1px solid rgba(154, 184, 63, 1);
     position:relative;
     top: -2px;
 }
@@ -284,11 +331,11 @@ html, body {
     to(rgba(255,0,0,0.75)));*/
 
     background-image:
-		-webkit-gradient(linear, 0% 0%, 100% 100%, from(#ffe5ca), color-stop(0.15, #ffe5ca), color-stop(0.15, transparent), color-stop(0.50, transparent), color-stop(0.50, #ffe5ca), color-stop(0.65, #ffe5ca), color-stop(0.65, transparent), to(transparent));
+		-webkit-gradient(linear, 0% 0%, 100% 100%, from(rgba(154, 184, 63, .2)), color-stop(0.15, rgba(154, 184, 63, .2)), color-stop(0.15, transparent), color-stop(0.50, transparent), color-stop(0.50, rgba(154, 184, 63, .2)), color-stop(0.65, rgba(154, 184, 63, .2)), color-stop(0.65, transparent), to(transparent));
     background-image: 
-		-moz-linear-gradient(-45deg, #ffe5ca, #ffe5ca 15%, white 50%,  #ffe5ca 65%, white);
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffe5ca', endColorstr='white'); /* IE6 & IE7 */  
-    -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffe5ca', endColorstr='white')"; /* IE8+ */  
+		-moz-linear-gradient(-45deg, rgba(154, 184, 63, .2), rgba(154, 184, 63, .2) 15%, white 50%,  rgba(154, 184, 63, .2) 65%, white);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#9AB83F', endColorstr='white'); /* IE6 & IE7 */  
+    -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr='#9AB83F', endColorstr='white')"; /* IE8+ */  
     background-size: 10px 10px;
     -webkit-background-size: 10px 10px;
     -moz-background-size: 10px 10px;
@@ -316,7 +363,6 @@ header#page-header {
 
 #site-wide-search-box form {
     float:right;
-    margin-bottom: 30px;
 }
 
 #page-options {

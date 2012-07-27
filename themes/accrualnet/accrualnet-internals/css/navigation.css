@@ -68,11 +68,12 @@ li a.active {
     
 
     
-    font: 600 16px/1.4  Helvetica, Verdana, Arial, sans-serif;
+    font-size: 15px;
     text-align: center;
     text-decoration: none;
     text-transform: uppercase;
     color: #2D2D2D;
+    opacity: .75;
     
     /*TRANSISTIONS*/
 	-webkit-transition: background 0.5s ease;
@@ -80,6 +81,8 @@ li a.active {
 	     -o-transition: background 0.5s ease;
 	    -ms-transition: background 0.5s ease;
 	        transition: background 0.5s ease;
+                
+   
  }
  
  nav#main-menu ul li a.active-trail {
@@ -89,18 +92,51 @@ li a.active {
     -webkit-box-sizing: border-box;
     -ms-box-sizing: border-box;
     background: white;
-    border-top: 1px solid #FF9A30;
-    border-bottom: none;
-    border-right: 1px solid #FF9A30;
-    border-left: 1px solid #FF9A30;
-    padding: 10px 0px 10px 0px;
     
+    border-top: 1px solid rgb(154, 184, 63);
+    border-right: 1px solid rgb(154, 184, 63);
+    border-left: 1px solid rgb(154, 184, 63);
+    border-bottom: none;
+    
+    border-top: 1px solid rgba(154, 184, 63, 1);
+    border-right: 1px solid rgba(154, 184, 63, 1);
+    border-left: 1px solid rgba(154, 184, 63, 1);
+    border-bottom: none;
+    
+    padding: 10px 0px 10px 0px;
+    opacity:1;
+    font-weight: bold;
     color: #54316E;
     overflow:visible;
     z-index: 1;
  }
 
+ #navigation {
+     width: 100%;
+     overflow:hidden;
+ }
+ #navigation ul {
+     display: table;
+     table-layout:fixed;
+     width: 100%;
+     -webkit-margin-before: 0em;
+    -webkit-margin-after: 0em;
+    -webkit-margin-start: 0px;
+    -webkit-margin-end: 0px;
+    -webkit-padding-start: 0px;
+    margin: 0;
+ }
+ 
+ #navigation ul li {
+     display: table-cell;
+     width: 25%;
+     
+ }
+ #navigation ul li a {
+     width: 100%;
+     
 
+ }
 
 
 /*******************************************
@@ -109,20 +145,19 @@ li a.active {
 
 .header-right {
     float:right;
-    
-    margin: 30px 20px;
+    width: 50%;
 }
-
-.header-right img {
-    float:left;
+.user-welcome-image {
+    float:right;
 }
 
 .header-right .user-blerb {
-    float: left;
-    margin: 0px 20px;
+    float: right;
+    margin: 10px 20px;
     color: #2D2D2D;
     font-weight: 900;
     font-size: 14px;
+    
 }
 
 .header-right .user-welcome-text {
@@ -147,7 +182,7 @@ li a.active {
 
 nav#secondary-menu ul{
     float:right;
-    padding: 5px;
+    padding: 10px;
     margin-bottom: 30px;
 }
 nav#secondary-menu ul li a {
@@ -296,7 +331,8 @@ nav#block-an-navigation-left-nav ul li a {
     font-weight:normal;
     border: 1px solid rgb(84,49,110);
     border: 1px solid rgba(84,49,110,.7);
-    box-sizing:border-box;
+    border-bottom: none;
+    /*box-sizing:border-box;*/
     display:block
     
 }
@@ -308,6 +344,7 @@ nav#block-an-navigation-left-nav ul li a.active {
 nav#block-an-navigation-left-nav ul li a.active-trail {
     border: 1px solid rgb(84,49,110);
     border:1px solid rgba(84,49,110, .7);
+    border-bottom: none;
 }
 nav#block-an-navigation-left-nav ul li > ul {
     background: white;
