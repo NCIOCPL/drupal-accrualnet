@@ -41,7 +41,7 @@ module_load_include('inc', 'resource', 'types');
 
 function resource_page_templates_menu() {
   $items['literature'] = array(
-    //'title' => 'Resources and Tools',
+    'title' => 'Literature and Tools',
     'page callback' => 'resource_landing_page',
     'access arguments' => array('access content'),
     'type' => MENU_SUGGESTED_ITEM,
