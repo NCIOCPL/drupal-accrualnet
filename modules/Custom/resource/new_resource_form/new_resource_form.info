@@ -1,0 +1,9 @@
+name = "New Resource Form"
+description = "Creates a webform for submitting new resources"
+package = "AccrualNet"
+core = 7.x
+version = 7.x-1.0
+
+dependencies[] = "captcha"
+dependencies[] = "recaptcha"
+dependencies[] = "webform"
