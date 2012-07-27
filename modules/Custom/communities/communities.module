@@ -55,6 +55,14 @@ function communities_enable() {
     node_add_body_field($conversation_type, 'Conversation Starter');
     node_type_save($conversation_type);
     */
+    
+    if (! field_info_field(OG_GROUP_FIELD)) {
+        og_create_field(OG_GROUP_FIELD, 'node', 'community');
+    }
+    
+    if (! field_info_field(OG_AUDIENCE_FIELD)) {
+        og_create_field(OG_AUDIENCE_FIELD, 'node', 'conversation');
+    }
 
 
     // Create all of the fields for the Community content type
