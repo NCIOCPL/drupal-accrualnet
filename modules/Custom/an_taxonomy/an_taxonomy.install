@@ -128,14 +128,24 @@
  * 
  */
 module_load_include('inc', 'an_taxonomy', 'includes/resource.globals');
+module_load_include('inc', 'an_taxonomy', 'includes/communities.globals');
 
 function an_taxonomy_enable() {
 	// grab the vocabulary difinitions and existing vocabularies
-	global $an_vocabularies;
+	global $an_vocabularies, $an_communities_field_topic_options;
 	$existing_names = taxonomy_vocabulary_get_names();
-
+        
+        $an_communities = array(
+            'name' => 'Topic',
+            'machine_stem' => 'topic',
+            'terms' => array_values($an_communities_field_topic_options),
+        );
+        
+        $vocabularies = $an_vocabularies;
+        $vocabularies[] = $an_communities;
+        
 	// for each definition...
-	foreach ($an_vocabularies as $weight => $details) {
+	foreach ($vocabularies as $weight => $details) {
 		// get the name and machine name
 		$name = $details['name'];
 		$machine_name = 'an_vocabulary_' . $details['machine_stem'];
