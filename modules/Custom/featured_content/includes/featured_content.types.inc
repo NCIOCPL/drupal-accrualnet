@@ -20,7 +20,7 @@ $GLOBALS['featured_content_types'] = array(
         'description' => 'TBD',
         'title' => 'Dynamic Content Block',
     ),
-    'manual_content_block' => array(
+    'content_block' => array(
         // Content Properties
         'name' => 'Manual Content Block',
         'description' => 'TBD',

@@ -1,0 +1,10 @@
+name = AccrualNet Homepage
+description = "Provides content types and templates for accrualnet homepage."
+package = "AccrualNet"
+core = 7.x
+version = VERSION
+
+dependencies[] = featured_content
+
+
+files[] = an_homepage.module

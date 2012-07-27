@@ -1,0 +1,128 @@
+<?php
+
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+
+// include lifecycle Types
+module_load_include('inc', 'an_homepage', 'includes/homepage.types');
+// include lifecycle fields
+module_load_include('inc', 'an_homepage', 'includes/homepage.field');
+
+
+/**
+ *
+ * @return string 
+ */
+function an_homepage_menu() {
+  $items['home'] = array(
+    //'title' => 'Protocol Accrual Lifecycle',
+    'page callback' => 'homepage_display',
+    'access arguments' => array('access content'),
+    'type' => MENU_SUGGESTED_ITEM,
+    'file' => 'includes/homepage.pages.inc',
+  );
+
+  return $items;
+}
+
+
+/*
+ * hook_node_info()
+ * 
+ * Sets up the Resource content type
+ */
+function an_homepage_node_info() {
+    global $homepage_content_types;
+    $types = array();
+    // For every resource type, create the content type
+    foreach ($homepage_content_types as $type => $properties) {
+        $types[$type] = array (
+            'name' => $properties['name'],
+            'base' => 'node_content',
+            'description' => $properties['description'],
+            'custom' => TRUE, // Line for Debugging
+        );
+        // If the content type has a title defined, set it
+        if (array_key_exists('title', $properties)) {
+            $types[$type]['has_title'] = TRUE;
+            $types[$type]['title_label'] = $properties['title'];
+        } else {
+            $types[$type]['has_title'] = FALSE;
+        }
+    }
+    return $types;
+}
+
+/**
+ *hook_enable implementation.
+ * 
+ * Sets up content types and fields for the lifecycle section of the AN Site.
+ * @global type $an_lifecycle_types
+ * @global type $an_lifecycle_fields 
+ */
+function an_homepage_enable() {
+    
+    
+    global $an_homepage_fields;
+    // Rebuild the types --this may be unnecessary
+    node_types_rebuild();
+   
+    
+    // Create the custom fields for all types of resources
+    foreach (_an_homepage_fields() as $field) {
+        //Check to see if this field exists:
+        field_read_field($field['field_name']) == FALSE ? field_create_field($field) : '';
+        //field_create_field($field);
+    }
+    
+    $instance = array();
+    foreach ($an_homepage_fields as $field) {
+        foreach($field['bundles'] as $bundle) {
+            //if this instance does not already exist.
+            if(field_read_instance($field['entity_type'], 'field_' .$field['field_name'], $bundle) == FALSE)
+            {
+                $instance['field_name'] = 'field_' . $field['field_name'];
+                $instance['entity_type'] = $field['entity_type'];
+                $instance['label'] = $field['label'];
+                $instance['description'] = $field['description'];
+                if (array_key_exists('required', $field)){
+                    $instance['required'] = $field['required'];
+                }
+                if (array_key_exists('instance_settings', $field)) {
+                $instance['settings'] = $field['instance_settings'];
+                }
+                if (array_key_exists('widget', $field)) { 
+                    $instance['widget'] = $field['widget'];
+                }
+                $instance['bundle'] = $bundle;
+                field_create_instance($instance);
+            }
+        }
+    }
+    
+       
+}
+
+
+
+/*
+ * hook_disable()
+ * 
+ * Removes the content type, instances of fields, and specific content type fields. 
+ * As of right now, does not delete all content associated with it.
+ */
+function an_homepage_disable() {}
+
+
+
+
+
+
+
+
+
+
+?>

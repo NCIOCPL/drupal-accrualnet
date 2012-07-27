@@ -132,6 +132,19 @@ $GLOBALS['featured_content_fields'] = array(
             'featured_content_carousel',
         ),
     ),
+    array(
+            'label' => t('Content'),
+            'description' => 'Provide the content for this page.',
+            'field_name' => 'content',
+            'type' => 'text_long',
+            'cardinality' => 1,
+            'entity_type' => 'node',
+            'settings' => array(),
+            'instance_settings' => array('text_processing' => 1), //Set the instance to be filtered html
+            'bundles' => array(
+                'content_block'
+            ),
+        ),
     
     array(
         'field_name' => 'featured_image',
@@ -161,7 +174,8 @@ $GLOBALS['featured_content_fields'] = array(
             ),
         ),
         'bundles' => array(
-            'dynamic_content_block'
+            'dynamic_content_block',
+            'content_block'
         ),
     ),
     array(
