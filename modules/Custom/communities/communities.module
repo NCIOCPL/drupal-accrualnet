@@ -6,7 +6,7 @@
  * Last Updated By: Lauren
  * Last Updated On: June 12, 2012
  *****/
-
+module_load_include('inc', 'communities', 'includes/communities.globals');
 /*
  * hook_node_info()
  * 
@@ -20,7 +20,7 @@ function communities_node_info() {
             'description' => t('Community (Group)'),
             'has_title' => TRUE,
             'title_label' => 'Group Name',
-            // 'custom' => TRUE, // Add this line in when debugging
+             'custom' => TRUE, // Add this line in when debugging
         ),
         'conversation' => array(
             'name' => t('Conversation'),
@@ -28,7 +28,7 @@ function communities_node_info() {
             'description' => t('Conversation (Group Post)'),
             'has_title' => TRUE,
             'title_label' => 'Conversation Topic',
-            //'custom' => TRUE, // Add this line in when debugging
+            'custom' => TRUE, // Add this line in when debugging
         ),
     );
 }
@@ -41,6 +41,7 @@ function communities_node_info() {
  * Adds their body and fields.
  */
 function communities_enable() {
+    /*
     node_types_rebuild();
     $types = node_type_get_types();
 
@@ -53,31 +54,41 @@ function communities_enable() {
     $conversation_type = node_type_set_defaults($types['conversation']);
     node_add_body_field($conversation_type, 'Conversation Starter');
     node_type_save($conversation_type);
+    */
 
 
     // Create all of the fields for the Community content type
     foreach (_community_fields() as $field) {
+        if (field_info_field($field['field_name'])) {
         field_create_field($field);
+        }
     }
 
     // Create all of the fields for the Conversation content type
     foreach (_conversation_fields() as $field) {
+        if (!field_info_field($field['field_name'])) {
         field_create_field($field);
+        }
     }
 
     // Create all of the instances for the Community content type
     foreach (_community_instances() as $instance) {
+        if (field_read_instance('node', $instance['field_name'], 'community') == FALSE) {
         $instance['entity_type'] = 'node';
         $instance['bundle'] = 'community';
         field_create_instance($instance);
+        }
     }
 
     // Create all of the instances for the Conversation content type
     foreach (_conversation_instances() as $instance) {
+        if (field_read_instance('node', $instance['field_name'], 'conversation') == FALSE) {
         $instance['entity_type'] = 'node';
         $instance['bundle'] = 'conversation';
         field_create_instance($instance);
+        }
     }
+     
 }
 
 
@@ -89,6 +100,10 @@ function communities_enable() {
  * As of right now, does not delete all content associated with it.
  */
 function communities_disable() {
+    field_delete_field('field_facet');
+    field_delete_field('field_tax_topic');
+    field_delete_field('field_topic');
+    /*
     drupal_set_message($message = 'Communities being disabled. Right now, content not deleted, but type and fields are.');
 
     // Delete Community content type fields
@@ -122,6 +137,8 @@ function communities_disable() {
 
     // Purge all field information
     field_purge_batch(1000);
+     * 
+     */
 }
 
 
@@ -157,7 +174,48 @@ function _community_fields() {
  * Conversation-specific fields
  */
 function _conversation_fields() {
-    return array();
+    global $an_communities_field_facet_options;
+    $fields = array();
+    /*$fields[] = array(
+			'field_name' => 'field_facet',
+			'type' => 'list_text',
+			'cardinality' => 1,
+			'settings' => array(
+				'allowed_values' => array_values($an_communities_field_facet_options),
+			)
+        );*/
+    $fields[] = array(
+        'field_name' => 'field_topic',
+        'cardinality' => 1,
+        'label' => 'Topic',
+        'type' => 'taxonomy_term_reference',
+        'settings' => array(
+            'allowed_values' => array(
+                array(
+                    'vocabulary' => 'an_vocabulary_topic',
+                    'parent' => 0,
+                )
+            )
+        )
+    );
+    /*
+    $fields[$vocab['machine_stem']] = array(
+			'field_name' => ('field_tax_' . $vocab['machine_stem']),
+			'cardinality' => FIELD_CARDINALITY_UNLIMITED,
+			'label' => $vocab['name'],
+			'type' => 'taxonomy_term_reference',
+			'settings' => array(
+				'allowed_values' => array(
+					array(
+						'vocabulary' => 'an_vocabulary_' . $vocab['machine_stem'],
+						'parent' => 0,
+					)
+				)
+			)
+		);
+     * 
+     */
+    return $fields;
 }
 
 
@@ -169,6 +227,7 @@ function _conversation_fields() {
  */
 function _community_instances() {
     //$t = get_t();
+    
     return array(
         /* 'communities_color' => array(
           'field_name' => 'communities_color',
@@ -197,6 +256,7 @@ function _community_instances() {
           ),
           ),
           ), */
+
         'group_group' => array(
             'field_name' => OG_GROUP_FIELD,
             'label' => 'Group',
@@ -242,6 +302,29 @@ function _conversation_instances() {
             'widget_type' => OG_AUDIENCE_FIELD,
             'default_value_function' => '1', // Or 'og_field_audience_default_value' instead of '1'
         ),
+                /*'field_facet' => array('field_name' => 'field_facet',
+			'entity_type' => 'node',
+			'label' => 'Conversation Facet',
+			'description' => 'Please select a category that this page falls under.',
+			
+			'required' => TRUE,
+			
+			
+        ),*/
+        'field_topic' => array(
+            'field_name' => 'field_topic',
+			'label' => 'Topic',
+			'type' => 'taxonomy_term_reference',
+                        'required' => TRUE,
+			'widget' => array(
+				'type' => 'options_buttons',
+			),
+			'display' => array(
+				'default' => array(
+					'type' => 'taxonomy_term_reference_link',
+				),
+			),
+        )
     );
 }
 
@@ -291,6 +374,68 @@ function communities_theme($existing, $type, $theme, $path) {
     );
 
     return $items;
+}
+
+function communities_menu() {
+  global $an_communities_field_facet_options;
+  $items['communities'] = array(
+    //'title' => 'Communities and Conversations',
+    'page callback' => 'communities_landing_page',
+    'access arguments' => array('access content'),
+    'type' => MENU_SUGGESTED_ITEM,
+    'file' => 'communities.page.inc',
+  ); 
+  $items['communities/topic/%'] = array(
+      'page callback' => 'communities_topic',
+      'access arguments' => array('access content'),
+      'page arguments' => array(2),
+      'type' => MENU_SUGGESTED_ITEM,
+      'file' => 'communities.page.inc',
+  );
+  $items['communities/communities_of_practice'] = array(
+    'title' => 'Communities of Practice',
+    'page callback' => 'communities_of_practice_page',
+    'access arguments' => array('access content'),
+    'type' => MENU_SUGGESTED_ITEM,
+    'file' => 'communities.page.inc',
+  );
+  /*
+  foreach ($an_communities_field_facet_options as $machine => $name) {
+      $items['communities/'.$machine] = array (
+          'title' => $name,
+          'page callback' => $machine.'_page',
+          'access arguments' => array('access content'),
+          'page arguments' => array($machine, $name),
+          'type' => MENU_SUGGESTED_ITEM,
+          'file' => 'communities_facets.page.inc',
+      );
+  }*/
+  /*
+  $items['communities/%'] = array (
+    //'title' => 'Resources and Tools Level 2',
+    'page callback' => 'resource_level_2_page',
+    'access arguments' => array('access content'),
+    'page arguments' => array(1),
+    'type' => MENU_SUGGESTED_ITEM,
+    'file' => 'resource_level_2.pages.inc',
+  );
+  /*$items['resources/%/%'] = array (
+    //'title' => 'Resources and Tools Level 3',
+    'page callback' => 'resource_level_3_page',
+    'access arguments' => array('access content'),
+    'page arguments' => array(1,2),
+    'type' => MENU_SUGGESTED_ITEM,
+    'file' => 'resource_level_3.pages.inc',
+  );
+  $items['communities/%/%'] = array(
+    'title' => 'Literature and Tools Level 3',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('resource_ajax_filter', 1, 2),
+    'access callback' => TRUE,
+    'weight' => 1,
+  );*/
+
+  return $items;
 }
 
 ?>

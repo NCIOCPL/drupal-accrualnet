@@ -1,0 +1,189 @@
+/* 
+    Document   : communities
+    Created on : Jul 26, 2012, 11:07:54 AM
+    Author     : ficco
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+
+.conversation-result {
+    border-bottom: 3px dotted #2d2d2d;
+    padding: 40px 0px;
+}
+
+.conversation-title,
+.conversation-title a, 
+.conversation-title a:hover,
+.conversation-title a:visited,
+.conversation-title a:active {
+    color: #DC6E23;
+}
+.conversation-title a:hover {
+    font-weight: bold;
+}
+
+span.conversation-last-updated {
+    float: right;
+}
+
+.conversation-starter,
+.conversation-starter a,
+.conversation-starter a:hover,
+.conversation-starter a:visited, 
+.conversation-starter a:active {
+    font-style: italic;
+    color: #2d2d2d;
+    font-size: 12px;
+    opacity: 0.75;
+    filter: alpha(opacity=75);
+}
+.conversation-starter a:hover {
+    font-weight: bold;
+}
+
+.conversation-recent {
+    width: 100%;
+    padding-top: 10px;
+}
+
+.conversation-recent-text {
+    float: left;
+    width: 15%;
+    color: #DC6E23;
+    letter-spacing: -1px;
+}
+
+.conversation-recent-comment {
+    margin-left: 15%;
+    width: 85%;
+}
+
+.conversation-recent-comment-userpic {
+    float: left;
+    width: 10%;
+}
+.conversation-recent-comment-text {
+    /*margin-left: 10%;
+    width: 90%;*/
+    margin-left: 0px;
+}
+.conversation-recent-comment-text p {
+    margin: 0px;
+    padding: 0px;
+}
+
+#communities-pic {
+    float: left;
+    width: 49%;
+}
+#communities-pic img {
+    border: 3px solid #DC6E23;
+}
+
+#communities-description {
+    margin-left: 51%;
+    width: 49%;
+}
+#all-conversations-box {
+    min-height: 300px;
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+    border: 1px solid #DC6E23;
+    -moz-box-shadow: 3px 3px #DC6E23;
+    -webkit-box-shadow: 3px 3px  #DC6E23;
+    box-shadow: 3px 3px  #DC6E23;
+    font-family: Arial, serif;
+}
+#all-conversations-box a,
+#all-conversations-box a:hover,
+#all-conversations-box a:visited,
+#all-conversations-box a:active {
+    color: #DC6E23;
+}
+#all-conversations-box a:hover {
+    font-weight:bold;
+}
+#all-conversations-title {
+    position: relative;
+    width: 100%;
+    height: 100px;
+    padding:0px;
+    margin:0px;
+}
+#all-conversations-title-all,
+#all-conversations-title-conversations {
+    position:aboslute;
+    background-color: #DC6E23;
+    font-size: 25px;
+    color: #fff;
+    left: 0px;
+    padding: 1% 5%;   
+    text-transform: uppercase;
+}
+#all-conversations-title-all {
+    position: absolute;
+    top: 5px;
+}
+#all-conversations-title-conversations {
+    position:absolute;
+    top: 40px;
+}
+#all-conversations-pager {
+    float: right;
+    text-align: right;
+}
+
+
+#all-conversations-results {
+    width: 100%;
+}
+#all-conversations-left {
+    float: left;
+    margin-left: 5%;
+    width: 40%;
+    border-right: 1px dotted #2d2d2d;
+}
+#all-conversations-right {
+    margin-left: 55%;
+    width: 40%;
+}
+
+.all-conversations-result {
+    padding: 10px 0px;
+}
+
+.all-conversations-result-details {
+    color: #2d2d2d;
+    opacity: 0.75;
+    filter: alpha(opacity=75);
+    font-size: 11px;
+}
+
+.communities-topic h1 {
+    color: #DC6E23;
+}
+
+#communities-topic-results h2 {
+    color: #DC6E23;
+    margin-bottom: 0px;
+    padding-bottom: 0px;
+    border-bottom: 3px dotted #2d2d2d;
+}
+
+.community-of-practice-title a,
+.community-of-practice-title a:hover,
+.community-of-practice-title a:visited,
+.community-of-practice-title a:active {
+    color: #DC6E23;
+}
+.community-of-practice-title a:hover {
+    font-weight: bold;
+}
+
+.community-of-practice {
+    margin: 20px 0px;
+    padding: 20px 0px;
+    border-bottom: 3px dotted #2d2d2d;
+}

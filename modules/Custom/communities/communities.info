@@ -5,3 +5,7 @@ core = 7.x
 version = 7.x-1.0
 
 dependencies[] = "og"
+
+stylesheets[all][] = "includes/communities.css"
+
+files[] = "includes/communities.globals.inc"
