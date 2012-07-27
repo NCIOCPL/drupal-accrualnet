@@ -38,6 +38,27 @@ h1 span {
     color: #105693;
 }
 
+#page-options {
+    clear: both;
+    overflow: hidden;
+}
+
+.breadcrumb {
+    float:left;
+}
+
+.add-this {
+    float:right;
+}
+.add-this a {
+    padding: 0 10px;
+}
+.add-this span{
+    display:inline-block;
+    margin-top: 5px;
+    margin-right: 4px;
+}
+
 /*************************************************************
             Landing Page Styles
 *************************************************************/
@@ -468,8 +489,39 @@ body a:visited {
 }
 
 .featured-content-carousel {
-    overflow:hidden;
+    
 }
+
+.featured-content-carousel {
+    position: relative;
+    border-bottom: solid #105693 7px;
+    border-right: solid #105693 7px;
+}
+
+.featured-content-carousel:before {
+  content: '';
+  position: absolute;
+  left: -7px;
+  bottom: -7px;
+  border: solid transparent 7px;
+  border-bottom-color: #fff;
+}
+
+.featured-content-carousel:after {
+  content: '';
+  position: absolute;
+  top: 0px;
+  right: -14px;
+  border: solid transparent 7px;
+  border-top-color: #fff;
+}
+
+
+
+
+
+
+
 .featured-content-carousel  li {
     list-style:none;
 }

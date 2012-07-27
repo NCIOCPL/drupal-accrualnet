@@ -224,6 +224,7 @@ if ($pager_total_items != null) {
 
       <div id="page-options">
           <?php print $breadcrumb; ?>
+          <div class="add-this"><a class="addthis_button_email">Email this Page</a><a class="addthis_button_print">Print this Page</a></div>
       </div>
       <?php //print $messages; 
       print render($tabs); 

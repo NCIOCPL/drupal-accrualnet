@@ -88,6 +88,8 @@
 
   <?php print $styles; ?>
   <?php print $scripts; ?>
+  <script type="text/javascript">var addthis_config = {"data_track_addressbar":true};</script>
+  <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid=ra-501270b304f2e0b3"></script>
   <?php if ($add_respond_js): ?>
     <!--[if lt IE 9]>
     <script src="<?php print $base_path . $path_to_accrualnet; ?>/js/html5-respond.js"></script>
