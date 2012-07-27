@@ -652,7 +652,7 @@ body a:visited {
     color: #54316E;    
 }
 
-.Blue #header {
+/*.Blue #header {
     background-image:
 		-webkit-gradient(linear, 0% 0%, 100% 100%,
                 from(rgba(16, 86, 147, .2)),
@@ -666,8 +666,74 @@ body a:visited {
 		-moz-linear-gradient(-45deg, rgba(16, 86, 147, .2),
                 rgba(16, 86, 147, .2) 15%, white 50%,
                 rgba(16, 86, 147, .2) 65%, white);
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#105693', endColorstr='white'); /* IE6 & IE7 */  
-    -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr='#105693', endColorstr='white')"; /* IE8+ */  
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#105693', endColorstr='white'); /* IE6 & IE7 
+    -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr='#105693', endColorstr='white')"; /* IE8+   
+}*/
+                
+#block-an-navigation-left-nav ul.menu li a,
+#block-an-navigation-left-nav ul.menu li a:hover,
+#block-an-navigation-left-nav ul.menu li a:visited,
+#block-an-navigation-left-nav ul.menu li a:active {
+    text-decoration: none;
+}
+#block-an-navigation-left-nav ul.menu li a:hover,
+#block-an-navigation-left-nav ul.menu li.active-trail a.active-trail {
+    font-weight: bold;
+}
+
+#block-an-navigation-left-nav ul.menu li.leaf a {
+    font-size: 11px;
+}
+#block-an-navigation-left-nav ul.menu li.active-trail ul.menu li.active-trail a.active,
+#block-an-navigation-left-nav ul.menu li.active-trail ul.menu li.active-trail a.active:hover,
+#block-an-navigation-left-nav ul.menu li.active-trail ul.menu li.active-trail a.active:visited,
+#block-an-navigation-left-nav ul.menu li.active-trail ul.menu li.active-trail a.active:active,
+#block-an-navigation-left-nav ul.menu li.active-trail a.active,
+#block-an-navigation-left-nav ul.menu li.active-trail a.active:hover,
+#block-an-navigation-left-nav ul.menu li.active-trail a.active:visited,
+#block-an-navigation-left-nav ul.menu li.active-trail a.active:active {
+    color: #fff;
+}
+
+.Blue #block-an-navigation-left-nav ul.menu li a,
+.Blue #block-an-navigation-left-nav ul.menu li a:hover,
+.Blue #block-an-navigation-left-nav ul.menu li a:visited,
+.Blue #block-an-navigation-left-nav ul.menu li a:active,
+.Blue #block-an-navigation-left-nav ul.menu li.leaf a,
+.Blue #block-an-navigation-left-nav ul.menu li.leaf a:hover,
+.Blue #block-an-navigation-left-nav ul.menu li.leaf a:visited,
+.Blue #block-an-navigation-left-nav ul.menu li.leaf a:active{
+    color: #105693;
+}
+.Orange #block-an-navigation-left-nav ul.menu li a,
+.Orange #block-an-navigation-left-nav ul.menu li a:hover,
+.Orange #block-an-navigation-left-nav ul.menu li a:visited,
+.Orange #block-an-navigation-left-nav ul.menu li a:active,
+.Orange #block-an-navigation-left-nav ul.menu li.leaf a,
+.Orange #block-an-navigation-left-nav ul.menu li.leaf a:hover,
+.Orange #block-an-navigation-left-nav ul.menu li.leaf a:visited,
+.Orange #block-an-navigation-left-nav ul.menu li.leaf a:active{
+    color: #DC6E23;
+}
+.Red #block-an-navigation-left-nav ul.menu li a,
+.Red #block-an-navigation-left-nav ul.menu li a:hover,
+.Red #block-an-navigation-left-nav ul.menu li a:visited,
+.Red #block-an-navigation-left-nav ul.menu li a:active,
+.Red #block-an-navigation-left-nav ul.menu li.leaf a,
+.Red #block-an-navigation-left-nav ul.menu li.leaf a:hover,
+.Red #block-an-navigation-left-nav ul.menu li.leaf a:visited,
+.Red #block-an-navigation-left-nav ul.menu li.leaf a:active{
+    color: #C74532;
+}
+.Purple #block-an-navigation-left-nav ul.menu li a,
+.Purple #block-an-navigation-left-nav ul.menu li a:hover,
+.Purple #block-an-navigation-left-nav ul.menu li a:visited,
+.Purple #block-an-navigation-left-nav ul.menu li a:active,
+.Purple #block-an-navigation-left-nav ul.menu li.leaf a,
+.Purple #block-an-navigation-left-nav ul.menu li.leaf a:hover,
+.Purple #block-an-navigation-left-nav ul.menu li.leaf a:visited,
+.Purple #block-an-navigation-left-nav ul.menu li.leaf a:active{
+    color: #54316E;
 }
 
 

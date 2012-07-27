@@ -96,6 +96,10 @@ if($logged_in) {
 $areaColor = null;
 $setArea = null;
 $urlStr = check_plain($_GET['q']);
+
+if (strpos($urlStr, 'node') > -1) {
+    $urlStr = drupal_lookup_path('alias', $urlStr);
+}
 $areaColors = array(
     'literature' => 'Blue',
     'content' => 'Blue',
