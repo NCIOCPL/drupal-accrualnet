@@ -110,10 +110,11 @@ foreach ($areaColors as $area => $color) {
         $setArea = $area;
     }
 }
+/*
 print kprint_r($_GET);
 print kprint_r(get_defined_vars());
 print kprint_r($urlStr);
-print kprint_r($areaColor);
+print kprint_r($areaColor);*/
 
 /*******************************************************************************
  *****                            Title Additions                          *****
