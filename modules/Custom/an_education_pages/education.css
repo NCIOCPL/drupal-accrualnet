@@ -25,3 +25,11 @@ div.landing-page-output-image{
 	margin-bottom: auto;
 	vertical-align:top;
 }
+
+.education-results{
+	float: left;
+}
+
+.landing-page-block .item-list{
+	float: right;
+}

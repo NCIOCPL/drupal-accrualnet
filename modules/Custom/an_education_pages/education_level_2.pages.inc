@@ -54,6 +54,16 @@ function education_level_2_page($section) {
 			->pager(10);
 	$nodes = _an_lifecycle_load_related_nodes($query, true);
 
+	// get the type count
+	$query = new EntityFieldQuery();
+	$query->entityCondition('entity_type', 'node')
+			->entityCondition('bundle', $section)
+			->propertyCondition('status', 1)
+			->count();
+	$count = $query->execute();
+
+	$output .= "<h3 class='education-results'>Results ($count)</h3>";
+
 	$output .= render($nodes['pager']);
 
 	//if we got a node back, pop it off the array. There should only ever be 1
