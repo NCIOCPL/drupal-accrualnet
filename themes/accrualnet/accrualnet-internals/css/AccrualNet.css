@@ -11,6 +11,10 @@
    Syntax recommendation http://www.w3.org/TR/REC-CSS2/
 */
 
+
+
+
+
 h1#site-name {
     border: none;
 }
@@ -495,14 +499,29 @@ body a:visited {
 .featured-content-title {
     margin: 30px 0;
 }
-.featured-content-title .feature-header{
+.feature-header{
     font-size:35px;
     text-transform: uppercase;
-    background-color: #105693;
-    
+    background-color: #9AB83F;
+    color: #fff;
     padding: 10px 20px;
     
 }
+
+.Blue .feature-header {
+    background-color: #105693;
+}
+.Purple .feature-header {
+    background-color: #54316E;
+}
+.Red .feature-header {
+    background-color: #C74532;
+}
+.Orange .feature-header {
+    background-color: #DC6E23;
+}
+
+
 .featured-content-section-1,
 .featured-content-section-4{
     float:left;
@@ -532,13 +551,27 @@ body a:visited {
 }
 
 .featured-content-carousel {
+    position: relative;
     
+    border-bottom: solid #9AB83F 7px;
+    border-right: solid #9AB83F 7px;
 }
 
-.featured-content-carousel {
-    position: relative;
+.Purple .featured-content-carousel {
+    border-bottom: solid #54316E 7px;
+    border-right: solid #54316E 7px;
+}
+.Red .featured-content-carousel {
+    border-bottom: solid #C74532 7px;
+    border-right: solid #C74532 7px;
+}
+.Blue .featured-content-carousel {
     border-bottom: solid #105693 7px;
     border-right: solid #105693 7px;
+}
+.Orange .featured-content-carousel {
+    border-bottom: solid #DC6E23 7px;
+    border-right: solid #DC6E23 7px;
 }
 
 .featured-content-carousel:before {
@@ -560,20 +593,27 @@ body a:visited {
 }
 
 
-
-
-
-
-
 .featured-content-carousel  li {
     list-style:none;
 }
-
 .featured-carousel-slides {
-    
+    border: 3px solid #9AB83F;
+}
+.Blue .featured-carousel-slides {
     border: 3px solid #105693;
 }
 
+.Red .featured-carousel-slides {
+    border: 3px solid #C74532;
+}
+
+.Purple .featured-carousel-slides {
+    border: 3px solid #54316E;
+}
+
+.Orange .featured-carousel-slides {
+    border: 3px solid #DC6E23;
+}
 .featured-carousel-slides  .slide {
     
     min-height: 380px;
@@ -600,17 +640,17 @@ body a:visited {
     margin: 0px 20px;
     padding: 10px 20px;
     
-    border: 1px solid #105693;
-    border-bottom: 5px solid #105693;
     
+    border: 1px solid #9AB83F;
+    border-bottom: 5px solid #9AB83F; 
     
     background-color: #fff;
     background-image:
-        -webkit-gradient(linear, 0% 0%, 100% 100%, from(rgba(16, 86, 147, .1)), color-stop(0.15, rgba(16, 86, 147, .1)), color-stop(0.15, transparent), color-stop(0.50, transparent), color-stop(0.50, rgba(16, 86, 147, .1)), color-stop(0.65, rgba(16, 86, 147, .1)), color-stop(0.65, transparent), to(transparent));
+        -webkit-gradient(linear, 0% 0%, 100% 100%, from(rgba(154, 184, 63, .2)), color-stop(0.15, rgba(154, 184, 63, .2)), color-stop(0.15, transparent), color-stop(0.50, transparent), color-stop(0.50, rgba(154, 184, 63, .2)), color-stop(0.65, rgba(154, 184, 63, .2)), color-stop(0.65, transparent), to(transparent));
     background-image: 
-		-moz-linear-gradient(-45deg, rgba(16, 86, 147, .1), rgba(16, 86, 147, .1) 15%, white 50%,  rgba(16, 86, 147, .1) 65%, white);
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='rgba(16, 86, 147, .1)', endColorstr='white'); /* IE6 & IE7 */  
-    -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr='rgba(16, 86, 147, .1)', endColorstr='white')"; /* IE8+ */  
+		-moz-linear-gradient(-45deg, rgba(154, 184, 63, .2), rgba(154, 184, 63, .2) 15%, white 50%,  rgba(154, 184, 63, .2) 65%, white);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='rgba(154, 184, 63, .2)', endColorstr='white'); /* IE6 & IE7 */  
+    -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr='rgba(154, 184, 63, .2)', endColorstr='white')"; /* IE8+ */  
     background-size: 10px 10px;
     -webkit-background-size: 10px 10px;
     -moz-background-size: 10px 10px;
@@ -620,18 +660,185 @@ body a:visited {
     opacity: 0.4;
     filter:alpha(opacity=40);
 }
+
 .slideshowControls .selected div {
-    margin: 0px 20px;
-    padding: 10px 20px;
-    background-color: #fff;
-    border-bottom: 5px solid #105693;
     opacity: 1;
 }
+
+
+.Blue .slideshowControl  div {
+    border: 1px solid #105693;
+    border-bottom: 5px solid #105693; 
+    
+    background-color: #fff;
+    background-image:
+        -webkit-gradient(linear, 0% 0%, 100% 100%, from(rgba(16, 86, 147, .1)), color-stop(0.15, rgba(16, 86, 147, .1)), color-stop(0.15, transparent), color-stop(0.50, transparent), color-stop(0.50, rgba(16, 86, 147, .1)), color-stop(0.65, rgba(16, 86, 147, .1)), color-stop(0.65, transparent), to(transparent));
+    background-image: 
+		-moz-linear-gradient(-45deg, rgba(16, 86, 147, .1), rgba(16, 86, 147, .1) 15%, white 50%,  rgba(16, 86, 147, .1) 65%, white);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='rgba(16, 86, 147, .1)', endColorstr='white'); /* IE6 & IE7 */  
+    -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr='rgba(16, 86, 147, .1)', endColorstr='white')"; /* IE8+ */  
+}
+.Purple .slideshowControl  div {
+    border: 1px solid #54316E;
+    border-bottom: 5px solid #54316E; 
+    
+    background-color: #fff;
+    background-image:
+        -webkit-gradient(linear, 0% 0%, 100% 100%, from(rgba(84, 49, 110, .2)), color-stop(0.15, rgba(84, 49, 110, .2)), color-stop(0.15, transparent), color-stop(0.50, transparent), color-stop(0.50, rgba(84, 49, 110, .2)), color-stop(0.65, rgba(84, 49, 110, .2)), color-stop(0.65, transparent), to(transparent));
+    background-image: 
+		-moz-linear-gradient(-45deg, rgba(84, 49, 110, .2), rgba(84, 49, 110, .2) 15%, white 50%,  rgba(84, 49, 110, .2) 65%, white);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='rgba(84, 49, 110, .2)', endColorstr='white'); /* IE6 & IE7 */  
+    -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr='rgba(84, 49, 110, .2)', endColorstr='white')"; /* IE8+ */  
+}  
+.Red .slideshowControl  div {
+    border: 1px solid #C74532;
+    border-bottom: 5px solid #C74532; 
+    
+    background-color: #fff;
+    background-image:
+        -webkit-gradient(linear, 0% 0%, 100% 100%, from(rgba(199, 69, 50, .2)), color-stop(0.15, rgba(199, 69, 50, .2)), color-stop(0.15, transparent), color-stop(0.50, transparent), color-stop(0.50, rgba(199, 69, 50, .2)), color-stop(0.65, rgba(199, 69, 50, .2)), color-stop(0.65, transparent), to(transparent));
+    background-image: 
+		-moz-linear-gradient(-45deg, rgba(199, 69, 50, .2), rgba(199, 69, 50, .2) 15%, white 50%,  rgba(199, 69, 50, .2) 65%, white);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='rgba(199, 69, 50, .2)', endColorstr='white'); /* IE6 & IE7 */  
+    -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr='rgba(199, 69, 50, .2)', endColorstr='white')"; /* IE8+ */  
+}  
+.Orange .slideshowControl  div {
+    border: 1px solid #DC6E23;
+    border-bottom: 5px solid #DC6E23; 
+    
+    background-color: #fff;
+    background-image:
+        -webkit-gradient(linear, 0% 0%, 100% 100%, from(rgba(220, 110, 35, .2)), color-stop(0.15, rgba(220, 110, 35, .2)), color-stop(0.15, transparent), color-stop(0.50, transparent), color-stop(0.50, rgba(220, 110, 35, .2)), color-stop(0.65, rgba(220, 110, 35, .2)), color-stop(0.65, transparent), to(transparent));
+    background-image: 
+		-moz-linear-gradient(-45deg, rgba(220, 110, 35, .2), rgba(220, 110, 35, .2) 15%, white 50%,  rgba(220, 110, 35, .2) 65%, white);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='rgba(220, 110, 35, .2)', endColorstr='white'); /* IE6 & IE7 */  
+    -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr='rgba(220, 110, 35, .2)', endColorstr='white')"; /* IE8+ */  
+}  
 
 
 /*****************End Featured Content Styling********************/
 
 
+
+/****************************************************************
+                Begin Homepage Style
+****************************************************************/
+.homepage-content-blocks {
+    display: block;
+    width: 100%;
+}
+.homepage-feature-block-container {
+   width: 33%;
+   float:left;
+   padding: 0 10px;
+   box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+}
+
+.homepage-feature-content {
+    border-right: 3px dotted #d2d2d2;
+}
+
+.homepage-feature-block-container-last {
+    
+    box-sizing: border-box;
+     -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    width: 33%;
+    float: left;
+    
+}
+.homepage-feature-block-container-last .homepage-feature-content{
+    border:none;
+}
+
+.homepage-feature-content-item {
+    margin: 15px 0;
+    padding: 0 5px;
+}
+
+.homepage-feature-title {
+    text-transform:uppercase;
+    font-size: 20px;
+    font-weight: bolder;
+    margin: 15px 0;
+}
+
+.homepage-node-created {
+    
+    font-weight: bold;
+    font-size: 17px; 
+    width: 20%;
+    margin-left: 0;
+    float: left;
+}
+
+.homepage-feature-content-item .Blue {
+    color: #105693;
+}
+
+.homepage-feature-content-item .Orange {
+    color: #DC6E23;
+}
+
+
+.homepage-node-title {
+    width: 75%;
+    margin-left: 25%;
+}
+
+.homepage-static-content {
+    margin: 50px 0;
+}
+
+.homepage-static-content .homepage-image {
+    float:left;
+    width: 25%;
+}
+
+.homepage-static-content .homepage-text {
+
+    width: 70%;
+    margin-left: 30%;
+}
+
+.homepage-static-content .homepage-static-header{
+    font-size: 20px;
+    font-weight: bold;
+    text-transform: uppercase;
+    margin: 15px 0;
+}
+
+.featured-content-text {
+    width: 55%;
+    margin: 0 3%;
+    float:left;
+    
+    box-sizing: border-box;
+     -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+}
+.content-block-image {
+    width: 35%; 
+    margin-left: 62%;
+    padding-top: 10px;
+    
+    box-sizing: border-box;
+     -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+}
+
+.content-block-title {
+    float: left;
+    margin: 30px 0 10px 0;
+}
+
+/****************End Homepage Styling********************/
 
 
 
@@ -639,7 +846,7 @@ body a:visited {
 
 
 /**************** Customized Section Theme Colors *****************************/
-.Blue h1, .Blue span.site-name-net, .Blue span.tm {
+.Blue h1, .Blue span.site-name-net, .Blue span.tm  {
     color: #105693;
 }
 .Orange h1, .Orange span.site-name-net, .Orange span.tm {

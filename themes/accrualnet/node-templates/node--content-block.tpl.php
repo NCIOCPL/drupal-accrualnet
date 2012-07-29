@@ -1,5 +1,6 @@
 <?php
 
+
 /**
  * @file
  * Zen theme's implementation to display a node.
@@ -85,88 +86,28 @@
  */
 
 
-
-//NOTE: Assuming that there is enough content to have the number requested.
-//THIS COULD FAIL IF NOT!!
-//
-//
-//field_display_format is required
-$format = field_get_items('node', $node, 'field_display_format');
-//field_order_by is required
-$order = field_get_items('node', $node, 'field_order_by');
-//field_featured_type is required so it must be here.
-$types = field_get_items('node', $node, 'field_featured_type');
 //get image(if it exists)
 $image = field_get_items('node', $node, 'field_featured_image');
 
-
-//Build out the entityFieldQuery for this content type.
-$query = new EntityFieldQuery();
-$query->entityCondition('entity_type', 'node')
- ->entityCondition('bundle', array_values($types))
- ->propertyCondition('status', 1);
- //Switch statement for the range
-switch($format[0]['value'])
-{
-    case 'listing':
-        $query->range(0,6);
-        break;
-    case 'listing_image':
-        $query->range(0,3);
-        break;
-    default:
-        //this should never be reachable.
-        break;
-}
- 
-switch($order[0]['value']){
-    case 'alpha':
-        $query->propertyOrderBy('title', 'ASC');
-        break;
-    case 'date_recent':
-        $query->propertyOrderBy('created',  'DESC');
-        break;
-    case 'manual':
-        //if manual, dont do anything, we are going to use the order they are inserted in the node.
-        break;
-    default:
-        //this should never be reachable.
-        break;
-}
- 
-
-$featuredContent = _an_lifecycle_load_related_nodes($query, TRUE);
-
+$content = field_get_items('node', $node, 'field_content');
 ?>
-<div class="featured-content-title">
-    <span class="feature-header"><?php print filter_xss($node->title);?><span>
-</div>
+
 <div class="featured-content-block">
-    <?php $counter = 1;?>
-    <?php foreach($featuredContent['nodes'] as $item):?>
-        <?php if($counter == 1 || $counter == 4):?>
-            <div class="featured-content-section-<?php print $counter;?>">
-        <?php endif;?>
-        
-            <?php $urlPath = drupal_lookup_path('alias', 'node/'.$item->nid); ?>
-                <?php print _featured_content_display($item, FALSE, FALSE, FALSE);?>
-            
-        
-        <?php if($counter == 3 || $counter == 6):?>
-            </div>
-        <?php endif;?>
-        <?php $counter++;?>
-    <?php endforeach;?>
-    
-    <?php if($format[0]['value'] == 'listing_image'):?>
-        <div class="featured-content-picture">
-            <?php if($image): ?>
-                <?php print theme('image_style',  array(
-                                'path' => $image[0]['uri'],
-                                'style_name' => 'large',         
-                            )
-                        );?>
-            <?php endif;?>
+    <div class="content-block-title">
+            <span class="feature-header"><?php print filter_xss($node->title);?><span>
         </div>
-    <?php endif;?>
+    <div class="featured-content-text">
+        <?php if($content): ?>
+                <?php print filter_xss_admin($content[0]['value']); ?>
+        <?php endif;?>
+    </div>
+    <div class="content-block-image">
+        <?php if($image): ?>
+            <?php print theme('image_style',  array(
+                            'path' => $image[0]['uri'],
+                            'style_name' => 'large',         
+                        )
+                    );?>
+        <?php endif;?>
+    </div>
 </div>
