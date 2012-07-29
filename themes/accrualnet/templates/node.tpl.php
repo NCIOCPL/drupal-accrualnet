@@ -143,7 +143,9 @@ global $an_resource_types;
 
 
 // Related Links
+    
     $linksOutput = '<div id="resource-links">';
+    if (count($field_links) > 0) {
     $linksOutput .= '<h3>Links</h3>';
     $linksOutput .= '<ul>';
     foreach ($field_links as $link) {
@@ -152,6 +154,7 @@ global $an_resource_types;
         $linksOutput .= $link['title'];
         $linksOutput .= '</a>';
         $linksOutput .= '</li>';
+    }
     }
     $linksOutput .= '</ul></div>';
 
