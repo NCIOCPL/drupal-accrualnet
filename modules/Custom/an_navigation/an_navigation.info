@@ -5,6 +5,7 @@ dependencies[] = an_education_pages
 dependencies[] = resource
 dependencies[] = resource_page_templates
 dependencies[] = menu
+dependencies[] = communities
 core = 7.x
 version = VERSION
 files[] = an_navigation.module

@@ -24,7 +24,7 @@ $GLOBALS['an_navigation'] = array(
 	'communities' => array(
                     'weight' => '1',
                     'link_title' => t('Communities'),
-                    'link_path' => t('node/1'),
+                    'link_path' => t('communities'),
                     'mlid' => 0,
                     
                         

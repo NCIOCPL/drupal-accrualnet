@@ -10,6 +10,7 @@
 module_load_include('inc', 'an_navigation', 'includes/navigation.globals');
 module_load_include('inc', 'an_lifecycle', 'includes/lifecycle.globals');
 module_load_include('inc', 'an_taxonomy', 'includes/resource.globals');
+module_load_include('inc', 'an_taxonomy', 'communities/resource.globals');
 module_load_include('inc', 'an_education_pages', 'includes/education.globals');
 module_load_include('inc', 'resource', 'types');
 
@@ -150,8 +151,36 @@ function _an_navigation_education_submenu($parentID, $base_path){
  * based on taxonomy.
  * 
  */
-function _an_navigation_communities_submenu(){
-    
+function _an_navigation_communities_submenu($parentID, $base_path){
+    global $an_communities_field_topic_options;
+
+    $level1_weight = 0;
+    foreach ($an_communities_field_topic_options as $machine => $name)
+    {
+		
+
+        $type_info = $machine;
+        if ($level1_weight < (count($an_communities_field_topic_options)-2))
+            $path = 'communities/topics';
+        else
+            $path = 'communities';
+
+        $menu_entry = array(
+                'values' => array(
+                    'menu_name' => 'an-main-nav',
+                    'weight' => $level1_weight,
+                    'link_title' => $name,
+                    'link_path' => "$path/$machine" ,
+                    'module' => t('menu'),
+                    'mlid' => 0,
+                    'plid' => $parentID,
+                ),
+            );
+
+        $plid_lvl2 = menu_link_save($menu_entry['values']);
+
+        $level1_weight++;
+    } 
 }
 /* an_navigation_resources_and_tools_submenu() - Creates the array of sub-menu
  * items for the protocol accrual lifecycle section. Manually builds out menu 
