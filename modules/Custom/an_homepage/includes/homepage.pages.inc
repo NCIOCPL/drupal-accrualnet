@@ -55,8 +55,24 @@ function homepage_display() {
         $output .= '<div class="homepage-content-blocks">';
         $contentBlocks = field_get_items('node', $contentNode, 'field_content_blocks');
         if($contentBlocks){
+            $count = 1;
             foreach($contentBlocks as $block){
-                $output .= render(node_view(node_load($block['target_id'])));
+                $contentNode = node_load($block['target_id']);
+                $last = count($contentBlocks) == $count ? '-last' : '';
+                $output .= '<div class="homepage-feature-block-container'.$last.'">';
+                switch($contentNode->type){
+                    case 'dynamic_content_block':
+                        $output .= _homepage_dynamic_content_block($contentNode);
+                        break;
+                    case 'content_block':
+                        $output .= _homepage_content_block($contentNode);
+                        break;
+                    default:
+                        break;
+                }
+                $output .= '</div>';
+                //$output .= render(node_view(node_load($block['target_id'])));
+                $count++;
             }
         }
         $output .= '</div>';
@@ -73,6 +89,87 @@ function homepage_display() {
  
 }
 
+function _homepage_dynamic_content_block($node) {
+    //field_order_by is required
+    $order = field_get_items('node', $node, 'field_order_by');
+    //field_featured_type is required so it must be here.
+    $types = field_get_items('node', $node, 'field_featured_type');
+    
 
+    //Build out the entityFieldQuery for this content type.
+    $query = new EntityFieldQuery();
+    $query->entityCondition('entity_type', 'node')
+    ->entityCondition('bundle', array_values($types))
+    ->range(0, 5)
+    ->propertyCondition('status', 1);
+    switch($order[0]['value']){
+        case 'alpha':
+            $query->propertyOrderBy('title', 'ASC');
+            break;
+        case 'date_recent':
+            $query->propertyOrderBy('created',  'DESC');
+            break;
+        case 'manual':
+            //if manual, dont do anything, we are going to use the order they are inserted in the node.
+            break;
+        default:
+            //this should never be reachable.
+            break;
+    }
+
+
+    $featuredContent = _an_lifecycle_load_related_nodes($query, TRUE);
+    
+    $output = '';
+    
+    $output .= '<div class="homepage-feature-title">';
+    $output .= '<span class="homepage-feature-header">'.check_plain($node->title).'<span>';
+    $output .= '</div>';
+    $output .= '<div class="homepage-feature-content">';
+    foreach($featuredContent['nodes'] as $item){
+        $color = $item->type == 'conversation' ? 'Orange' : 'Blue';
+        $output .= '<div class="homepage-feature-content-item">';
+        $urlPath = drupal_lookup_path('alias', 'node/'.$item->nid); 
+        $output .= '<div class="homepage-node-created '.$color.'">';
+        $output .= format_date(check_plain($item->created), 'custom', 'm/d/y');
+        $output .= '</div>';
+        $output .= '<div class="homepage-node-title">';
+        
+        $output .= '<a href="'.$urlPath.'" title="'.check_plain($item->title).'">';
+        $output .= check_plain($item->title);
+        $output .= '</a>';
+        if($item->type == 'conversation'){
+            $output .= '<div class="node-posted-by">';
+            $output .= 'Posted By: '. check_plain($item->name) ;
+            $output .= '</div>';
+        }
+        $output .= '</div>';
+        $output .= '</div>';
+    }
+    $output .= '</div>';
+    return $output;
+}
+
+function _homepage_content_block($node) {
+    $body = field_get_items('node', $node, 'field_content');
+    $output = '';
+    
+    $output .= '<div class="homepage-feature-title">';
+    $output .= '<span class="homepage-feature-header">'.check_plain($node->title).'<span>';
+    $output .= '</div>';
+    $output .= '<div class="homepage-feature-content">';
+    if($body){
+        $output .= '<div class="homepage-feature-content-item">';
+
+        $output .= '<div class="homepage-node-output">';
+
+        $output .= $body[0]['value'];
+        $output .= '</div>';
+        $output .= '</div>';
+    }
+    
+    $output .= '</div>';
+    return $output;
+}
 
 ?>

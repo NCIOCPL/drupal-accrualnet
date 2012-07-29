@@ -40,7 +40,7 @@ $GLOBALS['featured_content_fields'] = array(
         'description' => '',
         'type' => 'list_text',
         'settings' => array(
-            'allowed_values' => $resource_bundle_names
+            'allowed_values' => array(array_values($resource_bundle_names), 'conversation')
         ),
         'widget' => array(
             'type' => 'options_select',
@@ -62,6 +62,7 @@ $GLOBALS['featured_content_fields'] = array(
             'allowed_values' => array(
                 'listing' => 'Content Listing',
                 'listing_image' => 'Content Listing + Image',
+                'homepage' => 'Homepage Block'
             )
         ),
         'widget' => array(
