@@ -113,6 +113,7 @@ function communities_landing_page() {
     $query->entityCondition('entity_type', 'node')
             ->entityCondition('bundle', 'landing_page')
             ->fieldCondition('field_landing_page_type', 'value', 2)
+            ->propertyOrderBy('changed', 'DESC')
             ->propertyCondition('status', 1);
     
     $result = _an_lifecycle_load_related_nodes($query);
@@ -141,6 +142,7 @@ function communities_landing_page() {
     $query->entityCondition('entity_type', 'node')
             ->entityCondition('bundle', 'conversation')
             ->propertyCondition('status', 1)
+            ->propertyOrderBy('changed', 'DESC')
             ->pager(8);
     
     $convos = _an_lifecycle_load_related_nodes($query, TRUE);
@@ -182,12 +184,30 @@ function communities_landing_page() {
 }
 
 
+
 function communities_of_practice_page () {
+    global $user;
+    $query = new EntityFieldQuery();
+    $query->entityCondition('entity_type', 'og_membership')
+            
+            ->propertyCondition('entity_type', 'user')
+            ->propertyCondition('etid', $user->uid);
+    $result = $query->execute();
+    $groupmemberships = entity_load('og_membership', array_keys($result['og_membership']));
     $o = '<div id="communities-of-practice">';
+    $usersGroups = array();
+    
+    foreach ($groupmemberships as $throwaway => $ogloaded) {
+        $usersGroups[] = $ogloaded->gid;
+        
+        
+    }
+    
     $query = new EntityFieldQuery();
     $query->entityCondition('entity_type', 'node')
             ->entityCondition('bundle', 'community')
             ->propertyCondition('status', 1)
+            ->propertyOrderBy('changed', 'DESC')
             ->pager(10);
     $results = _an_lifecycle_load_related_nodes($query, TRUE);
     foreach ($results['nodes'] as $comm) {
@@ -197,15 +217,18 @@ function communities_of_practice_page () {
         $o .= check_plain($comm->title);
         $o .= '</a></div>';
         $o .= '<div class="community-of-practice-desc">';
-        $o .= drupal_render(field_view_field('node', $comm, 'body', array('label' => 'hidden')));
+        $o .= _preview_snippet($comm->body, 4);
+        //$o .= drupal_render(field_view_field('node', $comm, 'body', array('label' => 'hidden')));
         $o .= '</div>';
-        $o .= kprint_r($comm);
+        
+        $group = og_get_group('node', $comm->vid);
+        if (! in_array($group->gid, array_values($usersGroups))) {
         $o .= '<div class="community-of-practice-link"><span class="community-join-link">';
-        $o .= '<a href="'.url('/node/' . $comm->vid . '/group/subscribe').'">';
+        $o .= '<a href="'.url('group/node/' . $comm->vid . '/subscribe').'">';
         $o .= 'Join This Community';
         $o .= '</a>';
         $o .= '</span></div>';
-        
+        }
         $o .= '</div>';
     }
     $o .= '</div>';

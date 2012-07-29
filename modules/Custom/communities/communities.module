@@ -7,6 +7,7 @@
  * Last Updated On: June 12, 2012
  *****/
 module_load_include('inc', 'communities', 'includes/communities.globals');
+module_load_include('inc', 'communities', 'includes/communities.alias');
 /*
  * hook_node_info()
  * 
@@ -33,6 +34,11 @@ function communities_node_info() {
     );
 }
 
+function _communities_join_snippet ($gid) {
+    global $user;
+    
+}
+
 
 /*
  * hook_enable()
@@ -41,6 +47,11 @@ function communities_node_info() {
  * Adds their body and fields.
  */
 function communities_enable() {
+    global $an_node_community_alias;
+    $instances = field_info_instances('node', 'community');
+    foreach ($instances as $instance_name => $instance) {
+        field_delete_instance($instance);
+    }
     /*
     node_types_rebuild();
     $types = node_type_get_types();
@@ -96,6 +107,13 @@ function communities_enable() {
         field_create_instance($instance);
         }
     }
+    
+    //set node alias'
+    foreach($an_node_community_alias as $type => $alias) {
+        $varname = 'pathauto_node_'.$type.'_pattern';
+        variable_set($varname, $alias);
+    //$types[] = $type;
+    }
      
 }
 
@@ -108,9 +126,10 @@ function communities_enable() {
  * As of right now, does not delete all content associated with it.
  */
 function communities_disable() {
-    field_delete_field('field_facet');
+    /*field_delete_field('field_facet');
     field_delete_field('field_tax_topic');
     field_delete_field('field_topic');
+    field_delete_field('group_group');
     /*
     drupal_set_message($message = 'Communities being disabled. Right now, content not deleted, but type and fields are.');
 
@@ -268,7 +287,8 @@ function _community_instances() {
         'group_group' => array(
             'field_name' => OG_GROUP_FIELD,
             'label' => 'Group',
-            'type' => 'list_boolean',
+            //'type' => 'list_boolean',
+            
             'widget' => array(
                 'module' => 'options',
                 'settings' => array(),
@@ -276,7 +296,7 @@ function _community_instances() {
                 'weight' => 0,
             ),
             'default_value' => array(0 => array('value' => 1)), // Very important the default is true because we'll be hiding this in the create form
-            'display' => array(// For some reason this part doesn't work. No idea why!
+          /*  'display' => array(// For some reason this part doesn't work. No idea why!
                 'default' => array(
                     'label' => 'hidden',
                     'type' => 'hidden',
@@ -290,6 +310,20 @@ function _community_instances() {
                     'type' => 'hidden'
                 ),
             ),
+           * 
+           */
+            'view modes' => array(
+        'full' => array(
+        //  'label' => t('Full'),
+          'type' => 'og_group_subscribe',
+          'custom settings' => FALSE,
+        ),
+        'teaser' => array(
+         // 'label' => t('Teaser'),
+          'type' => 'og_group_subscribe',
+          'custom settings' => FALSE,
+        ),
+      ),
         ),
     );
 }
@@ -384,6 +418,22 @@ function communities_theme($existing, $type, $theme, $path) {
     return $items;
 }
 
+function _preview_snippet ($field, $numOfSentences = 1, $maxLength = 500) {
+    $content = $field['und'][0]['value'];
+    
+    $periodPos = 0;
+    for ($p = 0; $p < $numOfSentences; $p++) {
+        $periodPos = strpos($content, '.', $periodPos) + 1;
+    }
+    
+    $tilPeriod = substr($content, 0, $periodPos);
+    
+    if ($numOfSentences == 0 || strlen($tilPeriod) > $maxLength) {
+        return substr($content, 0, $maxLength) . '...';
+    }
+    return $tilPeriod;
+}
+
 function communities_menu() {
   global $an_communities_field_facet_options;
   $items['communities'] = array(
@@ -393,7 +443,7 @@ function communities_menu() {
     'type' => MENU_SUGGESTED_ITEM,
     'file' => 'communities.page.inc',
   ); 
-  $items['communities/topic/%'] = array(
+  $items['communities/topics/%'] = array(
       'page callback' => 'communities_topic',
       'access arguments' => array('access content'),
       'page arguments' => array(2),

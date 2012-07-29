@@ -172,6 +172,12 @@ span.conversation-last-updated {
     border-bottom: 3px dotted #2d2d2d;
 }
 
+.community-of-practice-title {
+    padding-bottom: 4px;
+}
+.community-of-practice-desc {
+    padding-bottom: 20px;
+}
 .community-of-practice-title a,
 .community-of-practice-title a:hover,
 .community-of-practice-title a:visited,
@@ -186,4 +192,62 @@ span.conversation-last-updated {
     margin: 20px 0px;
     padding: 20px 0px;
     border-bottom: 3px dotted #2d2d2d;
+}
+
+.community-join-link a,
+.community-join-link a:visited {
+             background-image:-webkit-repeating-linear-gradient(left top, #D5FF87 0px, #fff 4px);
+  background-image:-moz-repeating-linear-gradient(left top, #D5FF87 0px, #fff 4px);
+  background-image:-ms-repeating-linear-gradient(left top, #D5FF87 0px, #fff 4px);
+  background-image:-o-repeating-linear-gradient(left top, #D5FF87 0px, #fff 4px);
+  background-image:repeating-linear-gradient(left top, #D5FF87 0px, #fff 4px);
+  padding:7px;
+  border: 2px solid #9AB83F;
+  font-weight: bolder;
+  font-size: 14px;
+  color: #9AB83f;
+  width: 120px;
+  text-align:center;
+  text-transform: uppercase;
+  margin-left:auto;
+  margin-right:auto;
+  text-decoration: none;
+}
+.community-join-link a:hover {
+    background-image:-webkit-repeating-linear-gradient(left top, #BCD35A 0px, #9AB83F 4px);
+  background-image:-moz-repeating-linear-gradient(left top, #BCD35A 0px, #9AB83F 4px);
+  background-image:-ms-repeating-linear-gradient(left top, #BCD35A 0px, #9AB83F 4px);
+  background-image:-o-repeating-linear-gradient(left top, #BCD35A 0px, #9AB83F 4px);
+  background-image:repeating-linear-gradient(left top, #BCD35A 0px, #9AB83F 4px);
+  color: #fff;
+  text-decoration: none;
+}
+
+#community-members {
+    width: 220px;
+    border: 1px solid #DC6E23;
+    -moz-box-shadow: 3px 3px #DC6E23;
+    -webkit-box-shadow: 3px 3px  #DC6E23;
+    box-shadow: 3px 3px  #DC6E23;
+}
+
+#community-members #community-members-title {
+    color: #DC6E23;
+    text-transform: uppercase;
+    border-bottom: 2px dotted #2d2d2d;
+    font-weight: bold;
+    padding: 0px 5px;
+    margin: 10px;
+}
+#community-members #community-members-list {
+    margin: 10px;
+}
+#community-members-list .community-member a,
+#community-members-list .community-member a:hover,
+#community-members-list .community-member a:visited,
+#community-members-list .community-member a:active {
+    color: #DC6E23;
+}
+#community-members-list .community-member a:hover {
+    font-weight: bold;
 }
