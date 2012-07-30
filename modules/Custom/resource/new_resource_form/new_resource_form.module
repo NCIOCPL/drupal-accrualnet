@@ -9,7 +9,6 @@ function new_resource_form_enable() {
 	module_load_include('inc', 'captcha');
 
 	$node = node_load(185);
-	dsm($node, 'loaded webform');
 
 	$node = new stdClass();
 
@@ -17,10 +16,9 @@ function new_resource_form_enable() {
 	node_object_prepare($node);
 	$node->title = 'Submit New Resource test';
 
-	dsm($node, 'new node');
+
 
 	node_save($node);
-	dsm($node, "saved node (nid:$node->nid)");
 
 	// title component
 	$component = array(
@@ -88,7 +86,6 @@ function new_resource_form_enable() {
 
 	$cid = webform_component_insert($component);
 
-	dsm("Saved webform component $cid");
 
 	captcha_set_form_id_setting("webform_client_form_$node->nid", 'recaptcha/reCAPTCHA');
 
