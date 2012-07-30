@@ -21,7 +21,7 @@ function communities_topic ($topic) {
     if (array_key_exists($topic, $an_communities_field_topic_options)) {
         
         $o = '<div class="communities-topic" id="communities-topic-'.str_replace('_', '-', $topic).'">';
-        $o .= '<h1>'.$an_communities_field_topic_options[$topic].'</h1>';
+        //$o .= '<h1>'.$an_communities_field_topic_options[$topic].'</h1>';
         $term = taxonomy_get_term_by_name($an_communities_field_topic_options[$topic], 'an_vocabulary_topic');
         if (count($term) > 0) {
             $term = array_pop($term);
