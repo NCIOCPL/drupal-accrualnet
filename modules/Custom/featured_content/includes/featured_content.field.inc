@@ -40,7 +40,7 @@ $GLOBALS['featured_content_fields'] = array(
         'description' => '',
         'type' => 'list_text',
         'settings' => array(
-            'allowed_values' => array(array_values($resource_bundle_names), 'conversation')
+            'allowed_values' => array_merge($resource_bundle_names, array('conversation' => 'conversation'))
         ),
         'widget' => array(
             'type' => 'options_select',
