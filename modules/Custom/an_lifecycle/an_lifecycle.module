@@ -26,6 +26,9 @@ module_load_include('inc', 'an_lifecycle', 'includes/lifecycle.globals');
  * @return type 
  */
 function _an_lifecycle_load_related_nodes($entityFieldQuery, $pager = FALSE){
+    if(!$entityFieldQuery){
+        return array();
+    }
     $result = $entityFieldQuery->execute();
     $output = array();
     $output['nodes'] = array();

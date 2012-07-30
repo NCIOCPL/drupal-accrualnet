@@ -30,19 +30,34 @@ function education_level_2_page($section) {
 	// Now let's build the output for this page
 	//$output .= '<div id="resource-description">'; not very descriptive... so modified to resource-landing-page
 	$output .= "<div id='$section_tag-landing-page'>";
+        //ADDED BY DOYLE 7/30
+        $query = new EntityFieldQuery();
+	$query->entityCondition('entity_type', 'node')
+			->entityCondition('bundle', 'landing_page')
+			->fieldCondition('field_landing_page_type', 'value', $section)
+			->propertyCondition('status', 1);
+	$nodes = _an_lifecycle_load_related_nodes($query);
 
-	$output .= '<div class="landing-page-header">';
-	$output .= '<div class="landing-page-image">';
-
-	$file_url = '/' . drupal_get_path('theme', 'accrualnet') . '/accrualnet-internals/images/avatars/male/black.png';
-
-	$output .= '<img src="' . $file_url . '" width="400"/>';   //TODO: implement image field
-	$output .= '</div>';
-	$output .= '<div class="landing-page-text">';
-	$output .= "Placeholder text!";
-	$output .= '</div>'; //end landing page text
-	$output .= '</div>'; //end landing page header
-
+	 if(!empty($nodes['nodes'])){
+            $contentNode = array_pop($nodes['nodes']);
+            $output .= '<div class="landing-page-header">';
+            $output .= '<div class="landing-page-image">';
+            $output .= '<img src="'.drupal_get_path('theme', 'accrualnet').'/accrualnet-internals/images/avatars/male/black.png" width="400"/>';   //TODO: implement image field
+            $output .= '</div>';
+            $output .= '<div class="landing-page-text">';
+            $content = field_get_items('node', $contentNode, 'field_content');
+            if($content){
+                $output .= filter_xss_admin($content[0]['value']);
+            }
+            if(!empty($nodes['nodes'])){
+            $output .= '</div>'; //end landing page text
+            $output .= '</div>'; //end landing page header
+            }
+        }
+        else{
+            $output .=  'This landing page is not created... PLEASE SET BEFORE LAUNCH!';
+        }
+        //END ADDED BY DOYLE
 	$output .= "<div class='$section_tag-nodes landing-page-block'>";
 
 	// find all nodes of the materials_staff and materials_patient types

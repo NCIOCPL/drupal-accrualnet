@@ -32,7 +32,7 @@ function resource_landing_page() {
     $query = new EntityFieldQuery();
     $query->entityCondition('entity_type', 'node')
             ->entityCondition('bundle', 'landing_page')
-            ->fieldCondition('field_landing_page_type', 'value', 1)
+            ->fieldCondition('field_landing_page_type', 'value', 'literature')
             ->propertyCondition('status', 1);
     $nodes = _an_lifecycle_load_related_nodes($query); 
     

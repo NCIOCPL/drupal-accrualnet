@@ -19,7 +19,7 @@ function protocol_accrual_lifecycle() {
     $query = new EntityFieldQuery();
     $query->entityCondition('entity_type', 'node')
             ->entityCondition('bundle', 'landing_page')
-            ->fieldCondition('field_landing_page_type', 'value', 0)
+            ->fieldCondition('field_landing_page_type', 'value', 'protocol')
             ->propertyCondition('status', 1);
     $nodes = _an_lifecycle_load_related_nodes($query);
     

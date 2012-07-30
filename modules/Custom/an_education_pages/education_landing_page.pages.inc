@@ -37,7 +37,7 @@ function education_landing_page() {
 	$query = new EntityFieldQuery();
 	$query->entityCondition('entity_type', 'node')
 			->entityCondition('bundle', 'landing_page')
-			->fieldCondition('field_landing_page_type', 'value', 3)
+			->fieldCondition('field_landing_page_type', 'value', 'education')
 			->propertyCondition('status', 1);
 	$nodes = _an_lifecycle_load_related_nodes($query);
 
@@ -47,6 +47,10 @@ function education_landing_page() {
 		$contentNode = array_pop($nodes['nodes']);
 		$output .= _landing_page_output_snippet($contentNode);
 	}
+        else
+        {
+            $output .= t('Landing page not created yet... please create before launch');
+        }
 
 	// find all nodes of the defined types
 	foreach ($an_education_menu_vocab as $type) {

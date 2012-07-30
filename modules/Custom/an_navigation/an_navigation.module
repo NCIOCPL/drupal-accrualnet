@@ -16,7 +16,10 @@ module_load_include('inc', 'resource', 'types');
 
 function an_navigation_block_info(){
     $blocks['left-nav'] = array(
-      'info' => t('Left Nav'),  
+      'info' => t('Left Nav'),
+      'region' => 'sidebar_first',
+      'visibility' => BLOCK_VISIBILITY_NOTLISTED,
+      'pages' => array('user/*\nuser\n<front>\nsearch/*')
     ); 
     
     return $blocks;

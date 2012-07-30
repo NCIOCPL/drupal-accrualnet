@@ -112,7 +112,7 @@ function communities_landing_page() {
     $query = new EntityFieldQuery();
     $query->entityCondition('entity_type', 'node')
             ->entityCondition('bundle', 'landing_page')
-            ->fieldCondition('field_landing_page_type', 'value', 2)
+            ->fieldCondition('field_landing_page_type', 'value', 'communities')
             ->propertyOrderBy('changed', 'DESC')
             ->propertyCondition('status', 1);
     

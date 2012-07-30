@@ -141,10 +141,17 @@ $GLOBALS['an_lifecycle_fields'] = array(
         'type' => 'list_text',
         'settings' => array(
             'allowed_values' => array(
-                '0' => t('Protocol Accrual Lifecycle'),
-                '1' => t('Literature & Tools'),
-                '2' => t('Communities'),
-                '3' => t('Education & Training'),
+                'protocol' => t('Protocol Accrual Lifecycle'),
+                'literature' => t('Literature & Tools'),
+                'patient-related' => t('Patient Related Issues'),
+                'provider-related' => t('Provider Related Issues'),
+                'system_and_regulatory' => t('System and Regulatory Issues'),
+                'study' => t('Study Issues'),
+                'ethical' => t('Ethical Issues'),
+                'communities' => t('Communities'),
+                'education' => t('Education & Training'),
+                'materials_staff' => t('Staff Education Materials'),
+                'materials_patient' => t('Patient Education Materials')
             ),
         ),
         'widget' => array(

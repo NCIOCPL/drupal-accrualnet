@@ -225,16 +225,18 @@ function resource_ajax_filter($form, &$form_state, $facet, $term) {
         }
     }
     $resources = _resource_ajax_load_results($params, $facet, $tag);
-
+    $resultsOutput = "";
     if($resources)
     {
-        $resultsOutput = "";
+        $resultsOutput .=  render($resources['pager']['#markup']);
         foreach($resources['nodes'] as $mynode){
             $resultsOutput .= "<div class=\"lifecycle-strategy-resource\">";
             $resultsOutput .= _resource_output_snippet($mynode); 
             $resultsOutput .= "</div>";
         }
-		$resultsOutput .= render($resources['pager']['#markup']);
+        if(array_key_exists('#markup',$resources['pager']))
+            $resultsOutput .= render($resources['pager']['#markup']);
+        
     }
     $form['results'] = array(
 //        '#title' => t("Literature & Tools"),
@@ -245,6 +247,7 @@ function resource_ajax_filter($form, &$form_state, $facet, $term) {
         '#type' => 'fieldset',
         '#description' => $resultsOutput,
     );
+    
 
  
 

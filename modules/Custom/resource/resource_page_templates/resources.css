@@ -178,14 +178,33 @@ div.resource-citation{
 }
 
 #resource-ajax-filter #filter-results {
+    
+    padding: 10px;
+    position: relative;
+    margin: 25px 7px;
     border: 1px solid #105693;
-        -moz-box-shadow: 3px 3px #105693;
-    -webkit-box-shadow: 3px 3px  #105693;
-    box-shadow: 3px 3px  #105693;
-    width: 220px;
-    margin-left: auto;
-    margin-right: auto;
+    border-bottom: solid #105693 7px;
+    border-right: solid #105693 7px;
 }
+
+#resource-ajax-filter #filter-results:before{
+      content: '';
+  position: absolute;
+  left: -8px;
+  bottom: -7px;
+  border: solid transparent 7px;
+  border-bottom-color: #fff;
+}
+
+#resource-ajax-filter #filter-results:after {
+      content: '';
+  position: absolute;
+  top: -2px;
+  right: -14px;
+  border: solid transparent 7px;
+  border-top-color: #fff;
+} 
+
 #filter-results .fieldset-wrapper {
     margin:0px;
     padding:0px;

@@ -65,12 +65,36 @@ function resource_level_2_page($section) {
     $output .= '</div>';
      * 
      */
-
-
     $vocab = taxonomy_vocabulary_machine_name_load('an_vocabulary_'.$section);
     $output = '<div id="resource-level-2">';
-    $output .= ($vocab->description) ? ($vocab->description) : 'This vocabulary has no description set... PLEASE SET BEFORE LAUNCH!';
- 
+    //ADDED BY DOYLE 7/30
+    $query = new EntityFieldQuery();
+    $query->entityCondition('entity_type', 'node')
+            ->entityCondition('bundle', 'landing_page')
+            ->fieldCondition('field_landing_page_type', 'value', $section)
+            ->propertyCondition('status', 1);
+    $nodes = _an_lifecycle_load_related_nodes($query); 
+
+    if(!empty($nodes['nodes'])){
+        $contentNode = array_pop($nodes['nodes']);
+        $output .= '<div class="landing-page-header">';
+        $output .= '<div class="landing-page-image">';
+        $output .= '<img src="'.drupal_get_path('theme', 'accrualnet').'/accrualnet-internals/images/avatars/male/black.png" width="400"/>';   //TODO: implement image field
+        $output .= '</div>';
+        $output .= '<div class="landing-page-text">';
+        $content = field_get_items('node', $contentNode, 'field_content');
+        if($content){
+            $output .= filter_xss_admin($content[0]['value']);
+        }
+        if(!empty($nodes['nodes'])){
+        $output .= '</div>'; //end landing page text
+        $output .= '</div>'; //end landing page header
+        }
+    }
+    else{
+        $output .=  'This vocabulary has no description set... PLEASE SET BEFORE LAUNCH!';
+    }
+    //END ADDED BY DOYLE 7/30
     foreach (taxonomy_get_tree($vocab->vid) as $tag) {
         $queryString = "SELECT f.entity_id";
         $queryString .= " FROM {field_data_field_tax_".$section."} f";
