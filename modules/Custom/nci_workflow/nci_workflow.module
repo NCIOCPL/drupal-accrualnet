@@ -289,6 +289,18 @@ function nci_workflow_assign_form($form, &$form_state, $nid, $role, $assigned_us
 			'autocomplete' => 'off'
 		)
 	);
+	
+	// add a div to receive return output
+	$form['assign_status'] = array(
+		'#type' => 'container',
+		'#id' => $status_id,
+		'#attributes' => array(
+			'class' => array('assign_to_status')
+		),
+		'inner' => array(
+			'#markup' => ''
+		),
+	);
 
 	$options = array('' => '- none -');
 	$value = '';
@@ -315,18 +327,6 @@ function nci_workflow_assign_form($form, &$form_state, $nid, $role, $assigned_us
 		'#options' => $options,
 		'#value' => array($value),
 		'#ajax' => $ajax
-	);
-
-	// add a div to receive return output
-	$form['assign_status'] = array(
-		'#type' => 'container',
-		'#id' => $status_id,
-		'#attributes' => array(
-			'class' => array('assign_to_status')
-		),
-		'inner' => array(
-			'#markup' => '&nbsp'
-		),
 	);
 
 	return $form;
