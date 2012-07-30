@@ -64,7 +64,7 @@ function protocol_accrual_lifecycle() {
     
              $last = $counter == count($nodes['nodes']) ? 'last' : '';
              $output .= '<div class="lifecycle-stage '.$last.'">';
-             $urlPath = drupal_lookup_path('alias', 'node/'.$entity->nid) != FALSE ?  drupal_lookup_path('alias', 'node/'.$entity->nid) : '/node/'.$entity->nid;           
+             $urlPath = drupal_lookup_path('alias', 'node/'.$stage->nid) != FALSE ?  drupal_lookup_path('alias', 'node/'.$stage->nid) : '/node/'.$stage->nid;           
              $output .= '<h3><a href="/'.$urlPath.'">STAGE '.$counter.': '.$stage->title.'</a></h3>';
              $contentSummary = field_get_items('node', $stage, 'field_content_summary');
              if($contentSummary){
