@@ -78,6 +78,10 @@ div.resource-output-image{
         vertical-align:top;
         
 }
+
+#education-landing-page div.resource-output {
+    min-height: 20px;
+}
 div.resource-output {
     position: relative;
     clear: both;
@@ -96,6 +100,7 @@ div.resource-text{
 
 div.resource-output-title a {
 	color: #105693;
+        font-size: 17px;
 }
 
 div.resource-output-title a:visited {
