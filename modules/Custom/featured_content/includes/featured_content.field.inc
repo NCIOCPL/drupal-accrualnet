@@ -124,7 +124,7 @@ $GLOBALS['featured_content_fields'] = array(
         'entity_type' => 'node',
         'settings' => array(
             'target_type' => 'node',
-            'handler_settings' => array('target_bundles' => array('dynamic_content_block','manual_content_block')),
+            'handler_settings' => array('target_bundles' => array('dynamic_content_block','content_block')),
         ),
         'widget' => array(
             'type' => 'autocomplete',
