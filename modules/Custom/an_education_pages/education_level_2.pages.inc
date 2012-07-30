@@ -40,19 +40,24 @@ function education_level_2_page($section) {
 
 	 if(!empty($nodes['nodes'])){
             $contentNode = array_pop($nodes['nodes']);
-            $output .= '<div class="landing-page-header">';
+
             $output .= '<div class="landing-page-image">';
-            $output .= '<img src="'.drupal_get_path('theme', 'accrualnet').'/accrualnet-internals/images/avatars/male/black.png" width="400"/>';   //TODO: implement image field
+            $image = field_get_items('node', $contentNode, 'field_landing_page_image');
+            if($image)
+            {
+                $output .= theme('image_style',  array(
+                                'path' => $image[0]['uri'],
+                                'style_name' => 'large',         
+                            )
+                        );
+            }
             $output .= '</div>';
             $output .= '<div class="landing-page-text">';
             $content = field_get_items('node', $contentNode, 'field_content');
             if($content){
                 $output .= filter_xss_admin($content[0]['value']);
             }
-            if(!empty($nodes['nodes'])){
-            $output .= '</div>'; //end landing page text
-            $output .= '</div>'; //end landing page header
-            }
+            $output .= '</div>';
         }
         else{
             $output .=  'This landing page is not created... PLEASE SET BEFORE LAUNCH!';
