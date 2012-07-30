@@ -8,12 +8,17 @@
 function new_resource_form_enable() {
 	module_load_include('inc', 'captcha');
 
+	// hide submitters and comments for webforms
+	variable_set('node_submitted_webform', 0);
+	variable_set('comment_webform', 0);
+
 	$node = new stdClass();
 
 	$node->type = 'webform';
 	node_object_prepare($node);
 	$node->title = 'Submit New Resource';
 	$node->language = 'en';
+	$node->comment = 0;
 
 	node_save($node);
 
@@ -91,5 +96,4 @@ function new_resource_form_enable() {
 function new_resource_form_disable() {
 
 }
-
 ?>
