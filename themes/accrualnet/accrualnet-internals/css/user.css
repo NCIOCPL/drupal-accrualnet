@@ -709,6 +709,7 @@ filter:alpha(opacity=100); /* For IE8 and earlier */
 #user-profile-form div.profile-avatars-wrapper,
 #user-register-form div.profile-colors-wrapper,
 #user-register-form div.profile-avatars-wrapper {
+    width: 60%;
     color: #9AB83F;
     font-family: Verdana, sans-serif;
     text-transform: uppercase;
@@ -720,7 +721,7 @@ filter:alpha(opacity=100); /* For IE8 and earlier */
     -moz-box-shadow: 3px 3px #9AB83F;
     -webkit-box-shadow: 3px 3px  #9AB83F;
     box-shadow: 3px 3px  #9AB83F;
-    width: 240px;
+  
     
    
 }

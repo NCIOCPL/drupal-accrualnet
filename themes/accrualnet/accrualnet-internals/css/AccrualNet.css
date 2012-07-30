@@ -100,9 +100,13 @@ h1 span {
 
 .add-this {
     float:right;
+
+    font-size: 10px;
+    text-transform:uppercase;
 }
 .add-this a {
     padding: 0 10px;
+    
 }
 .add-this span{
     display:inline-block;
@@ -458,7 +462,7 @@ body a:visited {
 
 .lifecycle-stage-image {
     float:left;
-    width: 60%;
+    width: 55%;
     text-align:left;
 }
 .lifecycle-stage-body {
@@ -724,12 +728,12 @@ body a:visited {
 /******* CTA Blocks ***********/
 #block-featured-content-cta-join-conversation,
 #block-featured-content-cta-add-resource {
-    padding: 10px;
+    padding: 10px 15px;
     position: relative;
     margin: 25px 7px;
     border: 1px solid #9AB83F;
-    border-bottom: solid #9AB83F 7px;
-    border-right: solid #9AB83F 7px;
+    border-bottom: solid #9AB83F 5px;
+    border-right: solid #9AB83F 5px;
 }
 
 
@@ -822,8 +826,8 @@ body a:visited {
 
 .homepage-feature-title {
     text-transform:uppercase;
-    font-size: 20px;
-    font-weight: bolder;
+    font-size: 25px;
+    font-weight: bold;
     margin: 15px 0;
 }
 
@@ -1065,24 +1069,28 @@ body a:visited {
 .Blue nav#block-an-navigation-left-nav ul li a  {
     border: 1px solid rgb(16,86,147);
     border: 1px solid rgba(16,86,147, .7);
+    border-bottom:none;
 }
 .Orange nav#block-an-navigation-left-nav ul li.first a.active-trail,
 .Orange nav#block-an-navigation-left-nav ul li a.active-trail,
 .Orange nav#block-an-navigation-left-nav ul li a  {
     border: 1px solid rgb(220,110,35);
     border: 1px solid rgba(220,110,35, .7);
+    border-bottom:none;
 }
 .Red nav#block-an-navigation-left-nav ul li.first a.active-trail,
 .Red nav#block-an-navigation-left-nav ul li a.active-trail,
 .Red nav#block-an-navigation-left-nav ul li a  {
     border: 1px solid rgb(199,69,50);
     border: 1px solid rgba(199,69,50, .7);
+    border-bottom: none;
 }
 .Purple nav#block-an-navigation-left-nav ul li.first a.active-trail,
 .Purple nav#block-an-navigation-left-nav ul li a.active-trail,
 .Purple nav#block-an-navigation-left-nav ul li a  {
     border: 1px solid rgb(84,49,110);
     border: 1px solid rgba(84,49,110, .7);
+    border-bottom:none;
 }
 
 .Blue nav#block-an-navigation-left-nav li a.active {
@@ -1143,3 +1151,11 @@ body a:visited {
     border-left: 1px solid rgba(154, 184, 63, 1);
     border-bottom: none;
 }*/
+
+.lifecycle-stage-body{
+    line-height: 30px;
+}
+
+.item-list .pager {
+    text-align: right;
+}
