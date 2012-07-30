@@ -186,12 +186,14 @@ if ($pager_total_items != null) {
             <div class="user-blerb">
                 <div class="user-welcome-text">Hi <?php print t($user->name);?>!</div>    
                 <div class="user-welcome-image">
+                 <?php if($currentUser->picture):   ?>
                 <?php print theme('image_style',
                     array(
                         'path' => $currentUser->picture->uri,
                         'style_name' => 'js_crop_scale_30',         
                     )
                 ); ?>
+                    <?php endif;?>
                 </div>
             
             </div>
