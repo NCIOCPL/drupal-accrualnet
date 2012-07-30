@@ -46,11 +46,9 @@ function education_landing_page() {
 	if (!empty($nodes['nodes'])) {
 		$contentNode = array_pop($nodes['nodes']);
 		$output .= _landing_page_output_snippet($contentNode);
+	} else {
+		$output .= t('Landing page not created yet... please create before launch');
 	}
-        else
-        {
-            $output .= t('Landing page not created yet... please create before launch');
-        }
 
 	// find all nodes of the defined types
 	foreach ($an_education_menu_vocab as $type) {
@@ -62,7 +60,7 @@ function education_landing_page() {
 		$type_tag = str_replace('_', '-', $type);
 
 		// create a block around these nodes and a title
-		$output .= "<div class='$type_tag-nodes landing-page-block'>";
+		$output .= "<div class='$type_tag-nodes education-level-2-item'>";
 
 		$query = new EntityFieldQuery();
 		$query->entityCondition('entity_type', 'node')
@@ -71,9 +69,11 @@ function education_landing_page() {
 				->count();
 		$count = $query->execute();
 
-		$output .= "<h3 class='$type_tag-title education-text'>${type_info['name']}";
-		$output .= " <span class='education-type-count'>($count)</span>";
-		$output .= "</h3>";
+		$output .= "<h2 class='$type_tag-title education-title-2'>";
+		$output .= "<a href='/education/$type'>${type_info['name']}";
+		$output .= " <span id='title-results-number' class='education-type-count'>($count)</span>";
+		$output .= "</a>";
+		$output .= "</h2>";
 
 		// find the related nodes
 		$query = new EntityFieldQuery();
@@ -122,9 +122,9 @@ function _landing_page_output_snippet($node) {
 	$output .= $image;
 	$output .= '</div>'; // close image div
 	$output .= '<div class="landing-page-text">';
-	/*$output .= '<div class="landing-page-output-title">';
-	$output .= check_plain($node->title);
-	$output .= '</div>';*/ // close title div
+	/* $output .= '<div class="landing-page-output-title">';
+	  $output .= check_plain($node->title);
+	  $output .= '</div>'; */ // close title div
 
 	if (isset($node->field_content['und'][0]['safe_value'])) {
 		$output .= "<div class='landing-page-content'>";

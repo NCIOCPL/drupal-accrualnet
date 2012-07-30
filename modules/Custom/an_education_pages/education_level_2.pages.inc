@@ -30,40 +30,38 @@ function education_level_2_page($section) {
 	// Now let's build the output for this page
 	//$output .= '<div id="resource-description">'; not very descriptive... so modified to resource-landing-page
 	$output .= "<div id='$section_tag-landing-page'>";
-        //ADDED BY DOYLE 7/30
-        $query = new EntityFieldQuery();
+	//ADDED BY DOYLE 7/30
+	$query = new EntityFieldQuery();
 	$query->entityCondition('entity_type', 'node')
 			->entityCondition('bundle', 'landing_page')
 			->fieldCondition('field_landing_page_type', 'value', $section)
 			->propertyCondition('status', 1);
 	$nodes = _an_lifecycle_load_related_nodes($query);
 
-	 if(!empty($nodes['nodes'])){
-            $contentNode = array_pop($nodes['nodes']);
+	if (!empty($nodes['nodes'])) {
+		$contentNode = array_pop($nodes['nodes']);
 
-            $output .= '<div class="landing-page-image">';
-            $image = field_get_items('node', $contentNode, 'field_landing_page_image');
-            if($image)
-            {
-                $output .= theme('image_style',  array(
-                                'path' => $image[0]['uri'],
-                                'style_name' => 'large',         
-                            )
-                        );
-            }
-            $output .= '</div>';
-            $output .= '<div class="landing-page-text">';
-            $content = field_get_items('node', $contentNode, 'field_content');
-            if($content){
-                $output .= filter_xss_admin($content[0]['value']);
-            }
-            $output .= '</div>';
-        }
-        else{
-            $output .=  'This landing page is not created... PLEASE SET BEFORE LAUNCH!';
-        }
-        //END ADDED BY DOYLE
-	$output .= "<div class='$section_tag-nodes landing-page-block'>";
+		$output .= '<div class="landing-page-image">';
+		$image = field_get_items('node', $contentNode, 'field_landing_page_image');
+		if ($image) {
+			$output .= theme('image_style', array(
+						'path' => $image[0]['uri'],
+						'style_name' => 'large',
+							)
+			);
+		}
+		$output .= '</div>';
+		$output .= '<div class="landing-page-text">';
+		$content = field_get_items('node', $contentNode, 'field_content');
+		if ($content) {
+			$output .= filter_xss_admin($content[0]['value']);
+		}
+		$output .= '</div>';
+	} else {
+		$output .= 'This landing page is not created... PLEASE SET BEFORE LAUNCH!';
+	}
+	//END ADDED BY DOYLE
+	$output .= "<div class='$section_tag-nodes education-level-2-item'>";
 
 	// find all nodes of the materials_staff and materials_patient types
 	//in the landing page type field - 2 = Education and Training.
@@ -82,7 +80,7 @@ function education_level_2_page($section) {
 			->count();
 	$count = $query->execute();
 
-	$output .= "<h3 class='education-results'>Results ($count)</h3>";
+	$output .= "<h2 class='$section_tag-title education-title-2'>Results <span id='title-results-number' class='education-type-count'>($count)</span></h3>";
 
 	$output .= render($nodes['pager']);
 

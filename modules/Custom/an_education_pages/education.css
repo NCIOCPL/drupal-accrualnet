@@ -10,12 +10,12 @@
    TODO customize this sample style
    Syntax recommendation http://www.w3.org/TR/REC-CSS2/
 */
-.landing-page-block{
+.education-level-2-item{
 	border-top: 3px dotted #d2d2d2;
     clear:both;
 }
 
-div.landing-page-block .pager {
+div.education-level-2-item .pager {
 	float: right;
 }
 
@@ -26,10 +26,47 @@ div.landing-page-output-image{
 	vertical-align:top;
 }
 
-.education-results{
+.education-title-2{
 	float: left;
 }
 
-.landing-page-block .item-list{
+.education-level-2-item .item-list{
 	float: right;
+}
+
+div.education-level-2-item .form-actions input{
+	margin-left: 0;
+}
+
+.education-level-2-item h2.education-title-2,
+.education-level-2-item h2.education-title-2 a,
+.education-level-2-item h2.education-title-2 a:visited,
+.education-level-2-item h2.education-title-2 a:active,
+.education-level-2-item h2.education-title-2 a:hover {
+    color: #C74532;
+    font-weight: normal;
+    font-size: 17px;
+}
+.education-level-2-item h2.education-title-2 a:hover {
+    text-decoration: none;
+}
+
+.education-level-2-item h2.education-title-2{
+	border-bottom: 0;
+}
+
+.education-level-2-result div.resource-output-title a {
+	color: #C74532;
+}
+
+.education-level-2-result div.resource-output-title a:visited {
+	/*letter-spacing: .018em;*/
+	border: 1px solid red;
+	color: #C74532;
+}
+
+.education-level-2-result div.resource-output-title a:hover,
+.education-level-2-result div.resource-output-title a:active{
+	font-weight: bold;
+	color: #C74532;
 }
