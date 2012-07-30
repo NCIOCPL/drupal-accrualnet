@@ -479,15 +479,7 @@ h1.field-label {
     padding-left: 15px;
 }
 
-.profile-colors-wrapper {
-    border: 1px solid #9AB83F;
-    width: 150px;
-    margin: 0px;
-    padding: 10px;
-}
-.profile-colors-wrapper label {
-    margin-left: 5px;
-}
+/*************** Avatar & Profile Color Common Elements ***********************/
 .profile-colors-wrapper .form-item, 
 .profile-avatars-wrapper .form-item {
     border-bottom: 1px dotted black;
@@ -501,12 +493,40 @@ h1.field-label {
     font-weight: bold;
     color: #54316E;
 }
+#user-profile-form div.profile-colors-wrapper,
+#user-profile-form div.profile-avatars-wrapper,
+#user-register-form div.profile-colors-wrapper,
+#user-register-form div.profile-avatars-wrapper {
+    width: 70%;
+    color: #9AB83F;
+    font-family: Verdana, sans-serif;
+    text-transform: uppercase;
+    text-decoration: none;
+    text-align:center;
+    font-size: 14px;
+    font-weight: 900;
+    border: 1px solid #9AB83F;
+    -moz-box-shadow: 3px 3px #9AB83F;
+    -webkit-box-shadow: 3px 3px  #9AB83F;
+    box-shadow: 3px 3px  #9AB83F;
+    padding:10px;
+}
+/******************************************************************************/
 
+
+/********* Profile Colors Container *******************************************/
+.profile-colors-wrapper label {
+    margin-left: 5px;
+}
 .profile-colors-container {
 
     width: 100%;
 }
-
+.profile-colors-options {
+margin-left: auto;
+margin-right: auto;
+text-align: center; /* This actually aligns the spans no the text */
+}
 
 
 .profile-colors-selected {
@@ -514,6 +534,50 @@ h1.field-label {
     margin: 0px 5px 3px 5px;
     
 }
+div.profile-colors-options span#Black,
+div.profile-colors-selected div#Black,
+#Black.profile-colors-selected {
+    background-color: #2d2d2d;
+}
+div.profile-colors-options span#Red,
+div.profile-colors-selected div#Red,
+#Red.profile-colors-selected {
+    background-color: #C74532;
+}
+div.profile-colors-options span#Orange,
+div.profile-colors-selected div#Orange,
+#Orange.profile-colors-selected {
+    background-color: #DC6E23;
+}
+div.profile-colors-options span#Blue,
+div.profile-colors-selected div#Blue,
+#Blue.profile-colors-selected {
+    background-color: #105693;
+}
+div.profile-colors-options span#Green,
+div.profile-colors-selected div#Green,
+#Green.profile-colors-selected {
+    background-color: #9AB83F;
+}
+div.profile-colors-options span#Purple,
+div.profile-colors-selected div#Purple,
+#Purple.profile-colors-selected {
+    background-color: #54316E;
+}
+.profile-colors-options span {
+    margin: 5px;
+    width: 25px;
+    padding: 0px 10px; 
+
+}
+.profile-colors-option {
+    opacity:0.4;
+    filter:alpha(opacity=40); /* For IE8 and earlier */
+
+}
+
+
+/******************************************************************************/
 
 
 input.select-or-other-other {
@@ -522,32 +586,21 @@ input.select-or-other-other {
     display:none;
 }
 
-.profile-colors-options {
-margin-left: auto;
-margin-right: auto;
-text-align: center;
-}
+
 input {
     float: left;
     vertical-align:middle;
+}
+
+/********************** HELP BOXES ********************************************/
+.description img {
+    height: 28px;
+    vertical-align: middle;
 }
 .accrualnet-user-profile-form-wrapper .description,
 .accrualnet-user-register-form-wrapper .description{
     position: absolute;
     left: 500px;
-    /*font-weight: bold;
-    border: 1px solid #9AB83F;
-    background-color: #fff;
-    color: #9AB83F;
-    margin-left: 20px;
-    padding:0px;
-    margin-top: auto;
-    margin-bottom: auto;
-    height: 24px;
-    width: 28px;
-    font-size: 29px;
-    text-align: center;*/
-
     padding-left: 10px;
     width:30px;
 }
@@ -588,14 +641,10 @@ input {
     top: 2px;
     left: 130px;
 }
-
-span.picked {
-        opacity:1.0;
-filter:alpha(opacity=100); /* For IE8 and earlier */
+.user-picture img {
+    width: 200px;
+    height: auto;
 }
-
-
-
 .accrualnet-user-profile-form-wrapper .field-type-list-text .description,
 .accrualnet-user-profile-form-wrapper .field-widget-options-select .description,
 .accrualnet-user-profile-form-wrapper .field-widget-select-or-other .description {
@@ -603,6 +652,7 @@ filter:alpha(opacity=100); /* For IE8 and earlier */
     top: 15px;
     left: 500px;
 }
+/******************************************************************************/
 
 .user-img-or {
     color:#54316E;
@@ -611,62 +661,12 @@ filter:alpha(opacity=100); /* For IE8 and earlier */
     margin-left: -25px;
 }
 
-.description img {
-    height: 28px;
-    vertical-align: middle;
-}
-
 
 .form-item-name, .form-item-mail, .form-item-pass {
     padding-bottom: 45px;
 }
 
-.profile-colors-options span {
-    margin: 5px;
-    width: 25px;
-    padding: 0px 10px;
-    opacity:0.4;
-filter:alpha(opacity=40); /* For IE8 and earlier */
-}
 
-.profile-colors-options span:hover {
-    margin: 5px;
-    width: 25px;
-    padding: 0px 10px;
-    opacity:1.0;
-filter:alpha(opacity=100); /* For IE8 and earlier */
-}
-
-div.profile-colors-options span#Black,
-div.profile-colors-selected div#Black,
-#Black.profile-colors-selected {
-    background-color: #2d2d2d;
-}
-div.profile-colors-options span#Red,
-div.profile-colors-selected div#Red,
-#Red.profile-colors-selected {
-    background-color: #C74532;
-}
-div.profile-colors-options span#Orange,
-div.profile-colors-selected div#Orange,
-#Orange.profile-colors-selected {
-    background-color: #DC6E23;
-}
-div.profile-colors-options span#Blue,
-div.profile-colors-selected div#Blue,
-#Blue.profile-colors-selected {
-    background-color: #105693;
-}
-div.profile-colors-options span#Green,
-div.profile-colors-selected div#Green,
-#Green.profile-colors-selected {
-    background-color: #9AB83F;
-}
-div.profile-colors-options span#Purple,
-div.profile-colors-selected div#Purple,
-#Purple.profile-colors-selected {
-    background-color: #54316E;
-}
 
 .form-actions {
     clear: both;
@@ -679,53 +679,6 @@ div.profile-colors-selected div#Purple,
 .form-required {
     width: 30px;
 }
-.avatar-option {
-    padding: 5px;        
-    opacity:0.4;
-filter:alpha(opacity=40); /* For IE8 and earlier */
-    
-}
-.profile-avatars-wrapper {
-    border: 1px solid #9AB83F;
-    width: 180px;
-    padding: 10px;
-}
-.avatar-option:hover {
-        opacity:1.0;
-filter:alpha(opacity=100); /* For IE8 and earlier */
-}
-.avatar-option img {
-    width: 25px;
-    height: auto;
-}
-
-.selected-avatar img {
-    width: 100px;
-    height: auto;
-}
-
-
-#user-profile-form div.profile-colors-wrapper,
-#user-profile-form div.profile-avatars-wrapper,
-#user-register-form div.profile-colors-wrapper,
-#user-register-form div.profile-avatars-wrapper {
-    width: 60%;
-    color: #9AB83F;
-    font-family: Verdana, sans-serif;
-    text-transform: uppercase;
-    text-decoration: none;
-    text-align:center;
-    font-size: 14px;
-    font-weight: 900;
-    border: 1px solid #9AB83F;
-    -moz-box-shadow: 3px 3px #9AB83F;
-    -webkit-box-shadow: 3px 3px  #9AB83F;
-    box-shadow: 3px 3px  #9AB83F;
-  
-    
-   
-}
-
 
 #username-warning {
     color: #696969;
@@ -734,3 +687,38 @@ filter:alpha(opacity=100); /* For IE8 and earlier */
     margin-top: -20px;
     left:0px;
 }
+
+/*************** Avatar Options on Profile Create & Profile Edit **************/
+.avatar-option {
+    padding: 5px;        
+    opacity:0.4;
+    filter:alpha(opacity=40); /* For IE8 and earlier */
+}
+.avatar-option img { /* Must include the image for IE */
+    opacity: 0.4;
+    filter:alpha(opacity=40);
+    width: 25px;
+    height: auto;
+}
+.avatar-option:hover,
+.avatar-option img:hover,
+span.picked,
+span.picked img {
+    opacity:1.0;
+    filter:alpha(opacity=100); /* For IE8 and earlier */
+}
+
+.profile-avatars-wrapper {
+    border: 1px solid #9AB83F;
+    width: 180px;
+    padding: 10px;
+}
+
+
+
+.selected-avatar img {
+    width: 100px;
+    height: auto;
+}
+
+

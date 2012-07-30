@@ -142,3 +142,14 @@ form table .item-list ul {
 td.menu-disabled {
   background: #ccc;
 }
+
+
+/* MOVE THIS -Lauren */
+#resource-ajax-filter .form-type-checkbox label {
+    padding-left: 0px;
+    margin-left: -10px;
+    padding: 2px 0px 2px 35px;
+    margin-top:-4px;
+    width: 100%;
+    display:block;
+}

@@ -73,7 +73,7 @@
             // options box back up. Also, be prepared to handle the INPUT field 
             // that appears if "OTHER" is selected.
             $(this).find('span.selectOption').click(function(){
-                alert($(this).hasClass('select_or_other'));
+                
                 // Set the value to be what was just clicked on.
                 $(this).closest('div.selectBox').attr('value',$(this).attr('value'));
                 // Reflect the change in the collapsed box view.

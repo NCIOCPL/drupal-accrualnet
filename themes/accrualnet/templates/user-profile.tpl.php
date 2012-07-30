@@ -63,12 +63,17 @@ if (array_key_exists('avatar_image', $variables)) {
         ", 'inline');
 }
 unset($user_profile['field_work_email']);
+unset($user_profile['summary']);
 if (array_key_exists('profile_color', $user_profile)) {
 unset($user_profile['profile_color']);
 }
 if (array_key_exists('avatar_image', $user_profile)) {
     unset($user_profile['avatar_image']);
 }
+print kprint_r(get_defined_vars());
+print kprint_r($user);
+print kprint_r($account);
+print kprint_r($user_profile);
 ?>
 <span class="nci-profile<?php print '-'.$profileColor; ?>">
 

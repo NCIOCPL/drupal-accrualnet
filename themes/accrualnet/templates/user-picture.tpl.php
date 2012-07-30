@@ -13,8 +13,15 @@
  * @see template_preprocess_user_picture()
  */
 ?>
-<?php if ($user_picture): ?>
+
   <span class="user-picture">
-    <?php print $user_picture; ?>
+      <?php
+      if ($user_picture):
+          print $user_picture; 
+      else: ?>
+      <a class="active" title="View user profile." href="users/<?php print $user->name; ?>">
+          <img title="<?php print $user->name; ?>'s picture" alt='s picture' src="/<?php print path_to_theme() . '/accrualnet-internals/images/avatars/male/Black.png'; ?>"/>
+      </a>
+      <?php endif; ?>
   </span>
-<?php endif; ?>
+

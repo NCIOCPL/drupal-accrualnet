@@ -71,6 +71,10 @@
                 }
             }
             
+            if ($(this).parent().hasClass('rtype-checkbox')) {
+                $(this).children('input').addClass('progress-disabled');
+            }
+            
             // If an item was not found AND not checked, then we must ensure that 
             // it does not have a checked attribute and that we add the unchecked 
             // CLASS (dark square).
@@ -87,10 +91,10 @@
         // Also, we must make sure to toggle the Other box if SELECT_OR_OTHER is
         // chosen.
         $('div.form-type-checkbox').click(function (e) {
-
+            
             // This line right here is not what keeps the LABEL from selecting
             // the checkbox twice.
-            if (e.target.nodeName != 'LABEL') {
+             if (e.target.nodeName != 'LABEL') {
                 // First, determine if it's checked or unchecked so we don't
                 // recalculate these values.
                 var $isChecked = $(this).hasClass('checked');
