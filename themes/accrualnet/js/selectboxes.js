@@ -39,11 +39,6 @@
         
         
         
-        // I don't think this is needed, but I'm scared to delete it.
-        $('div.select_or_other').click(function () {
-            $(this).parent().parent().parent().next().css('display', 'block');
-        });
-        
         if ($('select#edit-field-institution-type-und-select').val() == 'select_or_other') {
             $('div.form-item-field-institution-type-und-other').css('display', 'block');
             $('input#edit-field-institution-type-und-other').css('display', 'block');
@@ -78,7 +73,7 @@
             // options box back up. Also, be prepared to handle the INPUT field 
             // that appears if "OTHER" is selected.
             $(this).find('span.selectOption').click(function(){
-                
+                alert($(this).hasClass('select_or_other'));
                 // Set the value to be what was just clicked on.
                 $(this).closest('div.selectBox').attr('value',$(this).attr('value'));
                 // Reflect the change in the collapsed box view.
@@ -99,10 +94,6 @@
                 // no longer desired).
                 if ($(this).hasClass('select_or_other')) {
                     $(this).parent().parent().parent().children('select').val('select_or_other');
-                    $(this).parent().parent().parent().parent().children('.form-type-textfield').toggle();
-                    $(this).parent().parent().parent().parent().children('.form-type-textfield').children('input').toggle();
-                } else {
-                    $(this).parent().parent().parent().children('select').val($(this).attr('id'));
                     $(this).parent().parent().parent().parent().children('.form-type-textfield').toggle();
                     $(this).parent().parent().parent().parent().children('.form-type-textfield').children('input').toggle();
                 }
