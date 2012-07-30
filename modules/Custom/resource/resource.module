@@ -351,10 +351,10 @@ function _resource_output_taxonomy($node) {
 			//$taxonomyOutput .= '<a href="' . $vocab_url . '/' . $term_url . '">';
 			$taxonomyOutput .= $termName;
 			//$taxonomyOutput .= '</a>';
-			$taxonomyOutput .= ' &nbsp;&nbsp;';
+			$taxonomyOutput .= ', ';
 		}
 	}
-
+        $taxonomyOutput = rtrim(trim($taxonomyOutput), ',');
 	$taxonomyOutput .= '</div>';
 	return $taxonomyOutput;
 }

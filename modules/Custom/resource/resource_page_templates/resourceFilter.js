@@ -32,16 +32,9 @@
             }
         });
         
-    $('#filter-results').append($('<div class="reset-filter"><a href=#>Reset Filter</a><input type="reset" /></div>'));
-    $('.reset-filter').click(function() {
-        $('#resource-ajax-filter').load();
-        /*$('.form-type-checkbox').each(function () {
-            $(this).children('input').removeAttr('checked');
-            $(this).removeClass('checked');
-            $(this).addClass('unchecked');
-        });*/
-        
-    });
+        // Reset the filter by just reloading the base page
+        var $resetFilter = $('form#resource-ajax-filter').attr('action');
+        $('#filter-results').append($('<div class="reset-filter"><a href="' + $resetFilter + '">Reset Filter</a></div>'));
     
     
         $('<span class="filter-arrow collapsed">► </span>').insertBefore($('#edit-lifecycle, #edit-resource-types').children('legend').children('span'));
@@ -58,6 +51,7 @@
                 $(this).children('.filter-arrow').removeClass('expanded');
             }
         });
+
     });
 
 }) (jQuery);
