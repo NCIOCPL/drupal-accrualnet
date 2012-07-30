@@ -368,6 +368,7 @@ header#page-header {
 
 #page-options {
     padding-left: 10px;
+    margin: 5px 0 10px 0;
 }
 
 /** Added by Lauren **/
@@ -887,20 +888,10 @@ body a:visited {
 #block-an-navigation-left-nav ul.menu li.active-trail a.active-trail {
     font-weight: bold;
 }
-
+/*
 #block-an-navigation-left-nav ul.menu li.leaf a {
     font-size: 11px;
-}
-#block-an-navigation-left-nav ul.menu li.active-trail ul.menu li.active-trail a.active,
-#block-an-navigation-left-nav ul.menu li.active-trail ul.menu li.active-trail a.active:hover,
-#block-an-navigation-left-nav ul.menu li.active-trail ul.menu li.active-trail a.active:visited,
-#block-an-navigation-left-nav ul.menu li.active-trail ul.menu li.active-trail a.active:active,
-#block-an-navigation-left-nav ul.menu li.active-trail a.active,
-#block-an-navigation-left-nav ul.menu li.active-trail a.active:hover,
-#block-an-navigation-left-nav ul.menu li.active-trail a.active:visited,
-#block-an-navigation-left-nav ul.menu li.active-trail a.active:active {
-    color: #fff;
-}
+}*/
 
 .Blue #block-an-navigation-left-nav ul.menu li a,
 .Blue #block-an-navigation-left-nav ul.menu li a:hover,
@@ -941,6 +932,21 @@ body a:visited {
 .Purple #block-an-navigation-left-nav ul.menu li.leaf a:visited,
 .Purple #block-an-navigation-left-nav ul.menu li.leaf a:active{
     color: #54316E;
+}
+
+#block-an-navigation-left-nav ul.menu li.active-trail ul.menu li.active-trail a.active,
+#block-an-navigation-left-nav ul.menu li.active-trail ul.menu li.active-trail a.active:hover,
+#block-an-navigation-left-nav ul.menu li.active-trail ul.menu li.active-trail a.active:visited,
+#block-an-navigation-left-nav ul.menu li.active-trail ul.menu li.active-trail a.active:active,
+#block-an-navigation-left-nav ul.menu li.leaf.active-trail a.active,
+#block-an-navigation-left-nav ul.menu li.leaf.active-trail a.active:hover,
+#block-an-navigation-left-nav ul.menu li.leaf.active-trail a.active:visited,
+#block-an-navigation-left-nav ul.menu li.leaf.active-trail a.active:active,
+#block-an-navigation-left-nav ul.menu li.active-trail a.active,
+#block-an-navigation-left-nav ul.menu li.active-trail a.active:hover,
+#block-an-navigation-left-nav ul.menu li.active-trail a.active:visited,
+#block-an-navigation-left-nav ul.menu li.active-trail a.active:active {
+    color: #fff;
 }
 
 

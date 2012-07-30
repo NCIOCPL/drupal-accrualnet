@@ -109,9 +109,11 @@ $areaColors = array(
     'protocol_accrual_lifecycle'
 );
 foreach ($areaColors as $area => $color) {
-    if (! substr_compare($urlStr, $area, 0, strlen($area), TRUE)) {
-        $areaColor = $color;
-        $setArea = $area;
+    if (strlen($area) <= strlen($urlStr)) {
+        if (! substr_compare($urlStr, $area, 0, strlen($area), TRUE)) {
+            $areaColor = $color;
+            $setArea = $area;
+        }
     }
 }
 /*
@@ -235,7 +237,9 @@ if ($pager_total_items != null) {
 
       <div id="page-options">
           <?php print $breadcrumb; ?>
+          <?php if (!$is_front):?>
           <div class="add-this"><a class="addthis_button_email">Email this Page</a><a class="addthis_button_print">Print this Page</a></div>
+          <?php endif;?>
       </div>
       <?php //print $messages; 
       print render($tabs); 
