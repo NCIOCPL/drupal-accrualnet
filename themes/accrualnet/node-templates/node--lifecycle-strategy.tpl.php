@@ -131,7 +131,6 @@ $resources = _an_lifecycle_load_related_nodes($query, TRUE);
                         <?php print _resource_output_snippet($mynode); ?>
             </div>
                     <?php endforeach;?>
-            
                 <?php print render($resources['pager']['#markup']); ?>
             
         </div>
