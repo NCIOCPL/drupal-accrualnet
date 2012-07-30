@@ -11,15 +11,43 @@
    Syntax recommendation http://www.w3.org/TR/REC-CSS2/
 */
 
+
+
 .resource-issue {
-    border: 0.1em dashed black;
-    margin: 0em .5em 2.5em .5em;
-    padding: .5em 1.25em 1em 1.25em; /* Top Right Bottom Left */
+    border-bottom: 3px dotted #d2d2d2;
+    margin: 0em .5em 2.5em 0em;
+    padding: .5em 1.25em 3em 0em; /* Top Right Bottom Left */
+}
+
+
+.last-resource-issue {
+    border-bottom: none;
+}
+.resource-issue > a { /*links after intro text, not .resource-issue a { so it
+                      doesnt affect the a tag in the header*/
+    color:#105693;
+    font-size: 100%;
+    text-decoration: none;
+    border-bottom: 1px solid;
+    padding-bottom: 3px;
+}
+
+.resource-issue > a:hover {
+    
+    font-size: 100%;
+    font-weight: bold;
+    text-decoration: none;
+    border-bottom: 2px solid;
+    padding-bottom: 3px;
 }
 
 .resource-issue h2 {
+    border-bottom: none;
     padding: 0em 0em 0em 0em; /* Top Right Bottom Left */
     margin: 0em 0em .25em 0em; /* Top Right Bottom Left */
+}
+.resource-issue h2 a{
+    color:#105693;
 }
 
 .resource-citation-detail {

@@ -65,7 +65,15 @@ function resource_landing_page() {
         $vocab_url = '/literature/' . str_replace('an_vocabulary_', '', $vocab->machine_name);
         $taxonomy = taxonomy_get_tree($vocab->vid);
 
-        $output .= '<div class="resource-issue">';
+        if($an_resource_menu_vocab[count($an_resource_menu_vocab)-1] == $menu_facet){
+            $output .= '<div class="resource-issue last-resource-issue">';
+        }
+        elseif ($an_resource_menu_vocab[0] == $menu_facet) {
+            $output .= '<div class="resource-issue first-resource-issue">';
+        }
+        else{
+            $output .= '<div class="resource-issue">';
+        }
         $output .= '<h2><a href="'.$vocab_url.'">'.$vocab->name.'</a></h2>';
         $output .= 'What are provider-related issues? Donec at enim eget risus adipiscing euismod vitae eu
 nisl. Nullam tempus pretium purus ac auctor. Donec non nisi vel nisi tincidunt imperdiet
