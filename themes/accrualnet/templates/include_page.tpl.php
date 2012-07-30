@@ -294,13 +294,17 @@ if ($pager_total_items != null) {
                 <li><a href="/about/FOIA">FOIA</a></li>
               </ul>
           </div>
-          <img src="/sites/accrualnet.cancer.gov/themes/accrualnet/accrualnet-internals/images/global/footer-logos.gif" width="176" height="34" alt="footer-logos" usemap="#internal-footer" />
+              <div class="footer-text">AccrualNet and logo are trademarks/service marks of the U.S. Department of Health and Human Services (DHHS)</div>
+              <div class="footer-images">
+                  <ul>
+                <li><a href="http://www.hhs.gov/"><img src="/sites/accrualnet.cancer.gov/themes/accrualnet/accrualnet-internals/images/global/Accrual-Net-HHS-logo.gif" /></a></li>
+                <li><a href="http://www.cancer.gov/"><img src="/sites/accrualnet.cancer.gov/themes/accrualnet/accrualnet-internals/images/global/Accrual-Net-NCI-logo.gif" /></a></li>
+                <li><a href="http://www.nih.gov/"><img src="/sites/accrualnet.cancer.gov/themes/accrualnet/accrualnet-internals/images/global/Accrual-Net-NIH-logo.gif" /><img></a></li>
+                <li><a href="http://www.usa.gov"><img src="/sites/accrualnet.cancer.gov/themes/accrualnet/accrualnet-internals/images/global/Accrual-Net-USAgov-logo.gif" /><img></a></li>
+              </ul>
+              </div>
           </div>
-          <map name="internal-footer" id="internal-footer">
-          <area shape="circle" coords="17,17,17" href="http://www.hhs.gov/" alt="U.S. Department of Health &amp; Human Services" />
-          <area shape="circle" coords="65,17,17" href="http://www.nih.gov/" alt="National Institutes of Health" />
-          <area shape="rect" coords="93,0,176,30" href="http://www.usa.gov/" alt="USA.gov" />
-          </map>
+          
 
       </div></div> <!-- /.section, /#footer -->
 <?php print render($page['bottom']); ?>

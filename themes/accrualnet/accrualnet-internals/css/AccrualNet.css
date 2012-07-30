@@ -227,9 +227,9 @@ h1 span {
 
 
 #footer {
-    background: #2D2D2D;
-    font-size: 12px;
-    height: 112px;
+    background: #272828;
+    font-size: 13px;
+    font-weight: bold;
     line-height: 20px;
     margin: 0 auto;
     text-align: center;
@@ -240,7 +240,6 @@ h1 span {
 }
 #nci-footer {
     padding:0;
-    height: 112px;
     margin: 0 auto;
     text-align: center;
     max-width: 1200px;
@@ -262,11 +261,17 @@ h1 span {
 	margin: 0 auto;
 	padding: 22px 0 0 0;
 }
-#nci-footer .footer-links li {
+#nci-footer .footer-links li{
 	display: inline;
 	border-right: 1px solid #fff;
 	padding: 0 5px;
 }
+
+#nci-footer .footer-images li {
+    display: inline;
+    padding: 0 25px;
+}
+
 #nci-footer .footer-links li.last {
 	border: none;
 }
@@ -276,6 +281,11 @@ h1 span {
 	margin: 0 auto;
 }                        
 
+#nci-footer .footer-text {
+    color: #fff;
+    font-style: italic;
+    margin: 15px auto 0px;
+}
 
 /**************************************
 	   Global Styles
