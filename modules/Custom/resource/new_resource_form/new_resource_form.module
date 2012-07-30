@@ -1,0 +1,102 @@
+<?php
+
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+function new_resource_form_enable() {
+	module_load_include('inc', 'captcha');
+
+	$node = node_load(185);
+	dsm($node, 'loaded webform');
+
+	$node = new stdClass();
+
+	$node->type = 'webform';
+	node_object_prepare($node);
+	$node->title = 'Submit New Resource test';
+
+	dsm($node, 'new node');
+
+	node_save($node);
+	dsm($node, "saved node (nid:$node->nid)");
+
+	// title component
+	$component = array(
+		'nid' => $node->nid,
+		'pid' => 0,
+		'form_key' => 'title',
+		'name' => 'Title',
+		'type' => 'textfield',
+		'value' => "",
+		'extra' => array('description' => "The resource's title."),
+		'mandatory' => 1,
+		'weight' => 0,
+	);
+
+	// description component
+	$cid = webform_component_insert($component);
+
+	$component = array(
+		'nid' => $node->nid,
+		'pid' => 0,
+		'form_key' => 'description',
+		'name' => 'Description',
+		'type' => 'textarea',
+		'value' => "",
+		'extra' => array('description' => "A short description of the resource."),
+		'mandatory' => 1,
+		'weight' => 1,
+	);
+
+	$cid = webform_component_insert($component);
+
+	// link component
+	$component = array(
+		'nid' => $node->nid,
+		'pid' => 0,
+		'form_key' => 'resource_link',
+		'name' => 'Resource Link',
+		'type' => 'textfield',
+		'value' => "",
+		'extra' => array('description' => "A link to the resource in question."),
+		'mandatory' => 0,
+		'weight' => 2,
+	);
+
+	$cid = webform_component_insert($component);
+
+	// file component
+	$component = array(
+		'nid' => $node->nid,
+		'pid' => 0,
+		'form_key' => 'resource_file',
+		'name' => 'Resource File',
+		'type' => 'file',
+		'value' => "",
+		'extra' => array(
+			'description' => "If a link is not available, you may upload a copy of the resource.",
+			'filtering' => array(
+				'size' => '2 MB',
+				'types' => array('txt', 'rtf', 'html', 'odf', 'pdf', 'doc', 'docx', 'ppt', 'pptx'),
+				'addextensions' => ''
+		)),
+		'mandatory' => 1,
+		'weight' => 3,
+	);
+
+	$cid = webform_component_insert($component);
+
+	dsm("Saved webform component $cid");
+
+	captcha_set_form_id_setting("webform_client_form_$node->nid", 'recaptcha/reCAPTCHA');
+
+	//node_delete($node->nid);
+}
+
+function new_resource_form_disable() {
+	new_resource_form_enable();
+}
+
+?>
