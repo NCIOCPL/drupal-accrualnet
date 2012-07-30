@@ -193,15 +193,15 @@
 
   .sidebar-first #content { /* Span 4 columns, starting in 2nd column from left. */
     float: left;
-    width: 75%;
-    margin-left: 25%;
+    width: 70%;
+    margin-left: 30%;
     margin-right: -100%;
   }
   .sidebar-first .region-sidebar-first { /* Span 1 column, starting in 1st column from left. */
     float: left;
-    width: 25%;
+    width: 30%;
     margin-left: 0%;
-    margin-right: -25%;
+    margin-right: -30%;
   }
 
   /*

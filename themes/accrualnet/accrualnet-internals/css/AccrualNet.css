@@ -78,6 +78,11 @@ h2.title {
     border-bottom: 3px dotted #d2d2d2;
 }
 
+h2.block-title {
+    border:none;
+    color: #54316E;
+}
+
 h1 span {
     font-size: 25px;
     text-transform: uppercase;
@@ -714,8 +719,62 @@ body a:visited {
 		-moz-linear-gradient(-45deg, rgba(220, 110, 35, .2), rgba(220, 110, 35, .2) 15%, white 50%,  rgba(220, 110, 35, .2) 65%, white);
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='rgba(220, 110, 35, .2)', endColorstr='white'); /* IE6 & IE7 */  
     -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr='rgba(220, 110, 35, .2)', endColorstr='white')"; /* IE8+ */  
-}  
+}
 
+/******* CTA Blocks ***********/
+#block-featured-content-cta-join-conversation,
+#block-featured-content-cta-add-resource {
+    padding: 10px;
+    position: relative;
+    margin: 25px 7px;
+    border: 1px solid #9AB83F;
+    border-bottom: solid #9AB83F 7px;
+    border-right: solid #9AB83F 7px;
+}
+
+
+#block-featured-content-cta-join-conversation:before,
+#block-featured-content-cta-add-resource:before {
+  content: '';
+  position: absolute;
+  left: -8px;
+  bottom: -7px;
+  border: solid transparent 7px;
+  border-bottom-color: #fff;
+}
+
+#block-featured-content-cta-join-conversation:after,
+#block-featured-content-cta-add-resource:after {
+  content: '';
+  position: absolute;
+  top: -2px;
+  right: -14px;
+  border: solid transparent 7px;
+  border-top-color: #fff;
+}
+
+.cta-box {
+    margin: 10px 0;
+}
+
+.cta-button {
+    margin-top: 30px;
+}
+.cta-button a{
+    padding: 10px;
+    border: 2px solid #9AB83F;
+    color: #9AB83F;
+    font-weight: bold;
+    background-color: #2F2F2F;
+    background-image: -webkit-repeating-linear-gradient(left top, #D5FF87 0px, white 4px);
+    background-image: -moz-repeating-linear-gradient(left top, #D5FF87 0px, white 4px);
+    background-image: -ms-repeating-linear-gradient(left top, #D5FF87 0px, white 4px);
+    background-image: -o-repeating-linear-gradient(left top, #D5FF87 0px, white 4px);
+    background-image: repeating-linear-gradient(left top, #D5FF87 0px, white 4px);
+
+    text-transform: uppercase;
+    font-family: Arial, Helvetica, sans-serif;
+}
 
 /*****************End Featured Content Styling********************/
 

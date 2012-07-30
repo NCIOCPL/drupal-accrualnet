@@ -125,14 +125,14 @@ print kprint_r($areaColor);*/
 /*******************************************************************************
  *****                            Title Additions                          *****
  ******************************************************************************/
-$titleAdditions = null;
-global $pager_total_items;
-switch ($setArea) {
-    case 'literature':
-        $titleAdditions = ($pager_total_items) ? ' <span id="title-results-number">('.$pager_total_items[0].')</span>' : '';
-        $titleAdditions .= '<span id="title-results-pager">'.$pager.'</span>';
-        break;
-}
+//$titleAdditions = null;
+//global $pager_total_items;
+//switch ($setArea) {
+//    case 'literature':
+//        $titleAdditions = ($pager_total_items) ? ' <span id="title-results-number">('.$pager_total_items[0].')</span>' : '';
+//        $titleAdditions .= '<span id="title-results-pager">'.$pager.'</span>';
+//        break;
+//}
 /*
 if ($pager_total_items != null) {
     $titleAdditions = ' <span id="title-results-number">('.$pager_total_items[0].')</span>';
@@ -252,7 +252,7 @@ if ($pager_total_items != null) {
       <a id="main-content"></a>
       <?php print render($title_prefix); ?>
       <?php if ($title): ?>
-        <h1 class="title" id="page-title"><?php print $title . $titleAdditions; ?></h1>
+        <h1 class="title" id="page-title"><?php print $title ?></h1>
       <?php endif; ?>
       <?php print render($title_suffix); ?>
       <?php print render($page['content']); ?>
