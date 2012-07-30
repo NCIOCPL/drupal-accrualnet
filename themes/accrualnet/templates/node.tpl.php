@@ -122,7 +122,6 @@ global $an_resource_types;
 
     </article><!-- /.node -->
     <?php else: ?>
-
     <?php
 // Module Global Variables
     module_load_include('module', 'resource');

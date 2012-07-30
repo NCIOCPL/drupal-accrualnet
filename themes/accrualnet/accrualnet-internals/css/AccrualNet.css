@@ -23,17 +23,20 @@ h1#site-name .site-name-accrual {
     font-weight: bolder;
     text-transform:none;
     vertical-align:bottom;
+    color: #54316E;
 }
 h1#site-name .site-name-net {
     font-size: 55px;
     font-weight: bolder;
     text-transform:none;
     vertical-align:bottom;
+    color: #9AB83F;
 }
 h1#site-name .tm {
     font-size: 15px;
     font-weight: bolder;
     vertical-align: super;
+    color: #9AB83F;
 }
 
 h2#site-slogan {
@@ -41,6 +44,7 @@ h2#site-slogan {
     font-weight: bold;
     text-transform: none;
     border: none;
+    color: #105693;
 }
 
 #page-header .header-content {
@@ -179,7 +183,7 @@ h1 span {
 	float: left;
 }
 #ncibanner ul li.nciLogo a {
-	background-repeat: no repeat;
+	background-repeat: no-repeat;
 	display: block;
 	height: 39px;
 	text-indent: -9999px;
@@ -189,7 +193,7 @@ h1 span {
 	float: right;
 }
 #ncibanner ul li.nihText a {
-	background-repeat: no repeat;
+	background-repeat: no-repeat;
 	display: block;
 	height: 39px;
 	text-indent: -9999px;
@@ -199,7 +203,7 @@ h1 span {
 	float: right;
 }
 #ncibanner ul li.nciURL a {
-	background-repeat: no repeat;
+	background-repeat: no-repeat;
 	display: block;
 	height: 39px;
 	text-indent: -9999px;
@@ -353,9 +357,7 @@ html, body {
     background-image:
 		-webkit-gradient(linear, 0% 0%, 100% 100%, from(rgba(154, 184, 63, .2)), color-stop(0.15, rgba(154, 184, 63, .2)), color-stop(0.15, transparent), color-stop(0.50, transparent), color-stop(0.50, rgba(154, 184, 63, .2)), color-stop(0.65, rgba(154, 184, 63, .2)), color-stop(0.65, transparent), to(transparent));
     background-image: 
-		-moz-linear-gradient(-45deg, rgba(154, 184, 63, .2), rgba(154, 184, 63, .2) 15%, white 50%,  rgba(154, 184, 63, .2) 65%, white);
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#9AB83F', endColorstr='white'); /* IE6 & IE7 */  
-    -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr='#9AB83F', endColorstr='white')"; /* IE8+ */  
+        -moz-linear-gradient(-45deg, rgba(154, 184, 63, .2), rgba(154, 184, 63, .2) 15%, white 50%,  rgba(154, 184, 63, .2) 65%, white);
     background-size: 10px 10px;
     -webkit-background-size: 10px 10px;
     -moz-background-size: 10px 10px;
@@ -599,7 +601,7 @@ body a:visited {
   position: absolute;
   left: -7px;
   bottom: -7px;
-  border: solid transparent 7px;
+  border: inset transparent 7px;
   border-bottom-color: #fff;
 }
 
@@ -608,7 +610,7 @@ body a:visited {
   position: absolute;
   top: 0px;
   right: -14px;
-  border: solid transparent 7px;
+  border: outset transparent 7px;
   border-top-color: #fff;
 }
 
@@ -669,8 +671,8 @@ body a:visited {
         -webkit-gradient(linear, 0% 0%, 100% 100%, from(rgba(154, 184, 63, .2)), color-stop(0.15, rgba(154, 184, 63, .2)), color-stop(0.15, transparent), color-stop(0.50, transparent), color-stop(0.50, rgba(154, 184, 63, .2)), color-stop(0.65, rgba(154, 184, 63, .2)), color-stop(0.65, transparent), to(transparent));
     background-image: 
 		-moz-linear-gradient(-45deg, rgba(154, 184, 63, .2), rgba(154, 184, 63, .2) 15%, white 50%,  rgba(154, 184, 63, .2) 65%, white);
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='rgba(154, 184, 63, .2)', endColorstr='white'); /* IE6 & IE7 */  
-    -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr='rgba(154, 184, 63, .2)', endColorstr='white')"; /* IE8+ */  
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='rgb(154, 184, 63)', endColorstr='white'); /* IE6 & IE7 */  
+    -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr='rgb(154, 184, 63)', endColorstr='white')"; /* IE8+ */  
     background-size: 10px 10px;
     -webkit-background-size: 10px 10px;
     -moz-background-size: 10px 10px;
@@ -683,6 +685,7 @@ body a:visited {
 
 .slideshowControls .selected div {
     opacity: 1;
+    filter:alpha(opacity=100);
 }
 
 
@@ -695,8 +698,6 @@ body a:visited {
         -webkit-gradient(linear, 0% 0%, 100% 100%, from(rgba(16, 86, 147, .1)), color-stop(0.15, rgba(16, 86, 147, .1)), color-stop(0.15, transparent), color-stop(0.50, transparent), color-stop(0.50, rgba(16, 86, 147, .1)), color-stop(0.65, rgba(16, 86, 147, .1)), color-stop(0.65, transparent), to(transparent));
     background-image: 
 		-moz-linear-gradient(-45deg, rgba(16, 86, 147, .1), rgba(16, 86, 147, .1) 15%, white 50%,  rgba(16, 86, 147, .1) 65%, white);
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='rgba(16, 86, 147, .1)', endColorstr='white'); /* IE6 & IE7 */  
-    -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr='rgba(16, 86, 147, .1)', endColorstr='white')"; /* IE8+ */  
 }
 .Purple .slideshowControl  div {
     border: 1px solid #54316E;
@@ -707,8 +708,6 @@ body a:visited {
         -webkit-gradient(linear, 0% 0%, 100% 100%, from(rgba(84, 49, 110, .2)), color-stop(0.15, rgba(84, 49, 110, .2)), color-stop(0.15, transparent), color-stop(0.50, transparent), color-stop(0.50, rgba(84, 49, 110, .2)), color-stop(0.65, rgba(84, 49, 110, .2)), color-stop(0.65, transparent), to(transparent));
     background-image: 
 		-moz-linear-gradient(-45deg, rgba(84, 49, 110, .2), rgba(84, 49, 110, .2) 15%, white 50%,  rgba(84, 49, 110, .2) 65%, white);
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='rgba(84, 49, 110, .2)', endColorstr='white'); /* IE6 & IE7 */  
-    -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr='rgba(84, 49, 110, .2)', endColorstr='white')"; /* IE8+ */  
 }  
 .Red .slideshowControl  div {
     border: 1px solid #C74532;
@@ -719,8 +718,6 @@ body a:visited {
         -webkit-gradient(linear, 0% 0%, 100% 100%, from(rgba(199, 69, 50, .2)), color-stop(0.15, rgba(199, 69, 50, .2)), color-stop(0.15, transparent), color-stop(0.50, transparent), color-stop(0.50, rgba(199, 69, 50, .2)), color-stop(0.65, rgba(199, 69, 50, .2)), color-stop(0.65, transparent), to(transparent));
     background-image: 
 		-moz-linear-gradient(-45deg, rgba(199, 69, 50, .2), rgba(199, 69, 50, .2) 15%, white 50%,  rgba(199, 69, 50, .2) 65%, white);
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='rgba(199, 69, 50, .2)', endColorstr='white'); /* IE6 & IE7 */  
-    -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr='rgba(199, 69, 50, .2)', endColorstr='white')"; /* IE8+ */  
 }  
 .Orange .slideshowControl  div {
     border: 1px solid #DC6E23;
@@ -731,8 +728,6 @@ body a:visited {
         -webkit-gradient(linear, 0% 0%, 100% 100%, from(rgba(220, 110, 35, .2)), color-stop(0.15, rgba(220, 110, 35, .2)), color-stop(0.15, transparent), color-stop(0.50, transparent), color-stop(0.50, rgba(220, 110, 35, .2)), color-stop(0.65, rgba(220, 110, 35, .2)), color-stop(0.65, transparent), to(transparent));
     background-image: 
 		-moz-linear-gradient(-45deg, rgba(220, 110, 35, .2), rgba(220, 110, 35, .2) 15%, white 50%,  rgba(220, 110, 35, .2) 65%, white);
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='rgba(220, 110, 35, .2)', endColorstr='white'); /* IE6 & IE7 */  
-    -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr='rgba(220, 110, 35, .2)', endColorstr='white')"; /* IE8+ */  
 }
 
 /******* CTA Blocks ***********/
@@ -844,7 +839,7 @@ body a:visited {
 .homepage-node-created {
     
     font-weight: bold;
-    font-size: 17px; 
+    font-size: 15px; 
     width: 20%;
     margin-left: 0;
     float: left;
@@ -1168,4 +1163,8 @@ body a:visited {
 
 .item-list .pager {
     text-align: right;
+}
+
+#resource-links li {
+    padding-top: 10px;
 }

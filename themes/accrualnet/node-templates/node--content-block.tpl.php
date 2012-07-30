@@ -94,7 +94,7 @@ $content = field_get_items('node', $node, 'field_content');
 
 <div class="featured-content-block">
     <div class="content-block-title">
-            <span class="feature-header"><?php print filter_xss($node->title);?><span>
+            <span class="feature-header"><?php print filter_xss($node->title);?></span>
         </div>
     <div class="featured-content-text">
         <?php if($content): ?>

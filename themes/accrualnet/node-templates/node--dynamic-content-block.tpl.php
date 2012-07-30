@@ -139,7 +139,7 @@ $featuredContent = _an_lifecycle_load_related_nodes($query, TRUE);
 
 ?>
 <div class="featured-content-title">
-    <span class="feature-header"><?php print filter_xss($node->title);?><span>
+    <span class="feature-header"><?php print filter_xss($node->title);?></span>
 </div>
 <div class="featured-content-block">
     <?php $counter = 1;?>

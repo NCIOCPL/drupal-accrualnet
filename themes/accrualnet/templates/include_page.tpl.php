@@ -181,6 +181,14 @@ if ($pager_total_items != null) {
             ),
             )); ?>
         </nav>
+          <?php else: ?>
+          <nav id="secondary-menu" role="navigation">
+              <h2 class="element-invisible">User menu</h2>
+              <ul class="links inline clearfix">
+              <li class="menu-1 first"><a href="/user/register">Register</a></li>
+              <li class="menu-2 last"><a href="/user">Sign In</a></li>
+              </ul>
+          </nav>
         <?php endif; ?>
           <?php if($logged_in): ?>
             <div class="user-blerb">
@@ -299,12 +307,11 @@ if ($pager_total_items != null) {
                   <ul>
                 <li><a href="http://www.hhs.gov/"><img src="/sites/accrualnet.cancer.gov/themes/accrualnet/accrualnet-internals/images/global/Accrual-Net-HHS-logo.gif" /></a></li>
                 <li><a href="http://www.cancer.gov/"><img src="/sites/accrualnet.cancer.gov/themes/accrualnet/accrualnet-internals/images/global/Accrual-Net-NCI-logo.gif" /></a></li>
-                <li><a href="http://www.nih.gov/"><img src="/sites/accrualnet.cancer.gov/themes/accrualnet/accrualnet-internals/images/global/Accrual-Net-NIH-logo.gif" /><img></a></li>
-                <li><a href="http://www.usa.gov"><img src="/sites/accrualnet.cancer.gov/themes/accrualnet/accrualnet-internals/images/global/Accrual-Net-USAgov-logo.gif" /><img></a></li>
+                <li><a href="http://www.nih.gov/"><img src="/sites/accrualnet.cancer.gov/themes/accrualnet/accrualnet-internals/images/global/Accrual-Net-NIH-logo.gif" /></a></li>
+                <li><a href="http://www.usa.gov"><img src="/sites/accrualnet.cancer.gov/themes/accrualnet/accrualnet-internals/images/global/Accrual-Net-USAgov-logo.gif" /></a></li>
               </ul>
               </div>
           </div>
           
 
       </div></div> <!-- /.section, /#footer -->
-<?php print render($page['bottom']); ?>
