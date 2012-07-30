@@ -50,6 +50,15 @@ function resource_node_info() {
 	return $resourceTypes;
 }
 
+function resource_node_view($node, $view_mode, $langcode){
+    global $an_resource_types;
+    if (!isset($an_resource_types[$node->type]))
+		return;
+    if($node->type == 'materials_staff' || $node->type == 'materials_patient')
+        menu_tree_set_path('an-main-nav', 'education');
+    else
+        menu_tree_set_path('an-main-nav', 'literature');
+}
 /*
  * hook_enable()
  * 
@@ -96,6 +105,19 @@ function resource_enable() {
 		// set this type as in moderation
 		variable_set('node_options_' . $type, array('revision', 'moderation'));
 	}
+        
+         //set node alias'
+        global $an_education_types;
+        $literatureAlias = 'literature/[node:title]';
+        $educationAlias = 'education/[node:title]';
+        foreach($an_resource_types as $type => $not_used) {
+            $varname = 'pathauto_node_'.$type.'_pattern';
+            if(in_array($type, $an_education_types)){
+                variable_set($varname, $educationAlias);
+            }
+            else{ variable_set($varname, $literatureAlias); }
+        //$types[] = $type;
+        }
 }
 
 /*

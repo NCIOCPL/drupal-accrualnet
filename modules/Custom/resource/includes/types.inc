@@ -14,6 +14,10 @@ $A = 'A'; // You will need to change this also in citation.types.inc
 $B = 'B'; // You will need to change this also in citation.types.inc
 $C = 'C'; // You will need to change this also in citation.types.inc
 
+$GLOBALS['an_education_types'] = array(
+    'materials_staff',
+    'materials_patient'
+);
 // All of the Resource Types
 $GLOBALS['an_resource_types'] = array(
     'journal_article' => array(
