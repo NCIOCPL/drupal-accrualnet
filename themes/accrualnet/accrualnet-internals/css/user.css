@@ -101,7 +101,10 @@ input[type="file"] {
             END DOYLES ADDS
 *************************************************************************/
 
-
+#required-text {
+    width: 100%;
+    text-align: right;
+}
 section.profile-sidebar > span.user-picture > a > img:after {
 	-moz-transform: skew(35deg);
     -moz-transform-origin: center top;

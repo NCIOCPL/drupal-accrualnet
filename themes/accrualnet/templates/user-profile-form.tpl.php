@@ -134,7 +134,9 @@ if (count($form['avatar_image']['und']['#default_value']) > 0) {
 <p>
 <?php print render($intro_text); ?>
 </p>
-
+<section>
+<div id="required-text"><span class="form-required"></span><i> Denotes a required field</i></div>
+</section>
 
 <section class="column sidebar region profile-sidebar<?php print ' ' . $color; ?>">
 <?php print render($form['picture']); ?>
