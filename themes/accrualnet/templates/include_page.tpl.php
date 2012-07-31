@@ -259,7 +259,7 @@ if ($pager_total_items != null) {
       <?php print render($page['highlighted']); ?>
       <a id="main-content"></a>
       <?php print render($title_prefix); ?>
-      <?php if ($title && isset($node) && $node->type != 'conversation'): ?>
+      <?php if ($title && (!isset($node) || (isset($node) && $node->type != 'conversation'))): ?>
         <h1 class="title" id="page-title"><?php print $title ?></h1>
       <?php endif; ?>
       <?php print render($title_suffix); ?>
