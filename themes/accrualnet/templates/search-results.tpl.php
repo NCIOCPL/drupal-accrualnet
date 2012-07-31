@@ -20,16 +20,21 @@
  * @see template_preprocess_search_results()
  */
 ?>
-<?php if ($search_results): ?>
-	<h2 class="search-title"><?php print t('SITE WIDE SEARCH RESULTS'); ?></h2>
-	<hr class="search-divider" />
-	<div class="search-pager"><?php print $pager; ?></div>
-	<div class="search-count"><?php print strtoupper($search_totals); ?></div>
-	<ol class="search-results <?php print $module; ?>-results">
-		<?php print $search_results; ?>
-	</ol>
-	<div class="search-pager"><?php print $pager; ?></div>
-<?php else : ?>
-	<h2><?php print $search_totals; ?></h2>
-	<?php print search_help('search#noresults', drupal_help_arg()); ?>
-<?php endif; ?>
+<div id="search-header">
+    <div id="search-count"><?php print strtoupper($search_totals); ?></div>
+    <?php if ($pager): ?>
+    <div class="pager top-pager search-pager"><?php print $pager; ?></div>
+    <?php endif; ?>
+</div>
+
+<ol class="search-results <?php print $module; ?>-results">
+<?php if ($search_results) {
+print $search_results; 
+} else {
+	print search_help('search#noresults', drupal_help_arg());
+}
+?>
+</ol>
+    <?php if ($pager): ?>
+    <div class="pager bottom-pager search-pager"><?php print $pager; ?></div>
+    <?php endif; ?>

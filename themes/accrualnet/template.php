@@ -284,11 +284,11 @@ function accrualnet_preprocess_search_results(&$variables) {
 
 
     // set this html to the $variables
-    if ($total > 1 || $total == 0) {
-        $variables['search_totals'] = "\"$searchTerm\" gave $total results";
-    } else {
+    //if ($total > 1 || $total == 0) {
+        $variables['search_totals'] = '"'.$searchTerm.'" <span class="results-number">('.$total.')</span>';
+    /*} else {
         $variables['search_totals'] = "\"$searchTerm\" gave $total result";
-    }
+    }*/
 
 }
 

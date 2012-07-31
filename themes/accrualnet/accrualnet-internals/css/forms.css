@@ -155,7 +155,8 @@ td.menu-disabled {
 }
 
 /* And maybe this */
-.form-actions input {
+.form-actions input,
+input.form-submit {
     border: 2px solid #9AB83F;
     color:#9AB83F;
     font-weight: bold;
@@ -171,7 +172,9 @@ td.menu-disabled {
 }
 
 .form-actions input:hover,
-.form-actions input:active {
+.form-actions input:active,
+input.form-submit:hover, 
+input.form-submit:active {
     border: 2px solid #9AB83F;
     color:#fff;
     font-weight: bold;
@@ -232,3 +235,34 @@ span.button a:hover, span.button a:active, span.button:hover a {
     color: #fff;
     text-decoration: none;
 }
+/*
+ *
+ */
+ 
+ 
+ /*
+ * Search Stuff
+ */
+ #search-form input#edit-keys {
+     width:90%;
+     margin-bottom: 30px;
+ }
+ #search-form input#edit-submit {
+     margin: 0% 0% 0% 1.5%;
+     width: 7%;
+ }
+ #search-block-form #edit-actions input {
+     margin: 0px 10px;
+ }
+ #search-header {
+     width: 100%;
+     font-weight: bold;
+     font-size: 17px;
+ }
+ 
+ .results-number, .RESULTS-NUMBER {
+     font-family: Arial, Helvetica, sans-serif;
+      color: #2D2D2D;
+    opacity: 0.75;
+ }
+ 
