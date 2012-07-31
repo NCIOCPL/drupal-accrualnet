@@ -27,15 +27,21 @@
  nav ul li.active-trail > ul { display: block; }
  
  nav.breadcrumb li {
+     font-family: Arial, Helvetica, sans-serif;
+     font-size: 10px;
      text-decoration:none;
  }
  nav.breadcrumb li a{
     padding: 5px;
-    font: 400 12px/1.4  Helvetica, Verdana, Arial, sans-serif;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 10px;
     text-align: center;
     text-decoration: underline;
     color: #2D2D2D;
     border:none;
+ }
+ nav.breadcrumb li a:hover {
+     font-weight: bold;
  }
  
  
