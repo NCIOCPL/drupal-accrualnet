@@ -8,7 +8,7 @@
 
 
 .conversation-result {
-    border-bottom: 3px dotted #2d2d2d;
+    border-bottom: 3px dotted #d2d2d2;
     padding: 40px 0px;
 }
 
@@ -97,7 +97,7 @@ span.conversation-last-updated {
     float: left;
     margin-left: 5%;
     width: 40%;
-    border-right: 1px dotted #2d2d2d;
+    border-right: 1px dotted #d2d2d2;
 }
 #all-conversations-right {
     margin-left: 55%;
@@ -123,7 +123,7 @@ span.conversation-last-updated {
     color: #DC6E23;
     margin-bottom: 0px;
     padding-bottom: 0px;
-    border-bottom: 3px dotted #2d2d2d;
+    border-bottom: 3px dotted #d2d2d2;
 }
 
 .community-of-practice-title {
@@ -145,7 +145,7 @@ span.conversation-last-updated {
 .community-of-practice {
     margin: 20px 0px;
     padding: 20px 0px;
-    border-bottom: 3px dotted #2d2d2d;
+    border-bottom: 3px dotted #d2d2d2;
 }
 
 .community-join-link a,
@@ -188,7 +188,7 @@ span.conversation-last-updated {
 #community-members #community-members-title {
     color: #DC6E23;
     text-transform: uppercase;
-    border-bottom: 2px dotted #2d2d2d;
+    border-bottom: 2px dotted #d2d2d2;
     font-weight: bold;
     padding: 0px 5px;
     margin: 10px;
@@ -254,4 +254,7 @@ span.conversation-last-updated {
 .latest-comment-text p {
     margin: 0px;
     padding: 0px;
+}
+.last-result {
+    border-bottom: none;
 }
