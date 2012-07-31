@@ -255,10 +255,33 @@ span.button a:hover, span.button a:active, span.button:hover a {
      margin: 0px 10px;
  }
  #search-header {
+     margin-top: 50px;
      width: 100%;
      font-weight: bold;
      font-size: 17px;
+     text-align: left;
+     padding-bottom: 50px;
  }
+ #search-header .pager {
+     font-size: 13px;
+ }
+ #search-count {
+     float: left;
+     text-align: left;
+ }
+ .search-results {
+     padding-left: 0px;
+     margin-left: 0px;
+ }
+ .search-results .resource-output-image {
+     width: 12%;
+ }
+ .search-results .resource-text {
+     margin-left: 14%;
+     width: 85%;
+ }
+ 
+ 
  
  .results-number, .RESULTS-NUMBER {
      font-family: Arial, Helvetica, sans-serif;
