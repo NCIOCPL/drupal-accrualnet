@@ -48,11 +48,7 @@ function _communities_join_snippet ($gid) {
  */
 function communities_enable() {
     global $an_node_community_alias;
-    $instances = field_info_instances('node', 'community');
-    foreach ($instances as $instance_name => $instance) {
-        field_delete_instance($instance);
-    }
-    /*
+    
     node_types_rebuild();
     $types = node_type_get_types();
 
@@ -63,9 +59,9 @@ function communities_enable() {
 
     // Set the body for the Conversation content type
     $conversation_type = node_type_set_defaults($types['conversation']);
-    node_add_body_field($conversation_type, 'Conversation Starter');
+    node_add_body_field($conversation_type, 'Conversation Description');
     node_type_save($conversation_type);
-    */
+    
     
     if (! field_info_field(OG_GROUP_FIELD)) {
         og_create_field(OG_GROUP_FIELD, 'node', 'community');
@@ -418,20 +414,102 @@ function communities_theme($existing, $type, $theme, $path) {
     return $items;
 }
 
-function _preview_snippet ($field, $numOfSentences = 1, $maxLength = 500) {
+function _preview_snippet($field, $numOfSentences = 1, $maxLength = 500) {
     $content = $field['und'][0]['value'];
-    
-    $periodPos = 0;
-    for ($p = 0; $p < $numOfSentences; $p++) {
-        $periodPos = strpos($content, '.', $periodPos) + 1;
+
+    // If a string contains a period, consider that a sentence
+    if (strpos($content, '.') > -1) {
+        $periodPos = 0;
+        for ($p = 0; $p < $numOfSentences; $p++) {
+            $periodPos = strpos($content, '.', $periodPos) + 1;
+        }
+        $tilPeriod = substr($content, 0, $periodPos);
     }
-    
-    $tilPeriod = substr($content, 0, $periodPos);
-    
+    // If no period is detected, then let maxLength take care of it
+    // (if applicable)
+    else {
+        $tilPeriod = $content;
+    }
+
     if ($numOfSentences == 0 || strlen($tilPeriod) > $maxLength) {
         return substr($content, 0, $maxLength) . '...';
     }
     return $tilPeriod;
+}
+
+function _conversation_title_snippet($nid, $title, $changed = NULL) {
+    $o = '<div class="conversation-title">';
+    $o .= '<a href="' . url('node/' . $nid) . '">';
+    //$output .= $node->title;
+    $o .= check_plain($title);
+    //$output .= filter_xss($node->title);
+    $o .= '</a>';
+    if ($changed) {
+        $o .= '<span class="conversation-last-updated">';
+        $o .= 'Last Updated: ';
+        $o .= date('M j, Y', $changed);
+        $o .= '</span>';
+    }
+    $o .= '</div>';
+    return $o;
+}
+
+function _get_latest_comment($node) {
+    $comment = comment_get_thread($node, COMMENT_MODE_FLAT, 1);
+    if (count($comment) > 0)
+        return _latest_comment_snippet($comment[0]);
+}
+
+function _latest_comment_snippet($commentID) {
+
+
+    $comment = comment_load($commentID);
+
+    $commenter = user_load($comment->uid);
+
+    $o = '<div class="latest-comment">'; // Start Comment
+    // Recent Activity Text
+    $o .= '<div class="recent-activity-text">';
+    $o .= 'Recent Activity:';
+    $o .= '</div>';
+
+    // Most Recently Posted Comment
+    $o .= '<div class="latest-comment-response">'; // Start Response
+
+
+    /* NOT IMPLEMENTED
+      $o .= '<div class="conversation-recent-comment-userpic">';
+      $o .= '<img/>';
+      $o .= '</div>'; */
+
+
+    $o .= '<div class="latest-comment-text">';
+    $o .= _user_url_snippet($commenter->uid, $commenter->name);
+    $o .= '<br/>';
+    $o .= _preview_snippet($comment->comment_body, 3);
+    $o .= '</div>';
+
+
+    $o .= '</div>'; // End Response
+
+    $o .= '</div>'; // End Comment
+    return $o;
+}
+
+function _user_url_snippet($uid, $name) {
+    $o = '<a href="' . url('user/' . $uid) . '">';
+    $o .= check_plain($name);
+    $o .= '</a>';
+    return $o;
+}
+
+function _starter_snippet($userID) {
+    $user = user_load($userID);
+    $o = '<div class="started-by">';
+    $o .= 'Started by: ';
+    $o .= _user_url_snippet($user->uid, $user->name);
+    $o .= '</div>';
+    return $o;
 }
 
 function communities_menu() {
@@ -444,7 +522,7 @@ function communities_menu() {
     'file' => 'communities.page.inc',
   ); 
   $items['communities/topics/%'] = array(
-      'page callback' => 'communities_topic',
+      'page callback' => 'communities_topic_page',
       'access arguments' => array('access content'),
       'page arguments' => array(2),
       'type' => MENU_SUGGESTED_ITEM,
@@ -453,6 +531,13 @@ function communities_menu() {
   $items['communities/communities_of_practice'] = array(
     'title' => 'Communities of Practice',
     'page callback' => 'communities_of_practice_page',
+    'access arguments' => array('access content'),
+    'type' => MENU_SUGGESTED_ITEM,
+    'file' => 'communities.page.inc',
+  );
+  $items['communities/all_conversations'] = array(
+    'title' => 'All Conversations',
+    'page callback' => 'all_conversations_page',
     'access arguments' => array('access content'),
     'type' => MENU_SUGGESTED_ITEM,
     'file' => 'communities.page.inc',
@@ -495,5 +580,15 @@ function communities_menu() {
 
   return $items;
 }
-
+function communities_node_view($node, $view_mode, $langcode){ 
+    global $an_resource_types; 
+    if (!isset($an_resource_types[$node->type])) 
+          return; 
+    if($node->type == 'community') {
+        menu_tree_set_path('an-main-nav', 'communities/community'); 
+    }
+    else if ($node->type == 'conversation') {
+        menu_tree_set_path('an-main-nav', 'communities/conversation'); 
+    }
+}
 ?>

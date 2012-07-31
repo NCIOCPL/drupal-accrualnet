@@ -156,14 +156,16 @@ function _an_navigation_education_submenu($parentID, $base_path){
  */
 function _an_navigation_communities_submenu($parentID, $base_path){
     global $an_communities_field_topic_options;
-
+    $communitiesMenu = $an_communities_field_topic_options;
+    $communitiesMenu['all_conversations'] = 'All Conversations';
+    $communitiesMenu['communities_of_practice'] = 'Communities of Practice';
     $level1_weight = 0;
-    foreach ($an_communities_field_topic_options as $machine => $name)
+    foreach ($communitiesMenu as $machine => $name)
     {
 		
 
         $type_info = $machine;
-        if ($level1_weight < (count($an_communities_field_topic_options)-2))
+        if ($level1_weight < (count($an_communities_field_topic_options)))
             $path = 'communities/topics';
         else
             $path = 'communities';
@@ -183,7 +185,7 @@ function _an_navigation_communities_submenu($parentID, $base_path){
         $plid_lvl2 = menu_link_save($menu_entry['values']);
 
         $level1_weight++;
-    } 
+    }
 }
 /* an_navigation_resources_and_tools_submenu() - Creates the array of sub-menu
  * items for the protocol accrual lifecycle section. Manually builds out menu 

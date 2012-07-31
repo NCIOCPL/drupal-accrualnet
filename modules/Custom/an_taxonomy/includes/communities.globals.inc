@@ -16,7 +16,5 @@ $GLOBALS['an_communities_field_topic_options'] = array(
     'system_issues' => 'Systems and Regulatory Issues',
     'ethical_issues' => 'Ethical Issues',
     'journal_club' => 'Journal Club',
-    'all_conversations' => 'All Conversations',
-    'communities_of_practice' => 'Communities of Practice'
 );
 ?>

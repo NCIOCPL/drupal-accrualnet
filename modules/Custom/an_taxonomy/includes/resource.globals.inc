@@ -90,8 +90,8 @@ $GLOBALS['an_vocabularies'] = array(
 			'Other'
 	)),
 	array(
-		'name' => 'Recruitment Vehicles',
-		'machine_stem' => 'recruitment_vehicles',
+		'name' => 'Recruitment Communications',
+		'machine_stem' => 'recruitment_communications',
 		'terms' => array(
 			'Verbal Communications',
 			'Radio',
@@ -120,8 +120,15 @@ $GLOBALS['an_vocabularies'] = array(
 		'name' => 'Trial Treatment',
 		'machine_stem' => 'trial_treatment',
 		'terms' => array(
-			'Non-cancer',
-			'Cancer'
+			'Non-Cancer',
+			'Cancer',
+                    'Prevention',
+                    'Screening',
+                    'Treatment',
+                    'Pallative',
+                    'Survivorship',
+                    'Behavioral',
+                    
 	)),
 	array(
 		'name' => 'Trial Phase',
