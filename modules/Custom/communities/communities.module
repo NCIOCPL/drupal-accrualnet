@@ -6,8 +6,9 @@
  * Last Updated By: Lauren
  * Last Updated On: June 12, 2012
  *****/
-module_load_include('inc', 'communities', 'includes/communities.globals');
+module_load_include('inc', 'an_taxonomy', 'includes/communities.globals');
 module_load_include('inc', 'communities', 'includes/communities.alias');
+module_load_include('inc', 'communities', 'includes/communities.types');
 /*
  * hook_node_info()
  * 
@@ -100,6 +101,14 @@ function communities_enable() {
         if (field_read_instance('node', $instance['field_name'], 'conversation') == FALSE) {
         $instance['entity_type'] = 'node';
         $instance['bundle'] = 'conversation';
+        //Added by doyle 7/31
+        if (array_key_exists('instance_settings', $field)) {
+        $instance['settings'] = $field['instance_settings'];
+        }
+        if (array_key_exists('widget', $field)) { 
+            $instance['widget'] = $field['widget'];
+        }
+        //end added by doyle
         field_create_instance($instance);
         }
     }
@@ -208,19 +217,34 @@ function _conversation_fields() {
 			)
         );*/
     $fields[] = array(
-        'field_name' => 'field_topic',
-        'cardinality' => 1,
-        'label' => 'Topic',
-        'type' => 'taxonomy_term_reference',
-        'settings' => array(
-            'allowed_values' => array(
-                array(
-                    'vocabulary' => 'an_vocabulary_topic',
-                    'parent' => 0,
+        
+            'field_name' => 'field_topic',
+            'cardinality' => 1,
+            'label' => 'Topic',
+            'type' => 'taxonomy_term_reference',
+            'settings' => array(
+                'allowed_values' => array(
+                    array(
+                        'vocabulary' => 'an_vocabulary_topic',
+                        'parent' => 0,
+                    )
                 )
             )
-        )
+        );
+        
+        //added by doyle 7/31
+        $fields[] = array(    
+            'field_name' => 'field_conversation_summary',
+            'cardinality' => 1,
+            'label' => 'Conversation Summary',
+            'description' => 'Provide a summary paragraph of the intended purpose of this conversation.',
+            'type' => 'text_long',
+            'entity_type' => 'node',
+            'settings' => array(),
+            'instance_settings' => array('text_processing' => 1), //Set the instance to be filtered html
+        
     );
+        //end added by doyle
     /*
     $fields[$vocab['machine_stem']] = array(
 			'field_name' => ('field_tax_' . $vocab['machine_stem']),
@@ -240,6 +264,7 @@ function _conversation_fields() {
      */
     return $fields;
 }
+
 
 
 
@@ -280,7 +305,7 @@ function _community_instances() {
           ),
           ), */
 
-        'group_group' => array(
+            'group_group' => array(
             'field_name' => OG_GROUP_FIELD,
             'label' => 'Group',
             //'type' => 'list_boolean',
@@ -309,17 +334,17 @@ function _community_instances() {
            * 
            */
             'view modes' => array(
-        'full' => array(
-        //  'label' => t('Full'),
-          'type' => 'og_group_subscribe',
-          'custom settings' => FALSE,
-        ),
-        'teaser' => array(
-         // 'label' => t('Teaser'),
-          'type' => 'og_group_subscribe',
-          'custom settings' => FALSE,
-        ),
-      ),
+                'full' => array(
+                //  'label' => t('Full'),
+                'type' => 'og_group_subscribe',
+                'custom settings' => FALSE,
+                ),
+                'teaser' => array(
+                // 'label' => t('Teaser'),
+                'type' => 'og_group_subscribe',
+                'custom settings' => FALSE,
+                ),
+            ),
         ),
     );
 }
@@ -349,19 +374,31 @@ function _conversation_instances() {
 			
 			
         ),*/
+        //added by doyle 7/31
+        'field_conversation_summary' => array(
+            'field_name' => 'field_conversation_summary',
+            'cardinality' => 1,
+            'label' => 'Conversation Summary',
+            'description' => 'Provide a summary paragraph of the intended purpose of this conversation.',
+            'type' => 'text_long',
+            'entity_type' => 'node',
+            'settings' => array(),
+            'instance_settings' => array('text_processing' => 1), //Set the instance to be filtered html
+        ),
+        //end added by doyle
         'field_topic' => array(
             'field_name' => 'field_topic',
-			'label' => 'Topic',
-			'type' => 'taxonomy_term_reference',
-                        'required' => TRUE,
-			'widget' => array(
-				'type' => 'options_buttons',
-			),
-			'display' => array(
-				'default' => array(
-					'type' => 'taxonomy_term_reference_link',
-				),
-			),
+            'label' => 'Topic',
+            'type' => 'taxonomy_term_reference',
+            'required' => TRUE,
+            'widget' => array(
+                    'type' => 'options_buttons',
+            ),
+            'display' => array(
+                    'default' => array(
+                            'type' => 'taxonomy_term_reference_link',
+                    ),
+            ),
         )
     );
 }
@@ -581,14 +618,16 @@ function communities_menu() {
   return $items;
 }
 function communities_node_view($node, $view_mode, $langcode){ 
-    global $an_resource_types; 
-    if (!isset($an_resource_types[$node->type])) 
-          return; 
-    if($node->type == 'community') {
-        menu_tree_set_path('an-main-nav', 'communities/community'); 
-    }
-    else if ($node->type == 'conversation') {
-        menu_tree_set_path('an-main-nav', 'communities/conversation'); 
-    }
+    global $an_community_types;
+    global $an_communities_field_topic_options;
+    $topic = field_get_items('node', $node, 'field_topic');
+    $term = taxonomy_term_load($topic[0]['tid']);
+    $term_machine = array_keys($an_communities_field_topic_options, $term->name);
+    if (!isset($an_community_types[$node->type]))
+		return;
+    if($term_machine)
+        menu_tree_set_path('an-main-nav', 'communities/topics/'.$term_machine[0]);
+    else
+        menu_tree_set_path('an-main-nav', 'communities');
 }
 ?>
