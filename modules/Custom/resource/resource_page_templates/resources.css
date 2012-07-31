@@ -25,20 +25,17 @@
 }
 .resource-issue > a { /*links after intro text, not .resource-issue a { so it
                       doesnt affect the a tag in the header*/
-    color:#105693;
+    color:#000;
     font-size: 100%;
-    text-decoration: none;
-    border-bottom: 1px solid;
+    text-decoration: underline;
     padding-bottom: 3px;
 }
 
 .resource-issue > a:hover {
     
-    font-size: 100%;
+
     font-weight: bold;
-    text-decoration: none;
-    border-bottom: 2px solid;
-    padding-bottom: 3px;
+
 }
 
 .resource-issue h2 {
