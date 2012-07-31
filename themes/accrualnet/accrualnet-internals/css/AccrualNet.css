@@ -1208,21 +1208,24 @@ h2.comment-form {
     position:absolute;
     bottom: 0;
 }
+.convo-post {
+    margin-top: 60px;
+}
 
 .convo-post  .convo-body {
-    width: 80%;
+    width: 600px;
     margin-left: 20%;
     padding: 15px;
-    overflow:visible;
     margin-bottom: 20px;
     position: relative;
     border: 2px solid #DC6E23;
-    border-bottom: 6px solid #DC6E23;
+    border-bottom: 2px solid #DC6E23;
+    bottom: 40px;
 }
 .convo-post  .convo-body:before, .convo-body:after {
      border-color: transparent transparent white transparent;
     border-style: solid;
-    border-width: 20px 0px 32px 40px;
+    border-width: 20px 0px 39px 49px;
     content: '';
     display: block;
     height: 0;
@@ -1230,8 +1233,8 @@ h2.comment-form {
     line-height: 0;
     position: absolute;
     z-index: 5;
-    bottom: -0px;
-    left: -40px;
+    bottom: 0px;
+    left: -48px;
 }
 .convo-post  .convo-body:after {
     border-color: transparent transparent #DC6E23 transparent;
@@ -1239,8 +1242,10 @@ h2.comment-form {
     border-width: 20px 0px 40px 50px;
     content: '';
     z-index: 4;
-    bottom: -6px;
+    bottom: -2px;
     left: -50px;
 }
+
+
 
 /******************End Community Styling*************************/

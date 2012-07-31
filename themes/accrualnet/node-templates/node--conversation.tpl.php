@@ -82,7 +82,7 @@
  * @see zen_preprocess_node()
  * @see template_process()
  */
-
+global $nci_user_profile_colors;
 $topic = field_get_items('node', $node, 'field_topic');
 
 
@@ -91,6 +91,9 @@ $term =  taxonomy_term_load($topic[0]['tid']);
 $summary = field_get_items('node', $node, 'field_conversation_summary');
 $body = field_get_items('node', $node, 'body');
 $title = '';
+$user = user_load($node->uid);
+$occupation = field_get_items('user', $user, 'field_occupation');
+$color = field_get_items('user', $user, 'profile_color');
 //$comments = comment_get_thread($node,COMMENT_MODE_FLAT, 10  );
 ?>
 <div class="conversation-topic-header">
@@ -100,7 +103,7 @@ $title = '';
 </div>    
 <div class="conversation">
     <div class="convo-title">
-        <h2><?php print $node->title;?><span class="convo-posted-date"><?php print t('Last Updated: ').format_date($node->created, 'custom', 'F d, Y');?></span></h2>
+        <h2><?php print $node->title;?><span class="convo-posted-date"><?php print t('Last Updated: ').format_date($node->last_comment_timestamp, 'custom', 'F d, Y');?></span></h2>
     </div>
     <?php if($summary): ?>
         <div class="convo-summary">
@@ -109,9 +112,27 @@ $title = '';
     <?php endif;?>
     <div class="convo-posts">
     <?php if($body): ?>
-        <div class="convo-post convo-post-even">
+        <div class="convo-post convo-post odd">
+        <div class="convo-user-image">
+                <?php print theme('image_style',
+                    array(
+                        'path' => $user->picture->uri,
+                        'style_name' => 'thumbnail',         
+                    )
+                ); ?>
+         </div>
+            <div class="convo-body">
+            <div class="submitted-by">
+                <span class="user-name">
+                    <a href="/user/<?php print $node->uid;?>" class="<?php print $nci_user_profile_colors[$color[0]['value']];?>" title="<?php print $user->name;?>'s profile"><?php print $user->name;?></a>
+                </span>
+                <span class="user-occupation"><?php print check_plain($occupation[0]['value']);?></span>
+                <span class="posted-date"><?php print format_date($node->created, 'custom', 'F d, Y');?></span>
+            </div>
             <?php print $body[0]['value'];?>
         </div>
+            
+    </div>
     <?php endif;?>
         <?php print render($content['comments']);?>
     </div>

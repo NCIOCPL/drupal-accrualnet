@@ -70,10 +70,10 @@ unset($user_profile['profile_color']);
 if (array_key_exists('avatar_image', $user_profile)) {
     unset($user_profile['avatar_image']);
 }
-print kprint_r(get_defined_vars());
-print kprint_r($user);
-print kprint_r($account);
-print kprint_r($user_profile);
+//print kprint_r(get_defined_vars());
+//print kprint_r($user);
+//print kprint_r($account);
+//print kprint_r($user_profile);
 ?>
 <span class="nci-profile<?php print '-'.$profileColor; ?>">
 
