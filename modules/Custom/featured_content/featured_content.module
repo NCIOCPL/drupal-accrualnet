@@ -37,7 +37,7 @@ function featured_content_block_info(){
 
 
 function featured_content_block_view($delta = '') {
- 
+    $block = array();
     switch($delta){
     case 'cta_join_conversation':
       $block['subject'] = t('Join the Conversation');

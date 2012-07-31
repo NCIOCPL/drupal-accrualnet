@@ -95,13 +95,16 @@ function _homepage_dynamic_content_block($node) {
     //field_featured_type is required so it must be here.
     $types = field_get_items('node', $node, 'field_featured_type');
     $link = field_get_items('node', $node, 'field_more_link');
-
+    
     //Build out the entityFieldQuery for this content type.
     $query = new EntityFieldQuery();
     $query->entityCondition('entity_type', 'node')
-    ->entityCondition('bundle', array_values($types))
     ->range(0, 5)
     ->propertyCondition('status', 1);
+    //if somehow no types are selected, display all types.
+    if($types){
+        $query->entityCondition('bundle', array_values($types));
+    }
     switch($order[0]['value']){
         case 'alpha':
             $query->propertyOrderBy('title', 'ASC');
