@@ -72,10 +72,11 @@
  */
 module_load_include('inc', 'nci_custom_user', 'includes\profilecolors');
 
+$profileColor = 'Black';
 if($logged_in) {
     global $user;
     global $nci_user_profile_colors;
-    $profileColor = 'Black';
+    
     //load the current user profile
     $currentUser = user_load($user->uid);
     //check to see if the user has a profile color selected;
@@ -83,9 +84,6 @@ if($logged_in) {
     if($profile_color_value)
     { 
        $profileColor =  $nci_user_profile_colors[$profile_color_value[0]['value']];
-    
-    //print kpr($profileColor);
-      // print render($currentUser['picture']);
     }
 
 }
@@ -261,7 +259,7 @@ if ($pager_total_items != null) {
       <?php print render($page['highlighted']); ?>
       <a id="main-content"></a>
       <?php print render($title_prefix); ?>
-      <?php if ($title && $node->type != 'conversation'): ?>
+      <?php if ($title && isset($node) && $node->type != 'conversation'): ?>
         <h1 class="title" id="page-title"><?php print $title ?></h1>
       <?php endif; ?>
       <?php print render($title_suffix); ?>
