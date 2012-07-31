@@ -196,7 +196,7 @@ if ($pager_total_items != null) {
                 <?php print theme('image_style',
                     array(
                         'path' => $currentUser->picture->uri,
-                        'style_name' => 'js_crop_scale_30',         
+                        'style_name' => 'scale_25',         
                     )
                 ); ?>
                     <?php endif;?>

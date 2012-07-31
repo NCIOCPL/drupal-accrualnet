@@ -62,14 +62,14 @@
  * @see template_process()
  * @see theme_comment()
  */
-$test = $author;
-$test = $picture;
-$test = $comment;
 
+
+global $nci_user_profile_colors;
 
 $user = user_load($comment->uid);
 
 $occupation = field_get_items('user', $user, 'field_occupation');
+$color = field_get_items('user', $user, 'profile_color');
 ?>
 
 <div class="convo-post <?php print $classes;?>">

@@ -144,7 +144,7 @@ $featuredCarousel = field_get_items('node', $node, 'field_featured_carousel');
                             <?php if(!empty($strategyIcon)):?>
                                 <?php print theme('image_style',  array(
                                             'path' => $strategyIcon[0]['uri'],
-                                            'style_name' => 'thumbnail',         
+                                            'style_name' => 'scale_100',         
                                         )
                                     );?>
                             <?php endif;?>
