@@ -37,12 +37,11 @@ if (count($form['profile_color']['und']) > 0) {
 // Form Changes
 //kprint_r($form['account']);
 $form['account']['status']['#access'] = FALSE;
-$form['account']['roles']['#access'] = FALSE;
+//$form['account']['roles']['#access'] = FALSE;
 
 $form['account']['name']['#title'] = "";
 $form['account']['pass']['#title_display'] = "after";
 $output = "";
-
 
 /* drupal_add_js('Drupal.behaviors.password = function () {};', 'inline', 'header'); */
 $selectedValuesOnLoad = array();
@@ -55,6 +54,7 @@ foreach ($selectedValuesFieldRole as $selected) {
         $selectedValuesOnLoad[] = $selected;
     }
 }
+
 $selectedValuesFieldAOI = $form['field_areas_of_interest']['und']['#default_value'];
 
 foreach ($selectedValuesFieldAOI as $selected) {
@@ -75,6 +75,17 @@ if ($form['picture']['picture']['#value'] != NULL) {
 $pictureFilename = $base_url . '/' . $path .'/files/styles/js_crop/public/pictures/';
 $pictureFilename .= $form['picture']['picture']['#value']->filename;
 }
+drupal_add_js("
+    (function ($) {
+        $(document).ready(function() {
+            $('.form-required').html('<img class=\"required-img\" src=\"/".path_to_theme()."/accrualnet-internals/images/global/required.png\" />');
+        $('#edit-roles > div.form-type-checkbox > input').each(function () {
+            if ($(this).attr('checked')) {
+                $(this).parent().addClass('checked');
+            }
+        });
+        });
+    }) (jQuery);", 'inline');
 drupal_add_js(path_to_theme() . '/js/checkbox.js', 'file');
 drupal_add_js(path_to_theme() . '/js/profilecolors.js', 'file');
 drupal_add_js(path_to_theme() . '/js/selectboxes.js', 'file');
@@ -82,13 +93,7 @@ drupal_add_js(path_to_theme() . '/js/inputdarken.js', 'file');
 drupal_add_js(path_to_theme() . '/js/profilehelp.js', 'file');
 drupal_add_js(path_to_theme() . '/js/profileavatars.js', 'file');
 drupal_add_js(array('selectedValues' => $selectedValuesOnLoad, 'pathToTheme' => path_to_theme(), 'avatarfile' => $pictureFilename), 'setting');
-drupal_add_js("
-    (function ($) {
-        $(document).ready(function() {
-            $('.form-required').html('<img class=\"required-img\" src=\"/".path_to_theme()."/accrualnet-internals/images/global/required.png\" />');
-        
-        });
-    }) (jQuery);", 'inline');
+
 
 
 
@@ -193,6 +198,8 @@ if (count($form['avatar_image']['und']['#default_value']) > 0) {
         $output .= drupal_render($form['account']['mail']);
 
         $output .= drupal_render($form['account']['pass']);
+
+        $output .= drupal_render($form['account']['roles']);
 
         $output .= drupal_render($form['field_occupation']);
 
