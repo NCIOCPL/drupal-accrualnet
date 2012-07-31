@@ -71,8 +71,8 @@ function education_landing_page() {
 
 		$output .= "<h2 class='$type_tag-title education-title-2'>";
 		$output .= "<a href='/education/$type'>${type_info['name']}";
-		$output .= " <span id='title-results-number' class='education-type-count'>($count)</span>";
 		$output .= "</a>";
+		$output .= " <span id='title-results-number' class='education-type-count'>($count)</span>";
 		$output .= "</h2>";
 
 		// find the related nodes
