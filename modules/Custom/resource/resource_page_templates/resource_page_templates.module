@@ -70,6 +70,13 @@ function resource_page_templates_menu() {
     'access callback' => TRUE,
     'weight' => 1,
   );
+  
+  $items['literature/all'] = array(
+      'title' => 'All Resources',
+      'page callback' => 'drupal_get_form',
+      'page arguments' => array('resource_ajax_filter'),
+      'access callback' => TRUE,
+  );
 
   return $items;
 }
@@ -86,13 +93,12 @@ function resource_ajax_filter($form, &$form_state, $facet, $term) {
     $vocabName = $vocab->name;
     $tagName = DetermineTag($term);
     $tag = array_pop(taxonomy_get_term_by_name($tagName));
-    if ($tagName == NULL)
-		return '';
+    if ($tag && !$tagName) return NULL;
   
     drupal_add_js(drupal_get_path('module', 'resource_page_templates') . '/resourceFilter.js', 'file');
     drupal_add_js(drupal_get_path('theme', 'accrualnet') . '/js/checkbox.js', 'file');
-  
     
+  
     
   $form['filter_results_fieldset'] = array(
     // The prefix/suffix provide the div that we're replacing, named by
@@ -274,9 +280,11 @@ function _resource_ajax_load_results($params, $facetName, $tag){
     global $an_resource_types;
     $query = new EntityFieldQuery();
     // We are looking for a node
-    $query->entityCondition('entity_type', 'node')
-        ->fieldCondition('field_tax_' . $facetName, 'tid', $tag->tid)
-        ->propertyCondition("status", 1)
+    $query->entityCondition('entity_type', 'node');
+    if ($facetName && $tag) {
+        $query->fieldCondition('field_tax_' . $facetName, 'tid', $tag->tid);
+    }
+        $query->propertyCondition("status", 1)
         ->pager(10);
     //Conditional Query Logic
     
