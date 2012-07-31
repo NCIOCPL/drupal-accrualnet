@@ -34,7 +34,7 @@
         
         // Reset the filter by just reloading the base page
         var $resetFilter = $('form#resource-ajax-filter').attr('action');
-        $('#filter-results').append($('<div class="reset-filter"><a href="' + $resetFilter + '">Reset Filter</a></div>'));
+        $('#filter-results').append($('<div class="reset-filter"><span class="button"><a href="' + $resetFilter + '">Reset Filter</a></span></div>'));
     
     
         $('<span class="filter-arrow collapsed">► </span>').insertBefore($('#edit-lifecycle, #edit-resource-types').children('legend').children('span'));
