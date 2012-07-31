@@ -917,16 +917,16 @@ body a:visited {
 
 
 /**************** Customized Section Theme Colors *****************************/
-.Blue h1, .Blue span.site-name-net, .Blue span.tm  {
+.Blue h1, .Blue h2, .Blue h3, .Blue span.site-name-net, .Blue span.tm  {
     color: #105693;
 }
-.Orange h1, .Orange span.site-name-net, .Orange span.tm {
+.Orange h1, .Orange h2, .Orange h3, .Orange span.site-name-net, .Orange span.tm {
     color: #DC6E23;
 }
-.Red h1, .Red span.site-name-net, .Red span.tm {
+.Red h1, .Red h2, .Red h3, .Red span.site-name-net, .Red span.tm {
     color: #C74532;
 }
-.Purple h1, .Purple span.site-name-net, .Purple span.site-name-net {
+.Purple h1, .Purple h2, .Purple h3, .Purple span.site-name-net, .Purple span.site-name-net {
     color: #54316E;    
 }
 
@@ -1015,7 +1015,8 @@ body a:visited {
 #block-an-navigation-left-nav ul.menu li.active-trail a.active,
 #block-an-navigation-left-nav ul.menu li.active-trail a.active:hover,
 #block-an-navigation-left-nav ul.menu li.active-trail a.active:visited,
-#block-an-navigation-left-nav ul.menu li.active-trail a.active:active {
+#block-an-navigation-left-nav ul.menu li.active-trail a.active:active,
+.section-communities .Orange nav#block-an-navigation-left-nav ul.menu li a.active-trail {
     color: #fff;
 }
 
@@ -1104,7 +1105,8 @@ body a:visited {
     background-color: rgb(16,86,147);
     background-color: rgba(16,86,147, 1);
 }
-.Orange nav#block-an-navigation-left-nav li a.active {
+.Orange nav#block-an-navigation-left-nav li a.active,
+.section-communities .Orange nav#block-an-navigation-left-nav li a.active-trail{
     background-color: rgb(220,110,35);
     background-color: rgba(220,110,35, 1);
 }
@@ -1170,3 +1172,24 @@ body a:visited {
 #resource-links li {
     padding-top: 10px;
 }
+
+/*******************Community Styling***************************/
+
+h2.comment-form {
+    float: left;
+    border: none;
+    margin-right: 10px;
+}
+
+.comment-user-info {
+    padding-top: 5px;
+    font-style: italic;
+}
+
+.convo-posted-date {
+    float:right;
+    font-size: 13px;
+    text-transform:none;
+}
+
+/******************End Community Styling*************************/

@@ -45,21 +45,18 @@ $content['comment_form']['comment_body']['und'][0]['format'] = NULL;
 $content['comment_form']['author']['_author']['#title'] = NULL;
 //$content['comment_form']['author']['_author']['#markup'] .= " says...";
 global $user;
-$content['comment_form']['author']['_author']['#markup'] = $user->name . ' says...';
+$content['comment_form']['author']['_author']['#markup'] = NULL;
 
 $comment_form = render($content['comment_form']);
 ?>
 <section class="comments <?php print $classes; ?>"<?php print $attributes; ?>>
-  <?php print render($title_prefix); ?>
-  <?php if ($comments && $node->type != 'forum'): ?>
-    <h2 class="title"><?php print t('Comments'); ?></h2>
-  <?php endif; ?>
-  <?php print render($title_suffix); ?>
 
   <?php print $comments; ?>
 
   <?php if ($comment_form): ?>
-    <h2 class="title comment-form"><?php print t('Add new comment'); ?></h2>
-    <?php print $comment_form; ?>
+    <div class="comment-header">
+    <h2 class="title comment-form"><?php print t('COMMENT'); ?></h2><div class="comment-user-info"><?php print t('You are logged in as '.$user->name.'.');?></div>
+    </div>
+        <?php print $comment_form; ?>
   <?php endif; ?>
 </section>
