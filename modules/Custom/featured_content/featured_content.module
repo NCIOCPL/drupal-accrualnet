@@ -45,13 +45,13 @@ function featured_content_block_view($delta = '') {
             if(!user_is_logged_in()){
             $result = '<div class="cta-box">';
             $result .= t('Talk to fellow professionals on the topics that matter most.');
-            $result .= '<div class="cta-button"><a href="/user/register" title="Sign Up Now">Sign Up Now</a></div>  ';
+            $result .= '<div class="cta-button"><span class="button"><a href="/user/register" title="Sign Up Now">Sign Up Now</a></span></div>  ';
             $result .= '</div>';
             }
             else{
             $result = '<div class="cta-box">';
             $result .= t('Talk to fellow professionals on the topics that matter most.');
-            $result .= '<div class="cta-button"><a href="/node/add/conversation" title="Start a Conversation">Start a Conversation</a></div>  ';
+            $result .= '<div class="cta-button"><span class="button"><a href="/node/add/conversation" title="Start a Conversation">Start a Conversation</a></span></div>  ';
             $result .= '</div>';
             }
         
@@ -72,7 +72,7 @@ function featured_content_block_view($delta = '') {
 
                 $result = '<div class="cta-box">';
                 $result .= t('Add your resource to the best of clinical accrual knowledge.');
-                $result .= '<div class="cta-button"><a href="/content/submit_new_resource" title="Add a Resource">Go</a></div>  ';
+                $result .= '<div class="cta-button"><span class="button"><a href="/content/submit_new_resource" title="Add a Resource">Go</a></span></div>  ';
                 $result .= '</div>';
 
             if (empty($result)) { //No content in the last week.
