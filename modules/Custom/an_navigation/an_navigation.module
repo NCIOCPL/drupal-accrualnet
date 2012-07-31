@@ -111,6 +111,23 @@ function _an_navigation_literature_submenu($parentID, $base_path){
         
     }
     
+     $menu_entry = array(
+                'values' => array(
+                    'menu_name' => 'an-main-nav',
+                    'weight' => $level1_weight,
+                    'link_title' => 'View All Resources',
+                    'link_path' => 'literature/all' ,
+                    'module' => t('menu'),
+                    'mlid' => 0,
+                    'plid' => $parentID,
+                ),
+            );
+            
+        $plid_lvl2 = menu_link_save($menu_entry['values']);
+        $level1_weight++;
+    
+    
+    
     
     //print dpm($taxonomy);
     
