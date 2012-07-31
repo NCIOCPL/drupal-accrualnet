@@ -64,6 +64,7 @@
  */
 
 ?>
+
 <article class="<?php print $classes; ?> clearfix"<?php print $attributes; ?>>
 
   <header>
