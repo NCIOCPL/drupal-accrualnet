@@ -639,6 +639,7 @@ function accrualnet_preprocess_comment(&$variables, $hook) {
 	$variables['title_attributes_array']['class'][] = 'comment-title';
 }
 
+
 /**
  * Preprocess variables for region.tpl.php
  *
