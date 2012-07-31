@@ -302,6 +302,38 @@ function _nci_custom_user_config_image_styles() {
 		);
 		image_effect_save($effect);
 	}
+
+	$style_name = 'scale_100';
+	if (array_search($style_name, image_style_options()) === FALSE) {
+		$style = image_style_save(array('name' => $style_name));
+
+		$effect = array(
+			'name' => 'image_scale',
+			'data' => array(
+				'width' => 100,
+				'height' => 100,
+				'upscale' => 0,
+			),
+			'isid' => $style['isid'],
+		);
+		image_effect_save($effect);
+	}
+
+	$style_name = 'scale_25';
+	if (array_search($style_name, image_style_options()) === FALSE) {
+		$style = image_style_save(array('name' => $style_name));
+
+		$effect = array(
+			'name' => 'image_scale',
+			'data' => array(
+				'width' => 25,
+				'height' => 25,
+				'upscale' => 0,
+			),
+			'isid' => $style['isid'],
+		);
+		image_effect_save($effect);
+	}
 }
 
 ?>
