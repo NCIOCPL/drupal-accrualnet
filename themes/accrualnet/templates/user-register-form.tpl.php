@@ -24,6 +24,8 @@ drupal_add_js("
         
         });
     }) (jQuery);", 'inline');
+
+$output = '';
 ?>
 
 <p>
@@ -37,7 +39,8 @@ drupal_add_js("
         <div class="profile-avatars-male">
         <?php
         foreach ($nci_user_profile_colors as $colorValue => $colorOpt) {
-            if ($avatarIMG['gender'] == 'male' && $avatarIMG['color'] == $colorOpt) {
+            if (isset($avatarIMG['gender']) && isset($avatarIMG['color']) &&
+					$avatarIMG['gender'] == 'male' && $avatarIMG['color'] == $colorOpt) {
                 print '<span class="avatar-option picked" id="' . $colorOpt . '" title="male">';
             } else {
                 print '<span class="avatar-option" id="' . $colorOpt . '" title="male">';
@@ -50,7 +53,8 @@ drupal_add_js("
                 <div class="profile-avatars-female">
         <?php
         foreach ($nci_user_profile_colors as $colorValue => $colorOpt) {
-            if ($avatarIMG['gender'] == 'female' && $avatarIMG['color'] == $colorOpt) {
+            if (isset($avatarIMG['gender']) && isset($avatarIMG['color']) &&
+					$avatarIMG['gender'] == 'female' && $avatarIMG['color'] == $colorOpt) {
                 print '<span class="avatar-option picked" id="' . $colorOpt . '" title="female">';
             } else {
             print '<span class="avatar-option" id="' . $colorOpt . '" title="female">';
