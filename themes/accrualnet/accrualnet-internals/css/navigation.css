@@ -26,11 +26,14 @@
  
  nav ul li.active-trail > ul { display: block; }
  
+ nav.breadcrumb li {
+     text-decoration:none;
+ }
  nav.breadcrumb li a{
     padding: 5px;
     font: 400 12px/1.4  Helvetica, Verdana, Arial, sans-serif;
     text-align: center;
-    text-decoration: none;
+    text-decoration: underline;
     color: #2D2D2D;
     border:none;
  }
