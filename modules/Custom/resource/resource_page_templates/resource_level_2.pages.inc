@@ -133,7 +133,7 @@ function resource_level_2_page($section) {
 		$tag_url = strtolower(preg_replace($old_pattern, $new_pattern, $tag->name));
 
 		$output .= '<div class="resource-level-2-item">';
-		$output .= '<h2 class="resource-title-2"><a href="/literature/' . $section . '/' . $tag_url . '">' . $tag->name . '<span id="title-results-number"> (' . $count . ')</span></a></h2>';
+		$output .= '<h2 class="resource-title-2"><a href="/literature/' . $section . '/' . $tag_url . '">' . $tag->name . '</a><span id="title-results-number"> (' . $count . ')</span></h2>';
 
 		foreach ($query as $result) {
 			$node = node_load($result->entity_id);
