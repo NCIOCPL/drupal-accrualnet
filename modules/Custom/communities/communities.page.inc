@@ -75,7 +75,7 @@ function communities_topic_page($topic) {
             $query->orderBy('n.created', 'DESC');
             $query = $query->extend('PagerDefault')->limit($numConvosPerPage);
             $convos = $query->execute()->fetchAllAssoc('nid');
-            $o .= kprint_r($convos);
+            
             
             $convosUnloaded = array_values($convos);
             $numConvos = 0;
@@ -182,7 +182,7 @@ function communities_landing_page() {
 
     if (count($result) > 0 && count($result['nodes']) > 0) {
         $landingNode = array_pop($result['nodes']);
-        //$o .= kprint_r($landingNode);
+        
         $o .= '<h1>' . $landingNode->title . '</h1>';
         $o .= '<div id="communities-info">';
         $o .= '<div id="communities-pic">';
