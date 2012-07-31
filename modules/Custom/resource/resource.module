@@ -364,16 +364,20 @@ function _resource_output_taxonomy($node) {
 		} else {
 			continue;
 		}
+                $termsAdded = array();
 		foreach ($field_array as $field_instance) {
 			$termName = taxonomy_term_load($field_instance['tid'])->name;
-			$old_pattern = array("/[^a-zA-Z0-9]/", "/_+/", "/_$/");
-			$new_pattern = array("_", "_", "");
-			$term_url = strtolower(preg_replace($old_pattern, $new_pattern, $termName));
+			//$old_pattern = array("/[^a-zA-Z0-9]/", "/_+/", "/_$/");
+			//$new_pattern = array("_", "_", "");
+			//$term_url = strtolower(preg_replace($old_pattern, $new_pattern, $termName));
 
 			//$taxonomyOutput .= '<a href="' . $vocab_url . '/' . $term_url . '">';
+                        if (! in_array($termName, $termsAdded)) {
 			$taxonomyOutput .= $termName;
 			//$taxonomyOutput .= '</a>';
 			$taxonomyOutput .= ', ';
+                        $termsAdded[] = $termName;
+                        }
 		}
 	}
         $taxonomyOutput = rtrim(trim($taxonomyOutput), ',');
