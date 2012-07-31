@@ -69,3 +69,7 @@ div.education-level-2-item .form-actions input{
 	font-weight: bold;
 	color: #C74532;
 }
+
+div.education-level-2-result div.resource-output{
+	min-height: 20px;
+}
