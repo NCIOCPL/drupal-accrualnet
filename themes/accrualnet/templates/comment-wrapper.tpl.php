@@ -46,6 +46,8 @@ $content['comment_form']['author']['_author']['#title'] = NULL;
 //$content['comment_form']['author']['_author']['#markup'] .= " says...";
 global $user;
 $content['comment_form']['author']['_author']['#markup'] = NULL;
+$content['comment_form']['actions']['submit']['#value'] = "Submit";
+$content['comment_form']['actions']['preview'] = NULL;
 
 $comment_form = render($content['comment_form']);
 ?>

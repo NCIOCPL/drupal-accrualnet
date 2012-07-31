@@ -98,7 +98,7 @@ $order = field_get_items('node', $node, 'field_order_by');
 $types = field_get_items('node', $node, 'field_featured_type');
 //get image(if it exists)
 $image = field_get_items('node', $node, 'field_featured_image');
-
+$link = field_get_items('node', $node, 'field_more_link');
 
 //Build out the entityFieldQuery for this content type.
 $query = new EntityFieldQuery();

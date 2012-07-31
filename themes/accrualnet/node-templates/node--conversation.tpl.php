@@ -112,7 +112,7 @@ $color = field_get_items('user', $user, 'profile_color');
     <?php endif;?>
     <div class="convo-posts">
     <?php if($body): ?>
-        <div class="convo-post convo-post odd">
+        <div class="convo-post convo-post even">
         <div class="convo-user-image">
                 <?php print theme('image_style',
                     array(

@@ -62,29 +62,38 @@
  * @see template_process()
  * @see theme_comment()
  */
+$test = $author;
+$test = $picture;
+$test = $comment;
 
+
+$user = user_load($comment->uid);
+
+$occupation = field_get_items('user', $user, 'field_occupation');
 ?>
 
-<article class="<?php print $classes; ?> clearfix"<?php print $attributes; ?>>
+<div class="convo-post <?php print $classes;?>">
+    <div class="convo-user-image">
+            <?php print theme('image_style',
+                array(
+                    'path' => $user->picture->uri,
+                    'style_name' => 'thumbnail',         
+                )
+            ); ?>
+        </div>
+        <div class="convo-body">
+        <div class="submitted-by">
+            <span class="user-name">
+                <a href="/user/<?php print $comment->uid;?>" class="<?php print $nci_user_profile_colors[$color[0]['value']];?>" title="<?php print $user->name;?>'s profile"><?php print $user->name;?></a>
+            </span>
+            <span class="user-occupation"><?php print check_plain($occupation[0]['value']);?></span>
+            <span class="posted-date"><?php print format_date($comment->created, 'custom', 'F d, Y');?></span>
+        </div>
+        <?php
+        hide($content['links']);
+        print render($content);
+        ?>
+    </div>
 
-  <header>
-    <p class="submitted">
-      <?php print $submitted; ?>
-      :
-    </p>
-  </header>
-    <div style="border-bottom:1px dotted black;">
-  <?php
-    // We hide the comments and links now so that we can render them later.
-    hide($content['links']);
-    print render($content);
-  ?>
 </div>
 
-
-  <?php 
-  /* Lauren left this out bc it wasn't in the comp but probably should be.
-  print render($content['links']) 
-   */
-  ?>
-</article><!-- /.comment -->
