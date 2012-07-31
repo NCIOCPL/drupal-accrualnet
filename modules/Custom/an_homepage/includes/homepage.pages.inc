@@ -94,7 +94,7 @@ function _homepage_dynamic_content_block($node) {
     $order = field_get_items('node', $node, 'field_order_by');
     //field_featured_type is required so it must be here.
     $types = field_get_items('node', $node, 'field_featured_type');
-    
+    $link = field_get_items('node', $node, 'field_more_link');
 
     //Build out the entityFieldQuery for this content type.
     $query = new EntityFieldQuery();
@@ -144,6 +144,11 @@ function _homepage_dynamic_content_block($node) {
             $output .= '</div>';
         }
         $output .= '</div>';
+        $output .= '</div>';
+    }
+    if($link){
+        $output .= '<div class="feature-link">';
+        $output .= '<span class="button"><a href="/'.$link[0]['url'].'" title="'.$link[0]['title'].'">'.$link[0]['title'].'</a></span>';
         $output .= '</div>';
     }
     $output .= '</div>';

@@ -50,6 +50,18 @@ $GLOBALS['featured_content_fields'] = array(
         ),
     ),
     array(
+        'label' => 'More Link',
+        'field_name' => 'more_link',
+        'description' => '',
+        'type' => 'link_field',
+        'cardinality' => 1,
+        'entity_type' => 'node',
+        'settings' => array(),
+        'bundles' => array(
+            'dynamic_content_block',
+        ),
+    ),
+    array(
         'label' => 'Display Format',
         'description' => 'Please select the display format for this content module.',
         'field_name' => 'display_format',
@@ -62,7 +74,6 @@ $GLOBALS['featured_content_fields'] = array(
             'allowed_values' => array(
                 'listing' => 'Content Listing',
                 'listing_image' => 'Content Listing + Image',
-                'homepage' => 'Homepage Block'
             )
         ),
         'widget' => array(
@@ -184,7 +195,7 @@ $GLOBALS['featured_content_fields'] = array(
         'field_name' => 'featured_carousel',
         'description' => '',
         'type' => 'entityreference',
-        'cardinality' => '3',
+        'cardinality' => '1',
         'entity_type' => 'node',
         'settings' => array(
             'target_type' => 'node',

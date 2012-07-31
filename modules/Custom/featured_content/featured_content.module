@@ -180,19 +180,6 @@ function featured_content_enable() {
  */
 function featured_content_disable() {}
 
-function _featured_content_homepage_display($node){
-    //for all node types, we display the same output:
-    $output = '';
-    $output .= '<div class="homepage-node-display">';
-    $output .= '<div class="homepage-node-created">';
-    $output .= format_date(check_plain($node->created), 'custom', 'm/d/y');
-    $output .= '</div>';
-    $output .= '<div class="homepage-node-title">';
-    $output .= check_plain($node->title);
-    $output .= '</div>';
-    $output .= '</div>';
-    return $output;
-}
 
 function _featured_content_display($node, $image = TRUE, $citation = TRUE, $taxonomy = TRUE){
     global $an_resource_types;
