@@ -375,70 +375,9 @@ span.selectOption:hover {
 
 
 
-/*.accrualnet-user-profile-form-wrapper*/ .form-actions input {
-    border: 2px solid #9AB83F;
 
-  color:#9AB83F;
-  font-weight: bold;
-  background-color:#2f2f2f;
-  background-image:-webkit-repeating-linear-gradient(left top, #D5FF87 0px, #fff 4px);
-  background-image:-moz-repeating-linear-gradient(left top, #D5FF87 0px, #fff 4px);
-  background-image:-ms-repeating-linear-gradient(left top, #D5FF87 0px, #fff 4px);
-  background-image:-o-repeating-linear-gradient(left top, #D5FF87 0px, #fff 4px);
-  background-image:repeating-linear-gradient(left top, #D5FF87 0px, #fff 4px);
 
-/*
-background-image: -webkit-gradient(linear, left top, right bottom, 
-    color-stop(0, #ccc), 
-    color-stop(0.25, #ccc), 
-    color-stop(0.25, #bbb), 
-    color-stop(0.5, #bbb), 
-    color-stop(0.5, #ccc), 
-    color-stop(0.75, #ccc), 
-    color-stop(0.75, #bbb));
-background-image: -webkit-linear-gradient(left top, #ccc 0%, #ccc 25%, #bbb 25%, #bbb 50%, #ccc 50%, #ccc 75%, #bbb 75%);
-background-image: -moz-linear-gradient(left top, #c74532 1%, #105693 1%, #c74532 48%, #105693 50%);
-background-image: -ms-linear-gradient(left top, #ccc 0%, #ccc 25%, #bbb 25%, #bbb 50%, #ccc 50%, #ccc 75%, #bbb 75%);
-background-image: -o-linear-gradient(left top, #ccc 0%, #ccc 25%, #bbb 25%, #bbb 50%, #ccc 50%, #ccc 75%, #bbb 75
-filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#cccccc', endColorstr='#bbbbbb',GradientType=0 ); /* IE6-8 */
 
-margin: 10px;
-text-transform: uppercase;
-font-family: Arial, Helvetica, sans-serif;
-
-}
-
-/*.accrualnet-user-profile-form-wrapper*/ .form-actions input:hover, .form-actions input:active {
-    border: 2px solid #9AB83F;
-
-  color:#fff;
-  font-weight: bold;
-  background-color:#2f2f2f;
-  background-image:-webkit-repeating-linear-gradient(left top, #BCD35A 0px, #9AB83F 4px);
-  background-image:-moz-repeating-linear-gradient(left top, #BCD35A 0px, #9AB83F 4px);
-  background-image:-ms-repeating-linear-gradient(left top, #BCD35A 0px, #9AB83F 4px);
-  background-image:-o-repeating-linear-gradient(left top, #BCD35A 0px, #9AB83F 4px);
-  background-image:repeating-linear-gradient(left top, #BCD35A 0px, #9AB83F 4px);
-
-/*
-background-image: -webkit-gradient(linear, left top, right bottom, 
-    color-stop(0, #ccc), 
-    color-stop(0.25, #ccc), 
-    color-stop(0.25, #bbb), 
-    color-stop(0.5, #bbb), 
-    color-stop(0.5, #ccc), 
-    color-stop(0.75, #ccc), 
-    color-stop(0.75, #bbb));
-background-image: -webkit-linear-gradient(left top, #ccc 0%, #ccc 25%, #bbb 25%, #bbb 50%, #ccc 50%, #ccc 75%, #bbb 75%);
-background-image: -moz-linear-gradient(left top, #c74532 1%, #105693 1%, #c74532 48%, #105693 50%);
-background-image: -ms-linear-gradient(left top, #ccc 0%, #ccc 25%, #bbb 25%, #bbb 50%, #ccc 50%, #ccc 75%, #bbb 75%);
-background-image: -o-linear-gradient(left top, #ccc 0%, #ccc 25%, #bbb 25%, #bbb 50%, #ccc 50%, #ccc 75%, #bbb 75
-filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#cccccc', endColorstr='#bbbbbb',GradientType=0 ); /* IE6-8 */
-
-margin: 10px;
-text-transform: uppercase;
-font-family: Arial, Helvetica, sans-serif;
-}
 
 .Red label,
 .Red input#edit-name,
