@@ -90,6 +90,7 @@
 //THIS COULD FAIL IF NOT!!
 //
 //
+
 //field_display_format is required
 $format = field_get_items('node', $node, 'field_display_format');
 //field_order_by is required
@@ -99,6 +100,25 @@ $types = field_get_items('node', $node, 'field_featured_type');
 //get image(if it exists)
 $image = field_get_items('node', $node, 'field_featured_image');
 $link = field_get_items('node', $node, 'field_more_link');
+
+
+$numConvosPerPage = 10;
+$query = db_select('node', 'n')->fields('n', array('nid', 'title', 'created'));
+$query->leftJoin('og_membership', 'ogm', 'ogm.etid=n.nid');
+if($types){
+    $query->condition('n.type',  array_values($types) , 'IN');
+}
+$query->condition('n.status', '1')
+        ->condition('ogm.gid', 'NULL', 'IS NULL');
+$query->orderBy('n.created', 'DESC');
+$query = $query->extend('PagerDefault')->limit($numConvosPerPage);
+$content = $query->execute()->fetchAllAssoc('nid');
+
+
+$featuredContent = entity_load('node', array_keys($content));
+
+
+
 
 //Build out the entityFieldQuery for this content type.
 $query = new EntityFieldQuery();
@@ -135,7 +155,7 @@ switch($order[0]['value']){
 }
  
 
-$featuredContent = _an_lifecycle_load_related_nodes($query, TRUE);
+//$featuredContent = _an_lifecycle_load_related_nodes($query, TRUE);
 
 ?>
 <div class="featured-content-title">
@@ -143,7 +163,7 @@ $featuredContent = _an_lifecycle_load_related_nodes($query, TRUE);
 </div>
 <div class="featured-content-block">
     <?php $counter = 1;?>
-    <?php foreach($featuredContent['nodes'] as $item):?>
+    <?php foreach($featuredContent as $item):?>
         <?php if($counter == 1 || $counter == 4):?>
             <div class="featured-content-section-<?php print $counter;?>">
         <?php endif;?>

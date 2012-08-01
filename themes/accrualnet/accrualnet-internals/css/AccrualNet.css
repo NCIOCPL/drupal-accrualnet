@@ -132,7 +132,7 @@ h1 span {
 
 .landing-page-image {
     float:left;
-    width: 60%;
+    width: 55%;
 }
 .landing-page-text {
     width: 40%;
@@ -578,9 +578,12 @@ body a:visited {
     min-height: 10px;
 }
 
+.communities-related .featured-content-carousel{
+    margin-top: 30px;
+}
+
 .featured-content-carousel {
     position: relative;
-    
     border-bottom: solid #9AB83F 7px;
     border-right: solid #9AB83F 7px;
 }
@@ -792,6 +795,21 @@ body a:visited {
 .cta-box {
     margin: 10px 0;
 }
+
+
+
+.featured-content-block .conversation-output {
+    position: relative;
+    clear: both;
+    padding: 20px 0px;
+}
+
+.featured-content-block .conversation-output .node-title a{
+    color: #DC6E23;
+    font-size: 17px;
+}
+
+
 /*
 .cta-button {
     margin-top: 30px;
