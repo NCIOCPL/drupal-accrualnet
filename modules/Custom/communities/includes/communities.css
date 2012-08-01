@@ -12,6 +12,7 @@
     padding: 40px 0px;
 }
 
+
 .conversation-title,
 .conversation-title a, 
 .conversation-title a:hover,
@@ -22,11 +23,17 @@
 .conversation-title a:hover {
     font-weight: bold;
 }
+.conversation-title h2 {
+    float: left;
+}
 
 span.conversation-last-updated {
     float: right;
+    font-weight: normal;
+    font-size: 13px;
+    text-transform: none;
 }
-
+/*
 #communities-pic {
     float: left;
     width: 49%;
@@ -34,6 +41,7 @@ span.conversation-last-updated {
 #communities-pic img {
     border: 3px solid #DC6E23;
 }
+*/
 
 #communities-description {
     margin-left: 51%;
