@@ -182,23 +182,36 @@ function communities_landing_page() {
 
     if (count($result) > 0 && count($result['nodes']) > 0) {
         $landingNode = array_pop($result['nodes']);
-        
+        $featuredCarousel = field_get_items('node', $landingNode, 'field_featured_carousel');
         $o .= '<h1>' . $landingNode->title . '</h1>';
         $o .= '<div id="communities-info">';
-        $o .= '<div id="communities-pic">';
+        $o .= '<div class="landing-page-image">';
         $o .= drupal_render(field_view_field('node', $landingNode, 'field_landing_page_image', array('label' => 'hidden')));
         $o .= '</div>';
 
-        $o .= '<div id="communities-description">';
+        $o .= '<div  class="landing-page-text">';
         $o .= drupal_render(field_view_field('node', $landingNode, 'field_content', array('label' => 'hidden')));
         $o .= '</div>'; // Closes Description
         $o .= '</div>'; // Closes Info
-    } else {
+        $o .= '<div class="communities-related">';
+        if($featuredCarousel){
+                $o .= render(node_view(node_load($featuredCarousel[0]['target_id'])));
+        }
+        
+        $o .= '</div>';
+    } 
+    else {
 
         $o .= '<h1>Communities and Conversations</h1>';
     }
 
+   
+    
+    
+    /*
+    
     $o .= '<div id="all-conversations-box">';
+    
     $query = new EntityFieldQuery();
     $query->entityCondition('entity_type', 'node')
             ->entityCondition('bundle', 'conversation')
@@ -241,7 +254,7 @@ function communities_landing_page() {
     }
     $o .= '</div></div>';
     $o .= '</div>';
-
+    */
     $o .= '</div>'; // Closes whole page
     return $o;
 }

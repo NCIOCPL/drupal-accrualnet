@@ -189,6 +189,18 @@ function _featured_content_display($node, $image = TRUE, $citation = TRUE, $taxo
     }
     switch($node->type) {
         case 'conversation':
+            $urlPath = drupal_lookup_path('alias', 'node/'.$node->nid); 
+            $output .= '<div class="conversation-output">'; 
+            $output .= '<div class="node-title">';
+            $output .= '<a href="'.$urlPath.'" title="'.check_plain($node->title).'">';
+            $output .= check_plain($node->title);
+            $output .= '</a>';
+            $output .= '<div class="node-posted-by">';
+            $output .= 'Posted By: '. check_plain($node->name) . ' on '. format_date($node->created, 'custom', 'F d, Y');
+            $output .= '</div>';
+            $output .= '</div>';
+            $output .= '</div>';
+            return $output;
             //insert convo display function
         break;
         case 'community_of_practice':
@@ -196,4 +208,37 @@ function _featured_content_display($node, $image = TRUE, $citation = TRUE, $taxo
         break;
     }
     return '<div>This content type '.check_plain($node->type).' is not yet supported by this feature.</div>';
+}
+
+
+function _featured_content_node_output($node, $moreLink) {
+        $output = '';
+    
+
+        $color = $item->type == 'conversation' ? 'Orange' : 'Blue';
+        $output .= '<div class="homepage-feature-content-item">';
+        $urlPath = drupal_lookup_path('alias', 'node/'.$item->nid); 
+        $output .= '<div class="homepage-node-created '.$color.'">';
+        $output .= format_date(check_plain($item->created), 'custom', 'm/d/y');
+        $output .= '</div>';
+        $output .= '<div class="homepage-node-title">';
+        
+        $output .= '<a href="'.$urlPath.'" title="'.check_plain($item->title).'">';
+        $output .= check_plain($item->title);
+        $output .= '</a>';
+        if($item->type == 'conversation'){
+            $output .= '<div class="node-posted-by">';
+            $output .= 'Posted By: '. check_plain($item->name) ;
+            $output .= '</div>';
+        }
+        $output .= '</div>';
+        $output .= '</div>';
+    
+    if($link && $moreLink){
+        $output .= '<div class="feature-link">';
+        $output .= '<span class="button"><a href="/'.$link[0]['url'].'" title="'.$link[0]['title'].'">'.$link[0]['title'].'</a></span>';
+        $output .= '</div>';
+    }
+    $output .= '</div>';
+    return $output;
 }
