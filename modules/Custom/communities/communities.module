@@ -60,7 +60,7 @@ function communities_enable() {
 
     // Set the body for the Conversation content type
     $conversation_type = node_type_set_defaults($types['conversation']);
-    node_add_body_field($conversation_type, 'Conversation Body');
+    node_add_body_field($conversation_type, 'Conversation Abstract');
     node_type_save($conversation_type);
     
     
@@ -235,12 +235,12 @@ function _conversation_fields() {
             )
         );
         
-        //added by doyle 7/31
+        //added by doyle 7/31 // edited by lauren 8/1
         $fields[] = array(    
-            'field_name' => 'field_conversation_summary',
+            'field_name' => 'field_conversation_opener',
             'cardinality' => 1,
-            'label' => 'Conversation Summary',
-            'description' => 'Provide a summary paragraph of the intended purpose of this conversation.',
+            'label' => 'Opening Remarks',
+            'description' => 'Provide your opening remarks of this conversation.',
             'type' => 'text_long',
             'entity_type' => 'node',
             'settings' => array(),
@@ -378,12 +378,12 @@ function _conversation_instances() {
 			
 			
         ),*/
-        //added by doyle 7/31
-        'field_conversation_summary' => array(
-            'field_name' => 'field_conversation_summary',
+        //added by doyle 7/31 //edited by lauren 8/1
+        'field_conversation_opener' => array(
+            'field_name' => 'field_conversation_opener',
             'cardinality' => 1,
-            'label' => 'Conversation Summary',
-            'description' => 'Provide a summary paragraph of the intended purpose of this conversation.',
+            'label' => 'Opening Remarks',
+            'description' => 'Provide your opening remarks of this conversation.',
             'type' => 'text_long',
             'entity_type' => 'node',
             'settings' => array(),
