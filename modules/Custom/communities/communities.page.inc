@@ -288,7 +288,7 @@ function communities_of_practice_page() {
         if ($convosUnloaded[count($convosUnloaded) - 1] == $comm) $o .= ' last-result';
         $o .= '">';
         $o .= '<div class="community-of-practice-title">';
-        $o .= '<a href="' . url('node/' . $comm->vid) . '">';
+        $o .= '<a href="' . url('node/' . $comm->nid) . '">';
         $o .= check_plain($comm->title);
         $o .= '</a></div>';
         $o .= '<div class="community-of-practice-desc">';
@@ -296,10 +296,10 @@ function communities_of_practice_page() {
         //$o .= drupal_render(field_view_field('node', $comm, 'body', array('label' => 'hidden')));
         $o .= '</div>';
 
-        $group = og_get_group('node', $comm->vid);
+        $group = og_get_group('node', $comm->nid);
         if (!in_array($group->gid, array_values($usersGroups))) {
             $o .= '<div class="community-of-practice-link"><span class="community-join-link">';
-            $o .= '<a href="/group/node/' . $comm->vid . '/subscribe ">';
+            $o .= '<a href="/group/node/' . $comm->nid . '/subscribe ">';
             $o .= 'Join This Community';
             $o .= '</a>';
             $o .= '</span></div>';
