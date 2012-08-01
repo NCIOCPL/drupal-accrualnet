@@ -60,7 +60,7 @@ function communities_enable() {
 
     // Set the body for the Conversation content type
     $conversation_type = node_type_set_defaults($types['conversation']);
-    node_add_body_field($conversation_type, 'Conversation Description');
+    node_add_body_field($conversation_type, 'Conversation Body');
     node_type_save($conversation_type);
     
     
@@ -71,6 +71,9 @@ function communities_enable() {
     if (! field_info_field(OG_AUDIENCE_FIELD)) {
         og_create_field(OG_AUDIENCE_FIELD, 'node', 'conversation');
     }
+            $updateCardinality = field_info_field(OG_AUDIENCE_FIELD);
+        $updateCardinality['cardinality'] = 1;
+        field_update_field($updateCardinality);
 
 
     // Create all of the fields for the Community content type
@@ -309,7 +312,8 @@ function _community_instances() {
             'field_name' => OG_GROUP_FIELD,
             'label' => 'Group',
             //'type' => 'list_boolean',
-            
+            'settings' => array(''),
+                
             'widget' => array(
                 'module' => 'options',
                 'settings' => array(),
