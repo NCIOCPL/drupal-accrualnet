@@ -287,6 +287,28 @@ span.button a:hover, span.button a:active, span.button:hover a {
      width: 85%;
  }
  
+ .search-node-output {
+     margin-left: 14%;
+     width: 85%;
+     padding: 10px 0px;
+ }
+ .search-node-output a {
+     font-size: 17px;
+     color: #2D2D2D;
+ }
+ .search-node-output a:hover {
+     font-weight: bold;
+ }
+ .result-type-community a, .result-type-conversation a,
+ .result-type-community a:hover, .result-type-conversation a:hover,
+.result-type-community a:visited, .result-type-conversation a:visited {
+     color: #DC6E23;
+ }
+  .result-type-lifecycle-strategy a, .result-type-lifecycle-stage a,
+ .result-type-lifecycle-strategy a:hover, .result-type-lifecycle-stage a:hover,
+.result-type-lifecycle-strategy a:visited, .result-type-lifecycle-stage a:visited {
+     color: #54316E;
+ }
  
  
  .results-number, .RESULTS-NUMBER {

@@ -77,27 +77,30 @@
  * 
  */
 ?>
-<?php //kprint_r(get_defined_vars()); ?>
+<?php //print kprint_r(get_defined_vars()); ?>
 <li class="<?php print $classes; ?>"<?php print $attributes; ?>>
 	<?php 
 		global $an_resource_types;
 		$node = $result['node'];
 
-		if(isset($an_resource_types[$node->type]))
+		if(isset($an_resource_types[$node->type])) :
 			print _resource_output_snippet($node);
-		else {
-			$output = "<div class='node-output-title search'>";
-			$output .= '<a href="' . url('node/' . check_plain($node->nid)) . '">';
-			$output .= check_plain($node->title);
-			$output .= '</a>';
-			$output .= '</div>';
 
-			print $output;
-                        if ($snippet){
-                            $output = '<p class="search-snippet"'. $content_attributes . $snippet.'</p>';
-                        }
-                        print $output;
-		}
+		else: ?>
+    <div class="search-node-output">
+        <div class="node-output-title search result-type-<?php print str_replace(' ', '-', strtolower($result['type']));?>">
+    <a href="<?php print url('node/' . check_plain($node->nid)); ?>">
+		<?php print check_plain($node->title); ?>
+    </a>
+</div>
+
+	
+        <?php if ($snippet): ?>
+                   <p class="search-snippet <?php print $content_attributes; ?>"> 
+                   <?php print $snippet; ?></p>
+                        <?php endif; ?>
+    </div>
+		<?php endif;
 	?>
     
 
