@@ -1053,8 +1053,8 @@ a.Purple {
 
 
 .Blue nav#block-an-navigation-left-nav > ul > li {
-    border-bottom: solid #105693 5px;
-    border-right: solid #105693 5px;
+    border-bottom: solid #5788B3 5px;
+    border-right: solid #5788B3 5px;
     border-bottom: 5px solid  rgba(16,86,147, .7);
     border-right: 5px solid rgba(16,86,147, .7) ;
 }
@@ -1065,22 +1065,22 @@ a.Purple {
     border-right: 5px solid rgba(220,110,35, .7) ;
 }
 .Red nav#block-an-navigation-left-nav > ul > li {
-    border-bottom: solid #C74532 5px;
-    border-right: solid #C74532 5px;
+    border-bottom: solid #D87C6F 5px;
+    border-right: solid #D87C6F 5px;
     border-bottom: 5px solid  rgba(199,69,50, .7);
     border-right: 5px solid rgba(199,69,50, .7) ;
 }
 .Purple nav#block-an-navigation-left-nav > ul > li {
-    border-bottom: solid #54316E 5px;
-    border-right: solid #54316E 5px;
+    border-bottom: solid #876E99 5px;
+    border-right: solid #876E99 5px;
     border-bottom: 5px solid  rgba(84,49,110, .7);
     border-right: 5px solid rgba(84,49,110, .7);
 }
 
 
 .Blue nav#block-an-navigation-left-nav > ul > li.active-trail {
-    border-bottom: 10px solid #105693;
-    border-right: 10px solid #105693;
+    border-bottom: 10px solid #5788B3;
+    border-right: 10px solid #5788B3;
     border-bottom: 10px solid  rgba(16,86,147, .7);
     border-right: 10px solid rgba(16,86,147, .7);
 }
@@ -1091,14 +1091,14 @@ a.Purple {
     border-right: 10px solid rgba(220,110,35, .7);
 }
 .Red nav#block-an-navigation-left-nav > ul > li.active-trail {
-    border-bottom: 10px solid #C74532;
-    border-right: 10px solid #C74532;
+    border-bottom: 10px solid #D87C6F;
+    border-right: 10px solid #D87C6F;
     border-bottom: 10px solid  rgba(199,69,50, .7);
     border-right: 10px solid rgba(199,69,50, .7);
 }
 .Purple nav#block-an-navigation-left-nav > ul > li.active-trail {
-    border-bottom: 10px solid #54316E;
-    border-right: 10px solid #54316E;
+    border-bottom: 10px solid #876E99;
+    border-right: 10px solid #876E99;
     border-bottom: 10px solid  rgba(84,49,110, .7);
     border-right: 10px solid rgba(84,49,110, .7);
 }
@@ -1106,7 +1106,7 @@ a.Purple {
 .Blue nav#block-an-navigation-left-nav ul li.first a.active-trail,
 .Blue nav#block-an-navigation-left-nav ul li a.active-trail,
 .Blue nav#block-an-navigation-left-nav ul li a  {
-    border: 1px solid rgb(16,86,147);
+    border: 1px solid #5788B3;
     border: 1px solid rgba(16,86,147, .7);
     border-bottom:none;
 }
@@ -1121,14 +1121,14 @@ a.Purple {
 .Red nav#block-an-navigation-left-nav ul li.first a.active-trail,
 .Red nav#block-an-navigation-left-nav ul li a.active-trail,
 .Red nav#block-an-navigation-left-nav ul li a  {
-    border: 1px solid rgb(199,69,50);
+    border: 1px solid #D87C6F;
     border: 1px solid rgba(199,69,50, .7);
     border-bottom: none;
 }
 .Purple nav#block-an-navigation-left-nav ul li.first a.active-trail,
 .Purple nav#block-an-navigation-left-nav ul li a.active-trail,
 .Purple nav#block-an-navigation-left-nav ul li a  {
-    border: 1px solid rgb(84,49,110);
+    border: 1px solid #876E99;
     border: 1px solid rgba(84,49,110, .7);
     border-bottom:none;
 }
