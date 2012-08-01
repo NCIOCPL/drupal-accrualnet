@@ -478,6 +478,16 @@ function _preview_snippet($field, $numOfSentences = 1, $maxLength = 500) {
     return $tilPeriod;
 }
 
+function _last_updated_snippet ($changed) {
+    if ($changed) {
+        $o .= '<span class="conversation-last-updated">';
+        $o .= 'Last Updated: ';
+        $o .= date('M j, Y', $changed);
+        $o .= '</span>';
+        return $o;
+    }
+}
+
 function _conversation_title_snippet($nid, $title, $changed = NULL) {
     $o = '<div class="conversation-title">';
     $o .= '<a href="' . url('node/' . $nid) . '">';
@@ -485,20 +495,56 @@ function _conversation_title_snippet($nid, $title, $changed = NULL) {
     $o .= check_plain($title);
     //$output .= filter_xss($node->title);
     $o .= '</a>';
-    if ($changed) {
-        $o .= '<span class="conversation-last-updated">';
-        $o .= 'Last Updated: ';
-        $o .= date('M j, Y', $changed);
-        $o .= '</span>';
-    }
+    $o .= _last_updated_snippet($changed);
     $o .= '</div>';
     return $o;
 }
 
 function _get_latest_comment($node) {
+    /*
+     * doyle this functionality won't work...no text prints out??
+
+    if ($node->type == 'conversation') {
+        $opener = _get_conversation_opener($node);
+        if ($opener) return _latest_comment_snippet($opener);
+    }*/
     $comment = comment_get_thread($node, COMMENT_MODE_FLAT, 1);
     if (count($comment) > 0)
         return _latest_comment_snippet($comment[0]);
+}
+
+function _get_conversation_opener($node) {
+
+    $commenter = user_load($node->uid);
+
+    $o = '<div class="latest-comment">'; // Start Comment
+    // Recent Activity Text
+    $o .= '<div class="recent-activity-text">';
+    $o .= 'Recent Activity:';
+    $o .= '</div>';
+
+    // Most Recently Posted Comment
+    $o .= '<div class="latest-comment-response">'; // Start Response
+
+
+    /* NOT IMPLEMENTED
+      $o .= '<div class="conversation-recent-comment-userpic">';
+      $o .= '<img/>';
+      $o .= '</div>'; */
+
+
+    $o .= '<div class="latest-comment-text">';
+    $o .= _user_url_snippet($commenter->uid, $commenter->name);
+    $o .= '<br/>';
+    // !Doyle this is not outputting correctly. idk why.
+    $o .= _preview_snippet($node->field_conversation_opener, 3);
+    $o .= '</div>';
+
+
+    $o .= '</div>'; // End Response
+
+    $o .= '</div>'; // End Comment
+    return $o;
 }
 
 function _latest_comment_snippet($commentID) {
