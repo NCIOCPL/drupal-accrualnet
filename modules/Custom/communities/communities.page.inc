@@ -38,9 +38,6 @@ function communities_topic_page($topic) {
 
         // Proceed if the topic is recognized
         if ($term != NULL) {
-            $o .= '<div id="communities-topic-title">';
-            $o .= '<h1>' . check_plain($term->name) . '</h1>';
-            $o .= '</div>';
             
             if ($term->description) {
                 $o .= '<div id="communities-topic-description">' . filter_xss($term->description) . '</div>';
