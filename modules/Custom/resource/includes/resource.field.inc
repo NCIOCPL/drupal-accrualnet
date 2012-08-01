@@ -14,18 +14,21 @@ $GLOBALS['an_resource_field_resource'] = array(
         'field_name' => 'highlights',
         'type' => 'text_long',
         'cardinality' => 1,
+        'instance_settings' => array('text_processing' => 1), //Set the instance to be filtered html
     ),
     array(
         'label' => 'Description',
         'field_name' => 'description',
         'type' => 'text_long',
         'cardinality' => 1,
+        'instance_settings' => array('text_processing' => 1), //Set the instance to be filtered html
     ),
     array(
         'label' => 'Details',
         'field_name' => 'details',
         'type' => 'text_long',
         'cardinality' => 1,
+        'instance_settings' => array('text_processing' => 1), //Set the instance to be filtered html
     ),
     array(
         'label' => 'Related Links',
