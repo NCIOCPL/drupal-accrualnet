@@ -209,12 +209,13 @@ div.resource-citation{
 
 #resource-ajax-filter #filter-results {
     
-    padding: 10px;
+    padding: 10px 15px;
     position: relative;
-    margin: 25px 7px;
+    margin: 25px auto;
     border: 1px solid #105693;
     border-bottom: solid #105693 7px;
     border-right: solid #105693 7px;
+    width: 80%;
 }
 
 #resource-ajax-filter #filter-results:before{
@@ -223,6 +224,7 @@ div.resource-citation{
   left: -8px;
   bottom: -7px;
   border: solid transparent 7px;
+  -moz-border-start-style: inset;
   border-bottom-color: #fff;
 }
 
@@ -232,6 +234,7 @@ div.resource-citation{
   top: -2px;
   right: -14px;
   border: solid transparent 7px;
+  -moz-border-start-style: outset;
   border-top-color: #fff;
 } 
 
