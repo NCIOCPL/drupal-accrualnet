@@ -30,38 +30,7 @@ foreach ($an_resource_types as $type => $unused)
  */
 $GLOBALS['featured_content_fields'] = array(
     // Machine Name => Label
-    array(
-        'label' => 'Featured Content Type',
-        'description' => 'Select the type of content you would like to feature',
-        'field_name' => 'featured_type',
-        'required' => TRUE,
-        'cardinality' => '-1',
-        'entity_type' => 'node',
-        'description' => '',
-        'type' => 'list_text',
-        'settings' => array(
-            'allowed_values' => array_merge($resource_bundle_names, array('conversation' => 'conversation'))
-        ),
-        'widget' => array(
-            'type' => 'options_select',
-        ),
-        'bundles' => array(
-            'dynamic_content_block',
-        ),
-    ),
-    array(
-        'label' => 'More Link',
-        'field_name' => 'more_link',
-        'description' => '',
-        'type' => 'link_field',
-        'cardinality' => 1,
-        'entity_type' => 'node',
-        'settings' => array(),
-        'bundles' => array(
-            'dynamic_content_block',
-        ),
-    ),
-    array(
+     array(
         'label' => 'Display Format',
         'description' => 'Please select the display format for this content module.',
         'field_name' => 'display_format',
@@ -107,6 +76,26 @@ $GLOBALS['featured_content_fields'] = array(
         ),
     ),
     array(
+        'label' => 'Featured Content Type(s)',
+        'description' => 'Select the type of content you would like to feature',
+        'field_name' => 'featured_type',
+        'required' => TRUE,
+        'cardinality' => '-1',
+        'entity_type' => 'node',
+        'description' => '',
+        'type' => 'list_text',
+        'settings' => array(
+            'allowed_values' => array_merge($resource_bundle_names, array('conversation' => 'conversation'))
+        ),
+        'widget' => array(
+            'type' => 'options_buttons',
+        ),
+        'bundles' => array(
+            'dynamic_content_block',
+        ),
+    ),
+   
+    array(
         'label' => 'Manual Content Override',
         'field_name' => 'manual_content',
         'description' => '',
@@ -116,7 +105,7 @@ $GLOBALS['featured_content_fields'] = array(
         'entity_type' => 'node',
         'settings' => array(
             'target_type' => 'node',
-            'handler_settings' => array('target_bundles' => array(array_values($resource_bundle_names), 'conversation')),
+            'handler_settings' => array('target_bundles' => array_merge($resource_bundle_names, array('conversation' => 'conversation'))),
         ),
         'widget' => array(
             'type' => 'autocomplete',
@@ -167,14 +156,10 @@ $GLOBALS['featured_content_fields'] = array(
         'description' => 'The image that will display if Conent Listing + Image is selected',
         'type' => 'image',
         'settings' => array(
-            'uri_scheme' => 'public',
             'default_image' => FALSE,
             'user_register_form' => FALSE, // default
-            'file_directory' => 'images', // default ''
             'file_extensions' => 'png gif jpg jpeg', // default
             'max_filesize' => '', // default
-            'max_resolution' => '', // default
-            'min_resolution' => '',  // default,
             'alt_field' => FALSE, // default
             'title_field' => FALSE, // default
         ),
@@ -207,6 +192,18 @@ $GLOBALS['featured_content_fields'] = array(
         'bundles' => array(
             'landing_page',
             'lifecycle_stage'
+        ),
+    ),
+    array(
+        'label' => 'More Link',
+        'field_name' => 'more_link',
+        'description' => 'This link is only applicable for items displayed in the content areas at the bottom of the Homepage',
+        'type' => 'link_field',
+        'cardinality' => '1',
+        'entity_type' => 'node',
+        'settings' => array(),
+        'bundles' => array(
+            'dynamic_content_block',
         ),
     ),
     

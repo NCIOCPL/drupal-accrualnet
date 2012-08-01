@@ -208,8 +208,9 @@ function an_lifecycle_enable() {
         //field_create_field($field);
     }
     
-    $instance = array();
+    
     foreach ($an_lifecycle_fields as $field) {
+        $instance = array();
         foreach($field['bundles'] as $bundle) {
             //if this instance does not already exist.
             if(field_read_instance($field['entity_type'], 'field_' .$field['field_name'], $bundle) == FALSE)

@@ -264,7 +264,10 @@ function _an_navigation_protocol_accrual_lifecycle_submenu($parentID, $base_path
         
         
             foreach ($strategyNodes['nodes'] as $strategy){
-                $menu_strategy = $strategy->title;
+                $navLabel = field_get_items('node', $strategy, 'field_nav_label');
+                
+                $menu_strategy = $navLabel ? $navLabel[0]['value'] : $strategy->title;
+                //$menu_strategy = $strategy->title;
                 //setup the menu item structure
                 $menu_entry = array(
                     'values' => array(

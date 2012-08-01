@@ -12,38 +12,7 @@
  * @name $an_lifecycle_fields 
  */
 $GLOBALS['an_homepage_fields'] = array(
-    array(
-            'label' => t('Content'),
-            'description' => 'Provide the content for this page.',
-            'field_name' => 'content',
-            'type' => 'text_long',
-            'cardinality' => 1,
-            'entity_type' => 'node',
-            'settings' => array(),
-            'instance_settings' => array('text_processing' => 1), //Set the instance to be filtered html
-            'bundles' => array(
-                'homepage'
-            ),
-        ),
-    array(
-        'label' => t('Featured Carousel'),
-        'field_name' => 'featured_carousel',
-        'description' => '',
-        'type' => 'entityreference',
-        'cardinality' => '3',
-        'entity_type' => 'node',
-        'settings' => array(
-            'target_type' => 'node',
-            'handler_settings' => array('target_bundles' => array('featured_content_carousel')),
-        ),
-        'widget' => array(
-            'type' => 'autocomplete',
-        ),
-        'bundles' => array(
-            'homepage'
-        ),
-    ),
-    array(
+     array(
         'field_name' => 'landing_page_image',
         'label' => t('Homepage Image'),
         'cardinality' => '1',
@@ -74,12 +43,44 @@ $GLOBALS['an_homepage_fields'] = array(
         ),
     ),
     array(
-        'label' => t('Content Blocks'),
+            'label' => t('Content'),
+            'description' => 'Provide the content for this page.',
+            'field_name' => 'content',
+            'type' => 'text_long',
+            'cardinality' => 1,
+            'entity_type' => 'node',
+            'settings' => array(),
+            'instance_settings' => array('text_processing' => 1), //Set the instance to be filtered html
+            'bundles' => array(
+                'homepage'
+            ),
+        ),
+    array(
+        'label' => t('Featured Carousel'),
+        'field_name' => 'featured_carousel',
+        'description' => '',
+        'type' => 'entityreference',
+        'cardinality' => '1',
+        'entity_type' => 'node',
+        'settings' => array(
+            'target_type' => 'node',
+            'handler_settings' => array('target_bundles' => array('featured_content_carousel')),
+        ),
+        'widget' => array(
+            'type' => 'autocomplete',
+        ),
+        'bundles' => array(
+            'homepage'
+        ),
+    ),
+   
+    array(
+        'label' => t('Homepage Content Blocks'),
         'field_name' => 'content_blocks',
         'description' => '',
         'required' => FALSE,
         'type' => 'entityreference',
-        'cardinality' => '4',
+        'cardinality' => '3',
         'entity_type' => 'node',
         'settings' => array(
             'target_type' => 'node',

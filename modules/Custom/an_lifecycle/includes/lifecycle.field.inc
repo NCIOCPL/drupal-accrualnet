@@ -43,6 +43,36 @@ $GLOBALS['an_lifecycle_fields'] = array(
         ),
     ),
     array(
+        'field_name' => 'strategy_icon',
+        'label' => t('Strategy Icon'),
+        'cardinality' => '1',
+        'entity_type' => 'node',
+        'description' => 'This icon is what shows up on the left of a strategy on a Stage page.',
+        'type' => 'image',
+        'settings' => array(
+            'uri_scheme' => 'public',
+            'default_image' => FALSE,
+            'user_register_form' => FALSE, // default
+            'file_directory' => 'images', // default ''
+            'file_extensions' => 'png gif jpg jpeg', // default
+            'max_filesize' => '', // default
+            'max_resolution' => '', // default
+            'min_resolution' => '',  // default,
+            'alt_field' => FALSE, // default
+            'title_field' => FALSE, // default
+        ),
+        'widget' => array(
+            'type' => 'image_image',
+            'settings' => array(
+            'progress_indicator' => 'bar', // default is 'throbber'
+            'preview_image_style' => 'thumbnail', // default
+            ),
+        ),
+        'bundles' => array(
+            'lifecycle_strategy'
+        ),
+    ),
+    array(
         'label' => 'Content Summary',
         'description' => 'Provide a summary paragraph for this content to be displayed as a snippet on other pages.',
         'field_name' => 'content_summary',
@@ -75,7 +105,7 @@ $GLOBALS['an_lifecycle_fields'] = array(
         'description' => 'Provide the activities to be printed out on a strategy page.',
         'field_name' => 'activities',
         'type' => 'text_long',
-        'cardinality' => '-1',
+        'cardinality' => '5',
         'entity_type' => 'node',
         'settings' => array(
             'text_processing' => '1',
@@ -103,23 +133,7 @@ $GLOBALS['an_lifecycle_fields'] = array(
             'lifecycle_stage',
         ),
     ),
-    array(
-        'label' => 'Related Strategy',
-        'field_name' => 'related_strategy',
-        'description' => '',
-        'type' => 'entityreference',
-        'cardinality' => '-1',
-        'entity_type' => 'node',
-        'settings' => array(
-            'target_type' => 'node',
-            'handler_settings' => array('target_bundles' => array('lifecycle_strategy')),
-        ),
-        'widget' => array(
-            'type' => 'autocomplete',
-        ),
-        'bundles' => $resource_bundle_names,
-    ),
-    
+    /*   
     array(
         'label' => 'More Resources Link',
         'field_name' => 'more_resources_link',
@@ -131,7 +145,7 @@ $GLOBALS['an_lifecycle_fields'] = array(
         'bundles' => array(
             'lifecycle_strategy',
         ),
-    ),
+    ),*/
     array(
         'field_name' => 'landing_page_type',
         'label' => t('Landing Page Type'),
@@ -192,36 +206,6 @@ $GLOBALS['an_lifecycle_fields'] = array(
         ),
     ),
     array(
-        'field_name' => 'strategy_icon',
-        'label' => t('Strategy Icon'),
-        'cardinality' => '1',
-        'entity_type' => 'node',
-        'description' => 'This icon is what shows up on the left of a strategy on a Stage page.',
-        'type' => 'image',
-        'settings' => array(
-            'uri_scheme' => 'public',
-            'default_image' => FALSE,
-            'user_register_form' => FALSE, // default
-            'file_directory' => 'images', // default ''
-            'file_extensions' => 'png gif jpg jpeg', // default
-            'max_filesize' => '', // default
-            'max_resolution' => '', // default
-            'min_resolution' => '',  // default,
-            'alt_field' => FALSE, // default
-            'title_field' => FALSE, // default
-        ),
-        'widget' => array(
-            'type' => 'image_image',
-            'settings' => array(
-            'progress_indicator' => 'bar', // default is 'throbber'
-            'preview_image_style' => 'thumbnail', // default
-            ),
-        ),
-        'bundles' => array(
-            'lifecycle_strategy'
-        ),
-    ),
-    array(
         'field_name' => 'stage_image',
         'label' => t('Stage Image'),
         'cardinality' => '1',
@@ -250,6 +234,22 @@ $GLOBALS['an_lifecycle_fields'] = array(
         'bundles' => array(
             'lifecycle_stage'
         ),
+    ),
+    array(
+        'label' => 'Related Strategy',
+        'field_name' => 'related_strategy',
+        'description' => '',
+        'type' => 'entityreference',
+        'cardinality' => '-1',
+        'entity_type' => 'node',
+        'settings' => array(
+            'target_type' => 'node',
+            'handler_settings' => array('target_bundles' => array('lifecycle_strategy')),
+        ),
+        'widget' => array(
+            'type' => 'autocomplete',
+        ),
+        'bundles' => $resource_bundle_names,
     ),
     
 );

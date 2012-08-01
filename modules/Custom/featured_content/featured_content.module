@@ -142,8 +142,9 @@ function featured_content_enable() {
         //field_create_field($field);
     }
     
-    $instance = array();
     foreach ($featured_content_fields as $field) {
+        //reset the instance so that it does not carry over values from the previous field........
+       $instance = array();
         foreach($field['bundles'] as $bundle) {
             //if this instance does not already exist.
             if(field_read_instance($field['entity_type'], 'field_' .$field['field_name'], $bundle) == FALSE)
