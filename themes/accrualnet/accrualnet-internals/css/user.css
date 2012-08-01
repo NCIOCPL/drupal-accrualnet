@@ -512,7 +512,13 @@ div.profile-colors-selected div#Purple,
     padding: 0px 10px; 
 
 }
-.profile-colors-option {
+.profile-colors-option:hover,
+span.profile-colors:hover {
+    opacity:1.0;
+    filter:alpha(opacity=100);
+}
+.profile-colors-option,
+span.profile-colors-option {
     opacity:0.4;
     filter:alpha(opacity=40); /* For IE8 and earlier */
 
@@ -626,7 +632,7 @@ input {
     color: #696969;
     font-style: italic;
     padding-top: 0px;
-    margin-top: -20px;
+    margin-top: -5px;
     left:0px;
 }
 
