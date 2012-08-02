@@ -102,7 +102,6 @@ $image = field_get_items('node', $node, 'field_featured_image');
 $link = field_get_items('node', $node, 'field_more_link');
 
 
-$numConvosPerPage = 10;
 $query = db_select('node', 'n')->fields('n', array('nid', 'title', 'created'));
 $query->leftJoin('og_membership', 'ogm', 'ogm.etid=n.nid');
 if($types){
@@ -110,41 +109,27 @@ if($types){
 }
 $query->condition('n.status', '1')
         ->condition('ogm.gid', 'NULL', 'IS NULL');
-$query->orderBy('n.created', 'DESC');
-$query = $query->extend('PagerDefault')->limit($numConvosPerPage);
-$content = $query->execute()->fetchAllAssoc('nid');
 
-
-$featuredContent = entity_load('node', array_keys($content));
-
-
-
-
-//Build out the entityFieldQuery for this content type.
-$query = new EntityFieldQuery();
-$query->entityCondition('entity_type', 'node')
- ->entityCondition('bundle', array_values($types))
- ->propertyCondition('status', 1);
- //Switch statement for the range
 switch($format[0]['value'])
 {
     case 'listing':
-        $query->range(0,6);
+        $query = $query->extend('PagerDefault')->limit(6);
         break;
     case 'listing_image':
-        $query->range(0,3);
+        $query = $query->extend('PagerDefault')->limit(3);
         break;
     default:
+        $query = $query->extend('PagerDefault')->limit(6);
         //this should never be reachable.
         break;
 }
  
 switch($order[0]['value']){
     case 'alpha':
-        $query->propertyOrderBy('title', 'ASC');
+        $query->orderBy('n.title', 'ASC');
         break;
     case 'date_recent':
-        $query->propertyOrderBy('created',  'DESC');
+        $query->orderBy('n.created', 'DESC');
         break;
     case 'manual':
         //if manual, dont do anything, we are going to use the order they are inserted in the node.
@@ -154,8 +139,8 @@ switch($order[0]['value']){
         break;
 }
  
-
-//$featuredContent = _an_lifecycle_load_related_nodes($query, TRUE);
+$content = $query->execute()->fetchAllAssoc('nid');
+$featuredContent = entity_load('node', array_keys($content));
 
 ?>
 <div class="featured-content-title">
