@@ -457,7 +457,7 @@ function an_core_perms_enable()
               $anon => FALSE,
               $auth => FALSE,
               $writer => FALSE,
-              $anstaff => FALSE,
+              $anstaff => TRUE,
               $admin => TRUE
           ),
           'administer users' => array(
