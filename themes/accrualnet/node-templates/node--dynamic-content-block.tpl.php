@@ -86,9 +86,10 @@
 
 
 ?>
+
+<div class="featured-content-block">
 <div class="featured-content-title">
     <span class="feature-header"><?php print filter_xss($node->title);?></span>
 </div>
-<div class="featured-content-block">
     <?php print _dynamic_content_block_output($node);?>
 </div>

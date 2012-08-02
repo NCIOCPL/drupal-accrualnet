@@ -12,6 +12,8 @@
  *
  * @see template_preprocess_user_picture()
  */
+
+
 ?>
 
 <span class="user-picture">

@@ -566,9 +566,17 @@ body a:visited {
     padding-right: 2%;
     text-align:center;
 }
+.featured-content-section-right{
+    border-left: 3px dotted #D2D2D2;
+    margin-left: -3px;
+}
 
 .featured-content-section-left {
     border-right: 3px dotted #d2d2d2;
+}
+
+.featured-content-block .listing_image {
+    border-right: none;
 }
 
 .featured-content-block {
@@ -631,6 +639,7 @@ body a:visited {
 .featured-content-carousel  li {
     list-style:none;
 }
+
 .featured-carousel-slides {
     border: 3px solid #9AB83F;
 }
@@ -649,6 +658,7 @@ body a:visited {
 .Orange .featured-carousel-slides {
     border: 3px solid #DC6E23;
 }
+
 .featured-carousel-slides  .slide {
     
     min-height: 380px;
@@ -949,7 +959,8 @@ body a:visited {
     -ms-box-sizing: border-box;
 }
 
-.content-block-title {
+.content-block-title,
+.featured-content-title{
     float: left;
     margin: 30px 0 10px 0;
     width: 60%;
@@ -1283,7 +1294,6 @@ h2.comment-form {
     margin-top: 60px;
     
 }
-
 .convo-body {
       box-sizing: border-box;
     -moz-box-sizing: border-box;
@@ -1291,6 +1301,16 @@ h2.comment-form {
     -ms-box-sizing: border-box;
     border: 1px solid #DC6E23;
     border-bottom: 4px solid #DC6E23;
+}
+.odd .convo-body {
+      box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    border: 1px solid #E79964;
+    border-bottom: 4px solid #E79964;
+    border: 1px solid rgba(220, 110, 35, .5);
+    border-bottom: 4px solid rgba(220, 110, 35, .5);
 }
 
 .even .convo-body {
@@ -1310,7 +1330,9 @@ h2.comment-form {
     margin-bottom: 20px;
     position: relative;
     bottom: 40px;
-    border-right: 2px solid #DC6E23;
+    border-right: 2px solid #E79964;
+    border-right: 2px solid rgba(220, 110, 35, .5);
+    
 }
 
 
@@ -1336,6 +1358,7 @@ h2.comment-form {
     -moz-border-start-style: inset;
     border-bottom-color: white;
     z-index: 5;
+   
 }
 
 .even .convo-body:after{
@@ -1347,7 +1370,7 @@ h2.comment-form {
     content: '';
     z-index: 5;
     bottom: 0px;
-    left: -39px;
+    left: -35px;
     
     
     display: block;
@@ -1358,6 +1381,7 @@ h2.comment-form {
 }
  .even .convo-body:before {
     border-color: transparent transparent #DC6E23 transparent;
+    
     border-style: solid;
     
     -moz-border-start-style: inset;
@@ -1383,7 +1407,7 @@ h2.comment-form {
     border-width: 20px 48px 24px 0px;
     content: '';
     bottom: 0px;
-    right: -39px;
+    right: -38px;
         
     display: block;
     height: 0;
@@ -1393,15 +1417,16 @@ h2.comment-form {
     z-index: 5;
 }
 .odd .convo-body:before {
-     border-color: transparent transparent #DC6E23 transparent;
+    border-color: transparent transparent #E79964; transparent;
+    border-color: transparent transparent rgba(220, 110, 35, .5) transparent;
+     
     border-style: solid;
-    
     -moz-border-start-style: inset;
     border-width: 20px 50px 27px 0px;
     content: '';
     z-index: 4;
     bottom: -4px;
-    right: -50px;
+    right: -52px;
     
     display: block;
     height: 0;

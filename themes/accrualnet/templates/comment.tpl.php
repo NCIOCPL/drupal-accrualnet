@@ -70,17 +70,38 @@ $user = user_load($comment->uid);
 
 $occupation = field_get_items('user', $user, 'field_occupation');
 $color = field_get_items('user', $user, 'profile_color');
+$avatar = field_get_items('user', $user, 'avatar_image');
+
+if ($avatar) {
+    $simulatedAvatarArray = array();
+    foreach ($nci_user_profile_colors as $avatarColor) {
+        $simulatedAvatarArray[] = 'male/'.$avatarColor;
+        $simulatedAvatarArray[] = 'female/'.$avatarColor;
+    }
+    $avatarTMP = intval($avatar[0]['value']);
+    $avatarTMP = $simulatedAvatarArray[$avatarTMP];
+    $avatarSRC = '/' . path_to_theme() . '/accrualnet-internals/images/avatars/' . $avatarTMP . '.png';
+}
+else {
+    $avatarSRC = '/' . path_to_theme() . '/accrualnet-internals/images/avatars/male/Black.png';
+
+}
 ?>
 
 <div class="convo-post <?php print $classes;?>">
-    <div class="convo-user-image">
-            <?php print theme('image_style',
-                array(
-                    'path' => $user->picture->uri,
-                    'style_name' => 'thumbnail',         
-                )
-            ); ?>
-        </div>
+        <div class="convo-user-image">
+                <?php if($user->picture):?>
+                    <?php print theme('image_style',
+                            array(
+                                'path' => $user->picture->uri,
+                                'style_name' => 'thumbnail',         
+                            )
+                        ); ?>
+                <?php else: ?>
+                    <img src="<?php print $avatarSRC;?>" width="100" title="<?php print check_plain($user->name);?>'s Image" alt="<?php print check_plain($user->name);?>'s Image" />
+                <?php endif;?>
+
+         </div>
         <div class="convo-body">
         <div class="submitted-by">
             <span class="user-name">

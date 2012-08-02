@@ -77,41 +77,13 @@
  * language, e.g. $node->body['en'], thus overriding any language negotiation
  * rule that was previously applied.
  *
- * @see template_preprocess()
- * @see template_preprocess_node()
- * @see zen_preprocess_node()
- * @see template_process()
- */
-global $nci_user_profile_colors;
-$topic = field_get_items('node', $node, 'field_topic');
-
-
-$term =  taxonomy_term_load($topic[0]['tid']);
-
-$summary = field_get_items('node', $node, 'field_conversation_summary');
-$body = field_get_items('node', $node, 'body');
-$title = '';
-$user = user_load($node->uid);
-$occupation = field_get_items('user', $user, 'field_occupation');
-$color = field_get_items('user', $user, 'profile_color');
-//$comments = comment_get_thread($node,COMMENT_MODE_FLAT, 10  );
-?>
-<div class="conversation-topic-header">
-    <h1 class="title"><?php print check_plain($term->name);?></h1>
-    <div id="communities-topic-description"><?php print filter_xss($term->description);?></div>
-            
-</div>    
-<div class="conversation">
-    <div class="convo-title">
-        <h2><?php print $node->title;?><span class="convo-posted-date"><?php print t('Last Updated: ').format_date($node->last_comment_timestamp, 'custom', 'F d, Y');?></span></h2>
-    </div>
-    <?php if($summary): ?>
+ *  <?php if($summary): ?>
         <div class="convo-summary">
             <?php print $summary[0]['value'];?>
         </div>
     <?php endif;?>
-    <div class="convo-posts">
-    <?php if($body): ?>
+ * 
+ <?php if($body): ?>
         <div class="convo-post convo-post even">
         <div class="convo-user-image">
                 <?php print theme('image_style',
@@ -130,6 +102,106 @@ $color = field_get_items('user', $user, 'profile_color');
                 <span class="posted-date"><?php print format_date($node->created, 'custom', 'F d, Y');?></span>
             </div>
             <?php print $body[0]['value'];?>
+        </div>
+            
+    </div>
+    <?php endif;?>
+        <?php print render($content['comments']);?>
+    </div>
+    
+</div>
+
+ * 
+ * @see template_preprocess()
+ * @see template_preprocess_node()
+ * @see zen_preprocess_node()
+ * @see template_process()
+ */
+
+
+
+
+
+
+global $nci_user_profile_colors;
+$topic = field_get_items('node', $node, 'field_topic');
+
+
+
+
+$term =  taxonomy_term_load($topic[0]['tid']);
+
+//$summary = field_get_items('node', $node, 'field_conversation_summary');
+//$body = field_get_items('node', $node, 'body');
+$opener = field_get_items('node', $node, 'field_conversation_opener', array('label' => 'hidden'));
+
+
+$title = '';
+$user = user_load($node->uid);
+$occupation = field_get_items('user', $user, 'field_occupation');
+$color = field_get_items('user', $user, 'profile_color');
+$avatar = field_get_items('user', $user, 'avatar_image');
+
+if ($avatar) {
+    $simulatedAvatarArray = array();
+    foreach ($nci_user_profile_colors as $avatarColor) {
+        $simulatedAvatarArray[] = 'male/'.$avatarColor;
+        $simulatedAvatarArray[] = 'female/'.$avatarColor;
+    }
+    $avatarTMP = intval($avatar[0]['value']);
+    $avatarTMP = $simulatedAvatarArray[$avatarTMP];
+    $avatarSRC = '/' . path_to_theme() . '/accrualnet-internals/images/avatars/' . $avatarTMP . '.png';
+}
+else {
+    $avatarSRC = '/' . path_to_theme() . '/accrualnet-internals/images/avatars/male/Black.png';
+
+}
+
+//$comments = comment_get_thread($node,COMMENT_MODE_FLAT, 10  );
+?>
+<div class="conversation-topic-header">
+    <h1 class="title"><?php print check_plain($term->name);?></h1>
+    <div id="communities-topic-description"><?php print filter_xss($term->description);?></div>
+            
+</div>    
+<div class="conversation">
+    <div class="convo-title">
+        <h2>
+        <?php print check_plain($node->title);?>
+        <?php print _last_updated_snippet($node->last_comment_timestamp); ?>
+        </h2>
+    </div>
+    <div class="conversation-abstract">
+        <?php if ($body) print drupal_render(field_view_field('node', $node, 'body', array('label' => 'hidden'))); ?>
+    </div>
+   
+    <div class="convo-posts">
+    <?php if($opener): ?>
+        
+        <div class="convo-post convo-post even">
+        <div class="convo-user-image">
+            <?php if($user->picture):?>
+                <?php print theme('image_style',
+                        array(
+                            'path' => $user->picture->uri,
+                            'style_name' => 'thumbnail',         
+                        )
+                    ); ?>
+            <?php else: ?>
+                <img src="<?php print $avatarSRC;?>" width="100" title="<?php print check_plain($user->name);?>'s Image" alt="<?php print check_plain($user->name);?>'s Image" />
+
+            <?php endif;?>
+            
+         </div>
+            <div class="convo-body">
+            <div class="submitted-by">
+                <span class="user-name">
+                    <a href="/user/<?php print $node->uid;?>" class="<?php print $color ? $nci_user_profile_colors[$color[0]['value']] : 'Black';?>" title="<?php print $user->name;?>'s profile"><?php print $user->name;?></a>
+                </span>
+                <span class="user-occupation"><?php print check_plain($occupation[0]['value']);?></span>
+                <span class="posted-date"><?php print format_date($node->created, 'custom', 'F d, Y');?></span>
+            </div>
+            <?php print $opener[0]['safe_value']; ?>
         </div>
             
     </div>
