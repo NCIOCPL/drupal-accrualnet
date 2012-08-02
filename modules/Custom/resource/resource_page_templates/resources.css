@@ -129,8 +129,6 @@ div.resource-output-title a {
 }
 
 div.resource-output-title a:visited {
-	/*letter-spacing: .018em;*/
-        border: 1px solid red;
         color: #105693;
 }
 
