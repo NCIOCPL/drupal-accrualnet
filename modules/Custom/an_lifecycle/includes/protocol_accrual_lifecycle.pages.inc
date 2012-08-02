@@ -69,7 +69,7 @@ function protocol_accrual_lifecycle() {
              $contentSummary = field_get_items('node', $stage, 'field_content_summary');
              if($contentSummary){
                  $output.= '<p>';
-                 $output .= check_markup($contentSummary[0]['value']);
+                 $output .= filter_xss_admin($contentSummary[0]['value']);
                  $output.= '</p>';
              }
             $output .= '</div>';

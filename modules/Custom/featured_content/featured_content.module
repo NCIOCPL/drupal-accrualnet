@@ -242,3 +242,105 @@ function _featured_content_node_output($node, $moreLink) {
     $output .= '</div>';
     return $output;
 }
+
+function _dynamic_content_block_output($node) {
+    
+    //get all of our node fields and set variables
+    $format = field_get_items('node', $node, 'field_display_format');
+    $order = field_get_items('node', $node, 'field_order_by');
+    $types = field_get_items('node', $node, 'field_featured_type');
+    $image = field_get_items('node', $node, 'field_featured_image');
+    $link = field_get_items('node', $node, 'field_more_link');
+    $featuredContent = array();
+    $manualContent = array();
+    $zebra = 'left';
+    $output = '';
+
+    if($order[0]['value'] != 'manual')
+    {
+        $query = db_select('node', 'n')->fields('n', array('nid', 'title', 'created'));
+        $query->leftJoin('og_membership', 'ogm', 'ogm.etid=n.nid');
+        if($types){
+            $query->condition('n.type',  array_values($types) , 'IN');
+        }
+        $query->condition('n.status', '1')
+                ->condition('ogm.gid', 'NULL', 'IS NULL');
+
+        switch($format[0]['value'])
+        {
+            case 'listing':
+                $query = $query->extend('PagerDefault')->limit(6);
+                break;
+            case 'listing_image':
+                $query = $query->extend('PagerDefault')->limit(3);
+                break;
+            default:
+                $query = $query->extend('PagerDefault')->limit(6);
+                //this should never be reachable.
+                break;
+        }
+
+        switch($order[0]['value']){
+            case 'alpha':
+                $query->orderBy('n.title', 'ASC');
+                break;
+            case 'date_recent':
+                $query->orderBy('n.created', 'DESC');
+                break;
+            case 'manual':
+                //if manual, dont do anything, we are going to use the order they are inserted in the node.
+                break;
+            default:
+                //this should never be reachable.
+                break;
+        }
+
+        $content = $query->execute()->fetchAllAssoc('nid');
+        $featuredContent = entity_load('node', array_keys($content));
+        $counter = 1;
+        $size = count($featuredContent);
+        foreach($featuredContent as $item){
+            if($counter % $size == 1 || $counter % $size == round($size/2) +1)
+            {
+                $output .= '<div class="featured-content-section-'.$zebra.'">';
+                $zebra = 'right';
+            }
+            $output .= _featured_content_display($item, FALSE, FALSE, FALSE);
+            if($counter % $size == 0 || $counter % $size == round($size/2)){
+                $output .= '</div>';
+            }
+            $counter++;
+        }
+        if($format[0]['value'] == 'listing_image'){
+            $output .= '<div class="featured-content-picture">';
+            if($image){
+                $output .= theme('image_style',  array(
+                                'path' => $image[0]['uri'],
+                                'style_name' => 'large',         
+                            )
+                        );
+            }
+        $output .= '</div>';
+        }
+    }
+    else {
+        $manualContent = field_get_items('node', $node, 'field_manual_content');
+        $counter = 1;
+        if($manualContent){
+            $size = count($manualContent);
+            foreach($manualContent as $item){
+                if($counter % $size == 1 || $counter % $size == round($size/2) +1)
+                {
+                    $output .= '<div class="featured-content-section-'.$zebra.'">';
+                    $zebra = 'right';
+                }
+                $output .= _featured_content_display($item['entity'], FALSE, FALSE, FALSE);
+                if($counter % $size == 0 || $counter % $size == round($size/2)){
+                    $output .= '</div>';
+                }
+                $counter++;
+            }
+        }
+    }
+    return $output;
+}

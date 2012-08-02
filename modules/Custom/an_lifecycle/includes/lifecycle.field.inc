@@ -43,36 +43,6 @@ $GLOBALS['an_lifecycle_fields'] = array(
         ),
     ),
     array(
-        'field_name' => 'strategy_icon',
-        'label' => t('Strategy Icon'),
-        'cardinality' => '1',
-        'entity_type' => 'node',
-        'description' => 'This icon is what shows up on the left of a strategy on a Stage page.',
-        'type' => 'image',
-        'settings' => array(
-            'uri_scheme' => 'public',
-            'default_image' => FALSE,
-            'user_register_form' => FALSE, // default
-            'file_directory' => 'images', // default ''
-            'file_extensions' => 'png gif jpg jpeg', // default
-            'max_filesize' => '', // default
-            'max_resolution' => '', // default
-            'min_resolution' => '',  // default,
-            'alt_field' => FALSE, // default
-            'title_field' => FALSE, // default
-        ),
-        'widget' => array(
-            'type' => 'image_image',
-            'settings' => array(
-            'progress_indicator' => 'bar', // default is 'throbber'
-            'preview_image_style' => 'thumbnail', // default
-            ),
-        ),
-        'bundles' => array(
-            'lifecycle_strategy'
-        ),
-    ),
-    array(
         'label' => 'Content Summary',
         'description' => 'Provide a summary paragraph for this content to be displayed as a snippet on other pages.',
         'field_name' => 'content_summary',
