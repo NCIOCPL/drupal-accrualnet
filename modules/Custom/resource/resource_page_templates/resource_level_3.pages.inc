@@ -44,8 +44,8 @@ function resource_level_3_page($section, $subsection) {
 	if ($postedStage != NULL) {
 		$query = db_select('node', 'n');
 		$query = $query->fields('n', array('nid', 'title', 'created', 'type'))
-						->condition('n.type', 'lifecycle_stage')
-						->condition('n.title', $postedStage);
+				->condition('n.type', 'lifecycle_stage')
+				->condition('n.title', $postedStage);
 		//->limit('1');
 		$queried_stages = $query->execute()->fetchAllAssoc('nid');
 
@@ -60,8 +60,8 @@ function resource_level_3_page($section, $subsection) {
 			//$query2->fieldCondition('field_child_strategies', 'target_id')
 			$query = db_select('node', 'n');
 			$query = $query->fields('n', array('nid', 'title', 'created', 'type'))
-							->condition('n.type', 'lifecycle_strategy')
-							->condition('n.title', $postedStrategy);
+					->condition('n.type', 'lifecycle_strategy')
+					->condition('n.title', $postedStrategy);
 			$queried_strats = $query->execute()->fetchAllAssoc('nid');
 			//print kpr($queried_strats, TRUE, 'queried strats');
 			if (count($queried_strats) > 0) {
@@ -75,6 +75,7 @@ function resource_level_3_page($section, $subsection) {
 	$query->entityCondition('entity_type', 'node');
 	//
 	$query->entityCondition('bundle', array_keys($an_resource_types));
+	$query->propertyOrderBy('changed', 'DESC');
 	//print dpm($vocab);
 	$query->fieldCondition('field_tax_' . $section, 'tid', $tag->tid);
 	//$query->fieldCondition('field_related_strategy', 'target_id', $tag->tid);
@@ -98,8 +99,7 @@ function resource_level_3_page($section, $subsection) {
 
 	//$queried_nodes = $query->execute()->fetchAllAssoc('nid');
 	// retrieve the workflow assign users form and render it
-	$form = drupal_get_form('resource_level_3_stage_form', $vocabName,
-					$tagName);
+	$form = drupal_get_form('resource_level_3_stage_form', $vocabName, $tagName);
 
 	$output = drupal_render($form);
 
@@ -265,7 +265,7 @@ function resource_level_3_stage_form($form, &$form_state, $vocab_name, $tag_name
 				$value = $stage;
 			$options[$stage] = $stage;
 		}
-                
+
 
 		// build the AJAX element
 		$ajax = array(
@@ -326,13 +326,13 @@ function resource_level_3_stage_form($form, &$form_state, $vocab_name, $tag_name
 			'#ajax' => $ajax,
 		);
 
-		/*if(count($values))
-		{
-			$script =
-			'jQuery(document).ready(function () { alert("Hello!"); });';
+		/* if(count($values))
+		  {
+		  $script =
+		  'jQuery(document).ready(function () { alert("Hello!"); });';
 
-			$strategy_select['#attached']['js'][] = $script;
-		}*/
+		  $strategy_select['#attached']['js'][] = $script;
+		  } */
 
 		$form['level_3']['filter_box']['strategy_select'] = $strategy_select;
 

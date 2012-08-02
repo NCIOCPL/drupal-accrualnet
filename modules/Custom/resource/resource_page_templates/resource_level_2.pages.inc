@@ -126,14 +126,16 @@ function resource_level_2_page($section) {
 
 		// select the top two terms
 		$queryString = "SELECT f.entity_id";
-		$queryString .= " FROM {field_data_field_tax_" . $section . "} f";
-		$queryString .= " WHERE (";
+		$queryString .= " FROM {field_data_field_tax_$section} AS f";
+		$queryString .= " JOIN {node} AS n"
+;		$queryString .= " WHERE (";
 		foreach ($an_resource_types as $rtype => $rproperties) {
-			$queryString .= " f.bundle='" . $rtype . "' OR ";
+			$queryString .= " f.bundle='$rtype' OR ";
 		}
 		$queryString = trim(rtrim(trim($queryString), 'OR'));
-		$queryString .= ") AND f.field_tax_" . $section . "_tid=" . $tag->tid;
-		$queryString .= " LIMIT 2";
+		$queryString .= ") AND f.field_tax_{$section}_tid=$tag->tid";
+		$queryString .= " AND f.entity_id = n.nid";
+		$queryString .= " ORDER BY n.changed DESC LIMIT 2";
 
 		$query = db_query($queryString);
 
