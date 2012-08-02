@@ -242,24 +242,32 @@ span.conversation-last-updated {
 
 .recent-activity-text {
     float: left;
-    width: 15%;
+    width: 12%;
     color: #DC6E23;
     letter-spacing: -1px;
 }
 
 .latest-comment-response {
-    margin-left: 15%;
-    width: 85%;
+    margin-left: 12%;
+    width: 82%;
 }
 
 .recent-comment-userpic {
     float: left;
     width: 10%;
 }
+
+.conversation-recent-comment-userpic {
+    float: left;
+    width: 6%;
+}
+
 .latest-comment-text {
     /*margin-left: 10%;
     width: 90%;*/
     margin-left: 0px;
+    width: 94%;
+    margin-left: 6%;
 }
 .latest-comment-text p {
     margin: 0px;

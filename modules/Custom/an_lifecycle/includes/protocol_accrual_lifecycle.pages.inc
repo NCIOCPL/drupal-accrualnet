@@ -30,7 +30,7 @@ function protocol_accrual_lifecycle() {
     //landing page of any type, so we do not care if it has multiple.
     if(!empty($nodes['nodes'])){
         $contentNode = array_pop($nodes['nodes']);
-        
+        $output .= '<div class="landing-page-header clearfix">';
         $output .= '<div class="landing-page-image">';
         $image = field_get_items('node', $contentNode, 'field_landing_page_image');
         if($image)
@@ -47,7 +47,9 @@ function protocol_accrual_lifecycle() {
         if($content){
             $output .= filter_xss_admin($content[0]['value']);
         }
-        $output .= '</div>';
+        $output .= '</div>';//end landing page text
+        $output .= '</div>'; //end landing page header
+        
     }
     
     $query = new EntityFieldQuery();
@@ -73,7 +75,7 @@ function protocol_accrual_lifecycle() {
                  $output.= '</p>';
              }
             $output .= '</div>';
-             $counter++;
+            $counter++;
         }
     }
     $output .= '</div>';

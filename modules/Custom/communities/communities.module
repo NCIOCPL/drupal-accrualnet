@@ -9,6 +9,7 @@
 module_load_include('inc', 'an_taxonomy', 'includes/communities.globals');
 module_load_include('inc', 'communities', 'includes/communities.alias');
 module_load_include('inc', 'communities', 'includes/communities.types');
+module_load_include('inc', 'nci_custom_user', 'includes/profilecolors');
 /*
  * hook_node_info()
  * 
@@ -455,30 +456,22 @@ function communities_theme($existing, $type, $theme, $path) {
     return $items;
 }
 
-function _preview_snippet($field, $numOfSentences = 1, $maxLength = 500) {
-    $content = $field['und'][0]['value'];
-
-    // If a string contains a period, consider that a sentence
-    if (strpos($content, '.') > -1) {
-        $periodPos = 0;
-        for ($p = 0; $p < $numOfSentences; $p++) {
-            $periodPos = strpos($content, '.', $periodPos) + 1;
+function _preview_snippet($field, $maxLength = 256) {
+    $content = filter_xss($field['und'][0]['value']);
+    $teaser = $content;
+    if(strlen($content) > $maxLength ){
+        $teaser = wordwrap($content, $maxLength);
+        $wrapPos = strpos($teaser, "\n");
+        if($wrapPos){
+            return substr($teaser, 0, $wrapPos).'...';
         }
-        $tilPeriod = substr($content, 0, $periodPos);
     }
-    // If no period is detected, then let maxLength take care of it
-    // (if applicable)
-    else {
-        $tilPeriod = $content;
-    }
-
-    if ($numOfSentences == 0 || strlen($tilPeriod) > $maxLength) {
-        return substr($content, 0, $maxLength) . '...';
-    }
-    return $tilPeriod;
+    return $teaser;
+    
 }
 
 function _last_updated_snippet ($changed) {
+    $o = '';
     if ($changed) {
         $o .= '<span class="conversation-last-updated">';
         $o .= 'Last Updated: ';
@@ -486,6 +479,7 @@ function _last_updated_snippet ($changed) {
         $o .= '</span>';
         return $o;
     }
+    return $o;
 }
 
 function _conversation_title_snippet($nid, $title, $changed = NULL) {
@@ -508,9 +502,16 @@ function _get_latest_comment($node) {
         $opener = _get_conversation_opener($node);
         if ($opener) return _latest_comment_snippet($opener);
     }*/
-    $comment = comment_get_thread($node, COMMENT_MODE_FLAT, 1);
-    if (count($comment) > 0)
-        return _latest_comment_snippet($comment[0]);
+    
+    if ($node->comment_count)
+    {
+        return _latest_comment_snippet($node->cid);
+    }
+    else 
+    {
+        return _get_conversation_opener($node);
+        
+    }
 }
 
 function _get_conversation_opener($node) {
@@ -527,17 +528,17 @@ function _get_conversation_opener($node) {
     $o .= '<div class="latest-comment-response">'; // Start Response
 
 
-    /* NOT IMPLEMENTED
-      $o .= '<div class="conversation-recent-comment-userpic">';
-      $o .= '<img/>';
-      $o .= '</div>'; */
+     $o .= '<div class="conversation-recent-comment-userpic">';
+      $o .= _user_image_snippet($commenter);
+      $o .= '</div>'; 
+
 
 
     $o .= '<div class="latest-comment-text">';
     $o .= _user_url_snippet($commenter->uid, $commenter->name);
     $o .= '<br/>';
     // !Doyle this is not outputting correctly. idk why.
-    $o .= _preview_snippet($node->field_conversation_opener, 3);
+    $o .= _preview_snippet($node->field_conversation_opener, 170);
     $o .= '</div>';
 
 
@@ -564,16 +565,15 @@ function _latest_comment_snippet($commentID) {
     $o .= '<div class="latest-comment-response">'; // Start Response
 
 
-    /* NOT IMPLEMENTED
       $o .= '<div class="conversation-recent-comment-userpic">';
-      $o .= '<img/>';
-      $o .= '</div>'; */
+      $o .= _user_image_snippet($commenter);
+      $o .= '</div>'; 
 
 
     $o .= '<div class="latest-comment-text">';
     $o .= _user_url_snippet($commenter->uid, $commenter->name);
     $o .= '<br/>';
-    $o .= _preview_snippet($comment->comment_body, 3);
+    $o .= _preview_snippet($comment->comment_body, 170);
     $o .= '</div>';
 
 
@@ -588,6 +588,35 @@ function _user_url_snippet($uid, $name) {
     $o .= check_plain($name);
     $o .= '</a>';
     return $o;
+}
+
+function _user_image_snippet($user) {
+    global $nci_user_profile_colors;
+    $avatar = field_get_items('user', $user, 'avatar_image');
+    if($user->picture)
+    {
+        return theme('image_style',
+                            array(
+                                'path' => $user->picture->uri,
+                                'style_name' => 'scale_25',         
+                            )
+                        );
+    }
+    if ($avatar) {
+        $simulatedAvatarArray = array();
+        foreach ($nci_user_profile_colors as $avatarColor) {
+            $simulatedAvatarArray[] = 'male/'.$avatarColor;
+            $simulatedAvatarArray[] = 'female/'.$avatarColor;
+        }
+        $avatarTMP = intval($avatar[0]['value']);
+        $avatarTMP = $simulatedAvatarArray[$avatarTMP];
+        $avatarSRC = '/' . path_to_theme() . '/accrualnet-internals/images/avatars/' . $avatarTMP . '.png';
+    }
+    else {
+        $avatarSRC = '/' . path_to_theme() . '/accrualnet-internals/images/avatars/male/Black.png';
+
+    }
+    return '<img src="'.$avatarSRC.'" width="25" title="'.check_plain($user->name).'\'s Image" alt="'.check_plain($user->name).'\'s Image" />';
 }
 
 function _starter_snippet($userID) {

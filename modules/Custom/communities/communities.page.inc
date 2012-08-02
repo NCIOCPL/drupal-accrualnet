@@ -87,7 +87,7 @@ function communities_topic_page($topic) {
                 $r .= _conversation_title_snippet($convo->nid, $convo->title, $convo->changed);
                 
                 $r .= '<div class="conversation-preview">';
-                $r .= _preview_snippet($convo->body, 3);
+                $r .= _preview_snippet($convo->body);
                 $r .= '</div>';
                 
                 $r .= _starter_snippet($convo->uid);
@@ -148,7 +148,7 @@ function all_conversations_page() {
                 $r .= _conversation_title_snippet($node->nid, $node->title, $node->changed);
                 
                 $r .= '<div class="conversation-preview">';
-                $r .= _preview_snippet($node->body, 3);
+                $r .= _preview_snippet($node->body);
                 $r .= '</div>';
                 
                 $r .= _starter_snippet($node->uid);
@@ -166,7 +166,6 @@ function all_conversations_page() {
 }
 
 function communities_landing_page() {
-    $o = '<div id="communities-landing-page">';
     $query = new EntityFieldQuery();
     $query->entityCondition('entity_type', 'node')
             ->entityCondition('bundle', 'landing_page')
@@ -174,86 +173,50 @@ function communities_landing_page() {
             ->propertyOrderBy('changed', 'DESC')
             ->propertyCondition('status', 1);
 
-    $result = _an_lifecycle_load_related_nodes($query);
+    $nodes = _an_lifecycle_load_related_nodes($query);
+    
+    $output = '<div id="communities-landing-page">';
+    $output .= '<h1>Communities and Conversations</h1>';
 
-
-    if (count($result) > 0 && count($result['nodes']) > 0) {
-        $landingNode = array_pop($result['nodes']);
-        $featuredCarousel = field_get_items('node', $landingNode, 'field_featured_carousel');
-        $o .= '<h1>' . $landingNode->title . '</h1>';
-        $o .= '<div id="communities-info">';
-        $o .= '<div class="landing-page-image">';
-        $o .= drupal_render(field_view_field('node', $landingNode, 'field_landing_page_image', array('label' => 'hidden')));
-        $o .= '</div>';
-
-        $o .= '<div  class="landing-page-text">';
-        $o .= drupal_render(field_view_field('node', $landingNode, 'field_content', array('label' => 'hidden')));
-        $o .= '</div>'; // Closes Description
-        $o .= '</div>'; // Closes Info
-        $o .= '<div class="communities-related">';
-        if($featuredCarousel){
-                $o .= render(node_view(node_load($featuredCarousel[0]['target_id'])));
+    $contentNode = array();
+    //if we got a node back, pop it off the array. There should only ever be 1 
+    //landing page of any type, so we do not care if it has multiple.
+    if(!empty($nodes['nodes'])){
+        $contentNode = array_pop($nodes['nodes']);
+        $output .= '<div class="landing-page-header clearfix">';
+        $output .= '<div class="landing-page-image">';
+        $image = field_get_items('node', $contentNode, 'field_landing_page_image');
+        if($image)
+        {
+            $output .= theme('image_style',  array(
+                            'path' => $image[0]['uri'],
+                            'style_name' => 'large',         
+                        )
+                    );
         }
+         $output .= '</div>';
+        $output .= '<div class="landing-page-text">';
+        $content = field_get_items('node', $contentNode, 'field_content');
+        if($content){
+            $output .= filter_xss_admin($content[0]['value']);
+        }
+        $output .= '</div>';
         
-        $o .= '</div>';
-    } 
+        $output .= '</div>'; //end landing page header
+    }
     else {
 
-        $o .= '<h1>Communities and Conversations</h1>';
+        
     }
-
-   
-    
-    
-    /*
-    
-    $o .= '<div id="all-conversations-box">';
-    
-    $query = new EntityFieldQuery();
-    $query->entityCondition('entity_type', 'node')
-            ->entityCondition('bundle', 'conversation')
-            ->propertyCondition('status', 1)
-            ->propertyOrderBy('changed', 'DESC')
-            ->pager(8);
-
-    $convos = _an_lifecycle_load_related_nodes($query, TRUE);
-    $o .= '<div id="all-conversations-title">';
-    $o .= '<span id="all-conversations-title-all">All</span>';
-    $o .= '<span id="all-conversations-title-conversations">Conversations</span>';
-    $o .= '<span class="all-conversations-pager">';
-    $o .= theme('pager');
-    $o .= '</span>';
-    $o .= '</div>';
-    $nids = array_keys($convos);
-    $x = 0;
-    $o .= '<div id="all-conversations-results">';
-    $o .= '<div id="all-conversations-left">';
-    $convosUnloaded = array_values($convos['nodes']);
-    foreach ($convos['nodes'] as $nid => $node) {
-        if ($x == 4) {
-            $o .= '</div><div id="all-conversations-right">';
+      //if there is a landing page created for this... print out its carousel.
+    if(!empty($contentNode)){
+        $featuredCarousel = field_get_items('node', $contentNode, 'field_featured_carousel');
+        if($featuredCarousel){
+            $output .= render(node_view(node_load($featuredCarousel[0]['target_id'])));
         }
-        $o .= '<div class="all-conversations-result';
-        $o .= '">';
-        $o .= '<div class="all-conversations-result-title">';
-        $o .= '<a href="' . url('node/' . $nid) . '">' . check_plain($node->title) . '</a>';
-        $o .= '</div>';
-        $o .= '<div class="all-conversations-result-details">';
-        $o .= 'Posted by: ';
-        $o .= '<a href="' . url('user/' . $node->uid) . '">';
-        $o .= user_load($node->uid)->name;
-        $o .= '</a>';
-        $o .= ' on ';
-        $o .= date('M j, Y', $node->changed);
-        $o .= '</div>';
-        $o .= '</div>';
-        $x++;
     }
-    $o .= '</div></div>';
-    $o .= '</div>';
-    */
-    $o .= '</div>'; // Closes whole page
-    return $o;
+    $output .= '</div>'; // Closes whole page
+    return $output;
 }
 
 function communities_of_practice_page() {
@@ -289,7 +252,7 @@ function communities_of_practice_page() {
         $o .= check_plain($comm->title);
         $o .= '</a></div>';
         $o .= '<div class="community-of-practice-desc">';
-        $o .= _preview_snippet($comm->body, 4);
+        $o .= _preview_snippet($comm->body);
         //$o .= drupal_render(field_view_field('node', $comm, 'body', array('label' => 'hidden')));
         $o .= '</div>';
 

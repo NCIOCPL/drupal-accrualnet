@@ -298,15 +298,16 @@ function _dynamic_content_block_output($node) {
         $content = $query->execute()->fetchAllAssoc('nid');
         $featuredContent = entity_load('node', array_keys($content));
         $counter = 1;
+        
         $size = count($featuredContent);
         foreach($featuredContent as $item){
             if($counter % $size == 1 || $counter % $size == round($size/2) +1)
             {
-                $output .= '<div class="featured-content-section-'.$zebra.'">';
+                $output .= '<div class="featured-content-section-'.$zebra.' '.$format[0]['value'] . ' ">';
                 $zebra = 'right';
             }
             $output .= _featured_content_display($item, FALSE, FALSE, FALSE);
-            if($counter % $size == 0 || $counter % $size == round($size/2)){
+            if($counter % $size == 0 || ($counter % $size == round($size/2) && $counter >= 3 )){
                 $output .= '</div>';
             }
             $counter++;
@@ -320,7 +321,7 @@ function _dynamic_content_block_output($node) {
                             )
                         );
             }
-        $output .= '</div>';
+            $output .= '</div>';
         }
     }
     else {
