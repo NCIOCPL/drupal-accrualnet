@@ -550,8 +550,9 @@ body a:visited {
 }
 
 
-.featured-content-section-1,
-.featured-content-section-4{
+
+.featured-content-section-left,
+.featured-content-section-right{
     float:left;
     width:45%;
     padding-left: 2%;
@@ -565,8 +566,9 @@ body a:visited {
     padding-right: 2%;
     text-align:center;
 }
-.featured-content-section-4 {
-    border-left: 3px dotted #d2d2d2; 
+
+.featured-content-section-left {
+    border-right: 3px dotted #d2d2d2;
 }
 
 .featured-content-block {
@@ -965,16 +967,16 @@ body a:visited {
 
 
 /**************** Customized Section Theme Colors *****************************/
-.Blue h1, .Blue h2, .Blue h3, .Blue span.site-name-net, .Blue span.tm, a.Blue {
+.Blue h1, .Blue h2, .Blue h3, .Blue h3 a, .Blue span.site-name-net, .Blue span.tm, a.Blue {
     color: #105693;
 }
-.Orange h1, .Orange h2, .Orange h3, .Orange span.site-name-net, .Orange span.tm, a.Orange {
+.Orange h1, .Orange h2, .Orange h3, .Orange h3 a, .Orange span.site-name-net, .Orange span.tm, a.Orange {
     color: #DC6E23;
 }
-.Red h1, .Red h2, .Red h3, .Red span.site-name-net, .Red span.tm, a.Red{
+.Red h1, .Red h2, .Red h3, .Red h3 a, .Red span.site-name-net, .Red span.tm, a.Red{
     color: #C74532;
 }
-.Purple h1, .Purple h2, .Purple h3, .Purple span.site-name-net, .Purple span.site-name-net, 
+.Purple h1, .Purple h2, .Purple h3, .Purple h3 a, .Purple span.site-name-net, .Purple span.site-name-net, 
 a.Purple {
     color: #54316E;    
 }

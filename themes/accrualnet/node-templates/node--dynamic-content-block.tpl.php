@@ -85,93 +85,10 @@
  */
 
 
-
-//NOTE: Assuming that there is enough content to have the number requested.
-//THIS COULD FAIL IF NOT!!
-//
-//
-
-//field_display_format is required
-$format = field_get_items('node', $node, 'field_display_format');
-//field_order_by is required
-$order = field_get_items('node', $node, 'field_order_by');
-//field_featured_type is required so it must be here.
-$types = field_get_items('node', $node, 'field_featured_type');
-//get image(if it exists)
-$image = field_get_items('node', $node, 'field_featured_image');
-$link = field_get_items('node', $node, 'field_more_link');
-
-
-$query = db_select('node', 'n')->fields('n', array('nid', 'title', 'created'));
-$query->leftJoin('og_membership', 'ogm', 'ogm.etid=n.nid');
-if($types){
-    $query->condition('n.type',  array_values($types) , 'IN');
-}
-$query->condition('n.status', '1')
-        ->condition('ogm.gid', 'NULL', 'IS NULL');
-
-switch($format[0]['value'])
-{
-    case 'listing':
-        $query = $query->extend('PagerDefault')->limit(6);
-        break;
-    case 'listing_image':
-        $query = $query->extend('PagerDefault')->limit(3);
-        break;
-    default:
-        $query = $query->extend('PagerDefault')->limit(6);
-        //this should never be reachable.
-        break;
-}
- 
-switch($order[0]['value']){
-    case 'alpha':
-        $query->orderBy('n.title', 'ASC');
-        break;
-    case 'date_recent':
-        $query->orderBy('n.created', 'DESC');
-        break;
-    case 'manual':
-        //if manual, dont do anything, we are going to use the order they are inserted in the node.
-        break;
-    default:
-        //this should never be reachable.
-        break;
-}
- 
-$content = $query->execute()->fetchAllAssoc('nid');
-$featuredContent = entity_load('node', array_keys($content));
-
 ?>
 <div class="featured-content-title">
     <span class="feature-header"><?php print filter_xss($node->title);?></span>
 </div>
 <div class="featured-content-block">
-    <?php $counter = 1;?>
-    <?php foreach($featuredContent as $item):?>
-        <?php if($counter == 1 || $counter == 4):?>
-            <div class="featured-content-section-<?php print $counter;?>">
-        <?php endif;?>
-        
-            <?php $urlPath = drupal_lookup_path('alias', 'node/'.$item->nid); ?>
-                <?php print _featured_content_display($item, FALSE, FALSE, FALSE);?>
-            
-        
-        <?php if($counter == 3 || $counter == 6):?>
-            </div>
-        <?php endif;?>
-        <?php $counter++;?>
-    <?php endforeach;?>
-    
-    <?php if($format[0]['value'] == 'listing_image'):?>
-        <div class="featured-content-picture">
-            <?php if($image): ?>
-                <?php print theme('image_style',  array(
-                                'path' => $image[0]['uri'],
-                                'style_name' => 'large',         
-                            )
-                        );?>
-            <?php endif;?>
-        </div>
-    <?php endif;?>
+    <?php print _dynamic_content_block_output($node);?>
 </div>

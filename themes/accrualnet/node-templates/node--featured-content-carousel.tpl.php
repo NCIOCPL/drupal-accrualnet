@@ -85,6 +85,7 @@
  */
 
 $blocks = field_get_items('node', $node, 'field_content_blocks');
+$blockNodes= array();
 drupal_add_js(drupal_get_path('module', 'featured_content') . '/includes/featureCarousel.js', 'file');
     
 ?>
@@ -94,19 +95,22 @@ drupal_add_js(drupal_get_path('module', 'featured_content') . '/includes/feature
     
     <div class="featured-carousel-slides">
     <?php if($blocks):?>
-    <?php $arr = array();?>
         <?php foreach ($blocks as $block):?>
             <li class="slide">
                 <?php print render(node_view(node_load($block['target_id'])));?>
             </li>
         <?php endforeach;?>
     
-    <?php endif;?> 
     <div class="slideshowControls">
         <?php foreach ($blocks as $block):?>
-            <div class="slideshowControl"><div><?php print check_plain($block['entity']->title);?></div></div>
+            <div class="slideshowControl">
+                <div>
+                    <?php print check_plain($block['entity']->title);?>
+                </div>
+            </div>
         <?php endforeach;?>
     </div>
+     <?php endif;?> 
     </div>
     
 </div>

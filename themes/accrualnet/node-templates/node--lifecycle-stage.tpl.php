@@ -98,19 +98,6 @@ $featuredCarousel = field_get_items('node', $node, 'field_featured_carousel');
 
 
 <article class="node-<?php print $node->nid; ?> <?php print $classes; ?> clearfix"<?php print $attributes; ?>>
-    <?php if ($title_prefix || $title_suffix || $display_submitted || $unpublished || !$page && $title): ?>
-        <header>
-        <?php print render($title_prefix); ?>
-        <?php if (!$page && $title): ?>
-            <h2<?php print $title_attributes; ?>><a href="<?php print $node_url; ?>"><?php print $title; ?></a></h2>
-        <?php endif; ?>
-        <?php print render($title_suffix); ?>
-        <?php if ($unpublished): ?>
-            <p class="unpublished"><?php print t('Unpublished'); ?></p>
-        <?php endif; ?>
-        </header>
-    <?php endif; ?>
-    <?php $language = 'und';?>
     <div id="lifecycle-stage">
         <div class="lifecycle-stage-header">
             <div class="lifecycle-stage-image">
@@ -133,32 +120,30 @@ $featuredCarousel = field_get_items('node', $node, 'field_featured_carousel');
           <div class="lifecycle-stage-content">
             <div class="lifecycle-stage-strategies">
                 <h2>Strategies</h2>
-                <?php $strategies = $node->field_child_strategies == null ? array() :$node->field_child_strategies[$language] ; ?>
-                <?php $counter = count($strategies);?>
-                <?php foreach ($strategies as $strategy) : ?>
-                        <?php $entity = node_load($strategy['target_id']);?>
-                        
-                    <div class="lifecycle-stage-strategy <?php print $counter == 1 ? 'last' : ''; ?>">
-                        <div class="lifecycle-strategy-icon">
-                            <?php $strategyIcon = field_get_items('node', $entity, 'field_strategy_icon');?>
-                            <?php if(!empty($strategyIcon)):?>
-                                <?php print theme('image_style',  array(
-                                            'path' => $strategyIcon[0]['uri'],
-                                            'style_name' => 'scale_100',         
-                                        )
-                                    );?>
+                <?php $strategies = field_get_items('node', $node, 'field_child_strategies');?>
+                <?php if($strategies):?>
+                    <?php $counter = 1;?>
+                    <?php foreach ($strategies as $strategy) : ?>
+                        <?php $strategySummary = field_get_items('node', $strategy['entity'], 'field_content_summary');?>        
+                        <div class="lifecycle-stage-strategy <?php print $counter == count($strategies) ? 'last' : ''; ?>">
+                            <div class="lifecycle-strategy-icon">
+                                    <img src="/<?php print path_to_theme().'/accrualnet-internals/images/numbers/AccrualNet_LargeNumbers-'.$counter.'.png';?>" title="strategy-icon-number" alt="strategy-icon-number" />
+                            </div>
+                            <div class="lifecycle-strategy-teaser">
+                            <?php $urlPath = drupal_lookup_path('alias', 'node/'.$strategy['entity']->nid); ?>
+                            <h3>
+                                <a href="/<?php print $urlPath != FALSE ? $urlPath : '/node/'.$strategy['entity']->nid ;?>">
+                                <?php print $strategy['entity']->title; ?>
+                                </a>
+                            </h3>
+                            <?php if($strategySummary): ?>
+                            <p><?php print filter_xss_admin($strategySummary[0]['value']);?></p>
                             <?php endif;?>
+                            </div>
                         </div>
-                        <div class="lifecycle-strategy-teaser">
-                        <?php $urlPath = drupal_lookup_path('alias', 'node/'.$entity->nid); ?>
-                        <h3><a href="/<?php print $urlPath != FALSE ? $urlPath : '/node/'.$entity->nid ;?>"><?php print $entity->title; ?></a></h3>
-                        <?php if(!empty($entity->field_content_summary)): ?>
-                        <p><?php print check_markup($entity->field_content_summary[$language][0]['value']);?></p>
-                        <?php endif;?>
-                        </div>
-                    </div>
-                    <?php $counter--;?>
-                <?php endforeach;?>
+                        <?php $counter++;?>
+                    <?php endforeach;?>
+                <?php endif;?>
 
 
             </div>
