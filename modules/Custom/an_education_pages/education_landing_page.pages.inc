@@ -45,8 +45,28 @@ function education_landing_page() {
 	//landing page of any type, so we do not care if it has multiple.
 	if (!empty($nodes['nodes'])) {
 		$contentNode = array_pop($nodes['nodes']);
-		$output .= _landing_page_output_snippet($contentNode);
-	} else {
+		$image = field_get_items('node', $contentNode, 'field_landing_page_image');
+                $output .= '<div class="landing-page-header clearfix">';
+                $output .= '<div class="landing-page-image">';
+                if($image)
+                {
+
+                    $output .= theme('image_style',  array(
+                                    'path' => $image[0]['uri'],
+                                    'style_name' => 'large',         
+                                )
+                            );
+                }
+                $output .= '</div>';
+                $output .= '<div class="landing-page-text">';
+                $content = field_get_items('node', $contentNode, 'field_content');
+                if($content){
+                    $output .= filter_xss_admin($content[0]['value']);
+                }
+                $output .= '</div>'; //end landing page text
+                $output .= '</div>'; //end landing page header
+	} 
+        else {
 		$output .= t('Landing page not created yet... please create before launch');
 	}
 
@@ -100,38 +120,5 @@ function education_landing_page() {
 	}
 
 	$output .= '</div>'; //end div resource landing page
-	return $output;
-}
-
-function _landing_page_output_snippet($node) {
-	$image = '';
-	try {
-		//$theme_path = drupal_get_path('theme', 'accrualnet');
-		if (isset($node->field_landing_page_image['und'][0]['uri'])) {
-			$image = check_plain($node->field_landing_page_image['und'][0]['uri']);
-			$image = file_create_url($image);
-		}
-
-		$image = "<img src='$image'>";
-	} catch (Exception $e) {
-		$image = $e->getMessage();
-	}
-
-	$output = '<div class="landing-page-output">';
-	$output .= '<div class="landing-page-output-image">';
-	$output .= $image;
-	$output .= '</div>'; // close image div
-	$output .= '<div class="landing-page-text">';
-	/* $output .= '<div class="landing-page-output-title">';
-	  $output .= check_plain($node->title);
-	  $output .= '</div>'; */ // close title div
-
-	if (isset($node->field_content['und'][0]['safe_value'])) {
-		$output .= "<div class='landing-page-content'>";
-		$output .= filter_xss_admin($node->field_content['und'][0]['value']);
-		$output .= '</div>'; // close content div
-	}
-	$output .= '</div>'; // close text div
-	$output .= '</div>'; // close output div
 	return $output;
 }

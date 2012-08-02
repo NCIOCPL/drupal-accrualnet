@@ -33,7 +33,8 @@ function resource_landing_page() {
     $query->entityCondition('entity_type', 'node')
             ->entityCondition('bundle', 'landing_page')
             ->fieldCondition('field_landing_page_type', 'value', 'literature')
-            ->propertyCondition('status', 1);
+            ->propertyCondition('status', 1)
+            ->propertyOrderBy('created', 'DESC');
     $nodes = _an_lifecycle_load_related_nodes($query); 
     
     
@@ -41,9 +42,19 @@ function resource_landing_page() {
     //landing page of any type, so we do not care if it has multiple.
     if(!empty($nodes['nodes'])){
         $contentNode = array_pop($nodes['nodes']);
-        $output .= '<div class="landing-page-header">';
+        $image = field_get_items('node', $contentNode, 'field_landing_page_image');
+        
+        $output .= '<div class="landing-page-header clearfix">';
         $output .= '<div class="landing-page-image">';
-        $output .= '<img src="'.drupal_get_path('theme', 'accrualnet').'/accrualnet-internals/images/avatars/male/black.png" width="400"/>';   //TODO: implement image field
+        if($image)
+        {
+            
+            $output .= theme('image_style',  array(
+                            'path' => $image[0]['uri'],
+                            'style_name' => 'large',         
+                        )
+                    );
+        }
         $output .= '</div>';
         $output .= '<div class="landing-page-text">';
         $content = field_get_items('node', $contentNode, 'field_content');
