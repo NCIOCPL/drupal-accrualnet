@@ -1,0 +1,63 @@
+<?php
+
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+function new_community_form_enable() {
+	module_load_include('inc', 'captcha');
+
+	// hide submitters and comments for webforms
+	variable_set('node_submitted_webform', 0);
+	variable_set('comment_webform', 0);
+
+	$node = new stdClass();
+
+	$node->type = 'webform';
+	node_object_prepare($node);
+	$node->title = 'Submit New Community Request';
+	$node->language = 'en';
+	$node->comment = 0;
+
+	node_save($node);
+
+	// title component
+	$component = array(
+		'nid' => $node->nid,
+		'pid' => 0,
+		'form_key' => 'name',
+		'name' => 'Community Name',
+		'type' => 'textfield',
+		'value' => "",
+		'extra' => array('description' => "Please provide a name for the community."),
+		'mandatory' => 1,
+		'weight' => 0,
+	);
+
+	// description component
+	$cid = webform_component_insert($component);
+
+	$component = array(
+		'nid' => $node->nid,
+		'pid' => 0,
+		'form_key' => 'description',
+		'name' => 'Description',
+		'type' => 'textarea',
+		'value' => "",
+		'extra' => array('description' => "A short description of the group's intended purpose."),
+		'mandatory' => 1,
+		'weight' => 1,
+	);
+
+	$cid = webform_component_insert($component);
+
+	captcha_set_form_id_setting("webform_client_form_$node->nid", 'recaptcha/reCAPTCHA');
+
+	drupal_set_message("Created 'Submit New Community Request' webform node at <a href='/content/submit-new-community-request'>/content/submit-new-community-request</a> (or <a href='/node/$node->nid'>/node/$node->nid</a> directly)");
+}
+
+function new_community_form_disable() {
+
+}
+?>

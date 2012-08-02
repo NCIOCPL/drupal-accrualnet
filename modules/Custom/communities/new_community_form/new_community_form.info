@@ -1,0 +1,10 @@
+name = "New Community Form"
+description = "Creates a webform for requesting a new community"
+package = "AccrualNet"
+core = 7.x
+version = 7.x-1.0
+
+dependencies[] = "captcha"
+dependencies[] = "recaptcha"
+dependencies[] = "webform"
+dependencies[] = "pathauto"
