@@ -39,29 +39,27 @@ function education_level_2_page($section) {
 	$nodes = _an_lifecycle_load_related_nodes($query);
 
 	if (!empty($nodes['nodes'])) {
-            $contentNode = array_pop($nodes['nodes']);
-            $image = field_get_items('node', $contentNode, 'field_landing_page_image');
-            $output .= '<div class="landing-page-header clearfix">';
-            $output .= '<div class="landing-page-image">';
-            if($image)
-            {
+		$contentNode = array_pop($nodes['nodes']);
+		$image = field_get_items('node', $contentNode, 'field_landing_page_image');
+		$output .= '<div class="landing-page-header clearfix">';
+		$output .= '<div class="landing-page-image">';
+		if ($image) {
 
-                $output .= theme('image_style',  array(
-                                'path' => $image[0]['uri'],
-                                'style_name' => 'large',         
-                            )
-                        );
-            }
-            $output .= '</div>';
-            $output .= '<div class="landing-page-text">';
-            $content = field_get_items('node', $contentNode, 'field_content');
-            if($content){
-                $output .= filter_xss_admin($content[0]['value']);
-            }
-            $output .= '</div>'; //end landing page text
-            $output .= '</div>'; //end landing page header
-	} 
-        else {
+			$output .= theme('image_style', array(
+				'path' => $image[0]['uri'],
+				'style_name' => 'large',
+					)
+			);
+		}
+		$output .= '</div>';
+		$output .= '<div class="landing-page-text">';
+		$content = field_get_items('node', $contentNode, 'field_content');
+		if ($content) {
+			$output .= filter_xss_admin($content[0]['value']);
+		}
+		$output .= '</div>'; //end landing page text
+		$output .= '</div>'; //end landing page header
+	} else {
 		$output .= 'This landing page is not created... PLEASE SET BEFORE LAUNCH!';
 	}
 	//END ADDED BY DOYLE
@@ -73,6 +71,7 @@ function education_level_2_page($section) {
 	$query->entityCondition('entity_type', 'node')
 			->entityCondition('bundle', $section)
 			->propertyCondition('status', 1)
+			->propertyOrderBy('changed', 'DESC')
 			->pager(10);
 	$nodes = _an_lifecycle_load_related_nodes($query, true);
 

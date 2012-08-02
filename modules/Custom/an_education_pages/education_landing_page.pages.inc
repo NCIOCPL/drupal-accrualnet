@@ -100,6 +100,7 @@ function education_landing_page() {
 		$query->entityCondition('entity_type', 'node')
 				->entityCondition('bundle', $type)
 				->propertyCondition('status', 1)
+				->propertyOrderBy('changed', 'DESC')
 				->range(0, 3);
 		$nodes = _an_lifecycle_load_related_nodes($query);
 
