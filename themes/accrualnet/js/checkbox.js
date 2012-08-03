@@ -113,8 +113,9 @@
                 }
             
                 if ($(this).children('input').val() == 'select_or_other') {
-                    $(this).parent().parent().next().toggle();
-                    $(this).parent().parent().next().children('input').toggle();   
+                    $(this).parent().parent().next().show();
+					$(this).parent().parent().next().children('input').val('');
+                    $(this).parent().parent().next().children('input').show();   
                 }
                 
             }
