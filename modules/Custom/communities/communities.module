@@ -708,10 +708,32 @@ function communities_node_view($node, $view_mode, $langcode){
     $term = taxonomy_term_load($topic[0]['tid']);
     if($term)
         $term_machine = array_keys($an_communities_field_topic_options, $term->name);
-    
-    if($term_machine)
+    if(!empty($node->group_audience) || $node->type == 'community')
+        menu_tree_set_path('an-main-nav', 'communities/communities_of_practice');
+    elseif($term_machine && empty($node->group_audience))
         menu_tree_set_path('an-main-nav', 'communities/topics/'.$term_machine[0]);
     else
         menu_tree_set_path('an-main-nav', 'communities');
 }
+
+function _communities_convo_header($node, $term) {
+    $output = '';
+    //if we are viewing a group node
+    if(!empty($node->group_audience)){
+        $groupID = og_get_entity_groups('node', $node);
+        $group = og_load($groupID[1]);
+        $groupNode = node_load($group->etid);
+        $groupBody = field_get_items('node', $groupNode, 'body');
+        $output .= '<h1 class="title">'.check_plain($groupNode->title).'</h1>';
+        $output .= '<div id="communities-topic-description">'.filter_xss($groupBody[0]['value']).'</div>';
+        return $output;
+    }
+    //Not a group node
+    $output .= '<h1 class="title">'.check_plain($term->name).'</h1>';
+    $output .= '<div id="communities-topic-description">'.filter_xss($term->description).'</div>';
+    return $output;
+    
+} 
+
+
 ?>

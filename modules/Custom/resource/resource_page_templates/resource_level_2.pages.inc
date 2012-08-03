@@ -81,18 +81,24 @@ function resource_level_2_page($section) {
             $image = field_get_items('node', $contentNode, 'field_landing_page_image');
 
             $output .= '<div class="landing-page-header clearfix">';
-            $output .= '<div class="landing-page-image">';
             if($image)
             {
+            $output .= '<div class="landing-page-image">';
+            
 
                 $output .= theme('image_style',  array(
                                 'path' => $image[0]['uri'],
                                 'style_name' => 'large',         
                             )
                         );
+                $output .= '</div>';
+                //if there is an image, print out the regular landing page div.
+                $output .= '<div class="landing-page-text">';
             }
-            $output .= '</div>';
-            $output .= '<div class="landing-page-text">';
+            else {
+                //if there is no image, print out the no-image div.
+                $output .= '<div class="landing-page-text-no-image">';
+            }
             $content = field_get_items('node', $contentNode, 'field_content');
             if($content){
                 $output .= filter_xss_admin($content[0]['value']);

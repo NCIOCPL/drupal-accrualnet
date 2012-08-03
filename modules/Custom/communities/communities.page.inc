@@ -221,13 +221,58 @@ function communities_landing_page() {
 
 function communities_of_practice_page() {
     global $user;
+    $o = '';
+    $query = new EntityFieldQuery();
+    $query->entityCondition('entity_type', 'node')
+                    ->entityCondition('bundle', 'landing_page')
+                    ->fieldCondition('field_landing_page_type', 'value', 'communities_of_practice')
+                    ->propertyCondition('status', 1);
+    $nodes = _an_lifecycle_load_related_nodes($query);
+
+    if(!empty($nodes['nodes'])){
+        $contentNode = array_pop($nodes['nodes']);
+        $image = field_get_items('node', $contentNode, 'field_landing_page_image');
+
+        $o .= '<div class="landing-page-header clearfix">';
+        if($image)
+        {
+        $o .= '<div class="landing-page-image">';
+
+
+            $o .= theme('image_style',  array(
+                            'path' => $image[0]['uri'],
+                            'style_name' => 'large',         
+                        )
+                    );
+            $o.= '</div>';
+            //if there is an image, print out the regular landing page div.
+            $o .= '<div class="landing-page-text">';
+        }
+        else {
+            //if there is no image, print out the no-image div.
+            $o .= '<div class="landing-page-text-no-image">';
+        }
+        $content = field_get_items('node', $contentNode, 'field_content');
+        if($content){
+            $o .= filter_xss_admin($content[0]['value']);
+        }
+        $o .= '</div>'; //end landing page text
+        $o .= '</div>'; //end landing page header
+    }
+    
+    
+    
     $query = new EntityFieldQuery();
     $query->entityCondition('entity_type', 'og_membership')
             ->propertyCondition('entity_type', 'user')
             ->propertyCondition('etid', $user->uid);
     $result = $query->execute();
     $groupmemberships = entity_load('og_membership', array_keys($result['og_membership']));
-    $o = '<div id="communities-of-practice">';
+    $o .= '<div id="communities-of-practice">';
+    $o .= '<div id="communities-topic-results">';
+    $o .= '<h2>'.t('Communities');
+    $o .= '<span class="button"><a href="/content/submit-new-community-request">'.t('Create a Community').'</a>';
+    $o .='</h2></div>';
     $usersGroups = array();
 
     foreach ($groupmemberships as $throwaway => $ogloaded) {
@@ -244,7 +289,7 @@ function communities_of_practice_page() {
     $o .= theme('pager');
     $convosUnloaded = array_values($results['nodes']);
     foreach ($results['nodes'] as $comm) {
-        $o .= '<div class="community-of-practice';
+        $o .= '<div class="community-of-practice clearfix';
         if ($convosUnloaded[count($convosUnloaded) - 1] == $comm) $o .= ' last-result';
         $o .= '">';
         $o .= '<div class="community-of-practice-title">';
@@ -258,12 +303,19 @@ function communities_of_practice_page() {
 
         $group = og_get_group('node', $comm->nid);
         if (!in_array($group->gid, array_values($usersGroups))) {
-            $o .= '<div class="community-of-practice-link"><span class="community-join-link">';
+            $o .= '<div class="community-of-practice-link"><span class="button">';
             $o .= '<a href="/group/node/' . $comm->nid . '/subscribe ">';
             $o .= 'Join This Community';
             $o .= '</a>';
             $o .= '</span></div>';
         }
+        $userGroupRoles = og_get_user_roles($group->gid, $user->uid); 
+        if(array_key_exists(3, $userGroupRoles) || in_array('administrator', $user->roles) || in_array('accrualnet_staff', $user->roles) ){
+            $o .= '<div class="manage-members">';
+            $o .= '<span class="button"><a href="/group/node/'.$group->etid.'/admin/people">Manage Group Members</a></span>';
+            $o .= '</div>';
+        }
+        
         $o .= '</div>';
     }
     $o .= theme('pager');

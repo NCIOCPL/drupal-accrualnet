@@ -133,6 +133,7 @@ $GLOBALS['an_lifecycle_fields'] = array(
                 'study' => t('Study Issues'),
                 'ethical' => t('Ethical Issues'),
                 'communities' => t('Communities'),
+                'communities_of_practice' => t('Communities of Practice'),
                 'education' => t('Education & Training'),
                 'materials_staff' => t('Staff Education Materials'),
                 'materials_patient' => t('Patient Education Materials')

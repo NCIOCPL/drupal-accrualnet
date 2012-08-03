@@ -9,7 +9,7 @@
 
 .conversation-result {
     border-bottom: 3px dotted #d2d2d2;
-    padding: 40px 0px;
+    padding: 15px 0px;
 }
 
 
@@ -153,8 +153,8 @@ span.conversation-last-updated {
 }
 
 .community-of-practice {
-    margin: 20px 0px;
-    padding: 20px 0px;
+    margin: 10px 0px;
+    padding: 10px 0;
     border-bottom: 3px dotted #d2d2d2;
 }
 
@@ -188,12 +188,35 @@ span.conversation-last-updated {
 }
 
 #community-members {
-    width: 220px;
+    padding: 10px 15px;
+    position: relative;
+    margin: 25px auto;
     border: 1px solid #DC6E23;
-    -moz-box-shadow: 3px 3px #DC6E23;
-    -webkit-box-shadow: 3px 3px  #DC6E23;
-    box-shadow: 3px 3px  #DC6E23;
+    border-bottom: solid #E79964  5px;
+    border-right: solid #E79964  5px;
+    width: 80%;
 }
+
+#community-members:before {
+    content: '';
+    position: absolute;
+    left: -8px;
+    bottom: -7px;
+    border: solid transparent 7px;
+    -moz-border-start-style: inset;
+    border-bottom-color: white;
+}
+
+#community-members:after {
+    content: '';
+    position: absolute;
+    top: -2px;
+    right: -14px;
+    border: solid transparent 7px;
+    -moz-border-start-style: outset;
+    border-top-color: white;
+}
+
 
 #community-members #community-members-title {
     color: #DC6E23;
@@ -269,10 +292,47 @@ span.conversation-last-updated {
     width: 94%;
     margin-left: 6%;
 }
-.latest-comment-text p {
+.latest-comment-text p,
+#communities .header-paragraph p{
     margin: 0px;
     padding: 0px;
 }
 .last-result {
     border-bottom: none;
+}
+
+.convo-title h2 {
+    margin-bottom: 5px;
+}
+.conversation-abstract p{
+    margin: 5px 0;
+}
+#community-members-list .manage-members {
+    clear:both; 
+    margin-top: 25px;
+}
+
+
+#communities-of-practice h2 .button {
+    float: right;
+    line-height: 1em;
+    margin: 0;
+}
+
+.community-member {
+    clear: both;
+}
+
+.community-member .conversation-recent-comment-userpic {
+    width: 10%;
+}
+
+.community-of-practice-link {
+    float: left;
+    margin-right: 20px;
+}
+
+.community-of-practice .manage-members {
+    float:left;
+    
 }

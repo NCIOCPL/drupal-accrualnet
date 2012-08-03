@@ -19,7 +19,7 @@ function an_navigation_block_info(){
       'info' => t('Left Nav'),
       'region' => 'sidebar_first',
       'visibility' => BLOCK_VISIBILITY_NOTLISTED,
-      'pages' => array('user/*\nuser\n<front>\nsearch/*')
+      'pages' => "user/*\nuser\n<front>\nsearch/*\ngroup/node/*"
     ); 
     
     return $blocks;
