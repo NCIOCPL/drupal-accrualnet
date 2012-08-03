@@ -457,6 +457,9 @@ function communities_theme($existing, $type, $theme, $path) {
 }
 
 function _preview_snippet($field, $maxLength = 256) {
+    if(!$field){
+        return; 
+    }
     $content = filter_xss($field['und'][0]['value']);
     $teaser = $content;
     if(strlen($content) > $maxLength ){

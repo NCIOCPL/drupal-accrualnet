@@ -209,24 +209,26 @@ function resource_ajax_filter($form, &$form_state, $facet, $term) {
 	//We need a way to determine if the node is a Stage or a Strategy so that we can 
 	//do the logic to pull in all of the child strategies or not. We also need to make sure
 	//that the child strategy isn't selected... if it is, than we don't want to pull in the others.
-
-	foreach (array_keys($form_state['values']) as $nodeID) {
-		//if this checkbox is set.
-		if ($form_state['values'][$nodeID] == 1) {
-			//if they selected a resource type.
-			if (is_string($nodeID)) {
-				$params['types'][$nodeID] = $nodeID;
-			}
-			//if they selected a stage.
-			elseif (array_key_exists($nodeID, $stageNodes['nodes'])) {
-				$params['stageIDs'][$nodeID] = $nodeID;
-			}
-			//if they selected a strategy.
-			else {
-				$params['strategyIDs'][$nodeID] = $nodeID;
-			}
-		}
-	}
+        $params = array();
+        if(array_key_exists('values',  $form_state)){
+            foreach (array_keys($form_state['values']) as $nodeID) {
+                    //if this checkbox is set.
+                    if ($form_state['values'][$nodeID] == 1) {
+                            //if they selected a resource type.
+                            if (is_string($nodeID)) {
+                                    $params['types'][$nodeID] = $nodeID;
+                            }
+                            //if they selected a stage.
+                            elseif (array_key_exists($nodeID, $stageNodes['nodes'])) {
+                                    $params['stageIDs'][$nodeID] = $nodeID;
+                            }
+                            //if they selected a strategy.
+                            else {
+                                    $params['strategyIDs'][$nodeID] = $nodeID;
+                            }
+                    }
+            }
+        }
 	$resources = _resource_ajax_load_results($params, $facet, $tag);
 	$resultsOutput = "";
 	if ($resources) {
