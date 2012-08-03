@@ -873,6 +873,7 @@ body a:visited {
 .homepage-content-blocks {
     display: block;
     width: 100%;
+		overflow:hidden;
     
 }
 .homepage-feature-block-container {
