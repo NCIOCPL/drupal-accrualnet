@@ -321,11 +321,15 @@ function communities_of_practice_page() {
             ->propertyCondition('entity_type', 'user')
             ->propertyCondition('etid', $user->uid);
     $result = $query->execute();
+    $groupmemberships = array();
+    if($result['og_membership'])
+    {
     $groupmemberships = entity_load('og_membership', array_keys($result['og_membership']));
+    }
     $o .= '<div id="communities-of-practice">';
     $o .= '<div id="communities-topic-results">';
     $o .= '<h2>'.t('Communities');
-    $o .= '<span class="button"><a href="/content/submit-new-community-request">'.t('Create a Community').'</a>';
+    $o .= '<span class="button"><a href="/content/create-community">'.t('Create a Community').'</a>';
     $o .='</h2></div>';
     $usersGroups = array();
 
