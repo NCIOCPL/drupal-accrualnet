@@ -88,6 +88,23 @@ function new_resource_form_enable() {
 
 	$cid = webform_component_insert($component);
 
+	// disclaimer component
+	$component = array(
+		'nid' => $node->nid,
+		'pid' => 0,
+		'form_key' => 'disclaimer',
+		'name' => 'Disclaimer',
+		'type' => 'select',
+		'value' => "",
+		'extra' => array(
+			'items' => "affirm|For materials that are not publicly available, I own the copyright or have obtained the necessary rights/permissions for the content that I am submitting to AccrualNet.",
+			'multiple' => 1),
+		'mandatory' => 1,
+		'weight' => 4,
+	);
+
+	$cid = webform_component_insert($component);
+
 	captcha_set_form_id_setting("webform_client_form_$node->nid", 'recaptcha/reCAPTCHA');
 
 	drupal_set_message("Created 'Submit New Resource' webform node at <a href='/content/submit-new-resource'>/content/submit-new-resource</a> (or <a href='/node/$node->nid'>/node/$node->nid</a> directly)");
@@ -95,5 +112,15 @@ function new_resource_form_enable() {
 
 function new_resource_form_disable() {
 
+	$query = new EntityFieldQuery();
+	$query->entityCondition('entity_type', 'node')
+			->entityCondition('bundle', 'webform')
+			->propertyCondition('title', 'Submit New Resource');
+	$result = $query->execute();
+
+	if (isset($result['node'])) {
+		node_delete(array_keys($result['node']));
+	}
 }
+
 ?>
