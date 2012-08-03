@@ -322,9 +322,9 @@ function communities_of_practice_page() {
             ->propertyCondition('etid', $user->uid);
     $result = $query->execute();
     $groupmemberships = array();
-    if($result['og_membership'])
+    if(array_key_exists('og_membership', $result))
     {
-    $groupmemberships = entity_load('og_membership', array_keys($result['og_membership']));
+        $groupmemberships = entity_load('og_membership', array_keys($result['og_membership']));
     }
     $o .= '<div id="communities-of-practice">';
     $o .= '<div id="communities-topic-results">';
