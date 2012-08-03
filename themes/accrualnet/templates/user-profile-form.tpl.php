@@ -206,9 +206,6 @@ print drupal_render($form['profile_color']);
 
 				$output .= drupal_render($form['field_occupation']);
 
-
-
-
 				$selectOutputs = array('field_years_in_research', 'field_institution_type');
 				foreach ($selectOutputs as $select) {
 					$output .= drupal_render($form[$select]);
