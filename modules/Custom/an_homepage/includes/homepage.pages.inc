@@ -52,7 +52,7 @@ function homepage_display() {
         
         //Finally, we want to output the additional content blocks displayed at the
         //bottom of the page.
-        $output .= '<div class="homepage-content-blocks">';
+        $output .= '<div class="homepage-content-blocks clearfix">';
         $contentBlocks = field_get_items('node', $contentNode, 'field_content_blocks');
         if($contentBlocks){
             $count = 1;
