@@ -159,11 +159,10 @@ else {
 
 //$comments = comment_get_thread($node,COMMENT_MODE_FLAT, 10  );
 ?>
+
 <div class="conversation-topic-header">
-    <h1 class="title"><?php print check_plain($term->name);?></h1>
-    <div id="communities-topic-description"><?php print filter_xss($term->description);?></div>
-            
-</div>    
+    <?php print _communities_convo_header($node, $term);?>
+</div>
 <div class="conversation">
     <div class="convo-title">
         <h2>

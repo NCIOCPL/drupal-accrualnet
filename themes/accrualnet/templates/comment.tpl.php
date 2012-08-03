@@ -105,7 +105,8 @@ else {
         <div class="convo-body">
         <div class="submitted-by">
             <span class="user-name">
-                <a href="/user/<?php print $comment->uid;?>" class="<?php print $nci_user_profile_colors[$color[0]['value']];?>" title="<?php print $user->name;?>'s profile"><?php print $user->name;?></a>
+                
+                <a href="/user/<?php print $comment->uid;?>" class="<?php if($color){print $nci_user_profile_colors[$color[0]['value']];}?>" title="<?php print $user->name;?>'s profile"><?php print $user->name;?></a>
             </span>
             <span class="user-occupation"><?php print check_plain($occupation[0]['value']);?></span>
             <span class="posted-date"><?php print format_date($comment->created, 'custom', 'F d, Y');?></span>

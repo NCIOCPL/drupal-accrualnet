@@ -114,8 +114,14 @@ h1 span {
 }
 .add-this a {
     padding: 0 10px;
+    color: #2d2d2d;
+    text-decoration: none;
     
 }
+.add-this img {
+    margin-right: 5px;
+}
+
 .add-this span{
     display:inline-block;
     margin-top: 5px;
@@ -133,6 +139,9 @@ h1 span {
 .landing-page-image {
     float:left;
     width: 55%;
+}
+.landing-page-text-no-image {
+    width: 100%;
 }
 .landing-page-text {
     width: 40%;
@@ -559,12 +568,22 @@ body a:visited {
     padding-right: 2%;
 }
 
+.listing_image {
+    width: 55%;
+}
+
 .featured-content-picture {
-    float:left;
-    width:45%;
+ 
+    width:35%;
+    margin-left: 62%;
+    margin-top: 30px;
     padding-left: 2%;
     padding-right: 2%;
     text-align:center;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -ms-box-sizing: border-box;
 }
 .featured-content-section-right{
     border-left: 3px dotted #D2D2D2;

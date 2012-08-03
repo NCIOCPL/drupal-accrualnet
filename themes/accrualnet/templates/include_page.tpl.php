@@ -246,10 +246,12 @@ if ($pager_total_items != null) {
       <div id="page-options">
           <?php print $breadcrumb; ?>
           <?php if (!$is_front):?>
-          <div class="add-this"><a class="addthis_button_email">Email this Page</a><a class="addthis_button_print">Print this Page</a></div>
+          <div class="add-this"><div class="custom-images">
+                  <a class="addthis_button_email"><img width="20" src="/sites/accrualnet.cancer.gov/themes/accrualnet/accrualnet-internals/images/icons/AccrualNet_EmailIcon.png"/>Email this Page</a>
+                  <a class="addthis_button_print"><img width="20" src="/sites/accrualnet.cancer.gov/themes/accrualnet/accrualnet-internals/images/icons/AccrualNet_PrintIcon.png"/>Print this Page</a></div></div>
           <?php endif;?>
       </div>
-      <?php //print $messages; 
+      <?php print $messages; 
       print render($tabs); 
       //print render($page['help']); 
       //if ($action_links): 
@@ -295,9 +297,10 @@ if ($pager_total_items != null) {
               <ul>
                 <li><a href="http://www.cancer.gov">AccrualNet Home</a></li>
                 <li><a href="/about/contact_us">Contact Us</a></li>
-                <li><a href="/about/policies">Policies</a></li>
-                <li><a href="/about/accessibility">Accessibility</a></li>
-                <li><a href="/about/FOIA">FOIA</a></li>
+                <li><a href="http://www.cancer.gov/global/web/policies">Policies</a></li>
+                <li><a href="http://www.cancer.gov/global/web/policies/page3">Accessibility</a></li>
+                <li><a href="http://www.cancer.gov/global/web/policies/page6">FOIA</a></li>
+                <li class="last"><a href="/about">About Us</a></li>
               </ul>
           </div>
               <div class="footer-text">AccrualNet and logo are trademarks/service marks of the U.S. Department of Health and Human Services (DHHS)</div>
