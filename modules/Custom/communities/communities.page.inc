@@ -121,6 +121,59 @@ function communities_topic_page($topic) {
 }
 
 function all_conversations_page() {
+    $o = '';
+        $numConvosPerPage = 10;
+        $query = db_select('node', 'n')->fields('n', array('nid', 'title', 'created'));
+        $query->leftJoin('og_membership', 'ogm', 'ogm.etid=n.nid');
+        $query->innerJoin('field_data_field_topic', 't', 'n.nid=t.entity_id');
+        $query->condition('n.type', 'conversation')
+                ->condition('n.status', '1')
+                ->condition('ogm.gid', 'NULL', 'IS NULL');
+        $query->orderBy('n.created', 'DESC');
+        $query = $query->extend('PagerDefault')->limit($numConvosPerPage);
+        $convos = $query->execute()->fetchAllAssoc('nid');
+
+
+        $convosUnloaded = array_values($convos);
+        $numConvos = 0;
+        $r = '';
+        foreach ($convos as $convoUnloaded) {
+            $convo = node_load($convoUnloaded->nid);
+
+            $r .= '<div class="conversation-result';
+            if ($convosUnloaded[count($convos) - 1] == $convoUnloaded) $r .= ' last-result';
+            $r .= '">'; // Start Result
+
+            $r .= _conversation_title_snippet($convo->nid, $convo->title, $convo->changed);
+
+            $r .= '<div class="conversation-preview">';
+            $r .= _preview_snippet($convo->body);
+            $r .= '</div>';
+
+            $r .= _starter_snippet($convo->uid);
+
+            $r .= _get_latest_comment($convo);
+
+            $r .= '</div>'; // End Result
+
+            $numConvos++;
+        }
+        if ($numConvos > 0) {
+            $o .= '<span class="pager top-pager">' . theme('pager') . '</span>';
+            $o .= '<div id="conversation-results">';
+            $o .= $r;                
+            $o .= '</div>';
+            $o .= '<span class="pager bottom-pager">' . theme('pager') . '</span>';
+        } else {
+            $o .= 'No conversations found.';
+        }
+    
+
+
+    return $o;
+}
+/*
+function all_conversations_page() {
     $o = '<div id="all-conversations-page">';
     $query = new EntityFieldQuery();
     $query->entityCondition('entity_type', 'node')
@@ -130,11 +183,12 @@ function all_conversations_page() {
             ->pager(8);
 
     $convos = _an_lifecycle_load_related_nodes($query, TRUE);
-    $o .= '<div id="all-conversations-title">';
-    $o .= '<span class="all-conversations-pager">';
-    $o .= theme('pager');
-    $o .= '</span>';
-    $o .= '</div>';
+        $o .= '<div id="all-conversations-title">';
+        $o .= '<span class="all-conversations-pager">';
+        $o .= theme('pager');
+        $o .= '</span>';
+        $o .= '</div>';
+    
     $nids = array_keys($convos);
     $x = 0;
     $o .= '<div id="all-conversations-results">';
@@ -142,7 +196,7 @@ function all_conversations_page() {
     $convosUnloaded = array_values($convos['nodes']);
     foreach ($convos['nodes'] as $nid => $node) {
         $r .= '<div class="conversation-result';
-        if ($convosUnloaded[count($convosUnloaded) - 1] == $node) $o .= ' last-result';
+        if ($convosUnloaded[count($convosUnloaded) - 1] == $node) $r .= ' last-result';
         $r .= '">'; // Start Result
                 
                 $r .= _conversation_title_snippet($node->nid, $node->title, $node->changed);
@@ -164,7 +218,7 @@ function all_conversations_page() {
     $o .= '</div>'; // Closes whole page
     return $o;
 }
-
+*/
 function communities_landing_page() {
     $query = new EntityFieldQuery();
     $query->entityCondition('entity_type', 'node')
