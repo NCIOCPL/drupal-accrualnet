@@ -9,3 +9,4 @@ dependencies[] = workbench_moderation
 dependencies[] = nci_roles_and_permissions
 dependencies[] = an_roles
 dependencies[] = resource
+dependencies[] = an_contrib_perm
