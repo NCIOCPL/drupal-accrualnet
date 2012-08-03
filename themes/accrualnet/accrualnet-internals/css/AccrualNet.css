@@ -1475,3 +1475,8 @@ h2.comment-form {
 
 
 /******************End Community Styling*************************/
+
+.webform-client-form .webform-component {
+	clear:both;
+}
+
