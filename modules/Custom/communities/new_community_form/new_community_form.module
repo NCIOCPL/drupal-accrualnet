@@ -14,30 +14,109 @@ function new_community_form_enable() {
 
 	$node = new stdClass();
 
+	$title = 'Create a Community';
+
+	$weight = 0;
+
 	$node->type = 'webform';
 	node_object_prepare($node);
-	$node->title = 'Submit New Community Request';
+	$node->title = $title;
 	$node->language = 'en';
 	$node->comment = 0;
 
 	node_save($node);
+
+	// submitter name component
+	$component = array(
+		'nid' => $node->nid,
+		'pid' => 0,
+		'form_key' => 'submitter',
+		'name' => 'Submitter Name',
+		'type' => 'textfield',
+		'value' => "%username",
+		'extra' => array('description' => "Your name."),
+		'mandatory' => 1,
+		'weight' => $weight++
+	);
+
+	$cid = webform_component_insert($component);
+
+	// organization component
+	$component = array(
+		'nid' => $node->nid,
+		'pid' => 0,
+		'form_key' => 'organization',
+		'name' => 'Organization Affiliation',
+		'type' => 'textfield',
+		'value' => "",
+		'extra' => array('description' => "The organization with which you are affiliated."),
+		'mandatory' => 1,
+		'weight' => $weight++
+	);
+
+	$cid = webform_component_insert($component);
+
+	// email component
+	$component = array(
+		'nid' => $node->nid,
+		'pid' => 0,
+		'form_key' => 'email',
+		'name' => 'Work-Related Email',
+		'type' => 'email',
+		'value' => "%useremail",
+		'extra' => array('description' => "Your work-related email address."),
+		'mandatory' => 1,
+		'weight' => $weight++
+	);
+
+	$cid = webform_component_insert($component);
+
+	// phone number component
+	$component = array(
+		'nid' => $node->nid,
+		'pid' => 0,
+		'form_key' => 'phone',
+		'name' => 'Phone Number',
+		'type' => 'textfield',
+		'value' => "",
+		'extra' => array('description' => "A phone number by which you may be reached."),
+		'mandatory' => 1,
+		'weight' => $weight++
+	);
+
+	$cid = webform_component_insert($component);
 
 	// title component
 	$component = array(
 		'nid' => $node->nid,
 		'pid' => 0,
 		'form_key' => 'name',
-		'name' => 'Community Name',
+		'name' => 'Name of Group',
 		'type' => 'textfield',
 		'value' => "",
-		'extra' => array('description' => "Please provide a name for the community."),
+		'extra' => array('description' => "A name for the community."),
 		'mandatory' => 1,
-		'weight' => 0,
+		'weight' => $weight++
 	);
 
-	// description component
 	$cid = webform_component_insert($component);
 
+	// purpose component
+	$component = array(
+		'nid' => $node->nid,
+		'pid' => 0,
+		'form_key' => 'purpose',
+		'name' => 'Purpose for AccrualNet Communities',
+		'type' => 'textarea',
+		'value' => "",
+		'extra' => array('description' => "Elaborate on the pupose this group will serve in terms of the AccrualNet community."),
+		'mandatory' => 1,
+		'weight' => $weight++
+	);
+
+	$cid = webform_component_insert($component);
+
+	// description component
 	$component = array(
 		'nid' => $node->nid,
 		'pid' => 0,
@@ -45,19 +124,169 @@ function new_community_form_enable() {
 		'name' => 'Description',
 		'type' => 'textarea',
 		'value' => "",
-		'extra' => array('description' => "A short description of the group's intended purpose."),
+		'extra' => array('description' => "A short description of the group."),
 		'mandatory' => 1,
-		'weight' => 1,
+		'weight' => $weight++
+	);
+
+	$cid = webform_component_insert($component);
+
+	// membership component
+	$component = array(
+		'nid' => $node->nid,
+		'pid' => 0,
+		'form_key' => 'membership',
+		'name' => 'Proposed Membership',
+		'type' => 'textarea',
+		'value' => "",
+		'extra' => array('description' => "A description of the intended membership of this group."),
+		'mandatory' => 1,
+		'weight' => $weight++
+	);
+
+	$cid = webform_component_insert($component);
+
+	// duration component
+	$component = array(
+		'nid' => $node->nid,
+		'pid' => 0,
+		'form_key' => 'duration',
+		'name' => 'Group Duration',
+		'type' => 'textfield',
+		'value' => "",
+		'extra' => array('description' => "The desired duration of the group's existence."),
+		'mandatory' => 1,
+		'weight' => $weight++
+	);
+
+	$cid = webform_component_insert($component);
+
+	// moderator name component
+	$component = array(
+		'nid' => $node->nid,
+		'pid' => 0,
+		'form_key' => 'moderator',
+		'name' => 'Moderator Name',
+		'type' => 'textfield',
+		'value' => "",
+		'extra' => array('description' => "The moderator's name, if different from the submitter."),
+		'mandatory' => 0,
+		'weight' => $weight++
+	);
+
+	$cid = webform_component_insert($component);
+
+	// organization component
+	$component = array(
+		'nid' => $node->nid,
+		'pid' => 0,
+		'form_key' => 'moderator_organization',
+		'name' => "Moderator's Organization Affiliation",
+		'type' => 'textfield',
+		'value' => "",
+		'extra' => array('description' => "The moderator's affiliated organization."),
+		'mandatory' => 0,
+		'weight' => $weight++
+	);
+
+	$cid = webform_component_insert($component);
+
+	// moderator's email component
+	$component = array(
+		'nid' => $node->nid,
+		'pid' => 0,
+		'form_key' => 'moderator_email',
+		'name' => "Moderator's Work-Related Email",
+		'type' => 'email',
+		'value' => "",
+		'extra' => array('description' => "The moderator's work-related email address."),
+		'mandatory' => 0,
+		'weight' => $weight++
+	);
+
+	$cid = webform_component_insert($component);
+
+	// phone number component
+	$component = array(
+		'nid' => $node->nid,
+		'pid' => 0,
+		'form_key' => 'moderator_phone',
+		'name' => "Moderator's Phone Number",
+		'type' => 'textfield',
+		'value' => "",
+		'extra' => array('description' => "The moderator's phone number."),
+		'mandatory' => 0,
+		'weight' => $weight++
+	);
+
+	$cid = webform_component_insert($component);
+
+	// privacy component
+	$component = array(
+		'nid' => $node->nid,
+		'pid' => 0,
+		'form_key' => 'privacy_level',
+		'name' => 'Choice of Privacy Level',
+		'type' => 'select',
+		'value' => "",
+		'extra' => array(
+			'description' => "The desired privacy level of the group.",
+			'items' => "public|Publicly visible\nprivate|Only visible to members",
+			'multiple' => 0),
+		'mandatory' => 1,
+		'weight' => $weight++
+	);
+
+	$cid = webform_component_insert($component);
+
+	// disclaimer component
+	$component = array(
+		'nid' => $node->nid,
+		'pid' => 0,
+		'form_key' => 'guideline_agreement',
+		'name' => '',
+		'type' => 'select',
+		'value' => "",
+		'extra' => array(
+			'items' => "affirm|I agree to adhere to NCI website and community of practice guidelines, and to provide periodic feedback to NCI on the group.",
+			'multiple' => 1),
+		'mandatory' => 1,
+		'weight' => $weight++
+	);
+
+	$cid = webform_component_insert($component);
+	
+	$component = array(
+		'nid' => $node->nid,
+		'pid' => 0,
+		'form_key' => 'contribute_agreement',
+		'name' => '',
+		'type' => 'select',
+		'value' => "",
+		'extra' => array(
+			'items' => "affirm|I agree to support and contribute to the public site in general.",
+			'multiple' => 1),
+		'mandatory' => 1,
+		'weight' => $weight++
 	);
 
 	$cid = webform_component_insert($component);
 
 	captcha_set_form_id_setting("webform_client_form_$node->nid", 'recaptcha/reCAPTCHA');
 
-	drupal_set_message("Created 'Submit New Community Request' webform node at <a href='/content/submit-new-community-request'>/content/submit-new-community-request</a> (or <a href='/node/$node->nid'>/node/$node->nid</a> directly)");
+	drupal_set_message("Created 'Create a Community' webform node at <a href='/content/create-community'>/content/create-community</a> (or <a href='/node/$node->nid'>/node/$node->nid</a> directly)");
 }
 
 function new_community_form_disable() {
+	$query = new EntityFieldQuery();
+	$query->entityCondition('entity_type', 'node')
+			->entityCondition('bundle', 'webform')
+			->propertyCondition('title', 'Create a Community');
+	$result = $query->execute();
 
+	if (isset($result['node'])) {
+		node_delete(array_keys($result['node']));
+	}
 }
+
 ?>
