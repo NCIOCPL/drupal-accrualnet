@@ -620,15 +620,16 @@ input {
     clear: both;
 }
 
-.form-required img {
+/*.form-required img {
     width: 25px;
     height: auto;
-}
+}*/
 .form-required {
     width: 30px;
 }
 
 #username-warning {
+	clear: both;
     color: #696969;
     font-style: italic;
     padding-top: 0px;
