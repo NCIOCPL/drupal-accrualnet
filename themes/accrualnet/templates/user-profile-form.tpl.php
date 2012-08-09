@@ -9,7 +9,7 @@
 $form['account']['name']['#access'] = TRUE;
 
 
-$form['account']['current_pass']['#access'] = FALSE;
+//$form['account']['current_pass']['#access'] = FALSE;
 $form['field_institution_type']['und']['#description'] = "";
 
 /*
@@ -199,7 +199,8 @@ print drupal_render($form['profile_color']);
 
 				$output .= drupal_render($form['account']['name']);
 				$output .= drupal_render($form['account']['mail']);
-
+				
+				$output .= drupal_render($form['account']['current_pass']);
 				$output .= drupal_render($form['account']['pass']);
 
 				$output .= drupal_render($form['account']['roles']);
