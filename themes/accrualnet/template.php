@@ -56,115 +56,122 @@ function accrualnet_theme(&$existing, $type, $theme, $path) {
 	return $items;
 }
 
+function accrualnet_pager($variables) {
+	// change 'quantity' to 5
+	$variables['quantity'] = 5;
+
+	// now call the default pager theme
+	return theme_pager($variables);
+}
+
 function accrualnet_preprocess_user_profile(&$vars) {
-    /*
-	$profile = &$vars['user_profile'];
+	/*
+	  $profile = &$vars['user_profile'];
 
-	hide($profile['summary']);
+	  hide($profile['summary']);
 
-	$work_email = $vars['user']->mail;
+	  $work_email = $vars['user']->mail;
 
-	$profile['field_work_email'] = array(
-		'#theme' => 'field',
-		'#title' => t('WORK EMAIL'),
-		'#weight' => -2,
-		'#items' => array(0 => array('value' => $work_email)),
-		0 => array('#markup' => $work_email),
-	);
+	  $profile['field_work_email'] = array(
+	  '#theme' => 'field',
+	  '#title' => t('WORK EMAIL'),
+	  '#weight' => -2,
+	  '#items' => array(0 => array('value' => $work_email)),
+	  0 => array('#markup' => $work_email),
+	  );
 
-	if (isset($profile['field_role'])) {
-		$profile['field_role']['#title'] = t('OCCUPATION');
-		$profile['field_role']['#weight'] = 4;
-	}
-	if (isset($profile['field_years_in_research'])) {
-		$profile['field_years_in_research']['#title'] = t('YEARS OF CLINICAL RESEARCH');
-		$profile['field_years_in_research']['#weight'] = 5;
-	}
-	if (isset($profile['field_institution_type'])) {
-		$profile['field_institution_type']['#title'] = t('INSTITUTION TYPE');
-		$profile['field_institution_type']['#weight'] = 6;
-	}
-	if (isset($profile['field_areas_of_interest'])) {
-		$profile['field_areas_of_interest']['#title'] = t('AREAS OF INTEREST');
-		$profile['field_areas_of_interest']['#weight'] = 7;
-	}
-*/
-
+	  if (isset($profile['field_role'])) {
+	  $profile['field_role']['#title'] = t('OCCUPATION');
+	  $profile['field_role']['#weight'] = 4;
+	  }
+	  if (isset($profile['field_years_in_research'])) {
+	  $profile['field_years_in_research']['#title'] = t('YEARS OF CLINICAL RESEARCH');
+	  $profile['field_years_in_research']['#weight'] = 5;
+	  }
+	  if (isset($profile['field_institution_type'])) {
+	  $profile['field_institution_type']['#title'] = t('INSTITUTION TYPE');
+	  $profile['field_institution_type']['#weight'] = 6;
+	  }
+	  if (isset($profile['field_areas_of_interest'])) {
+	  $profile['field_areas_of_interest']['#title'] = t('AREAS OF INTEREST');
+	  $profile['field_areas_of_interest']['#weight'] = 7;
+	  }
+	 */
 }
 
 function accrualnet_preprocess_user_picture(&$vars) {
-
+	
 }
 
 function accrualnet_preprocess_user_profile_item(&$vars) {
-
+	
 }
 
 function accrualnet_preprocess_user_login(&$vars) {
-
+	
 }
 
 function accrualnet_preprocess_user_pass(&$vars) {
-
+	
 }
 
 function accrualnet_preprocess_user_register_form(&$vars) {
-    $vars['form']['account']['name']['#title'] = "";
-    $vars['form']['picture']['picture_upload']['#description'] = "You can upload a JPG, GIF, or PNG file.\n(File size limit is 2MB)";
-    $vars['form']['account']['name']['#description'] ='This username will be displayed to all registered users if you participate in conversations or make comments on resources';
-    $vars['form']['picture']['picture_upload']['#size'] = 0;
-                    $vars['form']['profile_color']['und']['#description'] = '';
-/*
-	$vars['form']['account']['pass']['#title'] = t('Password');
-	unset($vars['form']['account']['pass']['pass1']['#title']);
-	unset($vars['form']['account']['pass']['pass2']['#title']);
+	$vars['form']['account']['name']['#title'] = "";
+	$vars['form']['picture']['picture_upload']['#description'] = "You can upload a JPG, GIF, or PNG file.\n(File size limit is 2MB)";
+	$vars['form']['account']['name']['#description'] = 'This username will be displayed to all registered users if you participate in conversations or make comments on resources';
+	$vars['form']['picture']['picture_upload']['#size'] = 0;
+	$vars['form']['profile_color']['und']['#description'] = '';
+	/*
+	  $vars['form']['account']['pass']['#title'] = t('Password');
+	  unset($vars['form']['account']['pass']['pass1']['#title']);
+	  unset($vars['form']['account']['pass']['pass2']['#title']);
 
-	unset($vars['form']['picture']['#theme_wrappers']);
-	unset($vars['form']['picture']['select_avatar']['#title']);
+	  unset($vars['form']['picture']['#theme_wrappers']);
+	  unset($vars['form']['picture']['select_avatar']['#title']);
 
-	$elements = array(
-		array(
-			'element' => & $vars['form']['account']['name'],
-			'desc' => 'This username will be displayed to all registered users ' .
-			'if you participate in conversations or make comments on resources.'
-		),
-		array(
-			'element' => & $vars['form']['account']['mail'],
-			'desc' => 'Please enter a professional email address.'
-		),
-		array(
-			'element' => & $vars['form']['account']['pass'],
-			'desc' => 'Please enter a password containing both letters and numbers.'
-		),
-		array(
-			'element' => & $vars['form']['field_role']['und']['select'],
-			'desc' => 'Please select from the list the description that best ' .
-			'describes your occupation.'
-		),
-		array(
-			'element' => & $vars['form']['field_years_in_research']['und'],
-			'desc' => 'Please enter the number of years in your field or at ' .
-			'your institution.'
-		),
-		array(
-			'element' => & $vars['form']['field_institution_type']['und']['select'],
-			'desc' => 'Please select from the list the description that best ' .
-			'describes your institution.'
-		),
-		array(
-			'element' => & $vars['form']['field_areas_of_interest']['und']['select'],
-			'desc' => 'Please select one or more areas of interest.'
-		),
-		array(
-			'element' => & $vars['form']['picture']['picture_upload'],
-			'desc' => 'This profile picture will be viewable by all registered ' .
-			'users. Please select a picture to upload or select an avatar.'
-		),
-	);
+	  $elements = array(
+	  array(
+	  'element' => & $vars['form']['account']['name'],
+	  'desc' => 'This username will be displayed to all registered users ' .
+	  'if you participate in conversations or make comments on resources.'
+	  ),
+	  array(
+	  'element' => & $vars['form']['account']['mail'],
+	  'desc' => 'Please enter a professional email address.'
+	  ),
+	  array(
+	  'element' => & $vars['form']['account']['pass'],
+	  'desc' => 'Please enter a password containing both letters and numbers.'
+	  ),
+	  array(
+	  'element' => & $vars['form']['field_role']['und']['select'],
+	  'desc' => 'Please select from the list the description that best ' .
+	  'describes your occupation.'
+	  ),
+	  array(
+	  'element' => & $vars['form']['field_years_in_research']['und'],
+	  'desc' => 'Please enter the number of years in your field or at ' .
+	  'your institution.'
+	  ),
+	  array(
+	  'element' => & $vars['form']['field_institution_type']['und']['select'],
+	  'desc' => 'Please select from the list the description that best ' .
+	  'describes your institution.'
+	  ),
+	  array(
+	  'element' => & $vars['form']['field_areas_of_interest']['und']['select'],
+	  'desc' => 'Please select one or more areas of interest.'
+	  ),
+	  array(
+	  'element' => & $vars['form']['picture']['picture_upload'],
+	  'desc' => 'This profile picture will be viewable by all registered ' .
+	  'users. Please select a picture to upload or select an avatar.'
+	  ),
+	  );
 
-	foreach ($elements as $element) {
-		_accrualnet_hover_desc($element['element'], $element['desc']);
-	}*/
+	  foreach ($elements as $element) {
+	  _accrualnet_hover_desc($element['element'], $element['desc']);
+	  } */
 }
 
 /**
@@ -184,11 +191,11 @@ function _accrualnet_hover_desc(&$element, $desc = '') {
 }
 
 function accrualnet_preprocess_user_profile_form(&$vars) {
-    
+
 	try {
 		hide($vars['form']['timezone']);
 		hide($vars['form']['group_audience']);
-$vars['form']['account']['name']['#title'] = "";
+		$vars['form']['account']['name']['#title'] = "";
 		$vars['form']['account']['name']['#description'] = 'This username will be displayed to all registered users if you participate in conversations or make comments on resources';
 		$vars['form']['account']['mail']['#description'] = '';
 		$vars['form']['account']['current_pass']['#description'] = '';
@@ -199,15 +206,14 @@ $vars['form']['account']['name']['#title'] = "";
 
 		$vars['form']['picture']['#title'] = '';
 		hide($vars['form']['picture']['picture_delete']);
-                
-                $vars['form']['profile_color']['und']['#description'] = '';
+
+		$vars['form']['profile_color']['und']['#description'] = '';
 
 		$vars['form']['picture']['picture_upload']['#size'] = 0;
 		$vars['form']['picture']['picture_upload']['#description'] =
 				"You can upload a JPG, GIF, or PNG file.\n(File size limit is 2MB)";
 		$vars['form']['picture']['picture_upload']['#title'] = 'Upload Photo';
 		//$vars['form']['picture']['select_avatar']['#title'] = 'Or Select an Avatar';
-
 		//$vars['form']['picture']['#attached']['js'] = array(
 		//	drupal_get_path('theme', 'accrualnet') . '/js/photo_crop.js',
 		//);
@@ -215,11 +221,10 @@ $vars['form']['account']['name']['#title'] = "";
 	} catch (Exception $e) {
 		print_r($e->getMessage());
 	}
-
 }
 
 function accrualnet_form_element_label($variables) {
-    
+
 	$element = $variables['element'];
 	// This is also used in the installer, pre-database setup.
 	$t = get_t();
@@ -267,42 +272,40 @@ function accrualnet_form_element_label($variables) {
 }
 
 function accrualnet_preprocess_search_results(&$variables) {
-    // define the number of results being shown on a page
-    $itemsPerPage = 10;
+	// define the number of results being shown on a page
+	$itemsPerPage = 10;
 
-    $searchTerm = $_REQUEST['q'];
-    $searchTerm = ltrim(substr($searchTerm, strrpos($searchTerm, '/')), '/');
+	$searchTerm = $_REQUEST['q'];
+	$searchTerm = ltrim(substr($searchTerm, strrpos($searchTerm, '/')), '/');
 
-    global $pager_total_items;
-    if ($pager_total_items != null) {
-        // get the total number of results from the $GLOBALS
-        $total = $pager_total_items[0];
-    } else {
-        $total = 0;
-    }
+	global $pager_total_items;
+	if ($pager_total_items != null) {
+		// get the total number of results from the $GLOBALS
+		$total = $pager_total_items[0];
+	} else {
+		$total = 0;
+	}
 
 
 
-    // set this html to the $variables
-    //if ($total > 1 || $total == 0) {
-        $variables['search_totals'] = '"'.$searchTerm.'" <span class="results-number">('.$total.')</span>';
-    /*} else {
-        $variables['search_totals'] = "\"$searchTerm\" gave $total result";
-    }*/
-
+	// set this html to the $variables
+	//if ($total > 1 || $total == 0) {
+	$variables['search_totals'] = '"' . $searchTerm . '" <span class="results-number">(' . $total . ')</span>';
+	/* } else {
+	  $variables['search_totals'] = "\"$searchTerm\" gave $total result";
+	  } */
 }
 
 // Added By Lauren July 19, 2012
 function accrualnet_form_alter(&$form, &$form_state, $form_id) {
-    // Added by Lauren July 19, 2012
-    // TIR #1823
-    if ($form_id == 'search_form') {
-        // Remove the ability to have an advanced search
-        unset($form['advanced']);
-        // Remove the "Enter your keywords" label for the search
-        unset($form['basic']['keys']['#title']);
-    }
-    
+	// Added by Lauren July 19, 2012
+	// TIR #1823
+	if ($form_id == 'search_form') {
+		// Remove the ability to have an advanced search
+		unset($form['advanced']);
+		// Remove the "Enter your keywords" label for the search
+		unset($form['basic']['keys']['#title']);
+	}
 }
 
 function accrualnet_preprocess_search_result(&$vars) {
@@ -341,9 +344,9 @@ function accrualnet_preprocess_search_result(&$vars) {
 function accrualnet_breadcrumb($variables) {
 	$breadcrumb = $variables['breadcrumb'];
 	$output = '';
-        if(empty($breadcrumb)){
-            $breadcrumb[0] = '<a href="/">Home</a>';
-        }
+	if (empty($breadcrumb)) {
+		$breadcrumb[0] = '<a href="/">Home</a>';
+	}
 	// Determine if we are to display the breadcrumb.
 	$show_breadcrumb = theme_get_setting('accrualnet_breadcrumb');
 	if ($show_breadcrumb == 'yes' || $show_breadcrumb == 'admin' && arg(0) == 'admin') {
@@ -638,7 +641,6 @@ function accrualnet_preprocess_comment(&$variables, $hook) {
 
 	$variables['title_attributes_array']['class'][] = 'comment-title';
 }
-
 
 /**
  * Preprocess variables for region.tpl.php
