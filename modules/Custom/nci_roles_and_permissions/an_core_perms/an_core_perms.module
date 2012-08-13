@@ -103,8 +103,8 @@ function an_core_perms_enable()
           'use text format full_html' => array(
               $anon => FALSE,
               $auth => FALSE,
-              $writer => FALSE,
-              $anstaff => FALSE,
+              $writer => TRUE,
+              $anstaff => TRUE,
               $admin => TRUE
           ),
           'use text format php_code' => array(
