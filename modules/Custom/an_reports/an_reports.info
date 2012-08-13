@@ -1,0 +1,14 @@
+name = AN Report Templates
+description = "Provides templates for generating report pages and exports."
+package = "AccrualNet"
+core = 7.x
+version = VERSION
+files[] = an_reports.module
+files[] = "includes/reports.globals.inc"
+
+stylesheets[all][] = reports.css
+
+dependencies[] = "an_lifecycle"
+dependencies[] = "resource"
+dependencies[] = "resource_page_templates"
+

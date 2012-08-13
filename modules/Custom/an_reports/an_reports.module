@@ -1,0 +1,59 @@
+<?php
+
+/* Created By: John Doyle
+ * Created On: June 11, 2012
+ * Last Updated By: Lauren
+ * Last Updated On: July 9, 2012
+ *
+ */
+
+//Load the an lifecycles globals.
+module_load_include('inc', 'an_lifecycle', ' lifecycle.globals');
+//add resource types global.
+module_load_include('inc', 'resource', 'types');
+
+function an_reports_menu() {
+	$items['admin/reports/accrualnet'] = array(
+		'title' => 'Reports',
+		'page callback' => 'reports_landing_page',
+		'access arguments' => array('access content'),
+		'type' => MENU_SUGGESTED_ITEM,
+		'file' => 'reports_landing_page.pages.inc',
+	);
+	$items['admin/reports/accrualnet/%'] = array(
+		//'title' => 'Resources and Tools Level 2',
+		'page callback' => 'reports_level_2_page',
+		'access arguments' => array('access content'),
+		'page arguments' => array(3),
+		'type' => MENU_SUGGESTED_ITEM,
+		'file' => 'reports_level_2.pages.inc',
+	);
+	$items['admin/reports/accrualnet/%/export'] = array(
+		//'title' => 'Resources and Tools Level 2',
+		'page callback' => 'reports_level_2_export',
+		'access arguments' => array('access content'),
+		'page arguments' => array(3),
+		'type' => MENU_SUGGESTED_ITEM,
+		'file' => 'reports_level_2.pages.inc',
+	);
+
+	/* $items['resources/%/%'] = array (
+	  //'title' => 'Resources and Tools Level 3',
+	  'page callback' => 'resource_level_3_page',
+	  'access arguments' => array('access content'),
+	  'page arguments' => array(1,2),
+	  'type' => MENU_SUGGESTED_ITEM,
+	  'file' => 'resource_level_3.pages.inc',
+	  ); */
+	/* $items['literature/%/%'] = array(
+	  'title' => 'Literature and Tools Level 3',
+	  'page callback' => 'drupal_get_form',
+	  'page arguments' => array('resource_ajax_filter', 1, 2),
+	  'access callback' => TRUE,
+	  'weight' => 1,
+	  ); */
+
+	return $items;
+}
+
+?>
