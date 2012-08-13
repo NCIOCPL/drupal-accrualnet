@@ -45,10 +45,20 @@ function an_reports_menu() {
 }
 
 function an_reports_menu_link_alter(&$item) {
-  // force new reports links to visible
-  if (strpos($item['link_path'], 'admin/reports/accrualnet') === 0 && empty($item['mlid'])) {
-    $item['hidden'] = 0;
-  }
+	// force reports links to visible
+	if (strpos($item['link_path'], 'admin/reports/accrualnet') === 0) {
+		$item['hidden'] = 0;
+	}
+}
+
+function an_reports_menu_alter(&$items) {
+	if (is_array($items)) {
+		foreach ($items as $item) {
+			if (isset($item['link_path']) && strpos($item['link_path'], 'admin/reports/accrualnet') === 0) {
+				$item['hidden'] = 0;
+			}
+		}
+	}
 }
 
 ?>
