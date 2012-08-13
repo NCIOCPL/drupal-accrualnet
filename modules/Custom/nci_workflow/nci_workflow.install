@@ -326,12 +326,13 @@ function _nci_workflow_build_taxonomy() {
 					' to vocabulary ' . $name . '.', 'warning');
 		}
 
-		$term_name = 'Newly Submitted';
+		// no use for newly submitted
+		/*$term_name = 'Newly Submitted';
 		$term = _nci_workflow_build_term($term_name, $vocab, 0, $editor_term->tid);
 		if (!taxonomy_term_save($term)) {
 			drupal_set_message('Failed to add term ' . $term_name .
 					' to vocabulary ' . $name . '.', 'warning');
-		}
+		}*/
 	}
 
 	return $vocab;
@@ -385,12 +386,12 @@ function _nci_workflow_build_access_terminology() {
 	// load the terms under the vocabulary
 	$terms = taxonomy_get_tree($vocab->vid);
 
-	// build list of entries in the workbench access table
-	$sections[] = array('access_id' => $vocab->machine_name,
+	// build list of entries in the workbench access table, skipping the vocabulary parent
+	$sections[] = array();/*array('access_id' => $vocab->machine_name,
 		'access_scheme' => 'taxonomy',
 		'access_type' => 'taxonomy',
 		'access_type_id' => 'accrualnet_resource'
-	);
+	);*/
 
 	foreach ($terms as $term) {
 		$sections[] = array('access_id' => $term->tid,
@@ -427,21 +428,27 @@ function _nci_workflow_set_access_roles() {
 	$roles = user_roles(TRUE);
 
 	// map the admin to the top level
-	$role_maps[] = array(
-		'rid' => array_search('administrator', $roles),
+	$role_maps[] = array();
+		/*'rid' => array_search('administrator', $roles),
 		'access_id' => 'accrualnet_resource',
 		'access_scheme' => 'taxonomy'
-	);
+	);*/
 
 	foreach ($terms as $term) {
 		switch ($term->name) {
 			case 'Editors':
-				// map the staff to the editor level
+				// map the staff and administrator to the editor level
 				$role_maps[] = array(
 					'rid' => array_search('AccrualNet Staff', $roles),
 					'access_id' => $term->tid,
 					'access_scheme' => 'taxonomy'
 				);
+				$role_maps[] = array(
+					'rid' => array_search('administrator', $roles),
+					'access_id' => $term->tid,
+					'access_scheme' => 'taxonomy'
+				);
+
 				break;
 
 			case 'Writers':
@@ -454,7 +461,7 @@ function _nci_workflow_set_access_roles() {
 
 				break;
 
-			case 'Newly Submitted':
+			/*case 'Newly Submitted':
 				// assign all roles to this case
 				foreach ($roles as $rid => $role) {
 					$role_maps[] = array(
@@ -464,7 +471,7 @@ function _nci_workflow_set_access_roles() {
 					);
 				}
 
-				break;
+				break;*/
 		}
 	}
 
