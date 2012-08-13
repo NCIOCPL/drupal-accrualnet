@@ -14,11 +14,13 @@ module_load_include('inc', 'resource', 'types');
 
 function an_reports_menu() {
 	$items['admin/reports/accrualnet'] = array(
-		'title' => 'Reports',
+		'title' => 'AccrualNet Reports',
+		'description' => 'A variety of reports specific to the AccrualNet site.',
 		'page callback' => 'reports_landing_page',
 		'access arguments' => array('access content'),
 		'type' => MENU_SUGGESTED_ITEM,
 		'file' => 'reports_landing_page.pages.inc',
+		'hidden' => 0,
 	);
 	$items['admin/reports/accrualnet/%'] = array(
 		//'title' => 'Resources and Tools Level 2',
@@ -27,6 +29,7 @@ function an_reports_menu() {
 		'page arguments' => array(3),
 		'type' => MENU_SUGGESTED_ITEM,
 		'file' => 'reports_level_2.pages.inc',
+		'hidden' => 0,
 	);
 	$items['admin/reports/accrualnet/%/export'] = array(
 		//'title' => 'Resources and Tools Level 2',
@@ -35,25 +38,17 @@ function an_reports_menu() {
 		'page arguments' => array(3),
 		'type' => MENU_SUGGESTED_ITEM,
 		'file' => 'reports_level_2.pages.inc',
+		'hidden' => 1,
 	);
 
-	/* $items['resources/%/%'] = array (
-	  //'title' => 'Resources and Tools Level 3',
-	  'page callback' => 'resource_level_3_page',
-	  'access arguments' => array('access content'),
-	  'page arguments' => array(1,2),
-	  'type' => MENU_SUGGESTED_ITEM,
-	  'file' => 'resource_level_3.pages.inc',
-	  ); */
-	/* $items['literature/%/%'] = array(
-	  'title' => 'Literature and Tools Level 3',
-	  'page callback' => 'drupal_get_form',
-	  'page arguments' => array('resource_ajax_filter', 1, 2),
-	  'access callback' => TRUE,
-	  'weight' => 1,
-	  ); */
-
 	return $items;
+}
+
+function an_reports_menu_link_alter(&$item) {
+  // force new reports links to visible
+  if (strpos($item['link_path'], 'admin/reports/accrualnet') === 0 && empty($item['mlid'])) {
+    $item['hidden'] = 0;
+  }
 }
 
 ?>

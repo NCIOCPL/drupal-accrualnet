@@ -20,7 +20,7 @@ function reports_landing_page() {
 	
 	foreach($an_reports_menu as $report => $info)
 	{
-		$output .= "<div><a href='$report'>${info['title']}</a></div>";
+		$output .= "<div><a href='/admin/reports/accrualnet/$report'>${info['title']}</a></div>";
 	}
 	
 	// done!

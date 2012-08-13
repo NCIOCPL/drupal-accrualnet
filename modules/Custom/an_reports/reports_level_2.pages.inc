@@ -21,6 +21,9 @@ function reports_level_2_page($section) {
 		return $output;
 	else
 		$section_info = $an_reports_menu[$section];
+	
+	// set the page title based on the section info
+	drupal_set_title($section_info['title']);
 
 	$output .= "<div><h2>${section_info['title']}</h2><a href='/admin/reports/accrualnet/$section/export'>Export</a></div>";
 
@@ -45,7 +48,7 @@ function reports_level_2_page($section) {
 
 	$row_count = 0;
 	foreach ($results['rows'] as $row) {
-		$zebra = ($row_count++ % 2) ? 'row-odd ' : 'row-even ';
+		$zebra = ($row_count++ % 2) ? 'row-even ' : 'row-odd ';
 		$output .= "<div class='report-row $zebra'>";
 		foreach ($row as $key => $value) {
 			$value = str_replace('|', ',<br>', $value);
@@ -119,8 +122,8 @@ function _fields_completed_report() {
 					->count()
 					->execute();
 
-			$columns[$key] = $info['title'];
-			$rows[0][$key] = $count;
+			$columns[] = $info['title'];
+			$rows[0][] = $count;
 		} else {
 			$query = new EntityFieldQuery();
 			$count = $query
@@ -129,15 +132,15 @@ function _fields_completed_report() {
 					->count()
 					->execute();
 
-			$columns[$key] = $info['title'];
-			$rows[0][$key] = $count;
+			$columns[] = $info['title'];
+			$rows[0][] = $count;
 		}
 	}
 
 	$count = _completed_user_count();
 
-	$columns[] = 'complete';
-	$rows[0]['complete'] = $count;
+	$columns[] = 'Complete';
+	$rows[0][] = $count;
 
 	return array('columns' => $columns, 'rows' => $rows);
 }
@@ -233,8 +236,9 @@ function _fields_completed_detailed_report($pager = false) {
 		$row = array();
 		$complete = true;
 		foreach ($an_reports_fields_completed as $key => $info) {
-			
-			if($key == 'pass') continue;
+
+			if ($key == 'pass')
+				continue;
 
 			// set the column header, if not set already
 			if (!isset($columns[$key]))
@@ -301,8 +305,8 @@ function _completed_user_count() {
 
 function _user_activity_report() {
 
-	$columns = array('registered users', 'completed profiles', 'blocked users',
-		'community memberships');
+	$columns = array('Registered Users', 'Completed Profiles', 'Blocked Users',
+		'Community Memberships');
 	$rows = array(0 => array());
 
 // add registered users count
@@ -342,7 +346,7 @@ function _user_activity_report() {
 function _communities_report() {
 	$output = '';
 
-	$columns = array('community memberships', 'comments', 'conversations');
+	$columns = array('Community Memberships', 'Comments', 'Conversations');
 	$rows = array(0 => array());
 
 // add community members count
@@ -382,10 +386,10 @@ function _community_activity_report() {
 	$rows = array();
 
 // set up the column headers and empty cells
-	$columns[] = 'group';
-	$columns[] = 'users';
-	$columns[] = 'conversations';
-	$columns[] = 'responses';
+	$columns[] = 'Group';
+	$columns[] = 'Users';
+	$columns[] = 'Conversations';
+	$columns[] = 'Responses';
 
 // for each community...
 	$query = db_select('og', 'og');
