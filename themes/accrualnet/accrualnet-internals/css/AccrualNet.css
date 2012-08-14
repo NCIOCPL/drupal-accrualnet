@@ -1478,5 +1478,10 @@ h2.comment-form {
 
 .webform-client-form .webform-component {
 	clear:both;
+	padding-bottom: 1em;
+}
+
+.webform-component .description{
+	clear: both;
 }
 
