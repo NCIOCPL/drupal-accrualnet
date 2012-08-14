@@ -1,0 +1,104 @@
+<?php
+
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+function contact_form_enable() {
+	module_load_include('inc', 'captcha');
+
+	// hide submitters and comments for webforms
+	variable_set('node_submitted_webform', 0);
+	variable_set('comment_webform', 0);
+
+	$node = new stdClass();
+
+	$node->type = 'webform';
+	node_object_prepare($node);
+	$node->title = 'Contact Us';
+	$node->language = 'en';
+	$node->comment = 0;
+
+	node_save($node);
+	
+	$weight = 0;
+
+	// title component
+	$component = array(
+		'nid' => $node->nid,
+		'pid' => 0,
+		'form_key' => 'name',
+		'name' => 'Name',
+		'type' => 'textfield',
+		'value' => "",
+		'extra' => array('description' => "Your name."),
+		'mandatory' => 1,
+		'weight' => $weight++,
+	);
+
+	// description component
+	$cid = webform_component_insert($component);
+	
+	// writer's email component
+	$component = array(
+		'nid' => $node->nid,
+		'pid' => 0,
+		'form_key' => 'email',
+		'name' => "Your Work-Related Email",
+		'type' => 'email',
+		'value' => "",
+		'extra' => array('description' => "We will reply to you at the given e-mail address."),
+		'mandatory' => 0,
+		'weight' => $weight++
+	);
+
+	$cid = webform_component_insert($component);
+
+	$component = array(
+		'nid' => $node->nid,
+		'pid' => 0,
+		'form_key' => 'message',
+		'name' => 'Message',
+		'type' => 'textarea',
+		'value' => "",
+		'extra' => array('description' => "Please enter your message to us here."),
+		'mandatory' => 1,
+		'weight' => $weight++,
+	);
+
+	$cid = webform_component_insert($component);
+
+	captcha_set_form_id_setting("webform_client_form_$node->nid", 'recaptcha/reCAPTCHA');
+
+	drupal_set_message("Created 'Contact Us' webform node at <a href='/content/contact-us'>/content/contact-us</a> (or <a href='/node/$node->nid'>/node/$node->nid</a> directly)");
+}
+
+function contact_form_disable() {
+
+	/*$query = new EntityFieldQuery();
+	  $query->entityCondition('entity_type', 'node')
+	  ->entityCondition('bundle', 'webform')
+	  ->propertyCondition('title', 'Contact Us');
+	  $result = $query->execute();
+
+	  if (isset($result['node'])) {
+	  node_delete(array_keys($result['node']));
+	  }*/
+}
+
+function contact_form_form_alter(&$form, &$form_state, $form_id) {
+	if (!isset($form['#node']) || $form['#action'] != '/content/contact-us')
+		return;
+
+	drupal_add_js(path_to_theme() . '/js/checkbox.js', 'file');
+	drupal_add_js(path_to_theme() . '/js/selectboxes.js', 'file');
+	drupal_add_js(path_to_theme() . '/js/inputdarken.js', 'file');
+
+	//$form['submitted']['title']['#description'] = "Title of Document of Resource";
+	//$form['submitted']['description']['#description'] = "Please tell us a little about this resource.";
+	//$form['submitted']['resource_link']['#description'] = "Provide the URL for the resource.";
+	//$form['submitted']['disclaimer']['#options']['affirm'] = "This material is publicly available, or I own the copyright or have obtained the necessary rights/permissions for the content that I am submitting to AccrualNet.";
+}
+
+?>
