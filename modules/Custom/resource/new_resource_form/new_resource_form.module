@@ -127,8 +127,6 @@ function new_resource_form_form_alter(&$form, &$form_state, $form_id) {
 	if (!isset($form['#node']) || $form['#action'] != '/content/submit-new-resource')
 		return;
 
-	dsm($form, "$form_id");
-
 	drupal_add_js(path_to_theme() . '/js/checkbox.js', 'file');
 	drupal_add_js(path_to_theme() . '/js/selectboxes.js', 'file');
 	drupal_add_js(path_to_theme() . '/js/inputdarken.js', 'file');
