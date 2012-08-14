@@ -112,15 +112,31 @@ function new_resource_form_enable() {
 
 function new_resource_form_disable() {
 
-	$query = new EntityFieldQuery();
-	$query->entityCondition('entity_type', 'node')
-			->entityCondition('bundle', 'webform')
-			->propertyCondition('title', 'Submit New Resource');
-	$result = $query->execute();
+	/* $query = new EntityFieldQuery();
+	  $query->entityCondition('entity_type', 'node')
+	  ->entityCondition('bundle', 'webform')
+	  ->propertyCondition('title', 'Submit New Resource');
+	  $result = $query->execute();
 
-	if (isset($result['node'])) {
-		node_delete(array_keys($result['node']));
-	}
+	  if (isset($result['node'])) {
+	  node_delete(array_keys($result['node']));
+	  } */
+}
+
+function new_resource_form_form_alter(&$form, &$form_state, $form_id) {
+	if (!isset($form['#node']) || $form['#action'] != '/content/submit-new-resource')
+		return;
+
+	dsm($form, "$form_id");
+
+	drupal_add_js(path_to_theme() . '/js/checkbox.js', 'file');
+	drupal_add_js(path_to_theme() . '/js/selectboxes.js', 'file');
+	drupal_add_js(path_to_theme() . '/js/inputdarken.js', 'file');
+
+	$form['submitted']['title']['#description'] = "Title of Document of Resource";
+	$form['submitted']['description']['#description'] = "Please tell us a little about this resource.";
+	$form['submitted']['resource_link']['#description'] = "Provide the URL for the resource.";
+	$form['submitted']['disclaimer']['#options']['affirm'] = "This material is publicly available, or I own the copyright or have obtained the necessary rights/permissions for the content that I am submitting to AccrualNet.";
 }
 
 ?>
