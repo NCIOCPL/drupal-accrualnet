@@ -278,7 +278,7 @@ function new_community_form_enable() {
 }
 
 function new_community_form_disable() {
-	$query = new EntityFieldQuery();
+	/*$query = new EntityFieldQuery();
 	$query->entityCondition('entity_type', 'node')
 			->entityCondition('bundle', 'webform')
 			->propertyCondition('title', 'Create a Community');
@@ -286,7 +286,7 @@ function new_community_form_disable() {
 
 	if (isset($result['node'])) {
 		node_delete(array_keys($result['node']));
-	}
+	}*/
 }
 
 ?>
