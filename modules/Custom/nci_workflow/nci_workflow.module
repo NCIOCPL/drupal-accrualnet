@@ -185,7 +185,7 @@ function nci_workflow_workbench_content_alter(&$output) {
 	}
 
 	if (array_search('AccrualNet Staff', $roles) !== FALSE
-			|| array_search('administrator', $roles) !== FALSE ) {
+			|| array_search('administrator', $roles) !== FALSE) {
 		$output['workbench_editor_inbox'] = array(
 			'#view' => 'an_workflow',
 			'#view_display' => 'block_editor_inbox',
@@ -243,6 +243,9 @@ function nci_workflow_views_api() {
 function nci_workflow_workbench_moderation_transition($node, $previous_state, $new_state) {
 	$terms = NULL;
 
+	// only save if 'op' doesn't exist or is not set to 'Save'
+	$node_save = (!isset($node->op) || !($node->op == 'Save'));
+
 	switch ($new_state) {
 		case 'draft':
 		case 'writer_review':
@@ -253,7 +256,6 @@ function nci_workflow_workbench_moderation_transition($node, $previous_state, $n
 		case 'canceled':
 			// ensure that the node is unpublished if moving to an appropriate state
 			node_unpublish_action($node);
-			node_save($node);
 		default:
 			// grab the needed tid for the access level
 			$terms = taxonomy_get_term_by_name('Editors');
@@ -274,10 +276,64 @@ function nci_workflow_workbench_moderation_transition($node, $previous_state, $n
 		$node->workbench_access = array($tid => $tid);
 	}
 
-	// call the access node insert method
-	// (removes the node from the access db first and re-adds, avoiding
-	// key collisions)
-	workbench_access_node_insert($node);
+	if ($node_save) {
+		// just save the node
+		node_save($node);
+	} else {
+		// call the access node insert method
+		// (removes the node from the access db first and re-adds, avoiding
+		// key collisions)
+		workbench_access_node_insert($node);
+	}
+}
+
+function nci_workflow_node_submit($node, $form, &$form_state) {
+	global $an_resource_types;
+	if (array_search($node->type, array_keys($an_resource_types)) === false) {
+		return;
+	}
+
+	if (!isset($form_state['values']['workbench_moderation_state_new']))
+		return;
+
+	$new_state = $form_state['values']['workbench_moderation_state_new'];
+	$unpublish = false;
+
+	switch ($new_state) {
+		case 'draft':
+		case 'writer_review':
+			// grab the needed tid for the access level
+			$terms = taxonomy_get_term_by_name('Writers');
+			break;
+		case 'unpublished':
+		case 'canceled':
+			// ensure that the node is unpublished if moving to an appropriate state
+			$unpublish = true;
+		default:
+			// grab the needed tid for the access level
+			$terms = taxonomy_get_term_by_name('Editors');
+			break;
+	}
+
+	if (!isset($terms))
+		return;
+
+	$tid = NULL;
+	foreach ($terms as $term) {
+		$tid = $term->tid;
+		break;
+	}
+
+	// if the tid is found, update the node and workbench access
+	if (isset($tid)) {
+		/* $form_state['input']['workbench_access_id'] = $tid;
+		  $form_state['values']['workbench_access_id'] = $tid; */
+		$form_state['node']->workbench_access_id = $tid;
+	}
+
+	if ($unpublish) {
+		$form_state['node']->status = 0;
+	}
 }
 
 function nci_workflow_assign_form($form, &$form_state, $nid, $role, $assigned_user, $current_users) {
@@ -289,7 +345,7 @@ function nci_workflow_assign_form($form, &$form_state, $nid, $role, $assigned_us
 			'autocomplete' => 'off'
 		)
 	);
-	
+
 	// add a div to receive return output
 	$form['assign_status'] = array(
 		'#type' => 'container',
