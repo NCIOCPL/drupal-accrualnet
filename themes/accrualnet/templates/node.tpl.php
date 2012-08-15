@@ -149,7 +149,7 @@ global $an_resource_types;
     $linksOutput .= '<ul>';
     foreach ($field_links as $link) {
         $linksOutput .= '<li>';
-        $linksOutput .= '<a href="' . $link['url'] . '">';
+        $linksOutput .= '<a href="' . $link['url'] . '" target="_blank">';
         $linksOutput .= $link['title'];
         $linksOutput .= '</a>';
         $linksOutput .= '</li>';
@@ -170,7 +170,9 @@ global $an_resource_types;
             if (strlen(${"field_" . $rfield["field_name"]}[0]["value"]) > 0) {
 
                 $rfieldOutput = '<div id="resource-' . $rfield["field_name"] . '">';
-                $rfieldOutput .= '<h3>' . $rfield["label"] . '</h3>';
+                // Get name of instance, not field (different for different resources)
+                $rInstance = field_read_instance('node', 'field_' . $rfield["field_name"], $type);
+                $rfieldOutput .= '<h3>' . $rInstance["label"] . '</h3>';
                 foreach (${"field_" . $rfield["field_name"]} as $instance) {
                     $rfieldOutput .= $instance['safe_value'];
                 }
@@ -180,6 +182,10 @@ global $an_resource_types;
         }
     }
 
+    $resourceOutput .= '</div>';
+    
+    $resourceOutput .= '<div class="back-to-top">';
+    $resourceOutput .= '<a href="#top">Back to Top</a>';
     $resourceOutput .= '</div>';
 
 // Comments
