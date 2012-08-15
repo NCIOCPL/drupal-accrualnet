@@ -306,6 +306,7 @@ span.button a:hover, span.button a:active, span.button:hover a {
  #search-count {
      float: left;
      text-align: left;
+     clear:both;
  }
  .search-results {
      padding-left: 0px;

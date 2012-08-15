@@ -302,7 +302,7 @@ function accrualnet_form_alter(&$form, &$form_state, $form_id) {
 	// TIR #1823
 	if ($form_id == 'search_form') {
 		// Remove the ability to have an advanced search
-		unset($form['advanced']);
+		//unset($form['advanced']);
 		// Remove the "Enter your keywords" label for the search
 		unset($form['basic']['keys']['#title']);
 	}
