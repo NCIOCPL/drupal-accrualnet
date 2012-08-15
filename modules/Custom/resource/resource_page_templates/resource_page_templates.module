@@ -83,17 +83,21 @@ function resource_page_templates_menu() {
 /**
  * AJAX-enabled checkboxes that allow for filtering of literature and tools results. 
  */
-function resource_ajax_filter($form, &$form_state, $facet, $term) {
+function resource_ajax_filter($form, &$form_state, $facet = NULL, $term = NULL) {
 	global $an_stage_strategy;
 	global $an_resource_types;
-
+        
 	$vocab = taxonomy_vocabulary_machine_name_load('an_vocabulary_' . $facet);
+        if ($facet && !$vocab)
+            return NULL;
+        if ($vocab) {
 	$vocabName = $vocab->name;
+        }
 	$tagName = DetermineTag($term);
 	$tag = array_pop(taxonomy_get_term_by_name($tagName));
 	if ($tag && !$tagName)
 		return NULL;
-
+        
 	drupal_add_js(drupal_get_path('module', 'resource_page_templates') . '/resourceFilter.js', 'file');
 	drupal_add_js(drupal_get_path('theme', 'accrualnet') . '/js/checkbox.js', 'file');
 

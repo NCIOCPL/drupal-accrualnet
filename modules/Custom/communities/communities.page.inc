@@ -329,7 +329,7 @@ function communities_of_practice_page() {
     $o .= '<div id="communities-of-practice">';
     $o .= '<div id="communities-topic-results">';
     $o .= '<h2>'.t('Communities');
-    $o .= '<span class="button"><a href="/content/create-community">'.t('Create a Community').'</a></span>';
+    $o .= '<span class="button"><a href="/content/create-community">'.t('Create a Community').'</a>';
     $o .='</h2></div>';
     $usersGroups = array();
 

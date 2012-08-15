@@ -347,6 +347,11 @@ function _resource_output_citation($node) {
 
 		$citationOutput .= $fieldOutput;
 	}
+        if (isset($node->field_citation_epub)) {
+            if (count($node->field_citation_epub) > 0) {
+                $citationOutput .= '<span class="resource-citation-detail resource-epub-ahead-of-print">[Epub ahead of print]</span>';
+            }
+        }
 	$citationOutput .= '</div>';
 	return $citationOutput;
 }
@@ -354,7 +359,7 @@ function _resource_output_citation($node) {
 function _resource_output_taxonomy($node) {
 	global $an_vocabularies;
 	$taxonomyOutput = '<div class="resource-taxonomy">';
-	$taxonomyOutput .= "KEYWORDS: ";
+        $tOutput = '';
 	foreach ($an_vocabularies as $vocab) {
 		//$field_array = $node["field_tax_".$vocab['machine_stem']];
 		$field_array = $node->{"field_tax_" . $vocab['machine_stem']};
@@ -373,14 +378,19 @@ function _resource_output_taxonomy($node) {
 
 			//$taxonomyOutput .= '<a href="' . $vocab_url . '/' . $term_url . '">';
                         if (! in_array($termName, $termsAdded)) {
-			$taxonomyOutput .= $termName;
+			$tOutput .= $termName;
 			//$taxonomyOutput .= '</a>';
-			$taxonomyOutput .= ', ';
+			$tOutput .= ', ';
                         $termsAdded[] = $termName;
                         }
 		}
 	}
-        $taxonomyOutput = rtrim(trim($taxonomyOutput), ',');
+        
+        // Only output KEYWORDS if there are tagged results
+        if (strlen($tOutput) > 1) {
+            $taxonomyOutput .= "KEYWORDS: ";
+            $taxonomyOutput .= rtrim(trim($tOutput), ',');
+        }
 	$taxonomyOutput .= '</div>';
 	return $taxonomyOutput;
 }

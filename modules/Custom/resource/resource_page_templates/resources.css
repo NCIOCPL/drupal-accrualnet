@@ -124,18 +124,27 @@ div.resource-text{
 }
 
 div.resource-output-title a {
-	color: #105693;
         font-size: 17px;
 }
 
-div.resource-output-title a:visited {
-        color: #105693;
+div.back-to-top {
+    padding: 30px 0px 15px 0px;
 }
 
+div.resource-output-title a,
 div.resource-output-title a:hover,
-div.resource-output-title a:active{
-	font-weight: bold;
+div.resource-output-title a:active,
+div.resource-output-title a:visited,
+div.back-to-top a,
+div.back-to-top a:hover,
+div.back-to-top a:active,
+div.back-to-top a:visited 
+{
         color: #105693;
+}
+div.resource-output-title a:hover, div.resource-output-title a:active,
+div.back-to-top a:hover, div.back-to-top a:active {
+    font-weight: bold;
 }
 
 div.resource-taxonomy{
