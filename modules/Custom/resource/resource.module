@@ -349,8 +349,10 @@ function _resource_output_citation($node) {
 	}
         if (isset($node->field_citation_epub)) {
             if (count($node->field_citation_epub) > 0) {
+                if (array_key_exists('value', $node->field_citation_epub)) {
                 if ($node->field_citation_epub['value'] == 1) {
                 $citationOutput .= '<span class="resource-citation-detail resource-epub-ahead-of-print">[Epub ahead of print]</span>';
+                }
                 }
             }
         }
