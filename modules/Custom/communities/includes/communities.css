@@ -19,6 +19,7 @@
 .conversation-title a:visited,
 .conversation-title a:active {
     color: #DC6E23;
+    overflow:hidden;
 }
 .conversation-title a:hover {
     font-weight: bold;
@@ -32,6 +33,12 @@ span.conversation-last-updated {
     font-weight: normal;
     font-size: 13px;
     text-transform: none;
+}
+
+#conversation-results .conversation-title a {
+    display:block;
+    width: 75%;
+    float: left;
 }
 /*
 #communities-pic {

@@ -30,7 +30,7 @@ function communities_node_info() {
             'base' => 'node_content',
             'description' => t('Conversation (Group Post)'),
             'has_title' => TRUE,
-            'title_label' => 'Conversation Topic',
+            'title_label' => 'Conversation Title',
             'custom' => TRUE, // Add this line in when debugging
         ),
     );
@@ -226,6 +226,7 @@ function _conversation_fields() {
             'cardinality' => 1,
             'label' => 'Topic',
             'type' => 'taxonomy_term_reference',
+            'description' => 'Please select the category that best fits the topic of your conversation.',
             'settings' => array(
                 'allowed_values' => array(
                     array(
@@ -722,7 +723,7 @@ function communities_node_view($node, $view_mode, $langcode){
 function _communities_convo_header($node, $term) {
     $output = '';
     //if we are viewing a group node
-    if(!empty($node->group_audience)){
+    if(!empty($node->group_audience) && array_key_exists('1', $node->group_audience)){
         $groupID = og_get_entity_groups('node', $node);
         $group = og_load($groupID[1]);
         $groupNode = node_load($group->etid);
