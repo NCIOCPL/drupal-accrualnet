@@ -125,7 +125,7 @@ $resources = _an_lifecycle_load_related_nodes($query, TRUE);
             <?php endif;?>
         </div>
         <div class="lifecycle-strategy-resources">
-            <h2>Reports, Articles and Tools</h2>
+            <h2>Literature and Tools</h2>
                     <?php foreach($resources['nodes'] as $mynode):?> 
             <div class="lifecycle-strategy-resource">
                         <?php print _resource_output_snippet($mynode); ?>
