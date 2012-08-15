@@ -303,7 +303,7 @@ if ($pager_total_items != null) {
                 <li class="last"><a href="/about">About Us</a></li>
               </ul>
           </div>
-              <div class="footer-text">AccrualNet and logo are trademarks/service marks of the U.S. Department of Health and Human Services (DHHS)</div>
+              <div class="footer-text">AccrualNet<sup>TM</sup> and logo are trademarks/service marks of the U.S. Department of Health and Human Services (DHHS)</div>
               <div class="footer-images">
                   <ul>
                 <li><a href="http://www.hhs.gov/" target="_blank"><img src="/sites/accrualnet.cancer.gov/themes/accrualnet/accrualnet-internals/images/global/Accrual-Net-HHS-logo.gif" /></a></li>
