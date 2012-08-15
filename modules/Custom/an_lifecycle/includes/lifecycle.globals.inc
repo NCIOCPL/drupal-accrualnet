@@ -14,7 +14,7 @@ $GLOBALS['an_stage_strategy'] = array(
     'Developing a Trial' => array(
         'Stakeholder Enthusiasm' => 'Consider national and local stakeholder enthusiasm for the trial',
         'Recruitment Feasibility' => 'Evaluate the trial for recruitment feasibility',
-        'Site Selection' => 'Select study sites carefully',
+        'Site Selection' => 'Choose Study Sites Carefully',
         'Trial Materials' => 'Prepare trial-specific materials',
         ),
     'Selecting & Preparing to Open a Trial' => array(
@@ -26,8 +26,8 @@ $GLOBALS['an_stage_strategy'] = array(
         'Recruitment and Retention Plan' => 'Write a comprehensive recruitment and retention plan',
         ),
     'Recruiting and Communicating with Participants' => array(
-        'Involve Intermediaries' => 'Involve intermediaries to aid accrual',
-        'Eligible Participants' => 'Identify potentially eligible participants',
+        'Engage Intermediaries' => 'Involve intermediaries to aid accrual',
+        'Identify Participants' => 'Identify potentially eligible participants',
         'Informed Consent' => 'Engage participants in the Informed Consent Process',
         'Participant Financial Issues ' => 'Consider participant financial issues',
         'Maintain Morale and Interest' => 'Maintain the morale and interest of staff, participants and their families',
