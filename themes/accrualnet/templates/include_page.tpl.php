@@ -136,7 +136,7 @@ if ($pager_total_items != null) {
     $titleAdditions = ' <span id="title-results-number">('.$pager_total_items[0].')</span>';
 }*/
 ?>
-
+<a name="top" style="width:0px;height:0px;"></a>
 <div id="page"<?php if ($areaColor) print ' class="'.$areaColor.'"'; ?>>
     <div id="ncibanner" class="clearfix">
         <ul>
@@ -297,19 +297,19 @@ if ($pager_total_items != null) {
               <ul>
                 <li><a href="/">AccrualNet Home</a></li>
                 <li><a href="/about/contact_us">Contact Us</a></li>
-                <li><a href="http://www.cancer.gov/global/web/policies">Policies</a></li>
-                <li><a href="http://www.cancer.gov/global/web/policies/page3">Accessibility</a></li>
-                <li><a href="http://www.cancer.gov/global/web/policies/page6">FOIA</a></li>
+                <li><a href="http://www.cancer.gov/global/web/policies" target="_blank">Policies</a></li>
+                <li><a href="http://www.cancer.gov/global/web/policies/page3" target="_blank">Accessibility</a></li>
+                <li><a href="http://www.cancer.gov/global/web/policies/page6" target="_blank">FOIA</a></li>
                 <li class="last"><a href="/about">About Us</a></li>
               </ul>
           </div>
               <div class="footer-text">AccrualNet and logo are trademarks/service marks of the U.S. Department of Health and Human Services (DHHS)</div>
               <div class="footer-images">
                   <ul>
-                <li><a href="http://www.hhs.gov/"><img src="/sites/accrualnet.cancer.gov/themes/accrualnet/accrualnet-internals/images/global/Accrual-Net-HHS-logo.gif" /></a></li>
-                <li><a href="http://www.cancer.gov/"><img src="/sites/accrualnet.cancer.gov/themes/accrualnet/accrualnet-internals/images/global/Accrual-Net-NCI-logo.gif" /></a></li>
-                <li><a href="http://www.nih.gov/"><img src="/sites/accrualnet.cancer.gov/themes/accrualnet/accrualnet-internals/images/global/Accrual-Net-NIH-logo.gif" /></a></li>
-                <li><a href="http://www.usa.gov"><img src="/sites/accrualnet.cancer.gov/themes/accrualnet/accrualnet-internals/images/global/Accrual-Net-USAgov-logo.gif" /></a></li>
+                <li><a href="http://www.hhs.gov/" target="_blank"><img src="/sites/accrualnet.cancer.gov/themes/accrualnet/accrualnet-internals/images/global/Accrual-Net-HHS-logo.gif" /></a></li>
+                <li><a href="http://www.cancer.gov/" target="_blank"><img src="/sites/accrualnet.cancer.gov/themes/accrualnet/accrualnet-internals/images/global/Accrual-Net-NCI-logo.gif" /></a></li>
+                <li><a href="http://www.nih.gov/" target="_blank"><img src="/sites/accrualnet.cancer.gov/themes/accrualnet/accrualnet-internals/images/global/Accrual-Net-NIH-logo.gif" /></a></li>
+                <li><a href="http://www.usa.gov" target="_blank"><img src="/sites/accrualnet.cancer.gov/themes/accrualnet/accrualnet-internals/images/global/Accrual-Net-USAgov-logo.gif" /></a></li>
               </ul>
               </div>
           </div>
