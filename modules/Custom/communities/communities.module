@@ -61,7 +61,7 @@ function communities_enable() {
 
     // Set the body for the Conversation content type
     $conversation_type = node_type_set_defaults($types['conversation']);
-    node_add_body_field($conversation_type, 'Conversation Abstract');
+    node_add_body_field($conversation_type, 'Short highlight to tell readers what your conversation is about');
     node_type_save($conversation_type);
     
     
@@ -241,7 +241,7 @@ function _conversation_fields() {
         $fields[] = array(    
             'field_name' => 'field_conversation_opener',
             'cardinality' => 1,
-            'label' => 'Opening Remarks',
+            'label' => 'Body',
             'description' => 'Provide your opening remarks of this conversation.',
             'type' => 'text_long',
             'entity_type' => 'node',
@@ -384,7 +384,7 @@ function _conversation_instances() {
         'field_conversation_opener' => array(
             'field_name' => 'field_conversation_opener',
             'cardinality' => 1,
-            'label' => 'Opening Remarks',
+            'label' => 'Body',
             'description' => 'Provide your opening remarks of this conversation.',
             'type' => 'text_long',
             'entity_type' => 'node',
