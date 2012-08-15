@@ -165,48 +165,6 @@ function an_contrib_perm_enable() {
 		$anstaff => FALSE,
 		$admin => TRUE
 	),
-	'access workbench access by role' => array(
-		$anon => FALSE,
-		$auth => TRUE,
-		$writer => TRUE,
-		$anstaff => TRUE,
-		$admin => TRUE
-	),
-	'administer workbench access' => array(
-		$anon => FALSE,
-		$auth => FALSE,
-		$writer => FALSE,
-		$anstaff => FALSE,
-		$admin => TRUE
-	),
-	'assign workbench access' => array(
-		$anon => FALSE,
-		$auth => FALSE,
-		$writer => FALSE,
-		$anstaff => FALSE,
-		$admin => TRUE
-	),
-	'batch update workbench access' => array(
-		$anon => FALSE,
-		$auth => FALSE,
-		$writer => FALSE,
-		$anstaff => FALSE,
-		$admin => TRUE
-	),
-	'view workbench access information' => array(
-		$anon => FALSE,
-		$auth => FALSE,
-		$writer => FALSE,
-		$anstaff => FALSE,
-		$admin => TRUE
-	),
-	'view workbench taxonomy pages' => array(
-		$anon => FALSE,
-		$auth => FALSE,
-		$writer => FALSE,
-		$anstaff => FALSE,
-		$admin => TRUE
-	),
 	'administer workbench moderation' => array(
 		$anon => FALSE,
 		$auth => FALSE,
