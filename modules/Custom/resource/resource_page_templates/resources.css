@@ -11,7 +11,13 @@
    Syntax recommendation http://www.w3.org/TR/REC-CSS2/
 */
 
-
+#resources-list  .landing-page-text-no-image p{
+    margin: 5px;
+    -webkit-margin-before: 0em;
+    -webkit-margin-after: .5em;
+    -webkit-margin-start: 0px;
+    -webkit-margin-end: 0px;
+}
 
 .resource-issue {
     border-bottom: 3px dotted #d2d2d2;

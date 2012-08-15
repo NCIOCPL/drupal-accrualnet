@@ -85,11 +85,29 @@ function resource_landing_page() {
         else{
             $output .= '<div class="resource-issue">';
         }
+        
         $output .= '<h2><a href="'.$vocab_url.'">'.$vocab->name.'</a></h2>';
-        $output .= 'What are provider-related issues? Donec at enim eget risus adipiscing euismod vitae eu
-nisl. Nullam tempus pretium purus ac auctor. Donec non nisi vel nisi tincidunt imperdiet
-dictum vitae ante.';
-        $output .= '<br/><br/>';
+        //Now pull in the landing page content item from the sub-page so that we 
+        //can display the content field giving the user an idea of what information
+        //they will find below.
+        $query = new EntityFieldQuery();
+        $query->entityCondition('entity_type', 'node')
+                ->entityCondition('bundle', 'landing_page')
+                ->fieldCondition('field_landing_page_type', 'value', $menu_facet)
+                ->propertyCondition('status', 1)
+                ->propertyOrderBy('created', 'DESC');
+        $facetNode = _an_lifecycle_load_related_nodes($query);
+         if(!empty($facetNode['nodes'])){
+                $contentNode = array_pop($facetNode['nodes']);
+                
+                $output .= '<div class="landing-page-text-no-image">';
+                $content = field_get_items('node', $contentNode, 'field_content');
+                if($content){
+                    $output .= filter_xss_admin($content[0]['value']);
+                }
+                $output .= '</div>'; //end landing page text
+        }               
+        //end landing page content.
         $termOutput = '';
         foreach ($taxonomy as $term) {
             $old_pattern = array("/[^a-zA-Z0-9]/", "/_+/", "/_$/");
