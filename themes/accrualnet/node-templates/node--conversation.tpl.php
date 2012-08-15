@@ -160,52 +160,116 @@ else {
 //$comments = comment_get_thread($node,COMMENT_MODE_FLAT, 10  );
 ?>
 
-<div class="conversation-topic-header">
-    <?php print _communities_convo_header($node, $term);?>
-</div>
-<div class="conversation">
-    <div class="convo-title">
-        <h2>
-        <?php print check_plain($node->title);?>
-        <?php print _last_updated_snippet($node->last_comment_timestamp); ?>
-        </h2>
+<?php if($node->op == "Preview"): //Certain items break on preview because they dont exist, strip them out so a user can still use preview.?>
+    <div class="conversation-topic-header">
+        <?php print _communities_convo_header($node, $term);?>
     </div>
-    <div class="conversation-abstract">
-        <?php if ($body) print drupal_render(field_view_field('node', $node, 'body', array('label' => 'hidden'))); ?>
-    </div>
-   
-    <div class="convo-posts">
-    <?php if($opener): ?>
-        
-        <div class="convo-post convo-post even">
-        <div class="convo-user-image">
-            <?php if($user->picture):?>
-                <?php print theme('image_style',
-                        array(
-                            'path' => $user->picture->uri,
-                            'style_name' => 'thumbnail',         
-                        )
-                    ); ?>
-            <?php else: ?>
-                <img src="<?php print $avatarSRC;?>" width="100" title="<?php print check_plain($user->name);?>'s Image" alt="<?php print check_plain($user->name);?>'s Image" />
-
-            <?php endif;?>
-            
-         </div>
-            <div class="convo-body">
-            <div class="submitted-by">
-                <span class="user-name">
-                    <a href="/user/<?php print $node->uid;?>" class="<?php print $color ? $nci_user_profile_colors[$color[0]['value']] : 'Black';?>" title="<?php print $user->name;?>'s profile"><?php print $user->name;?></a>
-                </span>
-                <span class="user-occupation"><?php print check_plain($occupation[0]['value']);?></span>
-                <span class="posted-date"><?php print format_date($node->created, 'custom', 'F d, Y');?></span>
-            </div>
-            <?php print $opener[0]['safe_value']; ?>
+    <div class="conversation">
+        <div class="convo-title">
+            <h2>
+            <?php print check_plain($node->title);?>            
+            </h2>
         </div>
-            
+        <div class="conversation-abstract">
+            <?php if ($body) print drupal_render(field_view_field('node', $node, 'body', array('label' => 'hidden'))); ?>
+        </div>
+
+        <div class="convo-posts">
+        <?php if($opener): ?>
+
+            <div class="convo-post convo-post even">
+            <div class="convo-user-image">
+                <?php if($user->picture):?>
+                    <?php print theme('image_style',
+                            array(
+                                'path' => $user->picture->uri,
+                                'style_name' => 'thumbnail',         
+                            )
+                        ); ?>
+                <?php else: ?>
+                    <img src="<?php print $avatarSRC;?>" width="100" title="<?php print check_plain($user->name);?>'s Image" alt="<?php print check_plain($user->name);?>'s Image" />
+
+                <?php endif;?>
+
+            </div>
+                <div class="convo-body">
+                <div class="submitted-by">
+                    <span class="user-name">
+                        <a href="/user/<?php print $node->uid;?>" class="<?php print $color ? $nci_user_profile_colors[$color[0]['value']] : 'Black';?>" title="<?php print $user->name;?>'s profile"><?php print $user->name;?></a>
+                    </span>
+                    <span class="user-occupation"><?php print check_plain($occupation[0]['value']);?></span>
+                    <span class="posted-date"><?php print format_date($node->created, 'custom', 'F d, Y');?></span>
+                </div>
+                <?php print $opener[0]['safe_value']; ?>
+            </div>
+
+        </div>
+        <?php endif;?>
+            <?php if(user_is_logged_in()):?>
+            <?php print render($content['comments']);?>
+            <?php else: ?>
+            <div class="comment-cta">
+                <p>Please <a href="/user" title="login" alt="login">Login</a> or <a href="/user/register" title="register" alt="register">Register</a> to post comments.</p>
+            </div>
+            <?php endif;?>
+        </div>
+
     </div>
-    <?php endif;?>
-        <?php print render($content['comments']);?>
+<?php else:?>
+    <div class="conversation-topic-header">
+        <?php print _communities_convo_header($node, $term);?>
     </div>
-    
-</div>
+    <div class="conversation">
+        <div class="convo-title">
+            <h2>
+            <?php print check_plain($node->title);?>
+
+            <?php print _last_updated_snippet($node->last_comment_timestamp); ?>
+            </h2>
+        </div>
+        <div class="conversation-abstract">
+            <?php if ($body) print drupal_render(field_view_field('node', $node, 'body', array('label' => 'hidden'))); ?>
+        </div>
+
+        <div class="convo-posts">
+        <?php if($opener): ?>
+
+            <div class="convo-post convo-post even">
+            <div class="convo-user-image">
+                <?php if($user->picture):?>
+                    <?php print theme('image_style',
+                            array(
+                                'path' => $user->picture->uri,
+                                'style_name' => 'thumbnail',         
+                            )
+                        ); ?>
+                <?php else: ?>
+                    <img src="<?php print $avatarSRC;?>" width="100" title="<?php print check_plain($user->name);?>'s Image" alt="<?php print check_plain($user->name);?>'s Image" />
+
+                <?php endif;?>
+
+            </div>
+                <div class="convo-body">
+                <div class="submitted-by">
+                    <span class="user-name">
+                        <a href="/user/<?php print $node->uid;?>" class="<?php print $color ? $nci_user_profile_colors[$color[0]['value']] : 'Black';?>" title="<?php print $user->name;?>'s profile"><?php print $user->name;?></a>
+                    </span>
+                    <span class="user-occupation"><?php print check_plain($occupation[0]['value']);?></span>
+                    <span class="posted-date"><?php print format_date($node->created, 'custom', 'F d, Y');?></span>
+                </div>
+                <?php print $opener[0]['safe_value']; ?>
+            </div>
+
+        </div>
+        <?php endif;?>
+            <?php if(user_is_logged_in()):?>
+            <?php print render($content['comments']);?>
+            <?php else: ?>
+            <div class="comment-cta">
+                <p>Please <a href="/user" title="login" alt="login">Login</a> or <a href="/user/register" title="register" alt="register">Register</a> to post comments.</p>
+            </div>
+            <?php endif;?>
+        </div>
+
+    </div>
+<?php endif;?>

@@ -269,6 +269,7 @@ input#edit-name {
     font-weight: normal;
     text-transform: uppercase;
     letter-spacing: 5px;
+    clear:both;
 }
 
 .accrualnet-user-profile-form-wrapper div.password-strength{
@@ -569,14 +570,16 @@ input {
    left: 450px;
 }
  .form-item-name .description {
-     position: absolute;
-    top: 25px;
-    right: 5px;
+    clear:both;
 }
 .form-item-pass .description {
-    top: 2px;
-    left: 110px;
+clear:both;
 }
+
+.password-strength {
+    width: 170px;
+}
+
  #edit-field-occupation .description {
     top: 2px;
     left: 80px;

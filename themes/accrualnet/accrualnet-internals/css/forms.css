@@ -15,8 +15,27 @@
 }
 
 .form-item label { /* The label for a form element */
-  display: block;
+  display: block;  
   font-weight: bold;
+}
+.node-form  .form-item {
+    overflow:hidden;
+}
+.node-form > .form-item,
+.node-form  .field-type-text-with-summary,
+.node-form .field-type-group,
+.node-form .form-field-type-text-long,
+.node-form .form-field-type-taxonomy-term-reference{
+    margin: 15px 0;
+}
+.node-form .form-item label {
+    clear:both;
+    
+}
+
+
+.node-form fieldset {
+    width: 100%;
 }
 
 .form-item label.option { /* The label for a radio button or checkbox */
@@ -144,6 +163,13 @@ td.menu-disabled {
 }
 
 
+
+.cke_skin_kama {
+    box-sizing:  border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+}
 /* MOVE THIS -Lauren */
 #resource-ajax-filter .form-type-checkbox label {
     padding-left: 0px;
@@ -157,7 +183,7 @@ td.menu-disabled {
 /* And maybe this */
 .form-actions input,
 input.form-submit,
-span.button{
+span.button a{
     border: 2px solid #9AB83F;
     color:#9AB83F;
     font-weight: bold;
@@ -173,6 +199,11 @@ span.button{
     margin-bottom: 10px;
     text-transform: uppercase;
     font-family: Arial, Helvetica, sans-serif;
+}
+#site-wide-search-box .form-actions input,
+#site-wide-search-box .form-actions input:hover,
+#site-wide-search-box .form-actions input:active{
+    border: 1px solid #9ab83F;
 }
 
 .form-actions input:hover,
@@ -203,7 +234,7 @@ div.cta-button {
  * Fake Button
  *
  */
-span.button {
+span.button a{
     border: 2px solid #9AB83F;
     color:#9AB83F;
     font-size: 13px;
@@ -220,7 +251,7 @@ span.button {
     text-transform: uppercase;
     font-family: Arial, Helvetica, sans-serif;
 }
-span.button:hover {
+span.button:hover a{
     border: 2px solid #9AB83F;
     color:#fff;
     font-weight: bold;
@@ -258,7 +289,7 @@ span.button a:hover, span.button a:active, span.button:hover a {
      margin: 0% 0% 0% 1.5%;
      width: 7%;
  }
- #search-block-form #edit-actions input {
+ #search-block-form .form-actions input {
      margin: 0px 10px;
  }
  #search-header {
