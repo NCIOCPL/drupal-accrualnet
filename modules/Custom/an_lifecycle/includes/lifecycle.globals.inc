@@ -14,7 +14,7 @@ $GLOBALS['an_stage_strategy'] = array(
     'Developing a Trial' => array(
         'Stakeholder Enthusiasm' => 'Consider national and local stakeholder enthusiasm for the trial',
         'Recruitment Feasibility' => 'Evaluate the trial for recruitment feasibility',
-        'Site Selection' => 'Choose Study Sites Carefully',
+        'Site Selection' => 'Choose study sites carefully',
         'Trial Materials' => 'Prepare trial-specific materials',
         ),
     'Selecting & Preparing to Open a Trial' => array(
