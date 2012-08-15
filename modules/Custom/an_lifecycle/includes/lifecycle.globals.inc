@@ -22,7 +22,7 @@ $GLOBALS['an_stage_strategy'] = array(
         'Infrastructure and Resources' => 'Assess your institution’s infrastructure and resources',
         'Stakeholder Commitment' => 'Ensure stakeholder commitment',
         'Participant Friendly Environment' => 'Create a participant friendly environment',
-        'Internal Procedures' => 'Plan internal procedures to conduct the trial',
+        'Internal Processes' => 'Plan internal procedures to conduct the trial',
         'Recruitment and Retention Plan' => 'Write a comprehensive recruitment and retention plan',
         ),
     'Recruiting and Communicating with Participants' => array(
