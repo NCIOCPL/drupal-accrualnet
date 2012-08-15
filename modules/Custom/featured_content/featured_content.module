@@ -29,7 +29,7 @@ function featured_content_block_info(){
       'info' => t('CTA - Add a Resource'),
       'region' => 'sidebar_first',
       'visibility' => BLOCK_VISIBILITY_NOTLISTED,
-      'pages' => "user/*\nuser\n<front>\nsearch/*"
+      'pages' => "user/*\nuser\n<front>\nsearch/*\ncontent/*"
     ); 
     
     return $blocks;
