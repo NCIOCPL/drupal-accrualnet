@@ -156,11 +156,11 @@ else {
     $avatarSRC = '/' . path_to_theme() . '/accrualnet-internals/images/avatars/male/Black.png';
 
 }
-
+$op = field_get_items('node', $node, 'op');
 //$comments = comment_get_thread($node,COMMENT_MODE_FLAT, 10  );
 ?>
 
-<?php if($node->op == "Preview"): //Certain items break on preview because they dont exist, strip them out so a user can still use preview.?>
+<?php if($op == "Preview"): //Certain items break on preview because they dont exist, strip them out so a user can still use preview.?>
     <div class="conversation-topic-header">
         <?php print _communities_convo_header($node, $term);?>
     </div>
