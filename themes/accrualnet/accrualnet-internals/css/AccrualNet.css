@@ -1503,3 +1503,9 @@ h2.comment-form {
 	clear: both;
 }
 
+.webform-component .form-type-checkbox label{
+	margin: 0px;
+	padding: 5px 0;
+	position: relative;
+	left: 25px;
+}
