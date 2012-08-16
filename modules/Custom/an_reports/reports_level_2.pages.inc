@@ -346,7 +346,7 @@ function _user_activity_report() {
 function _communities_report() {
 	$output = '';
 
-	$columns = array('Community Memberships', 'Comments', 'Conversations');
+	$columns = array('Users in All Communities', 'Comments', 'Conversations');
 	$rows = array(0 => array());
 
 // add community members count
