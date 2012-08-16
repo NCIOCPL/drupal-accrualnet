@@ -40,7 +40,9 @@ $GLOBALS['an_resource_citation_fields_B'] = array(
         'date2' => array(
             'label' => 'Date Meeting Ended',
         ),
-        'location' => array(),
+        'location' => array(
+            'label' => 'Meeting Location',
+        ),
     );
 
 /*

@@ -64,7 +64,7 @@ $GLOBALS['an_resource_types'] = array(
         // Content Properties
         'name' => 'Meeting Abstract',
         'description' => 'TBD',
-        'title' => 'Meeting Name',
+        'title' => 'Abstract Title',
         // Field Properties
         'citation' => $C,
     ),
