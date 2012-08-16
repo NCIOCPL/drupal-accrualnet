@@ -15,7 +15,7 @@ function nci_workflow_form_alter(&$form, &$form_state) {
 		$form['field_tax_ethical']['#access'] = FALSE;
 		$form['field_tax_demographics']['#access'] = FALSE;
 		$form['field_tax_recruitment']['#access'] = FALSE;
-		$form['field_tax_resource_type']['#access'] = FALSE;
+		//$form['field_tax_resource_type']['#access'] = FALSE; This top level facet has been removed
 		$form['field_tax_trial_treatment']['#access'] = FALSE;
 		$form['field_tax_trial_phase']['#access'] = FALSE;
 		$form['field_assigned_writer']['#access'] = FALSE;
