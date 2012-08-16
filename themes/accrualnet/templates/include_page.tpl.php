@@ -74,7 +74,7 @@ module_load_include('inc', 'nci_custom_user', 'includes\profilecolors');
 
 $profileColor = 'Black';
 if($logged_in) {
-    global $user;
+    //global $user;
     global $nci_user_profile_colors;
     
     //load the current user profile
@@ -84,6 +84,22 @@ if($logged_in) {
     if($profile_color_value)
     { 
        $profileColor =  $nci_user_profile_colors[$profile_color_value[0]['value']];
+    }
+    
+    $avatar = field_get_items('user', $currentUser, 'avatar_image');
+    if ($avatar) {
+        $simulatedAvatarArray = array();
+        foreach ($nci_user_profile_colors as $avatarColor) {
+            $simulatedAvatarArray[] = 'male/'.$avatarColor;
+            $simulatedAvatarArray[] = 'female/'.$avatarColor;
+        }
+        $avatarTMP = intval($avatar[0]['value']);
+        $avatarTMP = $simulatedAvatarArray[$avatarTMP];
+        $avatarSRC = '/' . path_to_theme() . '/accrualnet-internals/images/avatars/' . $avatarTMP . '.png';
+    }
+    else {
+        $avatarSRC = '/' . path_to_theme() . '/accrualnet-internals/images/avatars/male/Black.png';
+
     }
 
 }
@@ -192,14 +208,16 @@ if ($pager_total_items != null) {
             <div class="user-blerb">
                 <div class="user-welcome-text">Hi <?php print t($user->name);?>!</div>    
                 <div class="user-welcome-image">
-                 <?php if($currentUser->picture):   ?>
-                <?php print theme('image_style',
-                    array(
-                        'path' => $currentUser->picture->uri,
-                        'style_name' => 'scale_25',         
-                    )
-                ); ?>
-                    <?php endif;?>
+                <?php if($currentUser->picture && !$avatar):?>
+                    <?php print theme('image_style',
+                            array(
+                                'path' => $currentUser->picture->uri,
+                                'style_name' => 'scale_25',         
+                            )
+                        ); ?>
+                <?php else: ?>
+                    <img src="<?php print $avatarSRC;?>" width="20" title="<?php print check_plain($currentUser->name);?>'s Image" alt="<?php print check_plain($currentUser->name);?>'s Image" />
+                <?php endif;?>
                 </div>
             
             </div>

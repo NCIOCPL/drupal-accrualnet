@@ -160,6 +160,7 @@ li a.active {
 }
 .user-welcome-image {
     float:right;
+    margin: 10px 0;
 }
 
 .header-right .user-blerb {

@@ -90,7 +90,7 @@ else {
 
 <div class="convo-post <?php print $classes;?>">
         <div class="convo-user-image">
-                <?php if($user->picture):?>
+                <?php if($user->picture && !$avatar):?>
                     <?php print theme('image_style',
                             array(
                                 'path' => $user->picture->uri,

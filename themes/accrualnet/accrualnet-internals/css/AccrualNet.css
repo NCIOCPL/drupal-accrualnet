@@ -153,6 +153,7 @@ h1 span {
 }
 .landing-page-text-no-image {
     width: 100%;
+    margin-bottom: 10px;
 }
 .landing-page-text {
     width: 40%;
@@ -902,6 +903,7 @@ body a:visited {
 
 .homepage-feature-content {
     border-right: 3px dotted #d2d2d2;
+    min-height: 480px;
 }
 
 .homepage-feature-block-container-last {

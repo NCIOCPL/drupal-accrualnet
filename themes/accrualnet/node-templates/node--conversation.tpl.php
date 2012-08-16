@@ -236,7 +236,7 @@ $op = field_get_items('node', $node, 'op');
 
             <div class="convo-post convo-post even">
             <div class="convo-user-image">
-                <?php if($user->picture):?>
+                <?php if($user->picture && !$avatar):?>
                     <?php print theme('image_style',
                             array(
                                 'path' => $user->picture->uri,
