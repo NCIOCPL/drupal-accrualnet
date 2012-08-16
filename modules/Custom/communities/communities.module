@@ -597,7 +597,7 @@ function _user_url_snippet($uid, $name) {
 function _user_image_snippet($user) {
     global $nci_user_profile_colors;
     $avatar = field_get_items('user', $user, 'avatar_image');
-    if($user->picture)
+    if($user->picture && !$avatar)
     {
         return theme('image_style',
                             array(
