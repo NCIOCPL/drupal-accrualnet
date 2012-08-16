@@ -271,6 +271,9 @@ input#edit-name {
     letter-spacing: 5px;
     clear:both;
 }
+.accrualnet-user-profile-form-wrapper input#edit-name {
+    margin-top: -25px;
+}
 
 .accrualnet-user-profile-form-wrapper div.password-strength{
     color: black;
@@ -571,9 +574,12 @@ input {
 }
  .form-item-name .description {
     clear:both;
+    top: -40px;
 }
 .form-item-pass .description {
 clear:both;
+    left: 525px;
+    top: -30px;
 }
 
 .password-strength {
@@ -618,7 +624,15 @@ clear:both;
 
 
 .form-item-name, .form-item-mail, .form-item-pass {
-    padding-bottom: 45px;
+    padding-bottom: 70px;
+}
+.form-item-roles, 
+.field-name-field-occupation,
+.field-name-field-years-in-research,
+.field-name-field-institution-type,
+.field-name-field-areas-of-interest
+{
+    padding-bottom: 30px;
 }
 
 
@@ -640,7 +654,7 @@ clear:both;
     color: #696969;
     font-style: italic;
     padding-top: 0px;
-    margin-top: -5px;
+    margin-top: -35px;
     left:0px;
 }
 
