@@ -129,7 +129,6 @@ global $an_resource_types;
     global $an_resource_citation_fields_A, $an_resource_citation_fields_B, $an_resource_citation_fields_C;
     global $an_resource_field_resource;
     global $an_vocabularies;
-    kprint_r(get_defined_vars());
     ?>
     <div class="resource-content <?php print $type; ?>">
     <?php
