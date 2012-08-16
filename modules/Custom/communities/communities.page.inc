@@ -329,7 +329,12 @@ function communities_of_practice_page() {
     $o .= '<div id="communities-of-practice">';
     $o .= '<div id="communities-topic-results">';
     $o .= '<h2>'.t('Communities');
-    $o .= '<span class="button"><a href="/content/create-community">'.t('Create a Community').'</a></span>';
+    if(user_is_logged_in()){
+        $o .= '<span class="button"><a href="/content/create-community">'.t('Create a Community').'</a></span>';
+    }
+    else {
+       $o .= '<span class="button"><a href="/user">'.t('Create a Community').'</a></span>'; 
+    }
     $o .='</h2></div>';
     $usersGroups = array();
 
@@ -362,7 +367,13 @@ function communities_of_practice_page() {
         $group = og_get_group('node', $comm->nid);
         if (!in_array($group->gid, array_values($usersGroups))) {
             $o .= '<div class="community-of-practice-link"><span class="button">';
-            $o .= '<a href="/group/node/' . $comm->nid . '/subscribe ">';
+             if(user_is_logged_in()){
+                $o .= '<a href="/group/node/' . $comm->nid . '/subscribe ">';
+             }
+             else {
+                $o .= '<a href="/user">';
+                //drupal_set_message(t('You must be a registered user in order to join a Community of Practice'));
+             }
             $o .= 'Join This Community';
             $o .= '</a>';
             $o .= '</span></div>';
