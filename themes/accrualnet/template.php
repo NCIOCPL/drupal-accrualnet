@@ -199,7 +199,7 @@ function accrualnet_preprocess_user_profile_form(&$vars) {
 		$vars['form']['account']['name']['#description'] = 'This username will be displayed to all registered users if you participate in conversations or make comments on resources';
 		$vars['form']['account']['mail']['#description'] = 'Please enter a valid, work-related e-mail address.  All e-mails from the system will be sent to this address.  Your e-mail address is not made public, and will only be used if you wish to receive a new password or certain site-related notifications.';
 		$vars['form']['account']['current_pass']['#description'] = '';
-		$vars['form']['account']['pass']['#description'] = 'Please enter a password containing both letters and numbers.';
+		$vars['form']['account']['pass']['#description'] = 'Please enter a password containing both letters and numbers. Your password must contain a minimum of 6 characters.';
 
 		$vars['form']['account']['pass']['pass1']['#title'] = 'New Password';
 		$vars['form']['account']['pass']['pass2']['#title'] = 'Re-Type New Password';
