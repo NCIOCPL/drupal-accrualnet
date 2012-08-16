@@ -103,6 +103,8 @@ $GLOBALS['an_vocabularies'] = array(
 			'Letter',
 			'EMR'
 	)),
+    /*
+     * Resource Type: no longer a tag -> was moved to content types
 	array(
 		'name' => 'Resource Type',
 		'machine_stem' => 'resource_type',
@@ -113,11 +115,13 @@ $GLOBALS['an_vocabularies'] = array(
 			'Staff Education Materials',
 			'Journal Articles',
 			'Journal Review Articles',
-			'Meetings Abstracts',
+			'Meetings Abstract', //TIR#1972
 			'Reports'
 	)),
+     * 
+     */
 	array(
-		'name' => 'Trial Treatment',
+		'name' => 'Trial/Treatment Type',
 		'machine_stem' => 'trial_treatment',
 		'terms' => array(
 			'Non-Cancer',
