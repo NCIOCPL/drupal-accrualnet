@@ -295,8 +295,17 @@ function new_community_form_form_alter(&$form, &$form_state, $form_id) {
 			$form['#form_id'] == 'search_block_form')
 		return;
 
-	dsm($form, "$form_id");
-
+	drupal_add_js("
+    (function ($) {
+        $(document).ready(function() {
+            $('.form-required').html('<img class=\"required-img\" src=\"/" . path_to_theme() . "/accrualnet-internals/images/global/required.png\" />');
+        $('#edit-roles > div.form-type-checkbox > input').each(function () {
+            if ($(this).attr('checked')) {
+                $(this).parent().addClass('checked');
+            }
+        });
+        });
+    }) (jQuery);", 'inline');
 	drupal_add_js(path_to_theme() . '/js/checkbox.js', 'file');
 	drupal_add_js(path_to_theme() . '/js/selectboxes.js', 'file');
 	drupal_add_js(path_to_theme() . '/js/inputdarken.js', 'file');
