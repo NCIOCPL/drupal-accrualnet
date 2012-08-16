@@ -18,79 +18,74 @@ module_load_include('inc', 'resource', 'includes/types');
  *
  * @return type 
  */
-function featured_content_block_info(){
-    $blocks['cta_join_conversation'] = array(
-      'info' => t('CTA - Join the Conversation'),
-      'region' => 'sidebar_first',
-      'visibility' => BLOCK_VISIBILITY_NOTLISTED,
-      'pages' => "user/*\nuser\n<front>\nsearch/*"
-    ); 
-    $blocks['cta_add_resource'] = array(
-      'info' => t('CTA - Add a Resource'),
-      'region' => 'sidebar_first',
-      'visibility' => BLOCK_VISIBILITY_NOTLISTED,
-      'pages' => "user/*\nuser\n<front>\nsearch/*\ncontent/*"
-    ); 
-    
-    return $blocks;
+function featured_content_block_info() {
+	$blocks['cta_join_conversation'] = array(
+		'info' => t('CTA - Join the Conversation'),
+		'region' => 'sidebar_first',
+		'visibility' => BLOCK_VISIBILITY_NOTLISTED,
+		'pages' => "user/*\nuser\n<front>\nsearch/*"
+	);
+	$blocks['cta_add_resource'] = array(
+		'info' => t('CTA - Add a Resource'),
+		'region' => 'sidebar_first',
+		'visibility' => BLOCK_VISIBILITY_NOTLISTED,
+		'pages' => "user/*\nuser\n<front>\nsearch/*\ncontent/*"
+	);
+
+	return $blocks;
 }
 
-
 function featured_content_block_view($delta = '') {
-    $block = array();
-    switch($delta){
-    case 'cta_join_conversation':
-      $block['subject'] = t('Join the Conversation');
-      if(user_access('access content')){
-            if(!user_is_logged_in()){
-            $result = '<div class="cta-box">';
-            $result .= t('Talk to fellow professionals on the topics that matter most.');
-            $result .= '<div class="cta-button"><span class="button"><a href="/user/register" title="Sign Up Now">Sign Up Now</a></span></div>  ';
-            $result .= '</div>';
-            }
-            else{
-            $result = '<div class="cta-box">';
-            $result .= t('Talk to fellow professionals on the topics that matter most.');
-            $result .= '<div class="cta-button"><span class="button"><a href="/node/add/conversation" title="Start a Conversation">Start a Conversation</a></span></div>  ';
-            $result .= '</div>';
-            }
-        
-            if (empty($result)) { //No content in the last week.
-            $block['content'] = t('There has been an error. Please contact the site administrator.');  
-            } 
-            else {
-            //Pass data through theme function.
-            $block['content'] = $result;
-            }
-        }
-        return $block;
-        break;
-      case 'cta_add_resource':
-        $block['subject'] = t('Add a Resource');
-        if(user_access('access content')){
-            //Use our custom function to retrieve data.
+	$block = array();
+	switch ($delta) {
+		case 'cta_join_conversation':
+			$block['subject'] = t('Join the Conversation');
+			if (user_access('access content')) {
+				if (!user_is_logged_in()) {
+					$result = '<div class="cta-box">';
+					$result .= t('Register on AccrualNet and talk to your clinical trial colleagues about accrual topics.');
+					$result .= '<div class="cta-button"><span class="button"><a href="/user/register" title="Sign Up Now">Sign Up Now</a></span></div>  ';
+					$result .= '</div>';
+				} else {
+					$result = '<div class="cta-box">';
+					$result .= t('Talk to your clinical trial colleagues about accrual topics.');
+					$result .= '<div class="cta-button"><span class="button"><a href="/node/add/conversation" title="Start a Conversation">Start a Conversation</a></span></div>  ';
+					$result .= '</div>';
+				}
 
-                $result = '<div class="cta-box">';
-                $result .= t('Add your resource to the best of clinical accrual knowledge.');
-                $result .= '<div class="cta-button"><span class="button"><a href="/content/submit-new-resource" title="Add a Resource">Go</a></span></div>  ';
-                $result .= '</div>';
+				if (empty($result)) { //No content in the last week.
+					$block['content'] = t('There has been an error. Please contact the site administrator.');
+				} else {
+					//Pass data through theme function.
+					$block['content'] = $result;
+				}
+			}
+			return $block;
+			break;
+		case 'cta_add_resource':
+			$block['subject'] = t('Share a Resource');
+			if (user_access('access content')) {
+				//Use our custom function to retrieve data.
 
-            if (empty($result)) { //No content in the last week.
-            $block['content'] = t('There has been an error. Please contact the site administrator.');  
-            } 
-            else {
-            //Pass data through theme function.
-            $block['content'] = $result;
-            }
-        }
-        return $block;
-        break;
-        default:
-            return $block;
-            break;
-    }
-    return $block;
+				$result = '<div class="cta-box">';
+				$result .= t('Share articles or resources with your colleagues by adding them to AccrualNet.');
+				$result .= '<div class="cta-button"><span class="button"><a href="/content/submit-new-resource" title="Add a Resource">Go</a></span></div>  ';
+				$result .= '</div>';
 
+				if (empty($result)) { //No content in the last week.
+					$block['content'] = t('There has been an error. Please contact the site administrator.');
+				} else {
+					//Pass data through theme function.
+					$block['content'] = $result;
+				}
+			}
+			return $block;
+			break;
+		default:
+			return $block;
+			break;
+	}
+	return $block;
 }
 
 /*
@@ -98,80 +93,76 @@ function featured_content_block_view($delta = '') {
  * 
  * Sets up the Resource content type
  */
+
 function featured_content_node_info() {
-    global $featured_content_types;
-    $featuredTypes = array();
-    // For every resource type, create the content type
-    foreach ($featured_content_types as $type => $properties) {
-        $featuredTypes[$type] = array (
-            'name' => $properties['name'],
-            'base' => 'node_content',
-            'description' => $properties['description'],
-            'custom' => TRUE, // Line for Debugging
-        );
-        // If the content type has a title defined, set it
-        if (array_key_exists('title', $properties)) {
-            $featuredTypes[$type]['has_title'] = TRUE;
-            $featuredTypes[$type]['title_label'] = $properties['title'];
-        } else {
-            $featuredTypes[$type]['has_title'] = FALSE;
-        }
-    }
-    return $featuredTypes;
+	global $featured_content_types;
+	$featuredTypes = array();
+	// For every resource type, create the content type
+	foreach ($featured_content_types as $type => $properties) {
+		$featuredTypes[$type] = array(
+			'name' => $properties['name'],
+			'base' => 'node_content',
+			'description' => $properties['description'],
+			'custom' => TRUE, // Line for Debugging
+		);
+		// If the content type has a title defined, set it
+		if (array_key_exists('title', $properties)) {
+			$featuredTypes[$type]['has_title'] = TRUE;
+			$featuredTypes[$type]['title_label'] = $properties['title'];
+		} else {
+			$featuredTypes[$type]['has_title'] = FALSE;
+		}
+	}
+	return $featuredTypes;
 }
 
 /**
- *hook_enable implementation.
+ * hook_enable implementation.
  * 
  * Sets up content types and fields for the lifecycle section of the AN Site.
  * @global type $an_lifecycle_types
  * @global type $an_lifecycle_fields 
  */
 function featured_content_enable() {
-    
-    
-    global $featured_content_fields;
-    // Rebuild the types --this may be unnecessary
-    node_types_rebuild();
-   
-    
-    // Create the custom fields for all types of resources
-    foreach (_featured_content_fields() as $field) {
-        //Check to see if this field exists:
-        field_read_field($field['field_name']) == FALSE ? field_create_field($field) : '';
-        //field_create_field($field);
-    }
-    
-    foreach ($featured_content_fields as $field) {
-        //reset the instance so that it does not carry over values from the previous field........
-       $instance = array();
-        foreach($field['bundles'] as $bundle) {
-            //if this instance does not already exist.
-            if(field_read_instance($field['entity_type'], 'field_' .$field['field_name'], $bundle) == FALSE)
-            {
-                $instance['field_name'] = 'field_' . $field['field_name'];
-                $instance['entity_type'] = $field['entity_type'];
-                $instance['label'] = $field['label'];
-                $instance['description'] = $field['description'];
-                if (array_key_exists('required', $field)){
-                    $instance['required'] = $field['required'];
-                }
-                if (array_key_exists('instance_settings', $field)) {
-                $instance['settings'] = $field['instance_settings'];
-                }
-                if (array_key_exists('widget', $field)) { 
-                    $instance['widget'] = $field['widget'];
-                }
-                $instance['bundle'] = $bundle;
-                field_create_instance($instance);
-            }
-        }
-    }
-    
-       
+
+
+	global $featured_content_fields;
+	// Rebuild the types --this may be unnecessary
+	node_types_rebuild();
+
+
+	// Create the custom fields for all types of resources
+	foreach (_featured_content_fields() as $field) {
+		//Check to see if this field exists:
+		field_read_field($field['field_name']) == FALSE ? field_create_field($field) : '';
+		//field_create_field($field);
+	}
+
+	foreach ($featured_content_fields as $field) {
+		//reset the instance so that it does not carry over values from the previous field........
+		$instance = array();
+		foreach ($field['bundles'] as $bundle) {
+			//if this instance does not already exist.
+			if (field_read_instance($field['entity_type'], 'field_' . $field['field_name'], $bundle) == FALSE) {
+				$instance['field_name'] = 'field_' . $field['field_name'];
+				$instance['entity_type'] = $field['entity_type'];
+				$instance['label'] = $field['label'];
+				$instance['description'] = $field['description'];
+				if (array_key_exists('required', $field)) {
+					$instance['required'] = $field['required'];
+				}
+				if (array_key_exists('instance_settings', $field)) {
+					$instance['settings'] = $field['instance_settings'];
+				}
+				if (array_key_exists('widget', $field)) {
+					$instance['widget'] = $field['widget'];
+				}
+				$instance['bundle'] = $bundle;
+				field_create_instance($instance);
+			}
+		}
+	}
 }
-
-
 
 /*
  * hook_disable()
@@ -179,169 +170,165 @@ function featured_content_enable() {
  * Removes the content type, instances of fields, and specific content type fields. 
  * As of right now, does not delete all content associated with it.
  */
-function featured_content_disable() {}
 
-
-function _featured_content_display($node, $image = TRUE, $citation = TRUE, $taxonomy = TRUE){
-    global $an_resource_types;
-    if (isset($an_resource_types[$node->type])){
-        return _resource_output_snippet($node, $image, $citation, $taxonomy);
-    }
-    switch($node->type) {
-        case 'conversation':
-            $urlPath = drupal_lookup_path('alias', 'node/'.$node->nid); 
-            $output .= '<div class="conversation-output">'; 
-            $output .= '<div class="node-title">';
-            $output .= '<a href="'.$urlPath.'" title="'.check_plain($node->title).'">';
-            $output .= check_plain($node->title);
-            $output .= '</a>';
-            $output .= '<div class="node-posted-by">';
-            $output .= 'Posted By: '. check_plain($node->name) . ' on '. format_date($node->created, 'custom', 'F d, Y');
-            $output .= '</div>';
-            $output .= '</div>';
-            $output .= '</div>';
-            return $output;
-            //insert convo display function
-        break;
-        case 'community_of_practice':
-            //insert comm of practice display function
-        break;
-    }
-    return '<div>This content type '.check_plain($node->type).' is not yet supported by this feature.</div>';
+function featured_content_disable() {
+	
 }
 
+function _featured_content_display($node, $image = TRUE, $citation = TRUE, $taxonomy = TRUE) {
+	global $an_resource_types;
+	if (isset($an_resource_types[$node->type])) {
+		return _resource_output_snippet($node, $image, $citation, $taxonomy);
+	}
+	switch ($node->type) {
+		case 'conversation':
+			$urlPath = drupal_lookup_path('alias', 'node/' . $node->nid);
+			$output .= '<div class="conversation-output">';
+			$output .= '<div class="node-title">';
+			$output .= '<a href="' . $urlPath . '" title="' . check_plain($node->title) . '">';
+			$output .= check_plain($node->title);
+			$output .= '</a>';
+			$output .= '<div class="node-posted-by">';
+			$output .= 'Posted By: ' . check_plain($node->name) . ' on ' . format_date($node->created, 'custom', 'F d, Y');
+			$output .= '</div>';
+			$output .= '</div>';
+			$output .= '</div>';
+			return $output;
+			//insert convo display function
+			break;
+		case 'community_of_practice':
+			//insert comm of practice display function
+			break;
+	}
+	return '<div>This content type ' . check_plain($node->type) . ' is not yet supported by this feature.</div>';
+}
 
 function _featured_content_node_output($node, $moreLink) {
-        $output = '';
-    
+	$output = '';
 
-        $color = $item->type == 'conversation' ? 'Orange' : 'Blue';
-        $output .= '<div class="homepage-feature-content-item">';
-        $urlPath = drupal_lookup_path('alias', 'node/'.$item->nid); 
-        $output .= '<div class="homepage-node-created '.$color.'">';
-        $output .= format_date(check_plain($item->created), 'custom', 'm/d/y');
-        $output .= '</div>';
-        $output .= '<div class="homepage-node-title">';
-        
-        $output .= '<a href="'.$urlPath.'" title="'.check_plain($item->title).'">';
-        $output .= check_plain($item->title);
-        $output .= '</a>';
-        if($item->type == 'conversation'){
-            $output .= '<div class="node-posted-by">';
-            $output .= 'Posted By: '. check_plain($item->name) ;
-            $output .= '</div>';
-        }
-        $output .= '</div>';
-        $output .= '</div>';
-    
-    if($link && $moreLink){
-        $output .= '<div class="feature-link">';
-        $output .= '<span class="button"><a href="/'.$link[0]['url'].'" title="'.$link[0]['title'].'">'.$link[0]['title'].'</a></span>';
-        $output .= '</div>';
-    }
-    $output .= '</div>';
-    return $output;
+
+	$color = $item->type == 'conversation' ? 'Orange' : 'Blue';
+	$output .= '<div class="homepage-feature-content-item">';
+	$urlPath = drupal_lookup_path('alias', 'node/' . $item->nid);
+	$output .= '<div class="homepage-node-created ' . $color . '">';
+	$output .= format_date(check_plain($item->created), 'custom', 'm/d/y');
+	$output .= '</div>';
+	$output .= '<div class="homepage-node-title">';
+
+	$output .= '<a href="' . $urlPath . '" title="' . check_plain($item->title) . '">';
+	$output .= check_plain($item->title);
+	$output .= '</a>';
+	if ($item->type == 'conversation') {
+		$output .= '<div class="node-posted-by">';
+		$output .= 'Posted By: ' . check_plain($item->name);
+		$output .= '</div>';
+	}
+	$output .= '</div>';
+	$output .= '</div>';
+
+	if ($link && $moreLink) {
+		$output .= '<div class="feature-link">';
+		$output .= '<span class="button"><a href="/' . $link[0]['url'] . '" title="' . $link[0]['title'] . '">' . $link[0]['title'] . '</a></span>';
+		$output .= '</div>';
+	}
+	$output .= '</div>';
+	return $output;
 }
 
 function _dynamic_content_block_output($node) {
-    
-    //get all of our node fields and set variables
-    $format = field_get_items('node', $node, 'field_display_format');
-    $order = field_get_items('node', $node, 'field_order_by');
-    $types = field_get_items('node', $node, 'field_featured_type');
-    $image = field_get_items('node', $node, 'field_featured_image');
-    $link = field_get_items('node', $node, 'field_more_link');
-    $featuredContent = array();
-    $manualContent = array();
-    $zebra = 'left';
-    $output = '';
 
-    if($order[0]['value'] != 'manual')
-    {
-        $query = db_select('node', 'n')->fields('n', array('nid', 'title', 'created'));
-        $query->leftJoin('og_membership', 'ogm', 'ogm.etid=n.nid');
-        if($types){
-            $query->condition('n.type',  array_values($types) , 'IN');
-        }
-        $query->condition('n.status', '1')
-                ->condition('ogm.gid', 'NULL', 'IS NULL');
+	//get all of our node fields and set variables
+	$format = field_get_items('node', $node, 'field_display_format');
+	$order = field_get_items('node', $node, 'field_order_by');
+	$types = field_get_items('node', $node, 'field_featured_type');
+	$image = field_get_items('node', $node, 'field_featured_image');
+	$link = field_get_items('node', $node, 'field_more_link');
+	$featuredContent = array();
+	$manualContent = array();
+	$zebra = 'left';
+	$output = '';
 
-        switch($format[0]['value'])
-        {
-            case 'listing':
-                $query = $query->extend('PagerDefault')->limit(6);
-                break;
-            case 'listing_image':
-                $query = $query->extend('PagerDefault')->limit(3);
-                break;
-            default:
-                $query = $query->extend('PagerDefault')->limit(6);
-                //this should never be reachable.
-                break;
-        }
+	if ($order[0]['value'] != 'manual') {
+		$query = db_select('node', 'n')->fields('n', array('nid', 'title', 'created'));
+		$query->leftJoin('og_membership', 'ogm', 'ogm.etid=n.nid');
+		if ($types) {
+			$query->condition('n.type', array_values($types), 'IN');
+		}
+		$query->condition('n.status', '1')
+				->condition('ogm.gid', 'NULL', 'IS NULL');
 
-        switch($order[0]['value']){
-            case 'alpha':
-                $query->orderBy('n.title', 'ASC');
-                break;
-            case 'date_recent':
-                $query->orderBy('n.created', 'DESC');
-                break;
-            case 'manual':
-                //if manual, dont do anything, we are going to use the order they are inserted in the node.
-                break;
-            default:
-                //this should never be reachable.
-                break;
-        }
+		switch ($format[0]['value']) {
+			case 'listing':
+				$query = $query->extend('PagerDefault')->limit(6);
+				break;
+			case 'listing_image':
+				$query = $query->extend('PagerDefault')->limit(3);
+				break;
+			default:
+				$query = $query->extend('PagerDefault')->limit(6);
+				//this should never be reachable.
+				break;
+		}
 
-        $content = $query->execute()->fetchAllAssoc('nid');
-        $featuredContent = entity_load('node', array_keys($content));
-        $counter = 1;
-        
-        $size = count($featuredContent);
-        foreach($featuredContent as $item){
-            if($counter % $size == 1 || $counter % $size == round($size/2) +1)
-            {
-                $output .= '<div class="featured-content-section-'.$zebra.' '.$format[0]['value'] . ' ">';
-                $zebra = 'right';
-            }
-            $output .= _featured_content_display($item, FALSE, FALSE, FALSE);
-            if($counter % $size == 0 || ($counter % $size == round($size/2) && $counter >= 3 )){
-                $output .= '</div>';
-            }
-            $counter++;
-        }
-        if($format[0]['value'] == 'listing_image'){
-            $output .= '<div class="featured-content-picture">';
-            if($image){
-                $output .= theme('image_style',  array(
-                                'path' => $image[0]['uri'],
-                                'style_name' => 'large',         
-                            )
-                        );
-            }
-            $output .= '</div>';
-        }
-    }
-    else {
-        $manualContent = field_get_items('node', $node, 'field_manual_content');
-        $counter = 1;
-        if($manualContent){
-            $size = count($manualContent);
-            foreach($manualContent as $item){
-                if($counter % $size == 1 || $counter % $size == round($size/2) +1)
-                {
-                    $output .= '<div class="featured-content-section-'.$zebra.'">';
-                    $zebra = 'right';
-                }
-                $output .= _featured_content_display($item['entity'], FALSE, FALSE, FALSE);
-                if($counter % $size == 0 || $counter % $size == round($size/2)){
-                    $output .= '</div>';
-                }
-                $counter++;
-            }
-        }
-    }
-    return $output;
+		switch ($order[0]['value']) {
+			case 'alpha':
+				$query->orderBy('n.title', 'ASC');
+				break;
+			case 'date_recent':
+				$query->orderBy('n.created', 'DESC');
+				break;
+			case 'manual':
+				//if manual, dont do anything, we are going to use the order they are inserted in the node.
+				break;
+			default:
+				//this should never be reachable.
+				break;
+		}
+
+		$content = $query->execute()->fetchAllAssoc('nid');
+		$featuredContent = entity_load('node', array_keys($content));
+		$counter = 1;
+
+		$size = count($featuredContent);
+		foreach ($featuredContent as $item) {
+			if ($counter % $size == 1 || $counter % $size == round($size / 2) + 1) {
+				$output .= '<div class="featured-content-section-' . $zebra . ' ' . $format[0]['value'] . ' ">';
+				$zebra = 'right';
+			}
+			$output .= _featured_content_display($item, FALSE, FALSE, FALSE);
+			if ($counter % $size == 0 || ($counter % $size == round($size / 2) && $counter >= 3 )) {
+				$output .= '</div>';
+			}
+			$counter++;
+		}
+		if ($format[0]['value'] == 'listing_image') {
+			$output .= '<div class="featured-content-picture">';
+			if ($image) {
+				$output .= theme('image_style', array(
+					'path' => $image[0]['uri'],
+					'style_name' => 'large',
+						)
+				);
+			}
+			$output .= '</div>';
+		}
+	} else {
+		$manualContent = field_get_items('node', $node, 'field_manual_content');
+		$counter = 1;
+		if ($manualContent) {
+			$size = count($manualContent);
+			foreach ($manualContent as $item) {
+				if ($counter % $size == 1 || $counter % $size == round($size / 2) + 1) {
+					$output .= '<div class="featured-content-section-' . $zebra . '">';
+					$zebra = 'right';
+				}
+				$output .= _featured_content_display($item['entity'], FALSE, FALSE, FALSE);
+				if ($counter % $size == 0 || $counter % $size == round($size / 2)) {
+					$output .= '</div>';
+				}
+				$counter++;
+			}
+		}
+	}
+	return $output;
 }
