@@ -10,6 +10,23 @@
 $GLOBALS['an_resource_field_resource'] = array(
     // Machine Name => Label
     array(
+        'label' => 'Attached Resource File',
+        'field_name' => 'resource_file',
+        'cardinality' => 1,
+        'type' => 'file',
+        'settings' => array(
+            'display_field' => '1',
+            'display_default' => '1',
+             'file_extensions' => 'txt doc pdf docx ppt pptx xsl xslx jpg jpeg gif bmp png tiff mpg mpeg mp4 3gp avi htm html',
+        ),
+        'widget' => array(
+            'type' => 'file_generic',
+            'settings' => array(
+                'description_field' => '1',
+            ),
+        ),
+    ),
+    array(
         'label' => 'Highlights',
         'field_name' => 'highlights',
         'type' => 'text_long',
@@ -76,6 +93,12 @@ function _resource_instance_resource () {
         );
         if (array_key_exists('widget', $field)) { 
             $instances[count($instances)-1]['widget'] = $field['widget'];
+        }
+        if (array_key_exists('instance_settings', $field)) { 
+            $instances[count($instances)-1]['instance_settings'] = $field['instance_settings'];
+        }
+        if (array_key_exists('settings', $field)) { 
+            $instances[count($instances)-1]['settings'] = $field['settings'];
         }
     }
     
