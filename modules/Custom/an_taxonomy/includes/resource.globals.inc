@@ -90,7 +90,7 @@ $GLOBALS['an_vocabularies'] = array(
 			'Other'
 	)),
 	array(
-		'name' => 'Recruitment Communications',
+		'name' => 'Recruitment Methods',
 		'machine_stem' => 'recruitment',
 		'terms' => array(
 			'Verbal Communications',
