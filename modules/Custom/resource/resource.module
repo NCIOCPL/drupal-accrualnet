@@ -50,15 +50,16 @@ function resource_node_info() {
 	return $resourceTypes;
 }
 
-function resource_node_view($node, $view_mode, $langcode){
-    global $an_resource_types;
-    if (!isset($an_resource_types[$node->type]))
+function resource_node_view($node, $view_mode, $langcode) {
+	global $an_resource_types;
+	if (!isset($an_resource_types[$node->type]))
 		return;
-    if($node->type == 'materials_staff' || $node->type == 'materials_patient')
-        menu_tree_set_path('an-main-nav', 'education');
-    else
-        menu_tree_set_path('an-main-nav', 'literature');
+	if ($node->type == 'materials_staff' || $node->type == 'materials_patient')
+		menu_tree_set_path('an-main-nav', 'education');
+	else
+		menu_tree_set_path('an-main-nav', 'literature');
 }
+
 /*
  * hook_enable()
  * 
@@ -80,7 +81,7 @@ function resource_enable() {
 	$types = node_type_get_types();
 
 	// Create the custom fields for all types of resources
-	foreach (_resource_fields () as $field) {
+	foreach (_resource_fields() as $field) {
 
 		field_read_field($field['field_name']) == FALSE ? field_create_field($field) : '';
 	}
@@ -105,19 +106,20 @@ function resource_enable() {
 		// set this type as in moderation
 		variable_set('node_options_' . $type, array('revision', 'moderation'));
 	}
-        
-         //set node alias'
-        global $an_education_types;
-        $literatureAlias = 'literature/[node:title]';
-        $educationAlias = 'education/[node:title]';
-        foreach($an_resource_types as $type => $not_used) {
-            $varname = 'pathauto_node_'.$type.'_pattern';
-            if(in_array($type, $an_education_types)){
-                variable_set($varname, $educationAlias);
-            }
-            else{ variable_set($varname, $literatureAlias); }
-        //$types[] = $type;
-        }
+
+	//set node alias'
+	global $an_education_types;
+	$literatureAlias = 'literature/[node:title]';
+	$educationAlias = 'education/[node:title]';
+	foreach ($an_resource_types as $type => $not_used) {
+		$varname = 'pathauto_node_' . $type . '_pattern';
+		if (in_array($type, $an_education_types)) {
+			variable_set($varname, $educationAlias);
+		} else {
+			variable_set($varname, $literatureAlias);
+		}
+		//$types[] = $type;
+	}
 }
 
 /*
@@ -347,15 +349,15 @@ function _resource_output_citation($node) {
 
 		$citationOutput .= $fieldOutput;
 	}
-        if (isset($node->field_citation_epub)) {
-            if (count($node->field_citation_epub) > 0) {
-                
-                if ($node->field_citation_epub['und'][0]['value'] == 1) {
-                $citationOutput .= '<span class="resource-citation-detail resource-epub-ahead-of-print">[Epub ahead of print]</span>';
-                }
-                
-            }
-        }
+	if (isset($node->field_citation_epub)) {
+		if (count($node->field_citation_epub) > 0) {
+
+			if (isset($node->field_citation_epub['und'][0]['value']) &&
+					$node->field_citation_epub['und'][0]['value'] == 1) {
+				$citationOutput .= '<span class="resource-citation-detail resource-epub-ahead-of-print">[Epub ahead of print]</span>';
+			}
+		}
+	}
 	$citationOutput .= '</div>';
 	return $citationOutput;
 }
@@ -363,7 +365,7 @@ function _resource_output_citation($node) {
 function _resource_output_taxonomy($node) {
 	global $an_vocabularies;
 	$taxonomyOutput = '<div class="resource-taxonomy">';
-        $tOutput = '';
+	$tOutput = '';
 	foreach ($an_vocabularies as $vocab) {
 		//$field_array = $node["field_tax_".$vocab['machine_stem']];
 		$field_array = $node->{"field_tax_" . $vocab['machine_stem']};
@@ -373,68 +375,66 @@ function _resource_output_taxonomy($node) {
 		} else {
 			continue;
 		}
-                $termsAdded = array();
+		$termsAdded = array();
 		foreach ($field_array as $field_instance) {
 			$termName = taxonomy_term_load($field_instance['tid'])->name;
 			//$old_pattern = array("/[^a-zA-Z0-9]/", "/_+/", "/_$/");
 			//$new_pattern = array("_", "_", "");
 			//$term_url = strtolower(preg_replace($old_pattern, $new_pattern, $termName));
-
 			//$taxonomyOutput .= '<a href="' . $vocab_url . '/' . $term_url . '">';
-                        if (! in_array($termName, $termsAdded)) {
-			$tOutput .= $termName;
-			//$taxonomyOutput .= '</a>';
-			$tOutput .= ', ';
-                        $termsAdded[] = $termName;
-                        }
+			if (!in_array($termName, $termsAdded)) {
+				$tOutput .= $termName;
+				//$taxonomyOutput .= '</a>';
+				$tOutput .= ', ';
+				$termsAdded[] = $termName;
+			}
 		}
 	}
-        
-        // Only output KEYWORDS if there are tagged results
-        if (strlen($tOutput) > 1) {
-            $taxonomyOutput .= "KEYWORDS: ";
-            $taxonomyOutput .= rtrim(trim($tOutput), ',');
-        }
+
+	// Only output KEYWORDS if there are tagged results
+	if (strlen($tOutput) > 1) {
+		$taxonomyOutput .= "KEYWORDS: ";
+		$taxonomyOutput .= rtrim(trim($tOutput), ',');
+	}
 	$taxonomyOutput .= '</div>';
 	return $taxonomyOutput;
 }
 
 function _resource_output_snippet($node, $image = TRUE, $citation = TRUE, $taxonomy = TRUE) {
-    
-    $noImageClass = '-no-image'; 
-    
-    if($image){
-        $noImageClass = '';
-	$type_image = '';
-	try {
-		//$theme_path = drupal_get_path('theme', 'accrualnet');
 
-		$type_image = "/images/icons/$node->type.png";
+	$noImageClass = '-no-image';
 
-		//global $base_url;
-		//$type_image = $base_url . $type_image;
+	if ($image) {
+		$noImageClass = '';
+		$type_image = '';
+		try {
+			//$theme_path = drupal_get_path('theme', 'accrualnet');
 
-		$type_image = file_build_uri($type_image);
+			$type_image = "/images/icons/$node->type.png";
 
-		$type_image = image_style_url('search_result_icon', $type_image);
+			//global $base_url;
+			//$type_image = $base_url . $type_image;
 
-		$type_image = "<img src='$type_image'>";
-                
-                $type_image = '/' . drupal_get_path('theme', 'accrualnet') . '/accrualnet-internals/images/icons/' . $node->type . '.png';
-                $type_image = '<img class="resource-snippet" src="'.$type_image.'"/>';
-	} catch (Exception $e) {
-		$type_image = $e->getMessage();
+			$type_image = file_build_uri($type_image);
+
+			$type_image = image_style_url('search_result_icon', $type_image);
+
+			$type_image = "<img src='$type_image'>";
+
+			$type_image = '/' . drupal_get_path('theme', 'accrualnet') . '/accrualnet-internals/images/icons/' . $node->type . '.png';
+			$type_image = '<img class="resource-snippet" src="' . $type_image . '"/>';
+		} catch (Exception $e) {
+			$type_image = $e->getMessage();
+		}
 	}
-    }
 	$output = '<div class="resource-output">';
-    if($image)
-    {
-	$output .= '<div class="resource-output-image">';
-	$output .= $type_image;
-	$output .= '</div>';
-    }
-    
-	$output .= '<div class="resource-text'.$noImageClass.'">';
+	if ($image) {
+		$output .= '<div class="resource-output-image">';
+		$output .= $type_image;
+		$output .= '</div>';
+	}
+
+	$output .= '<div class="resource-text' . $noImageClass . '">';
 	$output .= '<div class="resource-output-title">';
 	$output .= '<a href="' . url('node/' . $node->nid) . '">';
 	//$output .= $node->title;
@@ -443,14 +443,12 @@ function _resource_output_snippet($node, $image = TRUE, $citation = TRUE, $taxon
 	$output .= '</a>';
 	$output .= '</div>';
 	//$output .= _resource_output_citation($node);
-    if($citation)
-    {
-	$output .= _resource_output_citation($node);
-    }
-    if($taxonomy)
-    {
-	$output .= filter_xss_admin(_resource_output_taxonomy($node));
-    }
+	if ($citation) {
+		$output .= _resource_output_citation($node);
+	}
+	if ($taxonomy) {
+		$output .= filter_xss_admin(_resource_output_taxonomy($node));
+	}
 	$output .= '</div>';
 	$output .= '</div>';
 	return $output;
