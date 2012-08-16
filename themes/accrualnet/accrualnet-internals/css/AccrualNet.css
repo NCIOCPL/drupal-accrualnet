@@ -1506,13 +1506,17 @@ h2.comment-form {
 .webform-component .form-type-checkbox label{
 	margin: 0px;
 	padding: 5px 0;
+	position: relative;
+	left: 25px;
 }
 
 .webform-component .form-required{
 	float: left;
+	margin-left: -30px;
 }
 
 .node-webform .form-actions .form-submit,
+.webform-component > label,
 .webform-component > div,
 .webform-component > input{
 	clear: both;
