@@ -131,7 +131,7 @@ function new_resource_form_form_alter(&$form, &$form_state, $form_id) {
 	drupal_add_js(path_to_theme() . '/js/selectboxes.js', 'file');
 	drupal_add_js(path_to_theme() . '/js/inputdarken.js', 'file');
 
-	$form['submitted']['title']['#description'] = "Title of Document of Resource";
+	$form['submitted']['title']['#description'] = "Title of Document or Resource";
 	$form['submitted']['description']['#description'] = "Please tell us a little about this resource.";
 	$form['submitted']['resource_link']['#description'] = "Provide the URL for the resource.";
 	$form['submitted']['disclaimer']['#options']['affirm'] = "This material is publicly available, or I own the copyright or have obtained the necessary rights/permissions for the content that I am submitting to AccrualNet.";
