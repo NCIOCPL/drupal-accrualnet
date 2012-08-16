@@ -129,6 +129,7 @@ global $an_resource_types;
     global $an_resource_citation_fields_A, $an_resource_citation_fields_B, $an_resource_citation_fields_C;
     global $an_resource_field_resource;
     global $an_vocabularies;
+    kprint_r(get_defined_vars());
     ?>
     <div class="resource-content <?php print $type; ?>">
     <?php
@@ -167,6 +168,7 @@ global $an_resource_types;
         // Make sure the field returns a result
         if (count(${"field_" . $rfield["field_name"]}) > 0) {
             // Make sure that result is of value
+            if (array_key_exists('value', ${"field_" . $rfield["field_name"]}[0])) {
             if (strlen(${"field_" . $rfield["field_name"]}[0]["value"]) > 0) {
 
                 $rfieldOutput = '<div id="resource-' . $rfield["field_name"] . '">';
@@ -178,6 +180,16 @@ global $an_resource_types;
                 }
                 $rfieldOutput .= '</div>';
                 $resourceOutput .= $rfieldOutput;
+            }
+            } elseif (array_key_exists('filename', ${"field_" . $rfield["field_name"]}[0])) {
+                $rfieldOutput = '<div class="resource-file" id="resource-' . $rfield["field_name"]. '">';
+                if (${"field_" . $rfield["field_name"]}[0]['display'] == 1 && ${"field_" . $rfield["field_name"]}[0]['status'] == 1) {
+                $rfieldOutput .= '<h3>Download Attachment:</h3> ';
+                $rfieldOutput .= ' <a href="'.file_create_url(${"field_" . $rfield["field_name"]}[0]['uri']).'">';
+                $rfieldOutput .= ${"field_" . $rfield["field_name"]}[0]['filename'] . '</a>';
+                $rfieldOutput .= '</div>';
+                $resourceOutput .= $rfieldOutput;
+                }
             }
         }
     }

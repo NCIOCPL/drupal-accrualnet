@@ -74,3 +74,16 @@
 .lt-ie8 .comment-unpublished > * {
   position: relative; /* Otherwise these elements will appear below the "Unpublished" text. */
 }
+
+.resource-file {
+}
+.resource-file h3 {
+display: inline;
+}
+.resource-file a, .resource-file a:active, .resource-file a:hover {
+    color: #2d2d2d;
+    clear: both;
+}
+.resource-file {
+    padding-top: 40px;
+}
