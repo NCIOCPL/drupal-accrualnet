@@ -1293,6 +1293,7 @@ h2.comment-form {
 .comment-user-info {
     padding-top: 5px;
     font-style: italic;
+    clear: both;
 }
 
 .convo-posted-date {
