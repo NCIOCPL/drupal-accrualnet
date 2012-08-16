@@ -170,7 +170,7 @@ function new_community_form_enable() {
 		'type' => 'textfield',
 		'value' => "",
 		'extra' => array('description' => "The moderator's name, if different from the submitter."),
-		'mandatory' => 0,
+		'mandatory' => 1,
 		'weight' => $weight++
 	);
 
@@ -185,7 +185,7 @@ function new_community_form_enable() {
 		'type' => 'textfield',
 		'value' => "",
 		'extra' => array('description' => "The moderator's affiliated organization."),
-		'mandatory' => 0,
+		'mandatory' => 1,
 		'weight' => $weight++
 	);
 
@@ -200,7 +200,7 @@ function new_community_form_enable() {
 		'type' => 'email',
 		'value' => "",
 		'extra' => array('description' => "The moderator's work-related email address."),
-		'mandatory' => 0,
+		'mandatory' => 1,
 		'weight' => $weight++
 	);
 
@@ -215,14 +215,14 @@ function new_community_form_enable() {
 		'type' => 'textfield',
 		'value' => "",
 		'extra' => array('description' => "The moderator's phone number."),
-		'mandatory' => 0,
+		'mandatory' => 1,
 		'weight' => $weight++
 	);
 
 	$cid = webform_component_insert($component);
 
 	// privacy component
-	$component = array(
+	/*$component = array(
 		'nid' => $node->nid,
 		'pid' => 0,
 		'form_key' => 'privacy_level',
@@ -237,7 +237,7 @@ function new_community_form_enable() {
 		'weight' => $weight++
 	);
 
-	$cid = webform_component_insert($component);
+	$cid = webform_component_insert($component);*/
 
 	// disclaimer component
 	$component = array(
@@ -255,7 +255,7 @@ function new_community_form_enable() {
 	);
 
 	$cid = webform_component_insert($component);
-	
+
 	$component = array(
 		'nid' => $node->nid,
 		'pid' => 0,
@@ -278,15 +278,37 @@ function new_community_form_enable() {
 }
 
 function new_community_form_disable() {
-	/*$query = new EntityFieldQuery();
-	$query->entityCondition('entity_type', 'node')
-			->entityCondition('bundle', 'webform')
-			->propertyCondition('title', 'Create a Community');
-	$result = $query->execute();
+	/* $query = new EntityFieldQuery();
+	  $query->entityCondition('entity_type', 'node')
+	  ->entityCondition('bundle', 'webform')
+	  ->propertyCondition('title', 'Create a Community');
+	  $result = $query->execute();
 
-	if (isset($result['node'])) {
-		node_delete(array_keys($result['node']));
-	}*/
+	  if (isset($result['node'])) {
+	  node_delete(array_keys($result['node']));
+	  } */
+}
+
+function new_community_form_form_alter(&$form, &$form_state, $form_id) {
+	if (!isset($form['#node']) ||
+			$form['#action'] != '/content/create-community' ||
+			$form['#form_id'] == 'search_block_form')
+		return;
+
+	dsm($form, "$form_id");
+
+	drupal_add_js(path_to_theme() . '/js/checkbox.js', 'file');
+	drupal_add_js(path_to_theme() . '/js/selectboxes.js', 'file');
+	drupal_add_js(path_to_theme() . '/js/inputdarken.js', 'file');
+
+
+	$form['submitted']['purpose']['#description'] = "Tell us how this group will benefit by using an AccrualNet&trade; Community of Practice.";
+	$form['submitted']['description']['#description'] = "Please write a brief description of your group.  This description will appear on the AccrualNet&trade; Communities of Practice page.";
+	$form['submitted']['membership']['#description'] = "Tell us who can join your group.  Anyone?  A certain type of professional? Or people with a certain interest?  Or only members of an existing group?";
+	$form['submitted']['moderator']['#required'] = true;
+	$form['submitted']['moderator_organization']['#required'] = true;
+	$form['submitted']['moderator_email']['#required'] = true;
+	$form['submitted']['moderator_phone']['#required'] = true;
 }
 
 ?>
