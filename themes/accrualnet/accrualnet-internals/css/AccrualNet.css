@@ -58,7 +58,7 @@ h2#site-slogan {
 #page-header .header-content {
     overflow:hidden;
     position:relative;
-    
+
 }
 
 #page-header .header-content hgroup{
@@ -127,7 +127,7 @@ h1 span {
     padding: 0 10px;
     color: #2d2d2d;
     text-decoration: none;
-    
+
 }
 .add-this img {
     margin-right: 5px;
@@ -358,7 +358,7 @@ html, body {
 }
 
 #main-wrapper {
-    
+
     border-top: 1px solid rgb(154, 184, 63);
     border-top: 1px solid rgba(154, 184, 63, 1);
     position:relative;
@@ -524,7 +524,7 @@ body a:visited {
     text-align:center;
 }
 .lifecycle-strategy-icon img {
-    
+
 }
 .lifecycle-strategy-teaser {
     width: 90%;
@@ -559,7 +559,7 @@ body a:visited {
     background-color: #9AB83F;
     color: #fff;
     padding: 10px 20px;
-    
+
 }
 
 .Blue .feature-header {
@@ -590,7 +590,7 @@ body a:visited {
 }
 
 .featured-content-picture {
- 
+
     width:35%;
     margin-left: 62%;
     margin-top: 30px;
@@ -652,23 +652,23 @@ body a:visited {
 }
 
 .featured-content-carousel:before {
-  content: '';
-  position: absolute;
-  left: -7px;
-  bottom: -7px;
-  border: solid transparent 7px;
-  -moz-border-start-style: inset;
-  border-bottom-color: #fff;
+	content: '';
+	position: absolute;
+	left: -7px;
+	bottom: -7px;
+	border: solid transparent 7px;
+	-moz-border-start-style: inset;
+	border-bottom-color: #fff;
 }
 
 .featured-content-carousel:after {
-  content: '';
-  position: absolute;
-  top: 0px;
-  right: -14px;
-  border: solid transparent 7px;
-  -moz-border-start-style: outset;
-  border-top-color: #fff;
+	content: '';
+	position: absolute;
+	top: 0px;
+	right: -14px;
+	border: solid transparent 7px;
+	-moz-border-start-style: outset;
+	border-top-color: #fff;
 }
 
 
@@ -696,7 +696,7 @@ body a:visited {
 }
 
 .featured-carousel-slides  .slide {
-    
+
     min-height: 380px;
 }
 
@@ -706,15 +706,15 @@ body a:visited {
     table-layout: fixed;
     clear:both;
     margin: 30px 0;
-    
+
 }
 .slideshowControl {
     display: table-cell;
-    
+
     text-align:center;
     max-width: 50%;
     margin: 30px;
-    
+
 }
 .slideshowControl  div{
     cursor: pointer;
@@ -722,11 +722,11 @@ body a:visited {
     font-size: 12px;
     margin: 0px 20px;
     padding: 10px 20px;
-    
-    
+
+
     border: 1px solid #9AB83F;
     border-bottom: 5px solid #9AB83F; 
-    
+
     background-color: #fff;
     background-image:
         -webkit-gradient(linear, 0% 0%, 100% 100%, from(rgba(154, 184, 63, .1)), color-stop(0.15, rgba(154, 184, 63, .1)), color-stop(0.15, transparent), color-stop(0.50, transparent), color-stop(0.50, rgba(154, 184, 63, .1)), color-stop(0.65, rgba(154, 184, 63, .1)), color-stop(0.65, transparent), to(transparent));
@@ -737,9 +737,9 @@ body a:visited {
     background-size: 10px 10px;
     -webkit-background-size: 10px 10px;
     -moz-background-size: 10px 10px;
-    
-    
-    
+
+
+
     opacity: 0.4;
     filter:alpha(opacity=40);
 }
@@ -755,11 +755,11 @@ body a:visited {
 
 .Blue .slideshowControl  div {
     color: #105693;
-    
+
     border: 1px solid #105693;
     border-bottom: 5px solid #105693; 
-    
-        
+
+
     background-color: #fff;
     background-image:
         -webkit-gradient(linear, 0% 0%, 100% 100%, from(rgba(16, 86, 147, .1)), color-stop(0.15, rgba(16, 86, 147, .1)), color-stop(0.15, transparent), color-stop(0.50, transparent), color-stop(0.50, rgba(16, 86, 147, .1)), color-stop(0.65, rgba(16, 86, 147, .1)), color-stop(0.65, transparent), to(transparent));
@@ -768,10 +768,10 @@ body a:visited {
 }
 .Purple .slideshowControl  div {
     color: #54316E;
-    
+
     border: 1px solid #54316E;
     border-bottom: 5px solid #54316E; 
-    
+
     background-color: #fff;
     background-image:
         -webkit-gradient(linear, 0% 0%, 100% 100%, from(rgba(84, 49, 110, .1)), color-stop(0.15, rgba(84, 49, 110, .1)), color-stop(0.15, transparent), color-stop(0.50, transparent), color-stop(0.50, rgba(84, 49, 110, .1)), color-stop(0.65, rgba(84, 49, 110, .1)), color-stop(0.65, transparent), to(transparent));
@@ -780,10 +780,10 @@ body a:visited {
 }  
 .Red .slideshowControl  div {
     color: #C74532;
-    
+
     border: 1px solid #C74532;
     border-bottom: 5px solid #C74532; 
-    
+
     background-color: #fff;
     background-image:
         -webkit-gradient(linear, 0% 0%, 100% 100%, from(rgba(199, 69, 50, .1)), color-stop(0.15, rgba(199, 69, 50, .1)), color-stop(0.15, transparent), color-stop(0.50, transparent), color-stop(0.50, rgba(199, 69, 50, .1)), color-stop(0.65, rgba(199, 69, 50, .1)), color-stop(0.65, transparent), to(transparent));
@@ -792,11 +792,11 @@ body a:visited {
 }  
 .Orange .slideshowControl  div {
     color: #DC6E23;
-    
-    
+
+
     border: 1px solid #DC6E23;
     border-bottom: 5px solid #DC6E23; 
-    
+
     background-color: #fff;
     background-image:
         -webkit-gradient(linear, 0% 0%, 100% 100%, from(rgba(220, 110, 35, .1)), color-stop(0.15, rgba(220, 110, 35, .1)), color-stop(0.15, transparent), color-stop(0.50, transparent), color-stop(0.50, rgba(220, 110, 35, .1)), color-stop(0.65, rgba(220, 110, 35, .1)), color-stop(0.65, transparent), to(transparent));
@@ -814,30 +814,30 @@ body a:visited {
     border-bottom: solid #9AB83F 5px;
     border-right: solid #9AB83F 5px;
     width: 80%;
-    
+
 }
 
 
 #block-featured-content-cta-join-conversation:before,
 #block-featured-content-cta-add-resource:before {
-  content: '';
-  position: absolute;
-  left: -8px;
-  bottom: -7px;
-  border: solid transparent 7px;
-  -moz-border-start-style: inset;
-  border-bottom-color: #fff;
+	content: '';
+	position: absolute;
+	left: -8px;
+	bottom: -7px;
+	border: solid transparent 7px;
+	-moz-border-start-style: inset;
+	border-bottom-color: #fff;
 }
 
 #block-featured-content-cta-join-conversation:after,
 #block-featured-content-cta-add-resource:after {
-  content: '';
-  position: absolute;
-  top: -2px;
-  right: -14px;
-  border: solid transparent 7px;
-  -moz-border-start-style: outset;
-  border-top-color: #fff;
+	content: '';
+	position: absolute;
+	top: -2px;
+	right: -14px;
+	border: solid transparent 7px;
+	-moz-border-start-style: outset;
+	border-top-color: #fff;
 }
 
 .cta-box {
@@ -888,14 +888,14 @@ body a:visited {
 .homepage-content-blocks {
     display: block;
     width: 100%;
-		overflow:hidden;
-    
+	overflow:hidden;
+
 }
 .homepage-feature-block-container {
-   width: 33%;
-   float:left;
-   padding: 0 10px;
-   box-sizing: border-box;
+	width: 33%;
+	float:left;
+	padding: 0 10px;
+	box-sizing: border-box;
     -moz-box-sizing: border-box;
     -webkit-box-sizing: border-box;
     -ms-box-sizing: border-box;
@@ -907,14 +907,14 @@ body a:visited {
 }
 
 .homepage-feature-block-container-last {
-    
+
     box-sizing: border-box;
-     -moz-box-sizing: border-box;
+	-moz-box-sizing: border-box;
     -webkit-box-sizing: border-box;
     -ms-box-sizing: border-box;
     width: 33%;
     float: left;
-    
+
 }
 .homepage-feature-block-container-last .homepage-feature-content{
     border:none;
@@ -934,7 +934,7 @@ body a:visited {
 }
 
 .homepage-node-created {
-    
+
     font-weight: bold;
     font-size: 15px; 
     width: 20%;
@@ -982,9 +982,9 @@ body a:visited {
     width: 55%;
     margin: 0 3%;
     float:left;
-    
+
     box-sizing: border-box;
-     -moz-box-sizing: border-box;
+	-moz-box-sizing: border-box;
     -webkit-box-sizing: border-box;
     -ms-box-sizing: border-box;
 }
@@ -992,9 +992,9 @@ body a:visited {
     width: 35%; 
     margin-left: 62%;
     margin-top: 30px;
-    
+
     box-sizing: border-box;
-     -moz-box-sizing: border-box;
+	-moz-box-sizing: border-box;
     -webkit-box-sizing: border-box;
     -ms-box-sizing: border-box;
 }
@@ -1055,7 +1055,7 @@ a.Purple {
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#105693', endColorstr='white'); /* IE6 & IE7 
     -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr='#105693', endColorstr='white')"; /* IE8+   
 }*/
-                
+
 #block-an-navigation-left-nav ul.menu li a,
 #block-an-navigation-left-nav ul.menu li a:hover,
 #block-an-navigation-left-nav ul.menu li a:visited,
@@ -1339,10 +1339,10 @@ h2.comment-form {
 
 .convo-post {
     margin-top: 60px;
-    
+
 }
 .convo-body {
-      box-sizing: border-box;
+	box-sizing: border-box;
     -moz-box-sizing: border-box;
     -webkit-box-sizing: border-box;
     -ms-box-sizing: border-box;
@@ -1350,7 +1350,7 @@ h2.comment-form {
     border-bottom: 4px solid #DC6E23;
 }
 .odd .convo-body {
-      box-sizing: border-box;
+	box-sizing: border-box;
     -moz-box-sizing: border-box;
     -webkit-box-sizing: border-box;
     -ms-box-sizing: border-box;
@@ -1370,7 +1370,7 @@ h2.comment-form {
     border-left: 2px solid #DC6E23;
 }
 
- .odd .convo-body {
+.odd .convo-body {
     width: 80%;
     margin-right: 20%;
     padding: 15px;
@@ -1379,7 +1379,7 @@ h2.comment-form {
     bottom: 40px;
     border-right: 2px solid #E79964;
     border-right: 2px solid rgba(220, 110, 35, .5);
-    
+
 }
 
 
@@ -1405,39 +1405,39 @@ h2.comment-form {
     -moz-border-start-style: inset;
     border-bottom-color: white;
     z-index: 5;
-   
+
 }
 
 .even .convo-body:after{
-     border-color: transparent transparent white transparent;
+	border-color: transparent transparent white transparent;
     border-style: solid;
-    
+
     -moz-border-start-style: inset;
     border-width: 20px 0px 20px 39px;
     content: '';
     z-index: 5;
     bottom: 0px;
     left: -35px;
-    
-    
+
+
     display: block;
     height: 0;
     width: 0;
     line-height: 0;
     position: absolute;
 }
- .even .convo-body:before {
+.even .convo-body:before {
     border-color: transparent transparent #DC6E23 transparent;
-    
+
     border-style: solid;
-    
+
     -moz-border-start-style: inset;
     border-width: 20px 0px 27px 50px;
     content: '';
     z-index: 4;
     bottom: -4px;
     left: -50px;
-    
+
     display: block;
     height: 0;
     width: 0;
@@ -1449,13 +1449,13 @@ h2.comment-form {
 .odd .convo-body:after {
     border-color: transparent transparent white transparent;
     border-style: solid;
-    
+
     -moz-border-start-style: inset;
     border-width: 20px 48px 24px 0px;
     content: '';
     bottom: 0px;
     right: -38px;
-        
+
     display: block;
     height: 0;
     width: 0;
@@ -1466,7 +1466,7 @@ h2.comment-form {
 .odd .convo-body:before {
     border-color: transparent transparent #E79964; transparent;
     border-color: transparent transparent rgba(220, 110, 35, .5) transparent;
-     
+
     border-style: solid;
     -moz-border-start-style: inset;
     border-width: 20px 50px 27px 0px;
@@ -1474,7 +1474,7 @@ h2.comment-form {
     z-index: 4;
     bottom: -4px;
     right: -52px;
-    
+
     display: block;
     height: 0;
     width: 0;
@@ -1506,6 +1506,26 @@ h2.comment-form {
 .webform-component .form-type-checkbox label{
 	margin: 0px;
 	padding: 5px 0;
-	position: relative;
-	left: 25px;
 }
+
+.webform-component .form-required{
+	float: left;
+}
+
+.node-webform .form-actions .form-submit,
+.webform-component > div,
+.webform-component > input{
+	clear: both;
+	position: relative;
+	left: 30px;
+}
+
+.webform-component > div.form-checkboxes{
+	clear: none;
+}
+
+/*.webform-component .grippie,
+.webform-component .description,
+.webform-component .form-checkboxes{
+	margin-left: 30px;
+}*/
