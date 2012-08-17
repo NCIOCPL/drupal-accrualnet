@@ -468,7 +468,7 @@ function accrualnet_preprocess_html(&$variables, $hook) {
 		$item = menu_get_active_trail();
 		if (count($item) > 1 &&
 				// ADDED by Dan to catch missing 'link_title' key
-				isset($item[1]['link_title'])) {
+		isset($item[1]['link_title'])) {
 			$navTitle = $item[1]['link_title'];
 			$variables['classes_array'][] = drupal_html_class('nav-section-' . $navTitle);
 		}
@@ -487,6 +487,11 @@ function accrualnet_preprocess_html(&$variables, $hook) {
 				break;
 		}
 	}
+        $status = drupal_get_http_header("status");  
+        if($status == "404 Not Found") {
+            unset($variables['classes_array'][3] );
+        }
+            
 }
 
 /**
@@ -546,6 +551,13 @@ function accrualnet_preprocess_page(&$variables, $hook) {
 	} else {
 		$variables['secondary_menu_heading'] = '';
 	}
+        
+        //Added error handling for 404 page
+        $status = drupal_get_http_header("status");  
+        if($status == "404 Not Found") {
+            unset($variables['page']['sidebar_first']);
+            $variables['theme_hook_suggestions'][] = 'page__404';
+        }
 }
 
 /**

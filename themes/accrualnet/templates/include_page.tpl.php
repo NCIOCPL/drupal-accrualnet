@@ -263,7 +263,7 @@ if ($pager_total_items != null) {
 
       <div id="page-options">
           <?php print $breadcrumb; ?>
-          <?php if (!$is_front):?>
+          <?php if (!$is_front && $title != "Page not found"):?>
           <div class="add-this"><div class="custom-images">
                   <a class="addthis_button_email"><img width="20" src="/sites/accrualnet.cancer.gov/themes/accrualnet/accrualnet-internals/images/icons/AccrualNet_EmailIcon.png"/>Email this Page</a>
                   <a class="addthis_button_print"><img width="20" src="/sites/accrualnet.cancer.gov/themes/accrualnet/accrualnet-internals/images/icons/AccrualNet_PrintIcon.png"/>Print this Page</a></div></div>
