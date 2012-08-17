@@ -20,7 +20,8 @@ function an_webforms_enable() {
  */
 function an_webforms_form_alter(&$form, &$form_state, $form_id) {
 	if (!isset($form['#node']->type)
-			|| $form['#node']->type != 'webform')
+			|| $form['#node']->type != 'webform'
+			|| !isset($form['submitted']))
 		return;
 
 	drupal_add_js("
@@ -37,6 +38,11 @@ function an_webforms_form_alter(&$form, &$form_state, $form_id) {
 	drupal_add_js(path_to_theme() . '/js/checkbox.js', 'file');
 	drupal_add_js(path_to_theme() . '/js/selectboxes.js', 'file');
 	drupal_add_js(path_to_theme() . '/js/inputdarken.js', 'file');
+	
+	$form['submitted']['legend'] = array(
+		'#type' => 'markup',
+		"#markup" => "<div id='required-text'><span class='form-required'></span><i> Denotes a required field</i></div>",
+		'#weight' => -10000);
 }
 
 ?>

@@ -122,7 +122,8 @@ function new_resource_form_disable() {
 function new_resource_form_form_alter(&$form, &$form_state, $form_id) {
 	if (!isset($form['#node'])
 			|| $form['#node']->type != 'webform'
-			|| $form['#node']->title != 'Submit New Resource')
+			|| $form['#node']->title != 'Submit New Resource'
+			|| !isset($form['submitted']))
 		return;
 
 	$form['submitted']['title']['#description'] = "Title of Document or Resource";
