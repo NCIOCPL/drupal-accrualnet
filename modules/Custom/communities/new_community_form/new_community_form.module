@@ -8,10 +8,6 @@
 function new_community_form_enable() {
 	module_load_include('inc', 'captcha');
 
-	// hide submitters and comments for webforms
-	variable_set('node_submitted_webform', 0);
-	variable_set('comment_webform', 0);
-
 	$node = new stdClass();
 
 	$title = 'Create a Community';
@@ -222,22 +218,22 @@ function new_community_form_enable() {
 	$cid = webform_component_insert($component);
 
 	// privacy component
-	/*$component = array(
-		'nid' => $node->nid,
-		'pid' => 0,
-		'form_key' => 'privacy_level',
-		'name' => 'Choice of Privacy Level',
-		'type' => 'select',
-		'value' => "",
-		'extra' => array(
-			'description' => "The desired privacy level of the group.",
-			'items' => "public|Publicly visible\nprivate|Only visible to members",
-			'multiple' => 0),
-		'mandatory' => 1,
-		'weight' => $weight++
-	);
+	/* $component = array(
+	  'nid' => $node->nid,
+	  'pid' => 0,
+	  'form_key' => 'privacy_level',
+	  'name' => 'Choice of Privacy Level',
+	  'type' => 'select',
+	  'value' => "",
+	  'extra' => array(
+	  'description' => "The desired privacy level of the group.",
+	  'items' => "public|Publicly visible\nprivate|Only visible to members",
+	  'multiple' => 0),
+	  'mandatory' => 1,
+	  'weight' => $weight++
+	  );
 
-	$cid = webform_component_insert($component);*/
+	  $cid = webform_component_insert($component); */
 
 	// disclaimer component
 	$component = array(
@@ -290,26 +286,10 @@ function new_community_form_disable() {
 }
 
 function new_community_form_form_alter(&$form, &$form_state, $form_id) {
-	if (!isset($form['#node']) ||
-			$form['#action'] != '/content/create-community' ||
-			$form['#form_id'] == 'search_block_form')
+	if (!isset($form['#node'])
+			|| $form['#node']->type != 'webform'
+			|| $form['#node']->title != 'Create a Community')
 		return;
-
-	drupal_add_js("
-    (function ($) {
-        $(document).ready(function() {
-            $('.form-required').html('<img class=\"required-img\" src=\"/" . path_to_theme() . "/accrualnet-internals/images/global/required.png\" />');
-        $('#edit-roles > div.form-type-checkbox > input').each(function () {
-            if ($(this).attr('checked')) {
-                $(this).parent().addClass('checked');
-            }
-        });
-        });
-    }) (jQuery);", 'inline');
-	drupal_add_js(path_to_theme() . '/js/checkbox.js', 'file');
-	drupal_add_js(path_to_theme() . '/js/selectboxes.js', 'file');
-	drupal_add_js(path_to_theme() . '/js/inputdarken.js', 'file');
-
 
 	$form['submitted']['purpose']['#description'] = "Tell us how this group will benefit by using an AccrualNet&trade; Community of Practice.";
 	$form['submitted']['description']['#description'] = "Please write a brief description of your group.  This description will appear on the AccrualNet&trade; Communities of Practice page.";

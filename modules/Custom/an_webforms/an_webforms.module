@@ -1,0 +1,42 @@
+<?php
+
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+function an_webforms_enable() {
+	// hide submitters and comments for webforms
+	variable_set('node_submitted_webform', 0);
+	variable_set('comment_webform', 0);
+}
+
+/**
+ * Applies the common javascript to all webforms.
+ * @param type $form
+ * @param type $form_state
+ * @param type $form_id
+ * @return type
+ */
+function an_webforms_form_alter(&$form, &$form_state, $form_id) {
+	if (!isset($form['#node']->type)
+			|| $form['#node']->type != 'webform')
+		return;
+
+	drupal_add_js("
+    (function ($) {
+        $(document).ready(function() {
+            $('.form-required').html('<img class=\"required-img\" src=\"/" . path_to_theme() . "/accrualnet-internals/images/global/required.png\" />');
+        $('#edit-roles > div.form-type-checkbox > input').each(function () {
+            if ($(this).attr('checked')) {
+                $(this).parent().addClass('checked');
+            }
+        });
+        });
+    }) (jQuery);", 'inline');
+	drupal_add_js(path_to_theme() . '/js/checkbox.js', 'file');
+	drupal_add_js(path_to_theme() . '/js/selectboxes.js', 'file');
+	drupal_add_js(path_to_theme() . '/js/inputdarken.js', 'file');
+}
+
+?>
