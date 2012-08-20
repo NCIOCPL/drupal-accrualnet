@@ -75,7 +75,7 @@ function resource_level_3_page($section, $subsection) {
 	$query->entityCondition('entity_type', 'node');
 	//
 	$query->entityCondition('bundle', array_keys($an_resource_types));
-	$query->propertyOrderBy('changed', 'DESC');
+	$query->propertyOrderBy('created', 'DESC');
 	//print dpm($vocab);
 	$query->fieldCondition('field_tax_' . $section, 'tid', $tag->tid);
 	//$query->fieldCondition('field_related_strategy', 'target_id', $tag->tid);

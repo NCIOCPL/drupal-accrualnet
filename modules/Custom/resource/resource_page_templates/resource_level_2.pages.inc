@@ -131,7 +131,7 @@ function resource_level_2_page($section) {
 		}
 
 		// select the top two terms
-		$queryString = "SELECT f.entity_id";
+		$queryString = "SELECT DISTINCT f.entity_id";
 		$queryString .= " FROM {field_data_field_tax_$section} AS f";
 		$queryString .= " JOIN {node} AS n"
 ;		$queryString .= " WHERE (";
@@ -141,7 +141,8 @@ function resource_level_2_page($section) {
 		$queryString = trim(rtrim(trim($queryString), 'OR'));
 		$queryString .= ") AND f.field_tax_{$section}_tid=$tag->tid";
 		$queryString .= " AND f.entity_id = n.nid";
-		$queryString .= " ORDER BY n.changed DESC LIMIT 2";
+		$queryString .= " AND n.status = 1";
+		$queryString .= " ORDER BY n.created DESC LIMIT 2";
 
 		$query = db_query($queryString);
 

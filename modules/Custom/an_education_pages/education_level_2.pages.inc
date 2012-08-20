@@ -71,7 +71,7 @@ function education_level_2_page($section) {
 	$query->entityCondition('entity_type', 'node')
 			->entityCondition('bundle', $section)
 			->propertyCondition('status', 1)
-			->propertyOrderBy('changed', 'DESC')
+			->propertyOrderBy('created', 'DESC')
 			->pager(10);
 	$nodes = _an_lifecycle_load_related_nodes($query, true);
 
