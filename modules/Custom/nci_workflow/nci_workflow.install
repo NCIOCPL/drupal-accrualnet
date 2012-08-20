@@ -40,12 +40,6 @@ function _nci_workflow_insert_values() {
 		// add nci states, can overwrite existing states safely
 		$states = array(
 			array(
-				'name' => 'new',
-				'label' => 'New',
-				'description' => 'Newly submitted resource, needs approval before drafting.',
-				'weight' => -4
-			),
-			array(
 				'name' => 'draft',
 				'label' => 'Draft',
 				'description' => 'Resources assigned to a write for completion.',
@@ -163,21 +157,14 @@ function _nci_workflow_set_permissions() {
 		$admin = 4;
 
 		$moderation_perms = array(
-			'moderate content from new to draft' => array(
-				$anon => FALSE,
-				$auth => FALSE,
-				$writer => FALSE,
-				$anstaff => TRUE,
-				$admin => TRUE
-			),
-			'moderate content from new to canceled' => array(
-				$anon => FALSE,
-				$auth => FALSE,
-				$writer => FALSE,
-				$anstaff => TRUE,
-				$admin => TRUE
-			),
 			'moderate content from draft to writer_review' => array(
+				$anon => FALSE,
+				$auth => FALSE,
+				$writer => TRUE,
+				$anstaff => TRUE,
+				$admin => TRUE
+			),
+			'moderate content from draft to canceled' => array(
 				$anon => FALSE,
 				$auth => FALSE,
 				$writer => TRUE,
@@ -192,6 +179,13 @@ function _nci_workflow_set_permissions() {
 				$admin => TRUE
 			),
 			'moderate content from writer_review to draft' => array(
+				$anon => FALSE,
+				$auth => FALSE,
+				$writer => TRUE,
+				$anstaff => TRUE,
+				$admin => TRUE
+			),
+			'moderate content from writer_review to canceled' => array(
 				$anon => FALSE,
 				$auth => FALSE,
 				$writer => TRUE,
