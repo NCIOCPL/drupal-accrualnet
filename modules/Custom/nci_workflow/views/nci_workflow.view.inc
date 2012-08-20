@@ -3,7 +3,7 @@
 /**
  * @file nci_workflow.view.inc
  * Default view. Sets up all of the needed tabs for the AccrualNet workflow.
- * (All Content, My Drafts, Writer Review, Editor Review, Unpublished/Cancelled)
+ * (All Content, Drafts, Writer Review, Editor Review, Unpublished/Cancelled)
  */
 module_load_include('inc', 'resource', 'types');
 
@@ -1278,10 +1278,10 @@ $handler->display->display_options['filters']['field_assigned_editor_value']['op
 $handler->display->display_options['filters']['field_assigned_editor_value']['group'] = 2;
 
 
-/* Display: My Drafts Page */
-$handler = $view->new_display('page', 'My Drafts Page', 'page_my_drafts');
+/* Display: Drafts Page */
+$handler = $view->new_display('page', 'Drafts Page', 'page_my_drafts');
 $handler->display->display_options['defaults']['title'] = FALSE;
-$handler->display->display_options['title'] = 'My Drafts';
+$handler->display->display_options['title'] = 'Drafts';
 $handler->display->display_options['defaults']['fields'] = FALSE;
 /* Field: Content: Nid */
 $handler->display->display_options['fields']['nid']['id'] = 'nid';
@@ -1543,7 +1543,7 @@ $handler->display->display_options['filters']['state']['value'] = array(
 );
 $handler->display->display_options['path'] = 'admin/workbench/my_drafts';
 $handler->display->display_options['menu']['type'] = 'tab';
-$handler->display->display_options['menu']['title'] = 'My Drafts';
+$handler->display->display_options['menu']['title'] = 'Drafts';
 $handler->display->display_options['menu']['weight'] = '1';
 $handler->display->display_options['menu']['context'] = 0;
 
@@ -2631,8 +2631,8 @@ $translatables['an_workflow'] = array(
 	t('[nid]|[state]||[field_assigned_writer-revision_id]|[field_assigned_editor-revision_id]'),
 	t('Writer Inbox Block'),
 	t('Editor Inbox Block'),
-	t('My Drafts Page'),
-	t('My Drafts'),
+	t('Drafts Page'),
+	t('Drafts'),
 	t('Writer Review Page'),
 	t('Writer Review'),
 	t('Editor Review Page'),
