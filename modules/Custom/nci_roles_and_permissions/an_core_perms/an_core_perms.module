@@ -217,6 +217,41 @@ function an_core_perms_enable()
               $anstaff => TRUE,
               $admin => TRUE
           ),
+		  'create page content' => array(
+              $anon => FALSE,
+              $auth => FALSE,
+              $writer => FALSE,
+              $anstaff => TRUE,
+              $admin => TRUE
+          ),
+		  'edit own page content' => array(
+              $anon => FALSE,
+              $auth => FALSE,
+              $writer => FALSE,
+              $anstaff => TRUE,
+              $admin => TRUE
+          ),
+		  'edit any page content' => array(
+              $anon => FALSE,
+              $auth => FALSE,
+              $writer => FALSE,
+              $anstaff => TRUE,
+              $admin => TRUE
+          ),
+		  'delete own page content' => array(
+              $anon => FALSE,
+              $auth => FALSE,
+              $writer => FALSE,
+              $anstaff => FALSE,
+              $admin => FALSE
+          ),
+		  'delete any page content' => array(
+              $anon => FALSE,
+              $auth => FALSE,
+              $writer => FALSE,
+              $anstaff => FALSE,
+              $admin => FALSE
+          ),
       ),
       //Path Permissions
       $path = array (
