@@ -265,9 +265,8 @@ $op = field_get_items('node', $node, 'op');
 
         </div>
         <?php endif;?>
-            <?php if(user_is_logged_in()):?>
             <?php print render($content['comments']);?>
-            <?php else: ?>
+            <?php if(!user_is_logged_in()):?>
             <div class="comment-cta">
                 <p>Please <a href="/user" title="login" alt="login">Login</a> or <a href="/user/register" title="register" alt="register">Register</a> to post comments.</p>
             </div>
