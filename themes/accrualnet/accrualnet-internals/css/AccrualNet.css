@@ -1031,7 +1031,7 @@ body a:visited {
 .Blue h1, .Blue h2, .Blue h3, .Blue h3 a, .Blue span.site-name-net, .Blue span.tm, a.Blue {
     color: #105693;
 }
-.Orange h1, .Orange h2, .Orange h3, .Orange h3 a, .Orange span.site-name-net, .Orange span.tm, a.Orange {
+.Orange h1, .Orange h2, .Orange h3, .Orange h3 a, .Orange span.site-name-net, .Orange span.tm, a.Orange, .Orange .file a {
     color: #DC6E23;
 }
 .Red h1, .Red h2, .Red h3, .Red h3 a, .Red span.site-name-net, .Red span.tm, a.Red{
