@@ -346,7 +346,7 @@ function communities_of_practice_page() {
     $query->entityCondition('entity_type', 'node')
             ->entityCondition('bundle', 'community')
             ->propertyCondition('status', 1)
-            ->propertyOrderBy('changed', 'DESC')
+            ->propertyOrderBy('created', 'ASC')
             ->pager(10);
     $results = _an_lifecycle_load_related_nodes($query, TRUE);
     $o .= theme('pager');

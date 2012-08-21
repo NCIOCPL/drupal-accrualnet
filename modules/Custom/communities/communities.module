@@ -418,7 +418,7 @@ function _conversation_instances() {
  * Sets the default to Not Publish, Not Promote, and not allow a user to Preview.
  */
 function communities_form_alter(&$form, &$form_state, $form_id) {
-    if ($form_id == 'community_node_form') {
+    if ($form_id == 'community_node_form' && !$form['#node_edit_form']) {
 
         // Do not automatically publish
         $form['options']['status']['#default_value'] = FALSE;
