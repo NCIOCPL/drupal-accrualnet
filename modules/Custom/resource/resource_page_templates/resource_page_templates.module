@@ -286,7 +286,7 @@ function _resource_ajax_load_results($params, $facetName, $tag) {
 		$query->fieldCondition('field_tax_' . $facetName, 'tid', $tag->tid);
 	}
 	$query->propertyCondition("status", 1)
-			->propertyOrderBy('changed', 'DESC')
+			->propertyOrderBy('created', 'DESC')
 			->pager(10);
 	//Conditional Query Logic
 	//If a lifecycle checkbox is selected
