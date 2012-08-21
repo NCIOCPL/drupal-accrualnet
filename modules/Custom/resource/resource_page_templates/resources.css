@@ -71,6 +71,20 @@
     margin: 0.6em;
 }
 
+h2.resource-title-3{
+	border-bottom: none;
+	float: left;
+}
+
+
+div.resources-level-3-items .pager {
+	float: right;
+}
+
+.resources-level-3-items .item-list{
+	float: right;
+}
+
 #resource-comments {
 
 }

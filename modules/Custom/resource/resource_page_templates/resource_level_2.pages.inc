@@ -76,37 +76,34 @@ function resource_level_2_page($section) {
 			->propertyCondition('status', 1);
 	$nodes = _an_lifecycle_load_related_nodes($query);
 
-	 if(!empty($nodes['nodes'])){
-            $contentNode = array_pop($nodes['nodes']);
-            $image = field_get_items('node', $contentNode, 'field_landing_page_image');
+	if (!empty($nodes['nodes'])) {
+		$contentNode = array_pop($nodes['nodes']);
+		$image = field_get_items('node', $contentNode, 'field_landing_page_image');
 
-            $output .= '<div class="landing-page-header clearfix">';
-            if($image)
-            {
-            $output .= '<div class="landing-page-image">';
-            
+		$output .= '<div class="landing-page-header clearfix">';
+		if ($image) {
+			$output .= '<div class="landing-page-image">';
 
-                $output .= theme('image_style',  array(
-                                'path' => $image[0]['uri'],
-                                'style_name' => 'large',         
-                            )
-                        );
-                $output .= '</div>';
-                //if there is an image, print out the regular landing page div.
-                $output .= '<div class="landing-page-text">';
-            }
-            else {
-                //if there is no image, print out the no-image div.
-                $output .= '<div class="landing-page-text-no-image">';
-            }
-            $content = field_get_items('node', $contentNode, 'field_content');
-            if($content){
-                $output .= filter_xss_admin($content[0]['value']);
-            }
-            $output .= '</div>'; //end landing page text
-            $output .= '</div>'; //end landing page header
-        }
-        else {
+
+			$output .= theme('image_style', array(
+				'path' => $image[0]['uri'],
+				'style_name' => 'large',
+					)
+			);
+			$output .= '</div>';
+			//if there is an image, print out the regular landing page div.
+			$output .= '<div class="landing-page-text">';
+		} else {
+			//if there is no image, print out the no-image div.
+			$output .= '<div class="landing-page-text-no-image">';
+		}
+		$content = field_get_items('node', $contentNode, 'field_content');
+		if ($content) {
+			$output .= filter_xss_admin($content[0]['value']);
+		}
+		$output .= '</div>'; //end landing page text
+		$output .= '</div>'; //end landing page header
+	} else {
 		$output .= 'This vocabulary has no description set... PLEASE SET BEFORE LAUNCH!';
 	}
 	//END ADDED BY DOYLE 7/30
@@ -115,12 +112,15 @@ function resource_level_2_page($section) {
 		// generate the term count
 		$queryString = "SELECT COUNT(DISTINCT f.entity_id)";
 		$queryString .= " FROM {field_data_field_tax_" . $section . "} f";
+		$queryString .= " JOIN {node} AS n";
 		$queryString .= " WHERE (";
 		foreach ($an_resource_types as $rtype => $rproperties) {
 			$queryString .= " f.bundle='" . $rtype . "' OR ";
 		}
 		$queryString = trim(rtrim(trim($queryString), 'OR'));
 		$queryString .= ") AND f.field_tax_" . $section . "_tid=" . $tag->tid;
+		$queryString .= " AND f.entity_id = n.nid";
+		$queryString .= " AND n.status = 1";
 
 		$query = db_query($queryString);
 
@@ -133,8 +133,8 @@ function resource_level_2_page($section) {
 		// select the top two terms
 		$queryString = "SELECT DISTINCT f.entity_id";
 		$queryString .= " FROM {field_data_field_tax_$section} AS f";
-		$queryString .= " JOIN {node} AS n"
-;		$queryString .= " WHERE (";
+		$queryString .= " JOIN {node} AS n";
+		$queryString .= " WHERE (";
 		foreach ($an_resource_types as $rtype => $rproperties) {
 			$queryString .= " f.bundle='$rtype' OR ";
 		}
