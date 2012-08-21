@@ -1127,8 +1127,7 @@ a.Purple {
 #block-an-navigation-left-nav ul.menu li.active-trail a.active,
 #block-an-navigation-left-nav ul.menu li.active-trail a.active:hover,
 #block-an-navigation-left-nav ul.menu li.active-trail a.active:visited,
-#block-an-navigation-left-nav ul.menu li.active-trail a.active:active,
-.section-communities .Orange nav#block-an-navigation-left-nav ul.menu li a.active-trail {
+#block-an-navigation-left-nav ul.menu li.active-trail a.active:active {
     color: #fff;
 }
 
@@ -1218,8 +1217,7 @@ a.Purple {
     background-color: rgb(16,86,147);
     background-color: rgba(16,86,147, 1);
 }
-.Orange nav#block-an-navigation-left-nav li a.active,
-.section-communities .Orange nav#block-an-navigation-left-nav li a.active-trail{
+.Orange nav#block-an-navigation-left-nav li a.active{
     background-color: rgb(220,110,35);
     background-color: rgba(220,110,35, 1);
 }
