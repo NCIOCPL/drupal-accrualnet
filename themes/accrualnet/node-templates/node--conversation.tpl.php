@@ -172,6 +172,7 @@ $op = field_get_items('node', $node, 'op');
         </div>
         <div class="conversation-abstract">
             <?php if ($body) print drupal_render(field_view_field('node', $node, 'body', array('label' => 'hidden'))); ?>
+            <?php print drupal_render(field_view_field('node', $node, 'field_file_attachment', array('label' => 'hidden')));?>
         </div>
 
         <div class="convo-posts">
@@ -229,6 +230,8 @@ $op = field_get_items('node', $node, 'op');
         </div>
         <div class="conversation-abstract">
             <?php if ($body) print drupal_render(field_view_field('node', $node, 'body', array('label' => 'hidden'))); ?>
+        <?php print drupal_render(field_view_field('node', $node, 'field_file_attachment', array('label' => 'hidden')));?>
+        
         </div>
 
         <div class="convo-posts">
