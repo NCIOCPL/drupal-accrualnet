@@ -86,18 +86,18 @@ function resource_page_templates_menu() {
 function resource_ajax_filter($form, &$form_state, $facet = NULL, $term = NULL) {
 	global $an_stage_strategy;
 	global $an_resource_types;
-        
+
 	$vocab = taxonomy_vocabulary_machine_name_load('an_vocabulary_' . $facet);
-        if ($facet && !$vocab)
-            return NULL;
-        if ($vocab) {
-	$vocabName = $vocab->name;
-        }
+	if ($facet && !$vocab)
+		return NULL;
+	if ($vocab) {
+		$vocabName = $vocab->name;
+	}
 	$tagName = DetermineTag($term);
 	$tag = array_pop(taxonomy_get_term_by_name($tagName));
 	if ($tag && !$tagName)
 		return NULL;
-        
+
 	drupal_add_js(drupal_get_path('module', 'resource_page_templates') . '/resourceFilter.js', 'file');
 	drupal_add_js(drupal_get_path('theme', 'accrualnet') . '/js/checkbox.js', 'file');
 
@@ -213,29 +213,31 @@ function resource_ajax_filter($form, &$form_state, $facet = NULL, $term = NULL) 
 	//We need a way to determine if the node is a Stage or a Strategy so that we can 
 	//do the logic to pull in all of the child strategies or not. We also need to make sure
 	//that the child strategy isn't selected... if it is, than we don't want to pull in the others.
-        $params = array();
-        if(array_key_exists('values',  $form_state)){
-            foreach (array_keys($form_state['values']) as $nodeID) {
-                    //if this checkbox is set.
-                    if ($form_state['values'][$nodeID] == 1) {
-                            //if they selected a resource type.
-                            if (is_string($nodeID)) {
-                                    $params['types'][$nodeID] = $nodeID;
-                            }
-                            //if they selected a stage.
-                            elseif (array_key_exists($nodeID, $stageNodes['nodes'])) {
-                                    $params['stageIDs'][$nodeID] = $nodeID;
-                            }
-                            //if they selected a strategy.
-                            else {
-                                    $params['strategyIDs'][$nodeID] = $nodeID;
-                            }
-                    }
-            }
-        }
+	$params = array();
+	if (array_key_exists('values', $form_state)) {
+		foreach (array_keys($form_state['values']) as $nodeID) {
+			//if this checkbox is set.
+			if ($form_state['values'][$nodeID] == 1) {
+				//if they selected a resource type.
+				if (is_string($nodeID)) {
+					$params['types'][$nodeID] = $nodeID;
+				}
+				//if they selected a stage.
+				elseif (array_key_exists($nodeID, $stageNodes['nodes'])) {
+					$params['stageIDs'][$nodeID] = $nodeID;
+				}
+				//if they selected a strategy.
+				else {
+					$params['strategyIDs'][$nodeID] = $nodeID;
+				}
+			}
+		}
+	}
 	$resources = _resource_ajax_load_results($params, $facet, $tag);
-	$resultsOutput = "";
+	$resultsOutput = "<div class='resources-level-3-items'>";
 	if ($resources) {
+		$resourceCount = _resource_ajax_load_results($params, $facet, $tag, true);
+		$resultsOutput .= "<h2  class='resource-title-3'>Results <span id='title-results-number'>($resourceCount)</span></h2>";
 		$resultsOutput .= render($resources['pager']['#markup']);
 		foreach ($resources['nodes'] as $mynode) {
 			$resultsOutput .= "<div class=\"lifecycle-strategy-resource\">";
@@ -245,6 +247,7 @@ function resource_ajax_filter($form, &$form_state, $facet = NULL, $term = NULL) 
 		if (array_key_exists('#markup', $resources['pager']))
 			$resultsOutput .= render($resources['pager']['#markup']);
 	}
+	$resultsOutput .= '</div>';
 	$form['results'] = array(
 //        '#title' => t("Literature & Tools"),
 		// The prefix/suffix provide the div that we're replacing, named by
@@ -274,7 +277,7 @@ function resource_ajax_callback($form, $form_state) {
 	return $form['results'];
 }
 
-function _resource_ajax_load_results($params, $facetName, $tag) {
+function _resource_ajax_load_results($params, $facetName, $tag, $getCount = false) {
 	//if nothing has been selected yet
 	//if(empty($params))
 	// return FALSE;
@@ -286,8 +289,9 @@ function _resource_ajax_load_results($params, $facetName, $tag) {
 		$query->fieldCondition('field_tax_' . $facetName, 'tid', $tag->tid);
 	}
 	$query->propertyCondition("status", 1)
-			->propertyOrderBy('created', 'DESC')
-			->pager(10);
+			->propertyOrderBy('created', 'DESC');
+	if (!$getCount)
+		$query->pager(10);
 	//Conditional Query Logic
 	//If a lifecycle checkbox is selected
 	if (array_key_exists('stageIDs', $params)) {
@@ -310,6 +314,14 @@ function _resource_ajax_load_results($params, $facetName, $tag) {
 	} else {
 		$query->entityCondition('bundle', array_keys($an_resource_types));
 	}
+
+	if ($getCount) {
+		$count = $query->count()->execute();
+		dsm($count, "query count");
+
+		return $count;
+	}
+
 	// Just can keep chaining these until you're happy...
 	$resources = _an_lifecycle_load_related_nodes($query, TRUE);
 	return $resources;
