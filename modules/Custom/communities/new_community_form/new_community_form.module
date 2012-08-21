@@ -37,21 +37,6 @@ function new_community_form_enable() {
 
 	$cid = webform_component_insert($component);
 
-	// organization component
-	$component = array(
-		'nid' => $node->nid,
-		'pid' => 0,
-		'form_key' => 'organization',
-		'name' => 'Organization Affiliation',
-		'type' => 'textfield',
-		'value' => "",
-		'extra' => array('description' => "The organization with which you are affiliated."),
-		'mandatory' => 1,
-		'weight' => $weight++
-	);
-
-	$cid = webform_component_insert($component);
-
 	// email component
 	$component = array(
 		'nid' => $node->nid,
@@ -61,21 +46,6 @@ function new_community_form_enable() {
 		'type' => 'email',
 		'value' => "%useremail",
 		'extra' => array('description' => "Your work-related email address."),
-		'mandatory' => 1,
-		'weight' => $weight++
-	);
-
-	$cid = webform_component_insert($component);
-
-	// phone number component
-	$component = array(
-		'nid' => $node->nid,
-		'pid' => 0,
-		'form_key' => 'phone',
-		'name' => 'Phone Number',
-		'type' => 'textfield',
-		'value' => "",
-		'extra' => array('description' => "A phone number by which you may be reached."),
 		'mandatory' => 1,
 		'weight' => $weight++
 	);
@@ -172,21 +142,6 @@ function new_community_form_enable() {
 
 	$cid = webform_component_insert($component);
 
-	// organization component
-	$component = array(
-		'nid' => $node->nid,
-		'pid' => 0,
-		'form_key' => 'moderator_organization',
-		'name' => "Moderator's Organization Affiliation",
-		'type' => 'textfield',
-		'value' => "",
-		'extra' => array('description' => "The moderator's affiliated organization."),
-		'mandatory' => 1,
-		'weight' => $weight++
-	);
-
-	$cid = webform_component_insert($component);
-
 	// moderator's email component
 	$component = array(
 		'nid' => $node->nid,
@@ -201,39 +156,6 @@ function new_community_form_enable() {
 	);
 
 	$cid = webform_component_insert($component);
-
-	// phone number component
-	$component = array(
-		'nid' => $node->nid,
-		'pid' => 0,
-		'form_key' => 'moderator_phone',
-		'name' => "Moderator's Phone Number",
-		'type' => 'textfield',
-		'value' => "",
-		'extra' => array('description' => "The moderator's phone number."),
-		'mandatory' => 1,
-		'weight' => $weight++
-	);
-
-	$cid = webform_component_insert($component);
-
-	// privacy component
-	/* $component = array(
-	  'nid' => $node->nid,
-	  'pid' => 0,
-	  'form_key' => 'privacy_level',
-	  'name' => 'Choice of Privacy Level',
-	  'type' => 'select',
-	  'value' => "",
-	  'extra' => array(
-	  'description' => "The desired privacy level of the group.",
-	  'items' => "public|Publicly visible\nprivate|Only visible to members",
-	  'multiple' => 0),
-	  'mandatory' => 1,
-	  'weight' => $weight++
-	  );
-
-	  $cid = webform_component_insert($component); */
 
 	// disclaimer component
 	$component = array(
