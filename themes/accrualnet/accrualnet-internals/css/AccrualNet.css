@@ -1535,3 +1535,16 @@ h2.comment-form {
 .webform-component .form-checkboxes{
 	margin-left: 30px;
 }*/
+
+/** Hide this from forms**/
+#conversation-node-form #edit-group-content-access {
+    display: none;
+}
+
+#conversation-node-form #edit-actions {
+    overflow:hidden;
+    margin: 30px 0;
+}
+#conversation-node-form #edit-actions input {
+    margin-right: 10px;
+}

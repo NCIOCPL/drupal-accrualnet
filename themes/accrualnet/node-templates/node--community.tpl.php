@@ -11,8 +11,17 @@ $group = og_context();
 $query = db_query("SELECT etid FROM {og_membership} WHERE gid=".$group->gid." AND entity_type='node'");
 $convos = array();
 foreach ($query as $result) {
-    $convos[] = node_load($result->etid);
+    $convos[] = $result->etid;//node_load($result->etid);
 }
+
+$equery = new EntityFieldQuery();
+$equery->entityCondition('entity_type', 'node')
+            ->entityCondition('bundle', 'conversation')
+            ->propertyCondition('nid', $convos, 'IN')
+            ->propertyOrderBy('changed', 'DESC')
+            ->propertyCondition('status', 1);
+
+$nodes = _an_lifecycle_load_related_nodes($equery);
 //print kprint_r($convos);
 ?>
 <div id="community">
@@ -22,7 +31,7 @@ foreach ($query as $result) {
 
 <?php
 $o .= '';
-foreach ($convos as $convo) {
+foreach ($nodes['nodes'] as $convo) {
     $o .= '<div class="conversation-result';
     if ($convos[count($convos) - 1] == $convo) $o .= ' last-result';
     $o .= '">'; // Start Result
