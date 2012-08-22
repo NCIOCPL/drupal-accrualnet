@@ -702,6 +702,7 @@ body a:visited {
 .featured-carousel-slides  .slide {
 
     min-height: 380px;
+    max-height: 380px;
 }
 
 .slideshowControls{
@@ -1466,7 +1467,7 @@ h2.comment-form {
     z-index: 5;
 }
 .odd .convo-body:before {
-    border-color: transparent transparent #E79964; transparent;
+    border-color: transparent transparent #E79964 transparent;
     border-color: transparent transparent rgba(220, 110, 35, .5) transparent;
 
     border-style: solid;
@@ -1547,4 +1548,66 @@ h2.comment-form {
 }
 #conversation-node-form #edit-actions input {
     margin-right: 10px;
+}
+
+span.text-grey,
+span.button-grey a{
+    color: #c2c2c2;
+    border: 2px solid #c2c2c2;
+    font-size: 13px;
+    font-weight: bold;
+    background-color: white;
+    background-image: -webkit-gradient(linear, 0% 0%, 100% 100%, from(rgba(222,222,222, .2)), color-stop(0.15, rgba(222,222,222, .2)), color-stop(0.15, transparent), color-stop(0.50, transparent), color-stop(0.50, rgba(222,222,222, .2)), color-stop(0.65, rgba(222,222,222, .2)), color-stop(0.65, transparent), to(transparent));
+    background-image: -moz-linear-gradient(-45deg, rgba(222,222,222, .2), rgba(222,222,222, .2) 15%, white 50%, rgba(222,222,222, .2) 65%, white);
+    background-size: 5px 5px;
+    -webkit-background-size: 5px 5px;
+    -moz-background-size: 5px 5px;
+    padding: 5px 10px;
+    text-transform: uppercase;
+    font-family: Arial, Helvetica, sans-serif;
+    text-decoration: none;
+}
+span.button-grey a:hover {
+    border: 2px solid #2d2d2d;
+    color:#2d2d2d;
+    font-weight: bold;
+    background-color:#9AB83F;
+    background-image:-webkit-repeating-linear-gradient(left top, #e2e2e2 0px, #fff 4px);
+    background-image:-moz-repeating-linear-gradient(left top, #BCD35A 0px, #9AB83F 4px);
+    background-image:-ms-repeating-linear-gradient(left top, #BCD35A 0px, #9AB83F 4px);
+    background-image:-o-repeating-linear-gradient(left top, #BCD35A 0px, #9AB83F 4px);
+    background-image:repeating-linear-gradient(left top, #BCD35A 0px, #9AB83F 4px);
+    padding: 5px 10px;
+    text-transform: uppercase;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+body.page-communities h1 span.button {
+    margin: 0;
+    float:right;
+}
+
+body.page-communities h1 {
+    overflow: hidden;
+}
+
+.start-a-convo,
+.create-a-community{
+    margin-top: 20px;
+}
+
+.community-buttons {
+    clear:both;
+    overflow:hidden;
+    padding: 5px 0;
+}
+
+.community-buttons .start-a-convo,
+.community-buttons .manage-members {
+    display: inline;
+    margin-right: 10px;
+} 
+nav#block-an-navigation-left-nav .manage-members a
+{
+    padding: 5px 10px;
 }
