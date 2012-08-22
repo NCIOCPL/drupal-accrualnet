@@ -208,6 +208,13 @@ function new_community_form_disable() {
 }
 
 function new_community_form_form_alter(&$form, &$form_state, $form_id) {
+	if ($form_id == 'og_ui_confirm_subscribe') {
+		// point group subscribe forms back to the communities page
+		$form['#submit'][] = '_new_community_form_redirect';
+
+		return;
+	}
+
 	if (!isset($form['#node'])
 			|| $form['#node']->type != 'webform'
 			|| $form['#node']->title != 'Create a Community'
@@ -221,6 +228,10 @@ function new_community_form_form_alter(&$form, &$form_state, $form_id) {
 	$form['submitted']['moderator_organization']['#required'] = true;
 	$form['submitted']['moderator_email']['#required'] = true;
 	$form['submitted']['moderator_phone']['#required'] = true;
+}
+
+function _new_community_form_redirect($form, &$form_state) {
+	$form_state['redirect'] = url('communities/communities_of_practice', array('absolute' => true));
 }
 
 ?>
