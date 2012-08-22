@@ -111,6 +111,29 @@ else {
             <span class="user-occupation"><?php print check_plain($occupation[0]['value']);?></span>
             <span class="posted-date"><?php print format_date($comment->created, 'custom', 'F d, Y');?></span>
         </div>
+		<?php 
+			// look for moderator titles
+			$moderator_titles = array();
+			// if belongs to the co-moderator role
+			if(array_search('AccrualNet Co-Moderator', $user->roles) !== false)
+			{
+				$moderator_titles[] = 'AccrualNet Co-Moderator';
+			}
+			// get the node group and the user roles
+			$groups = og_get_entity_groups('node', $node);
+			if(!empty($groups)){
+				$gid = array_shift($groups);
+				$rids = og_get_user_roles($gid, $user->uid, false);
+				// a non-empty list can only contain the community moderator role
+				if(!empty($rids)) {
+					$moderator_titles[] = 'Community of Practice Moderator';
+				}
+			}
+			if(!empty($moderator_titles)){
+				$moderator_text = implode(', ', $moderator_titles);
+				print "<div class='user-moderator'>$moderator_text</div>";
+			}
+		?>
         <?php
         hide($content['links']);
         print render($content);

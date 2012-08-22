@@ -121,7 +121,7 @@ h1 span {
     float:right;
     font-size: 10px;
     text-transform:uppercase;
-    
+
 }
 .add-this a {
     padding: 0 10px;
@@ -1319,6 +1319,14 @@ h2.comment-form {
 .convo-post .user-occupation {
     font-style: italic;
     font-weight: bold;
+}
+
+.convo-post .user-moderator {
+	font-style: italic;
+    font-weight: bold;
+	color: #2d2d2d;
+	opacity: 0.75;
+    filter:alpha(opacity=75);
 }
 
 .convo-post .convo-user-image{
