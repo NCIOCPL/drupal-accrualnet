@@ -317,7 +317,6 @@ function _resource_ajax_load_results($params, $facetName, $tag, $getCount = fals
 
 	if ($getCount) {
 		$count = $query->count()->execute();
-		dsm($count, "query count");
 
 		return $count;
 	}
