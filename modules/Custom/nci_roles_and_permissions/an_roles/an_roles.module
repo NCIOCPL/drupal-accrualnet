@@ -13,8 +13,10 @@ function an_roles_enable()
   //Create roles for AccrualNet
   $writer = "Writer";
   $anstaff = "AccrualNet Staff";
+  $ancomod = "AccrualNet Co-Moderator";
   _nci_roles_and_permissions_create_roles($writer);
   _nci_roles_and_permissions_create_roles($anstaff);
+  _nci_roles_and_permissions_create_roles($ancomod);
 
   //TODO:Update default settings for AN Roles
 
