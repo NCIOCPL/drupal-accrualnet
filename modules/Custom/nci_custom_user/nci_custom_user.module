@@ -6,11 +6,10 @@
  * @file
  * A module that customizes various uer features for NCI sites.
  */
-
 //function nci_custom_user_forms(){
-    //$forms['nci_custom_user_profile_picture_form']['callback'] = 'nci_custom_user_profile_picture_form';
-    //$forms['nci_custom_user_profile_picture_crop_form']['callback'] = 'nci_custom_user_profile_picture_crop_form';
-    //return $forms;
+//$forms['nci_custom_user_profile_picture_form']['callback'] = 'nci_custom_user_profile_picture_form';
+//$forms['nci_custom_user_profile_picture_crop_form']['callback'] = 'nci_custom_user_profile_picture_crop_form';
+//return $forms;
 //}
 
 /*
@@ -23,21 +22,57 @@
  * 
  * Redirects a user to the homepage (host/). String indicates path after base URL.
  */
-function nci_custom_user_user_login (&$edit, $account) {
-    $edit['redirect'] = '';
+function nci_custom_user_user_login(&$edit, $account) {
+	$redirect = '';
+
+	// get the referrer's url, if any
+	if (isset($_SESSION['login_referrer'])) {
+		$url = parse_url($_SESSION['login_referrer']);
+
+		// only redirect if the referrer was our own site
+		if (isset($url['host'])
+				&& $url['host'] == $_SERVER['HTTP_HOST']
+				&& isset($url['path'])) {
+			// get / trim the path
+			$path = $url['path'];
+
+			// trim slashes from the ends of the path
+			// (else the valid_path call behaves poorly)
+			$path = trim($path, '/');
+
+			// check for validity
+			if (drupal_valid_path($path)) {
+				// build a full path
+				$redirect = url($path, array('absolute' => true));
+			}
+		}
+
+		// clear the redirect value
+		unset($_SESSION['login_referrer']);
+	}
+
+	// redirect to the determined path
+	$edit['redirect'] = $redirect;
 }
 
 function nci_custom_user_form_user_register_form_alter(&$form, &$form_state) {
-	/*$form['picture']['#access'] = TRUE;
-	$form['picture']['#title'] = '';
-	$form['picture']['picture_upload']['#description'] .= ' This photo will be viewable by all registered users if you choose to participate in conversations or comment on resources.';
-	$form['picture']['#weight'] = 5;*/
+	/* $form['picture']['#access'] = TRUE;
+	  $form['picture']['#title'] = '';
+	  $form['picture']['picture_upload']['#description'] .= ' This photo will be viewable by all registered users if you choose to participate in conversations or comment on resources.';
+	  $form['picture']['#weight'] = 5; */
 	$form['account']['mail']['#title'] = 'Work-related Email';
 }
 
 function nci_custom_user_admin_paths_alter(&$paths) {
 	// Treat all user pages as not administrative.
 	$paths['user/*'] = FALSE;
+}
+
+function nci_custom_user_form_user_login_alter(&$form, &$form_state, $form_id) {
+	if (isset($_SESSION['login_referrer']))
+		return;
+
+	$_SESSION['login_referrer'] = $_SERVER['HTTP_REFERER'];
 }
 
 ?>
