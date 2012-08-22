@@ -35,7 +35,7 @@ function an_navigation_block_view($delta = '') {
         $result = _nci_get_sub_navigation();
         
         if (empty($result)) { //No content in the last week.
-          $block['content'] = t('No posts available.');  
+          $block['content'] = t('');  
         } 
         else {
           //Pass data through theme function.

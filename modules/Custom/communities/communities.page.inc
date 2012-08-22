@@ -20,7 +20,7 @@ module_load_include('inc', 'an_taxonomy', 'includes/communities.globals');
 
 function communities_topic_page($topic) {
     global $an_communities_field_topic_options;
-    
+    $o = '';
     // Trim the gobblety gook that is appearing on the URL
     if (strpos($topic, '#') > -1) {
         $topic = substr($topic, 0, strpos($topic, '#'));
@@ -28,8 +28,8 @@ function communities_topic_page($topic) {
     
     if (array_key_exists($topic, $an_communities_field_topic_options)) {
         
-        $o = '<div class="communities-topic" id="communities-topic-' . str_replace('_', '-', $topic) . '">';
-
+        $o .= '<div class="communities-topic" id="communities-topic-' . str_replace('_', '-', $topic) . '">';
+       
         // Determine if the topic being passed in exists
         $term = taxonomy_get_term_by_name($an_communities_field_topic_options[$topic], 'an_vocabulary_topic');
         if (count($term) > 0) {
@@ -44,7 +44,8 @@ function communities_topic_page($topic) {
             } else {
                 $o .= '<br/><br/>';
             }
-            
+             $o .= '<div class="start-a-convo"><span class="button"><a href="/node/add/conversation" title="Start a Conversation">Start a Conversation</a></span></div>  ';
+       
             $o .= '<div id="communities-topic-results">';
             
             // Get all of the results that are NOT in a group
@@ -66,10 +67,11 @@ function communities_topic_page($topic) {
             $query = db_select('node', 'n')->fields('n', array('nid', 'title', 'created'));
             $query->leftJoin('og_membership', 'ogm', 'ogm.etid=n.nid');
             $query->innerJoin('field_data_field_topic', 't', 'n.nid=t.entity_id AND t.field_topic_tid='.$term->tid);
+            $query->innerJoin('node_comment_statistics', 'c', 'n.nid=c.nid');
             $query->condition('n.type', 'conversation')
                     ->condition('n.status', '1')
                     ->condition('ogm.gid', 'NULL', 'IS NULL');
-            $query->orderBy('n.created', 'DESC');
+            $query->orderBy('c.last_comment_timestamp', 'DESC');
             $query = $query->extend('PagerDefault')->limit($numConvosPerPage);
             $convos = $query->execute()->fetchAllAssoc('nid');
             
@@ -84,7 +86,7 @@ function communities_topic_page($topic) {
                 if ($convosUnloaded[count($convos) - 1] == $convoUnloaded) $r .= ' last-result';
                 $r .= '">'; // Start Result
                 
-                $r .= _conversation_title_snippet($convo->nid, $convo->title, $convo->changed);
+                $r .= _conversation_title_snippet($convo->nid, $convo->title, $convo->last_comment_timestamp);
                 
                 $r .= '<div class="conversation-preview">';
                 $r .= _preview_snippet($convo->body);
@@ -123,13 +125,14 @@ function communities_topic_page($topic) {
 function all_conversations_page() {
     $o = '';
         $numConvosPerPage = 10;
-        $query = db_select('node', 'n')->fields('n', array('nid', 'title', 'created'));
+        $query = db_select('node', 'n')->fields('n', array('nid', 'title', 'changed'));
         $query->leftJoin('og_membership', 'ogm', 'ogm.etid=n.nid');
         $query->innerJoin('field_data_field_topic', 't', 'n.nid=t.entity_id');
+        $query->innerJoin('node_comment_statistics', 'c', 'n.nid=c.nid');
         $query->condition('n.type', 'conversation')
                 ->condition('n.status', '1')
                 ->condition('ogm.gid', 'NULL', 'IS NULL');
-        $query->orderBy('n.created', 'DESC');
+        $query->orderBy('c.last_comment_timestamp', 'DESC');
         $query = $query->extend('PagerDefault')->limit($numConvosPerPage);
         $convos = $query->execute()->fetchAllAssoc('nid');
 
@@ -137,6 +140,8 @@ function all_conversations_page() {
         $convosUnloaded = array_values($convos);
         $numConvos = 0;
         $r = '';
+        $r .= '<div class="start-a-convo"><span class="button"><a href="/node/add/conversation" title="Start a Conversation">Start a Conversation</a></span></div>  ';
+       
         foreach ($convos as $convoUnloaded) {
             $convo = node_load($convoUnloaded->nid);
 
@@ -144,7 +149,7 @@ function all_conversations_page() {
             if ($convosUnloaded[count($convos) - 1] == $convoUnloaded) $r .= ' last-result';
             $r .= '">'; // Start Result
 
-            $r .= _conversation_title_snippet($convo->nid, $convo->title, $convo->changed);
+            $r .= _conversation_title_snippet($convo->nid, $convo->title, $convo->last_comment_timestamp);
 
             $r .= '<div class="conversation-preview">';
             $r .= _preview_snippet($convo->body);
@@ -172,53 +177,7 @@ function all_conversations_page() {
 
     return $o;
 }
-/*
-function all_conversations_page() {
-    $o = '<div id="all-conversations-page">';
-    $query = new EntityFieldQuery();
-    $query->entityCondition('entity_type', 'node')
-            ->entityCondition('bundle', 'conversation')
-            ->propertyCondition('status', 1)
-            ->propertyOrderBy('changed', 'DESC')
-            ->pager(8);
 
-    $convos = _an_lifecycle_load_related_nodes($query, TRUE);
-        $o .= '<div id="all-conversations-title">';
-        $o .= '<span class="all-conversations-pager">';
-        $o .= theme('pager');
-        $o .= '</span>';
-        $o .= '</div>';
-    
-    $nids = array_keys($convos);
-    $x = 0;
-    $o .= '<div id="all-conversations-results">';
-    $r = '';
-    $convosUnloaded = array_values($convos['nodes']);
-    foreach ($convos['nodes'] as $nid => $node) {
-        $r .= '<div class="conversation-result';
-        if ($convosUnloaded[count($convosUnloaded) - 1] == $node) $r .= ' last-result';
-        $r .= '">'; // Start Result
-                
-                $r .= _conversation_title_snippet($node->nid, $node->title, $node->changed);
-                
-                $r .= '<div class="conversation-preview">';
-                $r .= _preview_snippet($node->body);
-                $r .= '</div>';
-                
-                $r .= _starter_snippet($node->uid);
-                
-                $r .= _get_latest_comment($node);
-                
-                $r .= '</div>'; // End Result
-    }
-    $o .= $r;
-    $o .= '</div>';
-    $o .= theme('pager');
-
-    $o .= '</div>'; // Closes whole page
-    return $o;
-}
-*/
 function communities_landing_page() {
     $query = new EntityFieldQuery();
     $query->entityCondition('entity_type', 'node')
@@ -274,6 +233,13 @@ function communities_landing_page() {
 }
 
 function communities_of_practice_page() {
+    
+    //Set message if user tried to join a group that they are pending membership for
+    if($_GET['q'] == "communities/communities_of_practice/pending")
+        drupal_set_message("You must be approved to join a Community of Practice. Please check back later.");
+             
+    
+    
     global $user;
     $o = '';
     $query = new EntityFieldQuery();
@@ -314,7 +280,12 @@ function communities_of_practice_page() {
         $o .= '</div>'; //end landing page header
     }
     
-    
+     if(user_is_logged_in()){
+        $o .= '<div class="create-a-community"><span class="button"><a href="/content/create-community">'.t('Create a Community').'</a></span></div>';
+    }
+    else {
+       $o .= '<div class="create-a-community"><span class="button"><a href="/user">'.t('Create a Community').'</a></span></div>'; 
+    }
     
     $query = new EntityFieldQuery();
     $query->entityCondition('entity_type', 'og_membership')
@@ -329,17 +300,13 @@ function communities_of_practice_page() {
     $o .= '<div id="communities-of-practice">';
     $o .= '<div id="communities-topic-results">';
     $o .= '<h2>'.t('Communities');
-    if(user_is_logged_in()){
-        $o .= '<span class="button"><a href="/content/create-community">'.t('Create a Community').'</a></span>';
-    }
-    else {
-       $o .= '<span class="button"><a href="/user">'.t('Create a Community').'</a></span>'; 
-    }
+   
     $o .='</h2></div>';
     $usersGroups = array();
 
     foreach ($groupmemberships as $throwaway => $ogloaded) {
-        $usersGroups[] = $ogloaded->gid;
+        
+        $usersGroups[$ogloaded->gid] = $ogloaded->state;
     }
 
     $query = new EntityFieldQuery();
@@ -349,14 +316,31 @@ function communities_of_practice_page() {
             ->propertyOrderBy('created', 'ASC')
             ->pager(10);
     $results = _an_lifecycle_load_related_nodes($query, TRUE);
+    
     $o .= theme('pager');
     $convosUnloaded = array_values($results['nodes']);
     foreach ($results['nodes'] as $comm) {
+        $group = og_get_group('node', $comm->nid);
         $o .= '<div class="community-of-practice clearfix';
         if ($convosUnloaded[count($convosUnloaded) - 1] == $comm) $o .= ' last-result';
         $o .= '">';
         $o .= '<div class="community-of-practice-title">';
-        $o .= '<a href="' . url('node/' . $comm->nid) . '">';
+         if (!in_array($group->gid, array_keys($usersGroups))) {
+             if(user_is_logged_in()){
+                  $o .='<a href="/group/node/' . $comm->nid . '/subscribe ">';
+             }
+             else {
+                 $o .= '<a href="/user">';
+             }
+         }
+         else 
+         {
+             if($usersGroups[$group->gid] == 2) {
+                 $o .= '<a href="'. url('communities/communities_of_practice/pending') . '">';
+             }
+             else
+                $o .= '<a href="' . url('node/' . $comm->nid) . '">';
+         }
         $o .= check_plain($comm->title);
         $o .= '</a></div>';
         $o .= '<div class="community-of-practice-desc">';
@@ -364,9 +348,9 @@ function communities_of_practice_page() {
         //$o .= drupal_render(field_view_field('node', $comm, 'body', array('label' => 'hidden')));
         $o .= '</div>';
 
-        $group = og_get_group('node', $comm->nid);
-        if (!in_array($group->gid, array_values($usersGroups))) {
-            $o .= '<div class="community-of-practice-link"><span class="button">';
+        $o .= '<div class="community-of-practice-link">';
+        if (!in_array($group->gid, array_keys($usersGroups))) {
+            $o .= '<span class="button">';
              if(user_is_logged_in()){
                 $o .= '<a href="/group/node/' . $comm->nid . '/subscribe ">';
              }
@@ -376,8 +360,24 @@ function communities_of_practice_page() {
              }
             $o .= 'Join This Community';
             $o .= '</a>';
-            $o .= '</span></div>';
+            $o .= '</span>';
         }
+        elseif($usersGroups[$group->gid] == 2){
+            $o .= '<span class="text-grey">';
+            $o .= t('Pending Approval');
+            $o .='<span>';
+        }
+        else {
+             $o .= '<span class="button-grey">';
+             if(user_is_logged_in()){
+                $o .= '<a href="/group/node/' . $comm->nid . '/unsubscribe ">';
+             }
+            
+            $o .= 'Leave This Community';
+            $o .= '</a>';
+            $o .= '</span>';
+        }
+        $o .= '</div>';
         $userGroupRoles = og_get_user_roles($group->gid, $user->uid); 
         if(array_key_exists(3, $userGroupRoles) || in_array('administrator', $user->roles) || in_array('accrualnet_staff', $user->roles) ){
             $o .= '<div class="manage-members">';
