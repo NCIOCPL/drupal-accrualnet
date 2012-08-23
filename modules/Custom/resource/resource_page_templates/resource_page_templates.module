@@ -403,10 +403,10 @@ function _diff($facetName = NULL, $tagName = NULL) {
     $count = 0;
     foreach ($an_resource_types as $resourceType => $values) {
         drupal_add_js('rtype[' . $count . '] = 0;', 'inline');
-        $o .= '<div class="' . $resourceType . ' rtype-checkbox"><div class="form-item form-type-checkbox">';
+        $o .= '<div class="' . $resourceType . ' rtype-checkbox">';
 
         $o .= '<input id="edit-' . $resourceType . '" class="form-checkbox ajax-processed" type="checkbox" value="1" name="' . $resourceType . '" onClick="javascript:if (this.checked) { rtype[' . $count . '] = 1; } else { rtype[' . $count . '] = 0; }">';
-        $o .= '<label class="option">' . $values['name'] . '</label></div></div>'; //.form-type-checkbox, .rtype-checkbox
+        $o .= '<label class="option">' . $values['name'] . '</label></div>'; //.rtype-checkbox
         $count++;
     }
     $o .= '</div>'; //.fieldset-wrapper
@@ -435,7 +435,7 @@ function _again($facetName = NULL, $tagName = NULL) {
     $query = new EntityFieldQuery;
     $query->entityCondition('entity_type', 'node');
     $query->propertyOrderBy('created', 'DESC');
-    $query->pager(5);
+    $query->pager(10);
 
     
     // QUERY: FACET & TAG //
