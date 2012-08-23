@@ -20,17 +20,17 @@
   } */
 
 function DetermineTag($potential) {
-	global $an_vocabularies;
-	$old_pattern = array("/[^a-zA-Z0-9]/", "/_+/", "/_$/");
-	$new_pattern = array("_", "_", "");
-	foreach ($an_vocabularies as $vocab) {
-		foreach ($vocab['terms'] as $tag) {
-			$formatted = strtolower(preg_replace($old_pattern, $new_pattern, $tag));
-			if ($formatted == $potential)
-				return $tag;
-		}
-	}
-	return NULL;
+    global $an_vocabularies;
+    $old_pattern = array("/[^a-zA-Z0-9]/", "/_+/", "/_$/");
+    $new_pattern = array("_", "_", "");
+    foreach ($an_vocabularies as $vocab) {
+        foreach ($vocab['terms'] as $tag) {
+            $formatted = strtolower(preg_replace($old_pattern, $new_pattern, $tag));
+            if ($formatted == $potential)
+                return $tag;
+        }
+    }
+    return NULL;
 }
 
 //Load the an lifecycles globals.
@@ -39,229 +39,236 @@ module_load_include('inc', 'an_lifecycle', ' lifecycle.globals');
 module_load_include('inc', 'resource', 'types');
 
 function resource_page_templates_menu() {
-	$items['literature'] = array(
-		'title' => 'Literature and Tools',
-		'page callback' => 'resource_landing_page',
-		'access arguments' => array('access content'),
-		'type' => MENU_SUGGESTED_ITEM,
-		'file' => 'resource_landing_page.pages.inc',
-	);
-	$items['literature/%'] = array(
-		//'title' => 'Resources and Tools Level 2',
-		'page callback' => 'resource_level_2_page',
-		'access arguments' => array('access content'),
-		'page arguments' => array(1),
-		'type' => MENU_SUGGESTED_ITEM,
-		'file' => 'resource_level_2.pages.inc',
-	);
-	/* $items['resources/%/%'] = array (
-	  //'title' => 'Resources and Tools Level 3',
-	  'page callback' => 'resource_level_3_page',
-	  'access arguments' => array('access content'),
-	  'page arguments' => array(1,2),
-	  'type' => MENU_SUGGESTED_ITEM,
-	  'file' => 'resource_level_3.pages.inc',
-	  ); */
-	$items['literature/%/%'] = array(
-		'title' => 'Literature and Tools Level 3',
-		'page callback' => 'drupal_get_form',
-		'page arguments' => array('resource_ajax_filter', 1, 2),
-		'access callback' => TRUE,
-		'weight' => 1,
-	);
+    $items['literature'] = array(
+        'title' => 'Literature and Tools',
+        'page callback' => 'resource_landing_page',
+        'access arguments' => array('access content'),
+        'type' => MENU_SUGGESTED_ITEM,
+        'file' => 'resource_landing_page.pages.inc',
+    );
+    $items['literature/%'] = array(
+        //'title' => 'Resources and Tools Level 2',
+        'page callback' => 'resource_level_2_page',
+        'access arguments' => array('access content'),
+        'page arguments' => array(1),
+        'type' => MENU_SUGGESTED_ITEM,
+        'file' => 'resource_level_2.pages.inc',
+    );
+    /* $items['resources/%/%'] = array (
+      //'title' => 'Resources and Tools Level 3',
+      'page callback' => 'resource_level_3_page',
+      'access arguments' => array('access content'),
+      'page arguments' => array(1,2),
+      'type' => MENU_SUGGESTED_ITEM,
+      'file' => 'resource_level_3.pages.inc',
+      ); */
+    $items['literature/%/%'] = array(
+        'title' => 'Literature and Tools Level 3',
+        'page callback' => '_diff',
+        'page arguments' => array(1, 2),
+        'access callback' => TRUE,
+        'weight' => 1,
+    );
+    $items['literature/%/%/pager/callback'] = array(
+        'title' => 'Literature and Tools Level 3 Filtered&Paged',
+        'type' => MENU_CALLBACK,
+        'page callback' => '_again',
+        'access arguments' => array('access content'),
+        'page arguments' => array(1, 2),
+    );
 
-	$items['literature/all'] = array(
-		'title' => 'All Resources',
-		'page callback' => 'drupal_get_form',
-		'page arguments' => array('resource_ajax_filter'),
-		'access callback' => TRUE,
-	);
+    $items['literature/all'] = array(
+        'title' => 'All Resources',
+        'page callback' => 'drupal_get_form',
+        'page arguments' => array('resource_ajax_filter'),
+        'access callback' => TRUE,
+    );
 
-	return $items;
+    return $items;
 }
 
 /**
  * AJAX-enabled checkboxes that allow for filtering of literature and tools results. 
  */
 function resource_ajax_filter($form, &$form_state, $facet = NULL, $term = NULL) {
-	global $an_stage_strategy;
-	global $an_resource_types;
+    global $an_stage_strategy;
+    global $an_resource_types;
 
-	$vocab = taxonomy_vocabulary_machine_name_load('an_vocabulary_' . $facet);
-	if ($facet && !$vocab)
-		return NULL;
-	if ($vocab) {
-		$vocabName = $vocab->name;
-	}
-	$tagName = DetermineTag($term);
-	$tag = array_pop(taxonomy_get_term_by_name($tagName));
-	if ($tag && !$tagName)
-		return NULL;
+    $vocab = taxonomy_vocabulary_machine_name_load('an_vocabulary_' . $facet);
+    if ($facet && !$vocab)
+        return NULL;
+    if ($vocab) {
+        $vocabName = $vocab->name;
+    }
+    $tagName = DetermineTag($term);
+    $tag = array_pop(taxonomy_get_term_by_name($tagName));
+    if ($tag && !$tagName)
+        return NULL;
 
-	drupal_add_js(drupal_get_path('module', 'resource_page_templates') . '/resourceFilter.js', 'file');
-	drupal_add_js(drupal_get_path('theme', 'accrualnet') . '/js/checkbox.js', 'file');
-
-
-
-	$form['filter_results_fieldset'] = array(
-		// The prefix/suffix provide the div that we're replacing, named by
-		// #ajax['wrapper'] above.
-		'#prefix' => '<div id="filter-results">',
-		'#suffix' => '</div>',
-		'#type' => 'fieldset',
-		'#description' => 'Show Only',
-	);
-	$form['filter_results_fieldset']['lifecycle'] = array(
-		'#title' => t("Lifecycle Filter"),
-		// The prefix/suffix provide the div that we're replacing, named by
-		// #ajax['wrapper'] above.
-		'#prefix' => '<div id="lifecycle-filter">',
-		'#suffix' => '</div>',
-		'#type' => 'fieldset',
-	);
+    drupal_add_js(drupal_get_path('module', 'resource_page_templates') . '/resourceFilter.js', 'file');
+    drupal_add_js(drupal_get_path('theme', 'accrualnet') . '/js/checkbox.js', 'file');
 
 
 
+    $form['filter_results_fieldset'] = array(
+        // The prefix/suffix provide the div that we're replacing, named by
+        // #ajax['wrapper'] above.
+        '#prefix' => '<div id="filter-results">',
+        '#suffix' => '</div>',
+        '#type' => 'fieldset',
+        '#description' => 'Show Only',
+    );
+    $form['filter_results_fieldset']['lifecycle'] = array(
+        '#title' => t("Lifecycle Filter"),
+        // The prefix/suffix provide the div that we're replacing, named by
+        // #ajax['wrapper'] above.
+        '#prefix' => '<div id="lifecycle-filter">',
+        '#suffix' => '</div>',
+        '#type' => 'fieldset',
+    );
 
 
-	$stageQuery = new EntityFieldQuery();
-	$stageQuery->entityCondition('entity_type', 'node')
-			->entityCondition('bundle', 'lifecycle_stage')
-			->propertyCondition("status", 1);
-	$stageNodes = _an_lifecycle_load_related_nodes($stageQuery);
 
-	//We only need to build this if it is the first time the page is being rendered. 
-	//Not building it every time will cut down on the number of SQL calls.
-	if (!empty($form['filter_results_fieldset']['lifecycle'])) {
-		//Create all 1st level Stage nodes.
-		foreach ($stageNodes['nodes'] as $stage) {
-			$form['filter_results_fieldset']['lifecycle'][$stage->nid] = array(
-				'#type' => 'checkbox',
-				'#title' => $stage->title,
-				'#prefix' => "<div class=\"checkbox-$stage->nid stage-checkbox\">",
-				'#suffix' => '</div>',
-				'#ajax' => array(
-					'callback' => 'resource_ajax_callback',
-					'wrapper' => 'results-div',
-					'effect' => 'slide',
-					'progress' => array('type' => 'none'),
-				),
-			);
-			$form['filter_results_fieldset']['lifecycle'][$stage->nid . '-child'] = array(
-				'#title' => t(""),
-				// The prefix/suffix provide the div that we're replacing, named by
-				// #ajax['wrapper'] above.
-				'#prefix' => '<div id="' . $stage->nid . '-div" class="strategy-rollup">',
-				'#suffix' => '</div>',
-				'#type' => 'fieldset',
-			);
-			$strategyIDs = field_get_items('node', $stage, 'field_child_strategies');
-			if (!empty($strategyIDs)) {
-				$strategyQuery = new EntityFieldQuery();
-				$strategyQuery->entityCondition('entity_type', 'node')
-						->entityCondition('bundle', 'lifecycle_strategy')
-						->propertyCondition('nid', array_values($strategyIDs));
-				$strategyNodes = _an_lifecycle_load_related_nodes($strategyQuery);
-				foreach ($strategyNodes['nodes'] as $strategy) {
 
-					$form['filter_results_fieldset']['lifecycle'][$stage->nid . '-child'][$strategy->nid] = array(
-						'#type' => 'checkbox',
-						'#title' => "$strategy->title",
-						'#default_value' => '0',
-						'#prefix' => "<div class=\"parent-$stage->nid strategy-checkbox\">",
-						'#suffix' => '</div>',
-						'#ajax' => array(
-							'callback' => 'resource_ajax_callback',
-							'wrapper' => 'results-div',
-							'effect' => 'slide',
-							'progress' => array('type' => 'none'),
-						),
-					);
-					// Save the item to database.
-				}
-			}
-		}
-	}
 
-	//TODO: Add resource types filtering into the equasion and make it look decent.  
-	$form['filter_results_fieldset']['resource-types'] = array(
-		'#title' => t("Resource Type Filter"),
-		// The prefix/suffix provide the div that we're replacing, named by
-		// #ajax['wrapper'] above.
-		'#prefix' => '<div id="resource-type-filter">',
-		'#suffix' => '</div>',
-		'#type' => 'fieldset',
-	);
+    $stageQuery = new EntityFieldQuery();
+    $stageQuery->entityCondition('entity_type', 'node')
+            ->entityCondition('bundle', 'lifecycle_stage')
+            ->propertyCondition("status", 1);
+    $stageNodes = _an_lifecycle_load_related_nodes($stageQuery);
 
-	foreach ($an_resource_types as $resourceType => $values) {
-		$form['filter_results_fieldset']['resource-types'][$resourceType] = array(
-			'#type' => 'checkbox',
-			'#title' => $values['name'],
-			'#default_value' => '0',
-			'#prefix' => '<div class="' . $resourceType . ' rtype-checkbox">',
-			'#suffix' => '</div>',
-			'#ajax' => array(
-				'callback' => 'resource_ajax_callback',
-				'wrapper' => 'results-div',
-				'effect' => 'slide',
-				'progress' => array('type' => 'none'),
-			),
-		);
-	}
+    //We only need to build this if it is the first time the page is being rendered. 
+    //Not building it every time will cut down on the number of SQL calls.
+    if (!empty($form['filter_results_fieldset']['lifecycle'])) {
+        //Create all 1st level Stage nodes.
+        foreach ($stageNodes['nodes'] as $stage) {
+            $form['filter_results_fieldset']['lifecycle'][$stage->nid] = array(
+                '#type' => 'checkbox',
+                '#title' => $stage->title,
+                '#prefix' => "<div class=\"checkbox-$stage->nid stage-checkbox\">",
+                '#suffix' => '</div>',
+                '#ajax' => array(
+                    'callback' => 'resource_ajax_callback',
+                    'wrapper' => 'results-div',
+                    'effect' => 'slide',
+                    'progress' => array('type' => 'none'),
+                ),
+            );
+            $form['filter_results_fieldset']['lifecycle'][$stage->nid . '-child'] = array(
+                '#title' => t(""),
+                // The prefix/suffix provide the div that we're replacing, named by
+                // #ajax['wrapper'] above.
+                '#prefix' => '<div id="' . $stage->nid . '-div" class="strategy-rollup">',
+                '#suffix' => '</div>',
+                '#type' => 'fieldset',
+            );
+            $strategyIDs = field_get_items('node', $stage, 'field_child_strategies');
+            if (!empty($strategyIDs)) {
+                $strategyQuery = new EntityFieldQuery();
+                $strategyQuery->entityCondition('entity_type', 'node')
+                        ->entityCondition('bundle', 'lifecycle_strategy')
+                        ->propertyCondition('nid', array_values($strategyIDs));
+                $strategyNodes = _an_lifecycle_load_related_nodes($strategyQuery);
+                foreach ($strategyNodes['nodes'] as $strategy) {
 
-	//for each key in the values array - check to see if its one of our check boxes.
-	//We need a way to determine if the node is a Stage or a Strategy so that we can 
-	//do the logic to pull in all of the child strategies or not. We also need to make sure
-	//that the child strategy isn't selected... if it is, than we don't want to pull in the others.
-	$params = array();
-	if (array_key_exists('values', $form_state)) {
-		foreach (array_keys($form_state['values']) as $nodeID) {
-			//if this checkbox is set.
-			if ($form_state['values'][$nodeID] == 1) {
-				//if they selected a resource type.
-				if (is_string($nodeID)) {
-					$params['types'][$nodeID] = $nodeID;
-				}
-				//if they selected a stage.
-				elseif (array_key_exists($nodeID, $stageNodes['nodes'])) {
-					$params['stageIDs'][$nodeID] = $nodeID;
-				}
-				//if they selected a strategy.
-				else {
-					$params['strategyIDs'][$nodeID] = $nodeID;
-				}
-			}
-		}
-	}
-	$resources = _resource_ajax_load_results($params, $facet, $tag);
-	$resultsOutput = "<div class='resources-level-3-items'>";
-	if ($resources) {
-		$resourceCount = _resource_ajax_load_results($params, $facet, $tag, true);
-		$resultsOutput .= "<h2  class='resource-title-3'>Results <span id='title-results-number'>($resourceCount)</span></h2>";
-		$resultsOutput .= render($resources['pager']['#markup']);
-		foreach ($resources['nodes'] as $mynode) {
-			$resultsOutput .= "<div class=\"lifecycle-strategy-resource\">";
-			$resultsOutput .= _resource_output_snippet($mynode);
-			$resultsOutput .= "</div>";
-		}
-		if (array_key_exists('#markup', $resources['pager']))
-			$resultsOutput .= render($resources['pager']['#markup']);
-	}
-	$resultsOutput .= '</div>';
-	$form['results'] = array(
+                    $form['filter_results_fieldset']['lifecycle'][$stage->nid . '-child'][$strategy->nid] = array(
+                        '#type' => 'checkbox',
+                        '#title' => "$strategy->title",
+                        '#default_value' => '0',
+                        '#prefix' => "<div class=\"parent-$stage->nid strategy-checkbox\">",
+                        '#suffix' => '</div>',
+                        '#ajax' => array(
+                            'callback' => 'resource_ajax_callback',
+                            'wrapper' => 'results-div',
+                            'effect' => 'slide',
+                            'progress' => array('type' => 'none'),
+                        ),
+                    );
+                    // Save the item to database.
+                }
+            }
+        }
+    }
+
+    //TODO: Add resource types filtering into the equasion and make it look decent.  
+    $form['filter_results_fieldset']['resource-types'] = array(
+        '#title' => t("Resource Type Filter"),
+        // The prefix/suffix provide the div that we're replacing, named by
+        // #ajax['wrapper'] above.
+        '#prefix' => '<div id="resource-type-filter">',
+        '#suffix' => '</div>',
+        '#type' => 'fieldset',
+    );
+
+    foreach ($an_resource_types as $resourceType => $values) {
+        $form['filter_results_fieldset']['resource-types'][$resourceType] = array(
+            '#type' => 'checkbox',
+            '#title' => $values['name'],
+            '#default_value' => '0',
+            '#prefix' => '<div class="' . $resourceType . ' rtype-checkbox">',
+            '#suffix' => '</div>',
+            '#ajax' => array(
+                'callback' => 'resource_ajax_callback',
+                'wrapper' => 'results-div',
+                'effect' => 'slide',
+                'progress' => array('type' => 'none'),
+            ),
+        );
+    }
+
+    //for each key in the values array - check to see if its one of our check boxes.
+    //We need a way to determine if the node is a Stage or a Strategy so that we can 
+    //do the logic to pull in all of the child strategies or not. We also need to make sure
+    //that the child strategy isn't selected... if it is, than we don't want to pull in the others.
+    $params = array();
+    if (array_key_exists('values', $form_state)) {
+        foreach (array_keys($form_state['values']) as $nodeID) {
+            //if this checkbox is set.
+            if ($form_state['values'][$nodeID] == 1) {
+                //if they selected a resource type.
+                if (is_string($nodeID)) {
+                    $params['types'][$nodeID] = $nodeID;
+                }
+                //if they selected a stage.
+                elseif (array_key_exists($nodeID, $stageNodes['nodes'])) {
+                    $params['stageIDs'][$nodeID] = $nodeID;
+                }
+                //if they selected a strategy.
+                else {
+                    $params['strategyIDs'][$nodeID] = $nodeID;
+                }
+            }
+        }
+    }
+    $resources = _resource_ajax_load_results($params, $facet, $tag);
+    $resultsOutput = "<div class='resources-level-3-items'>";
+    if ($resources) {
+        $resourceCount = _resource_ajax_load_results($params, $facet, $tag, true);
+        $resultsOutput .= "<h2  class='resource-title-3'>Results <span id='title-results-number'>($resourceCount)</span></h2>";
+        $resultsOutput .= render($resources['pager']['#markup']);
+        foreach ($resources['nodes'] as $mynode) {
+            $resultsOutput .= "<div class=\"lifecycle-strategy-resource\">";
+            $resultsOutput .= _resource_output_snippet($mynode);
+            $resultsOutput .= "</div>";
+        }
+        if (array_key_exists('#markup', $resources['pager']))
+            $resultsOutput .= render($resources['pager']['#markup']);
+    }
+    $resultsOutput .= '</div>';
+    $form['results'] = array(
 //        '#title' => t("Literature & Tools"),
-		// The prefix/suffix provide the div that we're replacing, named by
-		// #ajax['wrapper'] above.
-		'#prefix' => '<div id="results-div">',
-		'#suffix' => '</div>',
-		'#type' => 'fieldset',
-		'#description' => $resultsOutput,
-	);
+        // The prefix/suffix provide the div that we're replacing, named by
+        // #ajax['wrapper'] above.
+        '#prefix' => '<div id="results-div">',
+        '#suffix' => '</div>',
+        '#type' => 'fieldset',
+        '#description' => $resultsOutput,
+    );
 
 
 
 
-	return $form;
+    return $form;
 }
 
 /**
@@ -274,54 +281,238 @@ function resource_ajax_filter($form, &$form_state, $facet = NULL, $term = NULL) 
  * @return renderable array (the checkboxes fieldset)
  */
 function resource_ajax_callback($form, $form_state) {
-	return $form['results'];
+    return $form['results'];
 }
 
 function _resource_ajax_load_results($params, $facetName, $tag, $getCount = false) {
-	//if nothing has been selected yet
-	//if(empty($params))
-	// return FALSE;
-	global $an_resource_types;
-	$query = new EntityFieldQuery();
-	// We are looking for a node
-	$query->entityCondition('entity_type', 'node');
-	if ($facetName && $tag) {
-		$query->fieldCondition('field_tax_' . $facetName, 'tid', $tag->tid);
-	}
-	$query->propertyCondition("status", 1)
-			->propertyOrderBy('created', 'DESC');
-	if (!$getCount)
-		$query->pager(10);
-	//Conditional Query Logic
-	//If a lifecycle checkbox is selected
-	if (array_key_exists('stageIDs', $params)) {
-		//get all strategies in this stage.
-		foreach ($params['stageIDs'] as $stageID) {
-			$stage = node_load($stageID);
-			$strategyIDs = field_get_items('node', $stage, 'field_child_strategies');
-			$query->fieldCondition('field_related_strategy', 'target_id', array_values($strategyIDs), 'IN');
-		}
-	}
-	if (array_key_exists('strategyIDs', $params)) {
-		foreach ($params['strategyIDs'] as $strategyID) {
-			$query->fieldCondition('field_related_strategy', 'target_id', $strategyID);
-		}
-	}
-	//if a resource type is selected
-	if (array_key_exists('types', $params)) {
+    //if nothing has been selected yet
+    //if(empty($params))
+    // return FALSE;
+    global $an_resource_types;
+    $query = new EntityFieldQuery();
+    // We are looking for a node
+    $query->entityCondition('entity_type', 'node');
+    if ($facetName && $tag) {
+        $query->fieldCondition('field_tax_' . $facetName, 'tid', $tag->tid);
+    }
+    $query->propertyCondition("status", 1)
+            ->propertyOrderBy('created', 'DESC');
+    if (!$getCount)
+        $query->pager(10);
+    //Conditional Query Logic
+    //If a lifecycle checkbox is selected
+    if (array_key_exists('stageIDs', $params)) {
+        //get all strategies in this stage.
+        foreach ($params['stageIDs'] as $stageID) {
+            $stage = node_load($stageID);
+            $strategyIDs = field_get_items('node', $stage, 'field_child_strategies');
+            $query->fieldCondition('field_related_strategy', 'target_id', array_values($strategyIDs), 'IN');
+        }
+    }
+    if (array_key_exists('strategyIDs', $params)) {
+        foreach ($params['strategyIDs'] as $strategyID) {
+            $query->fieldCondition('field_related_strategy', 'target_id', $strategyID);
+        }
+    }
+    //if a resource type is selected
+    if (array_key_exists('types', $params)) {
 
-		$query->entityCondition('bundle', array_keys($params['types']));
-	} else {
-		$query->entityCondition('bundle', array_keys($an_resource_types));
-	}
+        $query->entityCondition('bundle', array_keys($params['types']));
+    } else {
+        $query->entityCondition('bundle', array_keys($an_resource_types));
+    }
 
-	if ($getCount) {
-		$count = $query->count()->execute();
+    if ($getCount) {
+        $count = $query->count()->execute();
 
-		return $count;
-	}
+        return $count;
+    }
 
-	// Just can keep chaining these until you're happy...
-	$resources = _an_lifecycle_load_related_nodes($query, TRUE);
-	return $resources;
+    // Just can keep chaining these until you're happy...
+    $resources = _an_lifecycle_load_related_nodes($query, TRUE);
+    return $resources;
+}
+
+function _diff($facetName = NULL, $tagName = NULL) {
+    global $an_resource_types;
+
+    drupal_add_js(drupal_get_path('module', 'resource_page_templates') . '/jquery.url.js', 'file'); // I have no idea what this does... left over relic from example
+    drupal_add_js(drupal_get_path('module', 'resource_page_templates') . '/resourceFilter.js', 'file'); // jQuery styling + ajax Functions
+    //drupal_add_js(drupal_get_path('theme', 'accrualnet') . '/js/checkbox.js', 'file');
+    
+    $qpath = current_path(); // Current path is needed in javascript/AJAX file
+    drupal_add_js(array('qPath' => $qpath), 'setting');
+    // Variables needed in javascript/AJAX file
+    drupal_add_js('var lifecycle = new Array(); var rtype = new Array();', 'inline'); 
+    // Setup the default set of results
+    drupal_add_js('initializeResources();', 'inline'); 
+    // Make sure all filtering checkboxes are off when the page loads
+    drupal_add_js("(function ($) { $(document).ready(function(){ $('input.form-checkbox').attr('checked', false);    });})(jQuery); ", 'inline');
+    
+    // BEGINNING OUTPUT //
+    $o = '<form id="resource-ajax-filter" accept-charset="UTF-8" method="post" action="/literature/'.$facetName.'/'.$tagName.'">';
+    $o .= '<div id="filter-results">';
+    $o .= '<div class="fieldset-description">Show Only</div>';
+
+    // LIFECYCLE FILTER //
+    $stageQuery = new EntityFieldQuery();
+    $stageQuery->entityCondition('entity_type', 'node')
+            ->entityCondition('bundle', 'lifecycle_stage')
+            ->propertyCondition("status", 1);
+    $stageNodes = _an_lifecycle_load_related_nodes($stageQuery);
+
+    $o .= '<fieldset id="filter-lifecycle">';
+    $o .= '<legend><span>Lifecycle Filter</span></legend>';
+    $o .= '<div class="fieldset-wrapper">';
+    $count = 0;
+    foreach ($stageNodes['nodes'] as $stage) {
+        drupal_add_js('lifecycle[' . $count . '] = 0;', 'inline'); // Add this as a possible filtering value
+        $o .= '<div class="checkbox-' . $stage->nid . ' stage-checkbox">';
+        $o .= '<input id="edit-stage-' . $stage->nid . '" class="form-checkbox ajax-processed" type="checkbox" value="1" name="' . $stage->nid . '" onClick="javascript:if (this.checked) { lifecycle[' . $count . '] = 1; } else { lifecycle[' . $count . '] = 0; }">';
+        $o .= '<label class="option">' . $stage->title . '</label></div>'; //.stage-checkbox
+        
+        // BEGIN ROLLUP OF STRATEGIES //
+        $o .= '<div id="' . $stage->nid . '-div" class="strategy-rollup">';
+        $strategyIDs = field_get_items('node', $stage, 'field_child_strategies');
+        $count++;
+        if (!empty($strategyIDs)) {
+            $strategyQuery = new EntityFieldQuery();
+            $strategyQuery->entityCondition('entity_type', 'node')
+                    ->entityCondition('bundle', 'lifecycle_strategy')
+                    ->propertyCondition('nid', array_values($strategyIDs));
+            $strategyNodes = _an_lifecycle_load_related_nodes($strategyQuery);
+            foreach ($strategyNodes['nodes'] as $strategy) {
+                drupal_add_js('lifecycle[' . $count . '] = 0;', 'inline'); // Add this as a possible filtering value
+                $o .= '<div class="parent-' . $stage->nid . ' strategy-checkbox">';
+                $o .= '<input id="edit-strategy-' . $strategy->nid . '" class="form-checkbox ajax-processed" type="checkbox" value="1" name="' . $stage->nid . '" onClick="javascript:if (this.checked) { lifecycle[' . $count . '] = 1; } else { lifecycle[' . $count . '] = 0; }">';
+                $o .= '<label class="option">' . $strategy->title . '</label></div>';
+                $count++;
+            }
+        }
+        $o .= '</div>'; //.strategy-rollup
+    }
+    $o .= '</div>'; //.fieldset-wrapper
+    $o .= '</fieldset>'; //#lifecycle-filter
+    
+    
+    
+    // RESOURCE FILTER //
+    $o .= '<fieldset id="filter-rtype">';
+    $o .= '<legend><span>Resource Type Filter</span></legend>';
+    $o .= '<div class="fieldset-wrapper">';
+    $count = 0;
+    foreach ($an_resource_types as $resourceType => $values) {
+        drupal_add_js('rtype[' . $count . '] = 0;', 'inline');
+        $o .= '<div class="' . $resourceType . ' rtype-checkbox"><div class="form-item form-type-checkbox">';
+
+        $o .= '<input id="edit-' . $resourceType . '" class="form-checkbox ajax-processed" type="checkbox" value="1" name="' . $resourceType . '" onClick="javascript:if (this.checked) { rtype[' . $count . '] = 1; } else { rtype[' . $count . '] = 0; }">';
+        $o .= '<label class="option">' . $values['name'] . '</label></div></div>'; //.form-type-checkbox, .rtype-checkbox
+        $count++;
+    }
+    $o .= '</div>'; //.fieldset-wrapper
+    
+    
+    // ENDING OUTPUT //
+    $o .= '</fieldset>'; //#resource-type-filter
+    $o .= '<input name="confirm" class="form-submit" type="button" value="Filter Results" onclick="javascript:refreshResources(lifecycle, rtype, 0);" />';
+    $o .= '</div>'; //#filter-results
+    $o .= '<div id="results-div"></div>';
+    $o .= '</form>'; //#resource-ajax-filter
+    return $o;
+}
+
+function _again($facetName = NULL, $tagName = NULL) {
+    global $an_resource_types;
+
+    header("Content-type: text/html");
+    header("Expires: Wed, 29 Jan 1975 04:15:00 GMT");
+    header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
+    header("Cache-Control: no-cache, must-revalidate");
+    header("Pragma: no-cache");
+
+
+    // BASIC QUERY //
+    $query = new EntityFieldQuery;
+    $query->entityCondition('entity_type', 'node');
+    $query->propertyOrderBy('created', 'DESC');
+    $query->pager(5);
+
+    
+    // QUERY: FACET & TAG //
+    $facet = taxonomy_vocabulary_machine_name_load('an_vocabulary_' . $facetName);
+    $tag = taxonomy_get_term_by_name($tagName);
+    if ($facet && $tag) {
+        $query->fieldCondition('field_tax_' . $facetName, 'tid', $tag->tid);
+    }
+
+    
+    // QUERY: RESOURCE TYPE //
+    $rtype = $_GET['rtype'];
+    if (!empty($rtype)) {
+        $filterBy_rtype = array();
+        $count = 0;
+        foreach ($an_resource_types as $type => $values) {
+            if ($rtype[$count] == 1) {
+                $filterBy_rtype[] = $type;
+            }
+            $count++;
+        }
+        $query->entityCondition('bundle', $filterBy_rtype);
+    } else {
+        $query->entityCondition('bundle', array_keys($an_resource_types));
+    }
+
+    
+    // QUERY: LIFECYCLE FILTER //
+    $lifecycle = $_GET['lifecycle'];
+    if (!empty($lifecycle)) {
+        $filterBy_strats_OR = array();
+        $filterBy_strats_AND = array();
+        $stageQuery = new EntityFieldQuery();
+        $stageQuery->entityCondition('entity_type', 'node')
+                ->entityCondition('bundle', 'lifecycle_stage')
+                ->propertyCondition("status", 1);
+        $stageResults = $stageQuery->execute();
+        $count = 0;
+        foreach ($stageResults['node'] as $result) {
+            if ($lifecycle[$count] == 1) {
+                $stage = node_load($result->nid);
+                $strategyIDs = field_get_items('node', $stage, 'field_child_strategies');
+                foreach ($strategyIDs as $strategyID) {
+                    $count++;
+                    $filterBy_strats_OR[] = $strategyID;
+                    if ($lifecycle[$count] == 1) {
+                        $filterBy_strats_AND[] = $strategyID;
+                    }
+                }
+            }
+            $count++;
+        }
+        if (count($filterBy_strats_OR) > 0)
+            $query->fieldCondition('field_related_strategy', 'target_id', array_values($filterBy_strats_OR), 'IN');
+        foreach ($filterBy_strats_AND as $strategyID) {
+            $query->fieldCondition('field_related_strategy', 'target_id', $strategyID);
+        }
+    }
+
+
+    // GET RESULTS //
+    $result = $query->execute();
+    $nodes = node_load_multiple(array_keys($result['node']));
+    $rows2 = '';
+    foreach ($nodes as $node) {
+        $rows2 .= _resource_output_snippet($node);
+    }
+
+    
+    // OUTPUT //
+    global $pager_total_items;
+    $resourceCount = $pager_total_items[0];
+    $html = "<h2  class='resource-title-3'>Results <span id='title-results-number'>($resourceCount)</span></h2>";
+    $html .= theme('pager', array('tags' => array())); // Top Pager
+    $html .= $rows2; // Results
+    $html .= theme('pager', array('tags' => array())); // Bottom Pager
+
+
+    die($html);
 }
