@@ -165,7 +165,7 @@ global $an_resource_types;
     $resourceOutput = '<div class="resource-resource">';
     foreach ($fieldsToRender as $rfield) {
         // Make sure the field returns a result
-        if (count(${"field_" . $rfield["field_name"]}) > 0) {
+        if (isset(${"field_" . $rfield["field_name"]})) {
             // Make sure that result is of value
             if (array_key_exists('value', ${"field_" . $rfield["field_name"]}[0])) {
             if (strlen(${"field_" . $rfield["field_name"]}[0]["value"]) > 0) {

@@ -1619,3 +1619,11 @@ nav#block-an-navigation-left-nav .manage-members a
 {
     padding: 5px 10px;
 }
+
+span.resource-title-date{
+	float: right;
+    font-size: 13px;
+    font-weight: normal;
+    text-transform: none;
+	margin-top: 0px;
+}
