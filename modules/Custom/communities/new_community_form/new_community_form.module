@@ -208,9 +208,13 @@ function new_community_form_disable() {
 }
 
 function new_community_form_form_alter(&$form, &$form_state, $form_id) {
-	if ($form_id == 'og_ui_confirm_subscribe') {
+	if ($form_id == 'og_ui_confirm_subscribe'
+			|| $form_id == 'og_ui_confirm_unsubscribe') {
+
 		// point group subscribe forms back to the communities page
 		$form['#submit'][] = '_new_community_form_redirect';
+		$form['actions']['cancel']['#href'] = 'communities/communities_of_practice';
+		$form['actions']['cancel']['#options']['path'] = 'communities/communities_of_practice';
 
 		return;
 	}
