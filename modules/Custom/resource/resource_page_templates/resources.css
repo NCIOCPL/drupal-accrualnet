@@ -170,7 +170,8 @@ div.back-to-top a:hover, div.back-to-top a:active {
     font-weight: bold;
 }
 
-div.resource-taxonomy{
+div.resource-taxonomy,
+div.resource-timestamp{
 	letter-spacing: .004em;
         color: #2D2D2D;
         opacity:0.75;
