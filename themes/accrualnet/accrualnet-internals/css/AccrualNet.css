@@ -1627,3 +1627,7 @@ span.resource-title-date{
     text-transform: none;
 	margin-top: 0px;
 }
+
+#community-members-pager {
+    font-size: 10px;
+}

@@ -58,7 +58,9 @@ function accrualnet_theme(&$existing, $type, $theme, $path) {
 
 function accrualnet_pager($variables) {
 	// change 'quantity' to 5
-	$variables['quantity'] = 5;
+        if($variables['quantity'] >= 9){
+            $variables['quantity'] = 5;
+        }
 
 	// now call the default pager theme
 	return theme_pager($variables);

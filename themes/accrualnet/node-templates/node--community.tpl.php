@@ -71,7 +71,7 @@ foreach ($convos as $convoUnloaded) {
     
 }
 $o .= '<div style="clear:both">';
-$o .= print theme('pager', array('tags' => array())); 
+$o .= theme('pager', array('tags' => array())); 
 $o .= '</div>';
 
 
@@ -81,7 +81,7 @@ print $o;
 <?php
 drupal_add_js("(function ($) {
         $(document).ready(function() {
-            $('nav#block-an-navigation-left-nav').append($('div#community-members'));
+            $('section.region-sidebar-first').append($('div#community-members'));
         
         });
     }) (jQuery);", 'inline');
@@ -117,9 +117,13 @@ drupal_add_js("(function ($) {
         </div>
        <?php 
     endforeach; ?>
-        <div id="community-members-pager">
-            <?php //print theme('pager'); ?>
+        <?php if($query->pager):?>
+       <div id="community-members-pager">
+           <?php $pager = $query->pager;?>
+           <?php $pager['quantity'] = 1; ?>
+            <?php print theme('pager', $pager); ?>
         </div>
+        <?php endif;?>
 <?php $userGroupRoles = og_get_user_roles($group->gid, $user->uid); 
         if(array_key_exists(3, $userGroupRoles) || in_array('administrator', $user->roles) || in_array('accrualnet_staff', $user->roles) ): ?>
             <div class="manage-members">
