@@ -16,7 +16,9 @@ $query->condition('n.type', 'conversation')
         ->condition('n.status', '1')
         ->condition('ogm.gid', $group->gid);
 $query->orderBy('c.last_comment_timestamp', 'DESC');
-$query = $query->extend('PagerDefault')->limit(10);
+$query = $query->extend('PagerDefault')
+                ->limit(10);
+
 $convos = $query->execute()->fetchAllAssoc('nid');
 $convosUnloaded = array_values($convos);
  
@@ -68,6 +70,9 @@ foreach ($convos as $convoUnloaded) {
     $o .= '</div>'; // Ends paritcular convo
     
 }
+$o .= '<div style="clear:both">';
+$o .= print theme('pager', array('tags' => array())); 
+$o .= '</div>';
 
 
 print $o;
@@ -113,7 +118,7 @@ drupal_add_js("(function ($) {
        <?php 
     endforeach; ?>
         <div id="community-members-pager">
-            <?php print theme('pager'); ?>
+            <?php //print theme('pager'); ?>
         </div>
 <?php $userGroupRoles = og_get_user_roles($group->gid, $user->uid); 
         if(array_key_exists(3, $userGroupRoles) || in_array('administrator', $user->roles) || in_array('accrualnet_staff', $user->roles) ): ?>
