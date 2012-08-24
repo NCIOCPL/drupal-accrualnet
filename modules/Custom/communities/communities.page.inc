@@ -332,7 +332,7 @@ function communities_of_practice_page() {
 				$o .= '<a href="/user">';
 			}
 		} else {
-			if ($usersGroups[$group->gid] == 2) {
+			if ($usersGroups[$group->gid] == 2 || $usersGroups[$group->gid] == 3) {
 				$o .= '<a href="' . url('communities/communities_of_practice/pending') . '">';
 			}
 			else
@@ -357,7 +357,7 @@ function communities_of_practice_page() {
 			$o .= 'Join This Community';
 			$o .= '</a>';
 			$o .= '</span>';
-		} elseif ($usersGroups[$group->gid] == 2) {
+		} elseif ($usersGroups[$group->gid] == 2 || $usersGroups[$group->gid] == 3) {
 			$o .= '<span class="text-grey">';
 			$o .= t('Pending Approval');
 			$o .='<span>';
