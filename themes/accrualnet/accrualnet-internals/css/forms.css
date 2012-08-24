@@ -184,7 +184,7 @@ td.menu-disabled {
 .form-actions input,
 input.form-submit,
 span.button a{
-    border: 2px solid #9AB83F;
+    border: 1px solid #9AB83F;
     color:#9AB83F;
     font-weight: bold;
     background-color: white;
@@ -235,7 +235,7 @@ div.cta-button {
  *
  */
 span.button a{
-    border: 2px solid #9AB83F;
+    border: 1px solid #9AB83F;
     color:#9AB83F;
     font-size: 13px;
     font-weight: bold;
@@ -252,7 +252,7 @@ span.button a{
     font-family: Arial, Helvetica, sans-serif;
 }
 span.button:hover a{
-    border: 2px solid #9AB83F;
+    border: 1px solid #9AB83F;
     color:#fff;
     font-weight: bold;
     background-color:#9AB83F;
@@ -290,7 +290,7 @@ span.button a:hover, span.button a:active, span.button:hover a {
      width: 7%;
  }
  #search-block-form .form-actions input {
-     margin: 0px 10px;
+     margin: 0px 0px 0px 10px;
  }
  #search-header {
      margin-top: 50px;

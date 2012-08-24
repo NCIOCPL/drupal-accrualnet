@@ -194,7 +194,7 @@ li a.active {
 
 nav#secondary-menu ul{
     float:right;
-    padding: 10px;
+    padding: 10px 0 10px 10px;
     margin: 15px 0;
 }
 nav#secondary-menu ul li a {
@@ -207,7 +207,7 @@ nav#secondary-menu ul li a {
 }
 
 nav#secondary-menu ul li a {
-    border: 2px solid #9AB83F;
+    border: 1px solid #9AB83F;
     color: #9AB83F;
     font-weight: bold;
     background-color: white;
@@ -224,7 +224,7 @@ nav#secondary-menu ul li a {
     
 }
 nav#secondary-menu ul li a:hover { 
-    border: 2px solid #9AB83F;
+    border: 1px solid #9AB83F;
     color:#fff;
     font-weight: bold;
     background-color:#9AB83F;
