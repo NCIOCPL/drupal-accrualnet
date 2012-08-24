@@ -51,6 +51,10 @@
 }
 .resource-issue h2 a{
     color:#105693;
+    font-weight: normal;
+}
+.resource-issue h2 a:hover {
+    font-weight: bold;
 }
 
 .resource-citation-detail {
@@ -105,7 +109,7 @@ div.resources-level-3-items .pager {
     font-size: 17px;
 }
 .resource-level-2-item h2.resource-title-2 a:hover {
-    text-decoration: none;
+    font-weight: bold;
 }
 
 

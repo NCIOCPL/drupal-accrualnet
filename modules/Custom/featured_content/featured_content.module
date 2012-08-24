@@ -175,6 +175,57 @@ function featured_content_disable() {
 	
 }
 
+function _homepage_featured_content_display($item) {
+    $output = '';
+        if(array_key_exists('type', $item)){	
+            $color = $item->type == 'conversation' ? 'Orange' : 'Blue';
+            $output .= '<div class="homepage-feature-content-item">';
+            $urlPath = drupal_lookup_path('alias', 'node/'.$item->nid); 
+            $output .= '<div class="homepage-node-created '.$color.'">';
+            $output .= format_date(check_plain($item->created), 'custom', 'm/d/y');
+            $output .= '</div>';
+            $output .= '<div class="homepage-node-title">';
+
+            $output .= '<a href="'.$urlPath.'" title="'.check_plain($item->title).'">';
+            $output .= check_plain($item->title);
+            $output .= '</a>';
+            if($item->type == 'conversation'){
+                $output .= '<div class="node-posted-by">';
+                $output .= 'Posted By: '. check_plain($item->name) ;
+                $output .= '</div>';
+            }
+            $output .= '</div>';
+            $output .= '</div>';
+            return $output;
+        }
+        else
+        {
+            $node = node_load($item->nid);
+            $color = $node->type == 'conversation' ? 'Orange' : 'Blue';
+            $output .= '<div class="homepage-feature-content-item">';
+            $urlPath = drupal_lookup_path('alias', 'node/'.$node->nid); 
+            $output .= '<div class="homepage-node-created '.$color.'">';
+            $output .= format_date(check_plain($item->created), 'custom', 'm/d/y');
+            $output .= '</div>';
+            $output .= '<div class="homepage-node-title">';
+
+            $output .= '<a href="'.$urlPath.'" title="'.check_plain($node->title).'">';
+            $output .= check_plain($node->title);
+            $output .= '</a>';
+            if($node->type == 'conversation'){
+                $output .= '<div class="node-posted-by">';
+                $output .= 'Commented By: '. check_plain($item->name);
+                $output .= '</div>';
+            }
+            $output .= '</div>';
+            $output .= '</div>';
+            
+            
+            return $output;
+        }
+	return '<div>This content type ' . check_plain($item->type) . ' is not yet supported by this feature.</div>';
+}
+
 function _featured_content_display($item, $image = TRUE, $citation = TRUE, $taxonomy = TRUE) {
     $output = '';
         if(array_key_exists('type', $item)){	

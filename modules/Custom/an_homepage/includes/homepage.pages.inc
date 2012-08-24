@@ -96,6 +96,9 @@ function _homepage_dynamic_content_block($node) {
     $types = field_get_items('node', $node, 'field_featured_type');
     $link = field_get_items('node', $node, 'field_more_link');
     
+    //Redo query buildout.
+    
+    /*
     //Build out the entityFieldQuery for this content type.
     $query = new EntityFieldQuery();
     $query->entityCondition('entity_type', 'node')
@@ -122,13 +125,73 @@ function _homepage_dynamic_content_block($node) {
 
 
     $featuredContent = _an_lifecycle_load_related_nodes($query, TRUE);
+    */
     
-    $output = '';
     
-    $output .= '<div class="homepage-feature-title">';
-    $output .= '<span class="homepage-feature-header">'.check_plain($node->title).'<span>';
-    $output .= '</div>';
-    $output .= '<div class="homepage-feature-content">';
+        $query = '';
+        $commentQuery = '';
+        $limit = 5;
+        
+        $output = '';
+    
+        $output .= '<div class="homepage-feature-title">';
+        $output .= '<span class="homepage-feature-header">'.check_plain($node->title).'<span>';
+        $output .= '</div>';
+        $output .= '<div class="homepage-feature-content">';
+	if ($order[0]['value'] != 'manual') {
+                $query = db_select('node', 'n')->fields('n', array('nid', 'title', 'created'));
+                $query->leftJoin('og_membership', 'ogm', 'ogm.etid=n.nid');
+		if ($types) {
+			$query->condition('n.type', array_values($types), 'IN');
+		}
+		$query->condition('n.status', '1')
+                      ->condition('ogm.gid', 'NULL', 'IS NULL');
+                $query->range(0, $limit);
+		
+
+		
+                //This is not very efficient, but it gets the job done (Doyle)
+                foreach($types as $type){
+                    if($type['value'] == 'conversation'){
+                        $commentQuery = db_select('comment', 'c')->fields('c', array('nid', 'cid', 'subject', 'created'));
+                        $commentQuery->leftJoin('node', 'n', 'c.nid=n.nid');
+                        $commentQuery->leftJoin('og_membership', 'ogm', 'ogm.etid=n.nid');
+                        $commentQuery->condition('c.status', '1')
+                                    ->condition('ogm.gid', 'NULL', 'IS NULL');
+                        $commentQuery->condition('n.type', 'conversation');
+                        $commentQuery->range(0,$limit);                        
+                    }
+                }
+
+		$content = $query->execute();
+                $content = $content->fetchAllAssoc('nid');
+                if($commentQuery){
+                    $content = array_merge($content, $commentQuery->execute()->fetchAllAssoc('nid'));
+                    
+                }
+                usort($content, 'feature_sort');
+                $content = array_slice($content, 0, $limit);
+                //$test = array_multisort($content);
+                //$featuredContent = entity_load('node', array_keys($content));
+		
+
+		
+		foreach($content as $nid => $values){
+                    if(array_key_exists('title', $values)){
+                        $item = node_load($values->nid);
+                    }
+                    else{
+                        $item = comment_load($values->cid);
+                        
+                    }
+			
+			$output .= _homepage_featured_content_display($item);
+			
+		}
+		
+	}
+    
+   /*
     foreach($featuredContent['nodes'] as $item){
         $color = $item->type == 'conversation' ? 'Orange' : 'Blue';
         $output .= '<div class="homepage-feature-content-item">';
@@ -149,6 +212,8 @@ function _homepage_dynamic_content_block($node) {
         $output .= '</div>';
         $output .= '</div>';
     }
+    * 
+    */
     if($link){
         $output .= '<div class="feature-link">';
         $output .= '<span class="button"><a href="/'.$link[0]['url'].'" title="'.$link[0]['title'].'">'.$link[0]['title'].'</a></span>';

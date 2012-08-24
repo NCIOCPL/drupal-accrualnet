@@ -48,7 +48,13 @@ function communities_topic_page($topic) {
 			} else {
 				$o .= '<br/><br/>';
 			}
-			$o .= '<div class="start-a-convo"><span class="button"><a href="/node/add/conversation" title="Start a Conversation">Start a Conversation</a></span></div>  ';
+			$o .= '<div class="start-a-convo">';
+                        $o .= '<span class="button">';
+                        if(user_is_logged_in())
+                            $o .= '<a href="/node/add/conversation" title="Start a Conversation">Start a Conversation</a>';
+                        else
+                            $o .= '<a href="/user" title="Login">Start a Conversation</a>';
+                        $o .='</span></div>  ';
 
 			$o .= '<div id="communities-topic-results">';
 
@@ -145,8 +151,13 @@ function all_conversations_page() {
 	$convosUnloaded = array_values($convos);
 	$numConvos = 0;
 	$r = '';
-	$r .= '<div class="start-a-convo"><span class="button"><a href="/node/add/conversation" title="Start a Conversation">Start a Conversation</a></span></div>  ';
-
+	$r .= '<div class="start-a-convo">';
+        $r .= '<span class="button">';
+        if(user_is_logged_in())
+            $r .= '<a href="/node/add/conversation" title="Start a Conversation">Start a Conversation</a>';
+        else
+            $r .= '<a href="/user" title="Login">Start a Conversation</a>';
+        $r .='</span></div>  ';
 	foreach ($convos as $convoUnloaded) {
 		$convo = node_load($convoUnloaded->nid);
 
