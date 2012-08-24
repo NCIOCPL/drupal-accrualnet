@@ -175,32 +175,52 @@ function featured_content_disable() {
 	
 }
 
-function _featured_content_display($node, $image = TRUE, $citation = TRUE, $taxonomy = TRUE) {
-	global $an_resource_types;
-	if (isset($an_resource_types[$node->type])) {
-		return _resource_output_snippet($node, $image, $citation, $taxonomy);
-	}
-	switch ($node->type) {
-		case 'conversation':
-			$urlPath = drupal_lookup_path('alias', 'node/' . $node->nid);
-			$output .= '<div class="conversation-output">';
-			$output .= '<div class="node-title">';
-			$output .= '<a href="' . $urlPath . '" title="' . check_plain($node->title) . '">';
-			$output .= check_plain($node->title);
-			$output .= '</a>';
-			$output .= '<div class="node-posted-by">';
-			$output .= 'Posted By: ' . check_plain($node->name) . ' on ' . format_date($node->created, 'custom', 'F d, Y');
-			$output .= '</div>';
-			$output .= '</div>';
-			$output .= '</div>';
-			return $output;
-			//insert convo display function
-			break;
-		case 'community_of_practice':
-			//insert comm of practice display function
-			break;
-	}
-	return '<div>This content type ' . check_plain($node->type) . ' is not yet supported by this feature.</div>';
+function _featured_content_display($item, $image = TRUE, $citation = TRUE, $taxonomy = TRUE) {
+    $output = '';
+        if(array_key_exists('type', $item)){	
+            global $an_resource_types;
+            if (isset($an_resource_types[$item->type])) {
+                    return _resource_output_snippet($item, $image, $citation, $taxonomy);
+            }
+            switch ($item->type) {
+                    case 'conversation':
+                            $urlPath = drupal_lookup_path('alias', 'node/' . $item->nid);
+                            $output .= '<div class="conversation-output">';
+                            $output .= '<div class="node-title">';
+                            $output .= '<a href="/' . $urlPath . '" title="' . check_plain($item->title) . '">';
+                            $output .= check_plain($item->title);
+                            $output .= '</a>';
+                            $output .= '<div class="node-posted-by">';
+                            $output .= 'Posted By: ' . check_plain($item->name) . ' on ' . format_date($item->created, 'custom', 'F d, Y');
+                            $output .= '</div>';
+                            $output .= '</div>';
+                            $output .= '</div>';
+                            return $output;
+                            //insert convo display function
+                            break;
+                    case 'community_of_practice':
+                            //insert comm of practice display function
+                            break;
+                   
+            }
+        }
+        else
+        {
+            $node = node_load($item->nid);
+            $urlPath = drupal_lookup_path('alias', 'node/' . $node->nid);
+            $output .= '<div class="conversation-output">';
+            $output .= '<div class="node-title">';
+            $output .= '<a href="/' . $urlPath . '" title="' . check_plain($node->title) . '">';
+            $output .= check_plain($node->title);
+            $output .= '</a>';
+            $output .= '<div class="node-posted-by">';
+            $output .= 'Commented By: ' . check_plain($item->name) . ' on ' . format_date($item->created, 'custom', 'F d, Y');
+            $output .= '</div>';
+            $output .= '</div>';
+            $output .= '</div>';
+            return $output;
+        }
+	return '<div>This content type ' . check_plain($item->type) . ' is not yet supported by this feature.</div>';
 }
 
 function _featured_content_node_output($node, $moreLink) {
@@ -215,7 +235,7 @@ function _featured_content_node_output($node, $moreLink) {
 	$output .= '</div>';
 	$output .= '<div class="homepage-node-title">';
 
-	$output .= '<a href="' . $urlPath . '" title="' . check_plain($item->title) . '">';
+	$output .= '<a href="/' . $urlPath . '" title="' . check_plain($item->title) . '">';
 	$output .= check_plain($item->title);
 	$output .= '</a>';
 	if ($item->type == 'conversation') {
@@ -247,50 +267,72 @@ function _dynamic_content_block_output($node) {
 	$manualContent = array();
 	$zebra = 'left';
 	$output = '';
-
+        $query = '';
+        $commentQuery = '';
+        $limit = 0;
+        switch ($format[0]['value']) {
+                case 'listing':
+                        $limit = 6;
+                        break;
+                case 'listing_image':
+                        $limit = 3;
+                        break;
+                default:
+                        $limit = 6;
+                        //this should never be reachable.
+                        break;
+        }
+        
 	if ($order[0]['value'] != 'manual') {
-		$query = db_select('node', 'n')->fields('n', array('nid', 'title', 'created'));
-		$query->leftJoin('og_membership', 'ogm', 'ogm.etid=n.nid');
+                $query = db_select('node', 'n')->fields('n', array('nid', 'title', 'created'));
+                $query->leftJoin('og_membership', 'ogm', 'ogm.etid=n.nid');
 		if ($types) {
 			$query->condition('n.type', array_values($types), 'IN');
 		}
 		$query->condition('n.status', '1')
-				->condition('ogm.gid', 'NULL', 'IS NULL');
+                      ->condition('ogm.gid', 'NULL', 'IS NULL');
+                $query->range(0, $limit);
+		
 
-		switch ($format[0]['value']) {
-			case 'listing':
-				$query = $query->extend('PagerDefault')->limit(6);
-				break;
-			case 'listing_image':
-				$query = $query->extend('PagerDefault')->limit(3);
-				break;
-			default:
-				$query = $query->extend('PagerDefault')->limit(6);
-				//this should never be reachable.
-				break;
-		}
+		
+                //This is not very efficient, but it gets the job done (Doyle)
+                foreach($types as $type){
+                    if($type['value'] == 'conversation'){
+                        $commentQuery = db_select('comment', 'c')->fields('c', array('nid', 'cid', 'subject', 'created'));
+                        $commentQuery->leftJoin('node', 'n', 'c.nid=n.nid');
+                        $commentQuery->leftJoin('og_membership', 'ogm', 'ogm.etid=n.nid');
+                        $commentQuery->condition('c.status', '1')
+                                    ->condition('ogm.gid', 'NULL', 'IS NULL');
+                        $commentQuery->condition('n.type', 'conversation');
+                        $commentQuery->range(0,$limit);                        
+                    }
+                }
 
-		switch ($order[0]['value']) {
-			case 'alpha':
-				$query->orderBy('n.title', 'ASC');
-				break;
-			case 'date_recent':
-				$query->orderBy('n.created', 'DESC');
-				break;
-			case 'manual':
-				//if manual, dont do anything, we are going to use the order they are inserted in the node.
-				break;
-			default:
-				//this should never be reachable.
-				break;
-		}
-
-		$content = $query->execute()->fetchAllAssoc('nid');
-		$featuredContent = entity_load('node', array_keys($content));
+		$content = $query->execute();
+                $content = $content->fetchAllAssoc('nid');
+                if($commentQuery){
+                    $content = array_merge($content, $commentQuery->execute()->fetchAllAssoc('nid'));
+                    
+                }
+                usort($content, 'feature_sort');
+                $content = array_slice($content, 0, $limit);
+                //$test = array_multisort($content);
+                //$featuredContent = entity_load('node', array_keys($content));
 		$counter = 1;
 
-		$size = count($featuredContent);
-		foreach ($featuredContent as $item) {
+		$size = count($content);
+		foreach($content as $nid => $values){
+                    if(array_key_exists('title', $values)){
+                        $item = node_load($values->nid);
+                    }
+                    else{
+                        $item = comment_load($values->cid);
+                        
+                    }
+                //}
+                
+                
+		//foreach ($featuredContent as $item) {
 			if ($counter % $size == 1 || $counter % $size == round($size / 2) + 1) {
 				$output .= '<div class="featured-content-section-' . $zebra . ' ' . $format[0]['value'] . ' ">';
 				$zebra = 'right';
@@ -331,4 +373,12 @@ function _dynamic_content_block_output($node) {
 		}
 	}
 	return $output;
+}
+
+function feature_sort($a, $b){
+    if($a->created > $b->created){
+        return -1;
+    } 
+    else
+        return 1;
 }
