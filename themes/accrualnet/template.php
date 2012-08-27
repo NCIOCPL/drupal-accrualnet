@@ -347,7 +347,7 @@ function accrualnet_breadcrumb($variables) {
 	$breadcrumb = $variables['breadcrumb'];
 	$output = '';
 	if (empty($breadcrumb)) {
-		$breadcrumb[0] = '<a href="/">Home</a>';
+		$breadcrumb[0] = '<a href="/">AccrualNet</a>';
 	}
 	// Determine if we are to display the breadcrumb.
 	$show_breadcrumb = theme_get_setting('accrualnet_breadcrumb');
