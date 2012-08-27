@@ -343,20 +343,50 @@ function _dynamic_content_block_output($node) {
 		$query->condition('n.status', '1')
                       ->condition('ogm.gid', 'NULL', 'IS NULL');
                 $query->range(0, $limit);
+                 switch($order[0]['value']){
+                    case 'alpha':
+                        $query->orderBy('title', 'ASC');
+                        break;
+                    case 'date_recent':
+                        $query->orderBy('created',  'DESC');
+                        break;
+                    case 'manual':
+                        //if manual, dont do anything, we are going to use the order they are inserted in the node.
+                        break;
+                    default:
+                        //this should never be reachable.
+                        break;
+                }
 		
 
-		
-                //This is not very efficient, but it gets the job done (Doyle)
-                foreach($types as $type){
-                    if($type['value'] == 'conversation'){
-                        $commentQuery = db_select('comment', 'c')->fields('c', array('nid', 'cid', 'subject', 'created'));
-                        $commentQuery->leftJoin('node', 'n', 'c.nid=n.nid');
-                        $commentQuery->leftJoin('og_membership', 'ogm', 'ogm.etid=n.nid');
-                        $commentQuery->condition('c.status', '1')
-                                    ->condition('ogm.gid', 'NULL', 'IS NULL');
-                        $commentQuery->condition('n.type', 'conversation');
-                        $commentQuery->range(0,$limit);                        
-                    }
+                if ($order[0]['value'] != 'aplha')
+                {
+                    //This is not very efficient, but it gets the job done (Doyle)
+                    foreach($types as $type){
+                        if($type['value'] == 'conversation'){
+                            $commentQuery = db_select('comment', 'c')->fields('c', array('nid', 'cid', 'subject', 'created'));
+                            $commentQuery->leftJoin('node', 'n', 'c.nid=n.nid');
+                            $commentQuery->leftJoin('og_membership', 'ogm', 'ogm.etid=n.nid');
+                            $commentQuery->condition('c.status', '1')
+                                        ->condition('ogm.gid', 'NULL', 'IS NULL');
+                            $commentQuery->condition('n.type', 'conversation');
+                            $commentQuery->range(0,$limit);
+                            switch($order[0]['value']){
+                                case 'alpha':
+                                    $commentQuery->orderBy('n.title', 'ASC');
+                                    break;
+                                case 'date_recent':
+                                    $commentQuery->orderBy('created',  'DESC');
+                                    break;
+                                case 'manual':
+                                    //if manual, dont do anything, we are going to use the order they are inserted in the node.
+                                    break;
+                                default:
+                                    //this should never be reachable.
+                                    break;
+                            }
+                        }
+                    }   
                 }
 
 		$content = $query->execute();
