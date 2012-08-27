@@ -346,9 +346,15 @@ function accrualnet_preprocess_search_result(&$vars) {
 function accrualnet_breadcrumb($variables) {
 	$breadcrumb = $variables['breadcrumb'];
 	$output = '';
-	if (empty($breadcrumb)) {
+	//if (empty($breadcrumb)) {
 		$breadcrumb[0] = '<a href="/">AccrualNet</a>';
-	}
+	//}
+        foreach($breadcrumb as $index => $value) {
+            
+            if ($value == "<a href=\"/communities\">Communities</a>"){
+                $breadcrumb[$index] = "<a href=\"/communities\">Communities and Conversations</a>";
+            }
+        }
 	// Determine if we are to display the breadcrumb.
 	$show_breadcrumb = theme_get_setting('accrualnet_breadcrumb');
 	if ($show_breadcrumb == 'yes' || $show_breadcrumb == 'admin' && arg(0) == 'admin') {

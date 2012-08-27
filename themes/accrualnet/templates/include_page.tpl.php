@@ -285,6 +285,7 @@ if ($pager_total_items != null) {
 		if(isset($node) && key_exists($node->type, $an_resource_types)) {
 			$date = 'Posted ' . format_date($node->created, 'custom', 'M d, Y');
 		}
+                
 		if ($title && (!isset($node) || (isset($node) && $node->type != 'conversation'))): ?>
         <h1 class="title" id="page-title"><?php print $title ?>
 		<span class='resource-title-date'><?php print $date ?></span></h1>
