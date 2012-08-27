@@ -637,7 +637,7 @@ function _starter_snippet($userID) {
 function communities_menu() {
   global $an_communities_field_facet_options;
   $items['communities'] = array(
-    //'title' => 'Communities and Conversations',
+    'title' => 'Communities and Conversations',
     'page callback' => 'communities_landing_page',
     'access arguments' => array('access content'),
     'type' => MENU_SUGGESTED_ITEM,

@@ -206,7 +206,7 @@ function communities_landing_page() {
 	$nodes = _an_lifecycle_load_related_nodes($query);
 
 	$output = '<div id="communities-landing-page">';
-	$output .= '<h1>Communities and Conversations</h1>';
+	//$output .= '<h1>Communities and Conversations</h1>';
 
 	$contentNode = array();
 	//if we got a node back, pop it off the array. There should only ever be 1 
@@ -371,7 +371,7 @@ function communities_of_practice_page() {
 		} elseif ($usersGroups[$group->gid] == 2 || $usersGroups[$group->gid] == 3) {
 			$o .= '<span class="text-grey">';
 			$o .= t('Pending Approval');
-			$o .='<span>';
+			$o .='</span>';
 		} else {
 			$o .= '<span class="button-grey">';
 			if (user_is_logged_in()) {
