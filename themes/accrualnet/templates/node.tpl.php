@@ -86,54 +86,54 @@ module_load_include('inc', 'resource', 'includes/types');
 global $an_resource_types;
 ?>
 <?php if (!in_array($type, array_keys($an_resource_types))): ?>
-    <article class="node-<?php print $node->nid; ?> <?php print $classes; ?> clearfix"<?php print $attributes; ?>>
+	<article class="node-<?php print $node->nid; ?> <?php print $classes; ?> clearfix"<?php print $attributes; ?>>
 
-    <?php if ($title_prefix || $title_suffix || $display_submitted || $unpublished || !$page && $title): ?>
-            <header>
-            <?php print render($title_prefix); ?>
-            <?php if (!$page && $title): ?>
-                    <h2<?php print $title_attributes; ?>><a href="<?php print $node_url; ?>"><?php print $title; ?></a></h2>
-                <?php endif; ?>
-                <?php print render($title_suffix); ?>
+		<?php if ($title_prefix || $title_suffix || $display_submitted || $unpublished || !$page && $title): ?>
+			<header>
+				<?php print render($title_prefix); ?>
+				<?php if (!$page && $title): ?>
+					<h2<?php print $title_attributes; ?>><a href="<?php print $node_url; ?>"><?php print $title; ?></a></h2>
+				<?php endif; ?>
+				<?php print render($title_suffix); ?>
 
-                <?php if ($display_submitted): ?>
-                    <p class="submitted">
-                    <?php print $user_picture; ?>
-                    <?php print $submitted; ?>
-                    </p>
-                    <?php endif; ?>
+				<?php if ($display_submitted): ?>
+					<p class="submitted">
+						<?php print $user_picture; ?>
+						<?php print $submitted; ?>
+					</p>
+				<?php endif; ?>
 
-                <?php if ($unpublished): ?>
-                    <p class="unpublished"><?php print t('Unpublished'); ?></p>
-                <?php endif; ?>
-            </header>
-            <?php endif; ?>
+				<?php if ($unpublished): ?>
+					<p class="unpublished"><?php print t('Unpublished'); ?></p>
+				<?php endif; ?>
+			</header>
+		<?php endif; ?>
 
-        <?php
-        // We hide the comments and links now so that we can render them later.
-        hide($content['comments']);
-        hide($content['links']);
-        print render($content);
-        ?>
+		<?php
+		// We hide the comments and links now so that we can render them later.
+		hide($content['comments']);
+		hide($content['links']);
+		print render($content);
+		?>
 
-        <?php print render($content['links']); ?>
+		<?php print render($content['links']); ?>
 
-        <?php print render($content['comments']); ?>
+		<?php print render($content['comments']); ?>
 
-    </article><!-- /.node -->
- <?php else: ?>
-    <?php
+	</article><!-- /.node -->
+<?php else: ?>
+	<?php
 // Module Global Variables
-    module_load_include('module', 'resource');
-    global $an_resource_field_citation;
-    global $an_resource_citation_fields_A, $an_resource_citation_fields_B, $an_resource_citation_fields_C;
-    global $an_resource_field_resource;
-    global $an_vocabularies;
-    ?>
-    <div class="resource-content <?php print $type; ?>">
-    <?php
-    $citationOutput = _resource_output_citation($node);
-    $taxonomyOutput = _resource_output_taxonomy($node);
+	module_load_include('module', 'resource');
+	global $an_resource_field_citation;
+	global $an_resource_citation_fields_A, $an_resource_citation_fields_B, $an_resource_citation_fields_C;
+	global $an_resource_field_resource;
+	global $an_vocabularies;
+	?>
+	<div class="resource-content <?php print $type; ?>">
+		<?php
+		$citationOutput = _resource_output_citation($node);
+		$taxonomyOutput = _resource_output_taxonomy($node);
 
 
 
@@ -142,81 +142,88 @@ global $an_resource_types;
 
 
 // Related Links
-    
-    $linksOutput = '<div id="resource-links">';
-    if (count($field_links) > 0) {
-    $linksOutput .= '<h3>Links</h3>';
-    $linksOutput .= '<ul>';
-    foreach ($field_links as $link) {
-        $linksOutput .= '<li>';
-        $linksOutput .= '<a href="' . $link['url'] . '" target="_blank">';
-        $linksOutput .= $link['title'];
-        $linksOutput .= '</a>';
-        $linksOutput .= '</li>';
-    }
-    }
-    $linksOutput .= '</ul></div>';
+
+		$linksOutput = '<div id="resource-links">';
+		if (count($field_links) > 0) {
+			$linksOutput .= '<h3>Links</h3>';
+			$linksOutput .= '<ul>';
+			foreach ($field_links as $link) {
+				$linksOutput .= '<li>';
+				$linksOutput .= '<a href="' . $link['url'] . '" target="_blank">';
+				$linksOutput .= $link['title'];
+				$linksOutput .= '</a>';
+				$linksOutput .= '</li>';
+			}
+		}
+		$linksOutput .= '</ul></div>';
 
 
-    $fieldsToRender = $an_resource_field_resource;
-    array_pop($fieldsToRender); // This should remove links
+		$fieldsToRender = $an_resource_field_resource;
+		array_pop($fieldsToRender); // This should remove links
 
 
-    $resourceOutput = '<div class="resource-resource">';
-   
-    foreach ($fieldsToRender as $rfield) {
-        // Make sure the field returns a result
-        if (isset(${"field_" . $rfield["field_name"]})) {
-            // Make sure that result is of value
-            if (array_key_exists('value', ${"field_" . $rfield["field_name"]}[0])) {
-            if (strlen(${"field_" . $rfield["field_name"]}[0]["value"]) > 0) {
+		$resourceOutput = '<div class="resource-resource">';
 
-                $rfieldOutput = '<div id="resource-' . $rfield["field_name"] . '">';
-                // Get name of instance, not field (different for different resources)
-                $rInstance = field_read_instance('node', 'field_' . $rfield["field_name"], $type);
-                $rfieldOutput .= '<h3>' . $rInstance["label"] . '</h3>';
-                foreach (${"field_" . $rfield["field_name"]} as $instance) {
-                    $rfieldOutput .= $instance['safe_value'];
-                }
-                $rfieldOutput .= '</div>';
-                $resourceOutput .= $rfieldOutput;
-            }
-            } elseif (array_key_exists('filename', ${"field_" . $rfield["field_name"]}[0])) {
-                $rfieldOutput = '<div class="resource-file" id="resource-' . $rfield["field_name"]. '">';
-                if (${"field_" . $rfield["field_name"]}[0]['display'] == 1 && ${"field_" . $rfield["field_name"]}[0]['status'] == 1) {
-                $rfieldOutput .= '<h3>Download Attachment:</h3> ';
-                $rfieldOutput .= ' <a href="'.file_create_url(${"field_" . $rfield["field_name"]}[0]['uri']).'">';
-                $rfieldOutput .= ${"field_" . $rfield["field_name"]}[0]['filename'] . '</a>';
-                $rfieldOutput .= '</div>';
-                $resourceOutput .= $rfieldOutput;
-                }
-            }
-        }
-    }
+		foreach ($fieldsToRender as $rfield) {
+			$field_name = "field_" . $rfield["field_name"];
 
-    $resourceOutput .= '</div>';
-    
-    $resourceOutput .= '<div class="back-to-top">';
-    $resourceOutput .= '<a href="#top">Back to Top</a>';
-    $resourceOutput .= '</div>';
+			// Make sure the field returns a result
+			if (isset(${$field_name})) {
+				// get the field variable
+				$field = ${$field_name};
+
+				// Make sure that result is of value
+				if (isset($field[0]['value'])) {
+					if (strlen($field[0]["value"]) > 0) {
+
+						$rfieldOutput = "<div id='resource-${rfield['field_name']}'>";
+						// Get name of instance, not field (different for different resources)
+						$rInstance = field_read_instance('node', $field_name, $type);
+						$rfieldOutput .= "<h3>${rInstance['label']}</h3>";
+						foreach ($field as $instance) {
+							$rfieldOutput .= $instance['safe_value'];
+						}
+						$rfieldOutput .= '</div>';
+						$resourceOutput .= $rfieldOutput;
+					}
+				} elseif (isset($field[0]['filename'])) {
+					$rfieldOutput = "<div class='resource-file' id='resource-${rfield["field_name"]}'>";
+					if ($field[0]['display'] == 1 && $field[0]['status'] == 1) {
+						$rfieldOutput .= '<h3>Download Attachment:</h3> ';
+						$file_url = file_create_url($field[0]['uri']);
+						$rfieldOutput .= " <a href='$file_url'>";
+						$file_name = $field[0]['filename'];
+						$rfieldOutput .= "$file_name</a>";
+						$rfieldOutput .= '</div>';
+						$resourceOutput .= $rfieldOutput;
+					}
+				}
+			}
+		}
+
+		$resourceOutput .= '</div>';
+
+		$resourceOutput .= '<div class="back-to-top">';
+		$resourceOutput .= '<a href="#top">Back to Top</a>';
+		$resourceOutput .= '</div>';
 
 // Comments
-        $commentsOutput = '<div id="resource-comments">';
-        if ($status){ 
-            $commentsOutput .= render($elements['comments']);
-        }
-        $commentsOutput .= '</div>';
-    
+		$commentsOutput = '<div id="resource-comments">';
+		if ($status) {
+			$commentsOutput .= render($elements['comments']);
+		}
+		$commentsOutput .= '</div>';
+
 
 // Build the page
-     //if (!$status){ 
-    //     drupal_set_message( '<p class="unpublished">'. t('Unpublished') .'</p>');
-    //}
-    print $citationOutput;
-    print $taxonomyOutput;
-    print $linksOutput;
-    print $resourceOutput;
-    print $commentsOutput;
-    ?>
-    </div>
-    <?php endif; ?>
+		//if (!$status){ 
+		//     drupal_set_message( '<p class="unpublished">'. t('Unpublished') .'</p>');
+		//}
+		print $citationOutput;
+		print $taxonomyOutput;
+		print $linksOutput;
+		print $resourceOutput;
+		print $commentsOutput;
+		?>
+	</div>
+<?php endif; ?>
