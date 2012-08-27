@@ -595,6 +595,8 @@ function _user_url_snippet($uid, $name) {
 }
 
 function _user_image_snippet($user) {
+    if(!user_is_logged_in())
+        return '';
     global $nci_user_profile_colors;
     $avatar = field_get_items('user', $user, 'avatar_image');
     if($user->picture && !$avatar)
