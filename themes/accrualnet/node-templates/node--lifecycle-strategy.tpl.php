@@ -125,7 +125,7 @@ $resources = _an_lifecycle_load_related_nodes($query, TRUE);
             <?php endif;?>
         </div>
         <div class="lifecycle-strategy-resources">
-            <h2>Literature and Tools <span id="title-results-number">(<?php print count($resources['nodes']) ?>)</span> </h2>
+            <h2>Literature and Tools <span id="title-results-number">(<?php print $query->pager['total'] ?>)</span> </h2>
                     <?php foreach($resources['nodes'] as $mynode):?> 
             <div class="lifecycle-strategy-resource">
                         <?php print _resource_output_snippet($mynode); ?>
