@@ -121,7 +121,7 @@ global $an_resource_types;
         <?php print render($content['comments']); ?>
 
     </article><!-- /.node -->
-    <?php else: ?>
+ <?php else: ?>
     <?php
 // Module Global Variables
     module_load_include('module', 'resource');
@@ -163,6 +163,7 @@ global $an_resource_types;
 
 
     $resourceOutput = '<div class="resource-resource">';
+   
     foreach ($fieldsToRender as $rfield) {
         // Make sure the field returns a result
         if (isset(${"field_" . $rfield["field_name"]})) {
@@ -200,12 +201,17 @@ global $an_resource_types;
     $resourceOutput .= '</div>';
 
 // Comments
-    $commentsOutput = '<div id="resource-comments">';
-    $commentsOutput .= render($elements['comments']);
-    $commentsOutput .= '</div>';
-
+        $commentsOutput = '<div id="resource-comments">';
+        if ($status){ 
+            $commentsOutput .= render($elements['comments']);
+        }
+        $commentsOutput .= '</div>';
+    
 
 // Build the page
+     //if (!$status){ 
+    //     drupal_set_message( '<p class="unpublished">'. t('Unpublished') .'</p>');
+    //}
     print $citationOutput;
     print $taxonomyOutput;
     print $linksOutput;
