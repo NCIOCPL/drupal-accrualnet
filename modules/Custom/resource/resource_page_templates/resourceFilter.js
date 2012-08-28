@@ -4,7 +4,6 @@
  */
 
 
-
 (function ($) {
     $(document).ready(function() {
         
@@ -24,16 +23,28 @@
         $('#title-results-pager').append($('ul.pager').clone());
         
         $('.strategy-rollup').css('display', 'none');
-        
-        $('.stage-checkbox').click(function (e) {
-            if($(this).children('input').attr('checked')){
-               $(this).children('input').attr('checked',0);
-               $(this).children('input').change();
+        $('.option').click(function (e){
+            if($(this).prev().attr('checked')){
+               $(this).prev().attr('checked',0);
+                $(this).prev().prev().removeClass("checked");
+                $(this).prev().prev().addClass("unchecked");
+               $(this).prev().change();
             }
            else{
-               $(this).children('input').attr('checked',1);
-               $(this).children('input').change();
+               $(this).prev().attr('checked',1);
+               $(this).prev().prev().removeClass("unchecked");
+               $(this).prev().prev().addClass("checked");
+               $(this).prev().change();
            }
+        });
+        
+        $('.stage-checkbox').click(function (e) {
+                if($(this).children('input').attr("checked")){
+                   
+                }
+                else {
+                  
+                }
                 $(this).next().toggle();
             
         });

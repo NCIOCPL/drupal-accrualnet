@@ -368,6 +368,7 @@ function _diff($facetName = NULL, $tagName = NULL) {
     foreach ($stageNodes['nodes'] as $stage) {
         drupal_add_js('lifecycle[' . $count . '] = 0;', 'inline'); // Add this as a possible filtering value
         $o .= '<div class="checkbox-' . $stage->nid . ' stage-checkbox">';
+        $o .= '<span class="checkbox unchecked"></span>';
         $o .= '<input id="edit-stage-' . $stage->nid . '" class="form-checkbox ajax-processed" type="checkbox" value="1" name="' . $stage->nid . '" onChange="javascript:if (this.checked) { lifecycle[' . $count . '] = 1; } else { lifecycle[' . $count . '] = 0; }">';
         $o .= '<label class="option">' . $stage->title . '</label></div>'; //.stage-checkbox
         
@@ -384,6 +385,7 @@ function _diff($facetName = NULL, $tagName = NULL) {
             foreach ($strategyNodes['nodes'] as $strategy) {
                 drupal_add_js('lifecycle[' . $count . '] = 0;', 'inline'); // Add this as a possible filtering value
                 $o .= '<div class="parent-' . $stage->nid . ' strategy-checkbox">';
+                $o .= '<span class="checkbox unchecked"></span>';
                 $o .= '<input id="edit-strategy-' . $strategy->nid . '" class="form-checkbox ajax-processed" type="checkbox" value="1" name="' . $stage->nid . '" onChange="javascript:if (this.checked) { lifecycle[' . $count . '] = 1; } else { lifecycle[' . $count . '] = 0; }">';
                 $o .= '<label class="option">' . $strategy->title . '</label></div>';
                 $count++;
@@ -404,8 +406,8 @@ function _diff($facetName = NULL, $tagName = NULL) {
     foreach ($an_resource_types as $resourceType => $values) {
         drupal_add_js('rtype[' . $count . '] = 0;', 'inline');
         $o .= '<div class="' . $resourceType . ' rtype-checkbox">';
-
-        $o .= '<input id="edit-' . $resourceType . '" class="form-checkbox ajax-processed" type="checkbox" value="1" name="' . $resourceType . '" onClick="javascript:if (this.checked) { rtype[' . $count . '] = 1; } else { rtype[' . $count . '] = 0; }">';
+        $o .= '<span class="checkbox unchecked"></span>';
+        $o .= '<input id="edit-' . $resourceType . '" class="form-checkbox ajax-processed unchecked" type="checkbox" value="1" name="' . $resourceType . '" onClick="javascript:if (this.checked) { rtype[' . $count . '] = 1; } else { rtype[' . $count . '] = 0; }">';
         $o .= '<label class="option">' . $values['name'] . '</label></div>'; //.rtype-checkbox
         $count++;
     }
