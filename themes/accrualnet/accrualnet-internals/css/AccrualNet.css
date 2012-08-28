@@ -358,6 +358,8 @@ h1 span {
 /**************************************
 	   Global Styles
 *************************************/
+
+
 input, 
 input[type="password"], 
 input[type="search"], 
@@ -365,6 +367,27 @@ isindex {
 	background-color: white;
 	border: 1px solid #9AB83F;
 	padding: 5px;
+}
+
+
+#filter-results input[type="checkbox"]{
+     display: none;
+}
+
+.checkbox {
+    display: inline-block;
+    width: 20px;
+    height: 15px;
+    padding:10px;
+    margin:5px;
+    cursor:pointer;
+    color:#ffffff;
+    float: left;
+}
+
+.checked{
+}
+.unchecked{
 }
 
 .form-type-textfield input {
