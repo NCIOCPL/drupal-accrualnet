@@ -106,7 +106,7 @@ function resource_ajax_filter($form, &$form_state, $facet = NULL, $term = NULL) 
         return NULL;
 
     drupal_add_js(drupal_get_path('module', 'resource_page_templates') . '/resourceFilter.js', 'file');
-    drupal_add_js(drupal_get_path('theme', 'accrualnet') . '/js/checkbox.js', 'file');
+    //drupal_add_js(drupal_get_path('theme', 'accrualnet') . '/js/checkbox.js', 'file');
 
 
 
@@ -368,7 +368,7 @@ function _diff($facetName = NULL, $tagName = NULL) {
     foreach ($stageNodes['nodes'] as $stage) {
         drupal_add_js('lifecycle[' . $count . '] = 0;', 'inline'); // Add this as a possible filtering value
         $o .= '<div class="checkbox-' . $stage->nid . ' stage-checkbox">';
-        $o .= '<input id="edit-stage-' . $stage->nid . '" class="form-checkbox ajax-processed" type="checkbox" value="1" name="' . $stage->nid . '" onClick="javascript:if (this.checked) { lifecycle[' . $count . '] = 1; } else { lifecycle[' . $count . '] = 0; }">';
+        $o .= '<input id="edit-stage-' . $stage->nid . '" class="form-checkbox ajax-processed" type="checkbox" value="1" name="' . $stage->nid . '" onChange="javascript:if (this.checked) { lifecycle[' . $count . '] = 1; } else { lifecycle[' . $count . '] = 0; }">';
         $o .= '<label class="option">' . $stage->title . '</label></div>'; //.stage-checkbox
         
         // BEGIN ROLLUP OF STRATEGIES //
@@ -384,7 +384,7 @@ function _diff($facetName = NULL, $tagName = NULL) {
             foreach ($strategyNodes['nodes'] as $strategy) {
                 drupal_add_js('lifecycle[' . $count . '] = 0;', 'inline'); // Add this as a possible filtering value
                 $o .= '<div class="parent-' . $stage->nid . ' strategy-checkbox">';
-                $o .= '<input id="edit-strategy-' . $strategy->nid . '" class="form-checkbox ajax-processed" type="checkbox" value="1" name="' . $stage->nid . '" onClick="javascript:if (this.checked) { lifecycle[' . $count . '] = 1; } else { lifecycle[' . $count . '] = 0; }">';
+                $o .= '<input id="edit-strategy-' . $strategy->nid . '" class="form-checkbox ajax-processed" type="checkbox" value="1" name="' . $stage->nid . '" onChange="javascript:if (this.checked) { lifecycle[' . $count . '] = 1; } else { lifecycle[' . $count . '] = 0; }">';
                 $o .= '<label class="option">' . $strategy->title . '</label></div>';
                 $count++;
             }
@@ -488,8 +488,10 @@ function _again($facetName = NULL, $tagName = NULL) {
             }
             $count++;
         }
-        if (count($filterBy_strats_OR) > 0)
+        $count = count($filterBy_strats_OR);
+        if (!empty($filterBy_strats_OR)) {
             $query->fieldCondition('field_related_strategy', 'target_id', array_values($filterBy_strats_OR), 'IN');
+        }
         foreach ($filterBy_strats_AND as $strategyID) {
             $query->fieldCondition('field_related_strategy', 'target_id', $strategyID);
         }

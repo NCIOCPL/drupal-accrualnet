@@ -5,7 +5,6 @@
 
 
 
-
 (function ($) {
     $(document).ready(function() {
         
@@ -27,7 +26,14 @@
         $('.strategy-rollup').css('display', 'none');
         
         $('.stage-checkbox').click(function (e) {
-            
+            if($(this).children('input').attr('checked')){
+               $(this).children('input').attr('checked',0);
+               $(this).children('input').change();
+            }
+           else{
+               $(this).children('input').attr('checked',1);
+               $(this).children('input').change();
+           }
                 $(this).next().toggle();
             
         });
