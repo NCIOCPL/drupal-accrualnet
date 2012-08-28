@@ -472,33 +472,40 @@ function _again($facetName = NULL, $tagName = NULL) {
     // QUERY: LIFECYCLE FILTER //
     $lifecycle = $_GET['lifecycle'];
     if (!empty($lifecycle)) {
-        $filterBy_strats_OR = array();
+       
         $filterBy_strats_AND = array();
         $stageQuery = new EntityFieldQuery();
         $stageQuery->entityCondition('entity_type', 'node')
                 ->entityCondition('bundle', 'lifecycle_stage')
                 ->propertyCondition("status", 1);
         $stageResults = $stageQuery->execute();
-        $count = 0;
+        $stageCount = 0;
+        $strategyCount = 0;
         foreach ($stageResults['node'] as $result) {
            //we should find another way to do this...
+            $filterBy_strats_OR = array();
             $stage = node_load($result->nid);
             $strategyIDs = field_get_items('node', $stage, 'field_child_strategies');
-            if ($lifecycle[$count] == 1) {    
+            if ($lifecycle[$stageCount] == 1) {    
                 foreach ($strategyIDs as $strategyID) {
-                    $count++;
+                    $strategyCount++;
                     $filterBy_strats_OR[] = $strategyID;
-                    if ($lifecycle[$count] == 1) {
+                    if ($lifecycle[$strategyCount] == 1) {
                         $filterBy_strats_AND[] = $strategyID;
                     }
                 }
+                $query->fieldCondition('field_related_strategy', 'target_id', array_values($filterBy_strats_OR), 'IN');
             }
-            $count = $count + count($strategyIDs) + 1;
+            
+                
+            
+            $strategyCount++;
+            $stageCount = $stageCount + count($strategyIDs) + 1;
         }
         $count = count($filterBy_strats_OR);
-        if (!empty($filterBy_strats_OR)) {
-            $query->fieldCondition('field_related_strategy', 'target_id', array_values($filterBy_strats_OR), 'IN');
-        }
+        //if (!empty($filterBy_strats_OR)) {
+        //    $query->fieldCondition('field_related_strategy', 'target_id', array_values($filterBy_strats_OR), 'IN');
+       //}
         foreach ($filterBy_strats_AND as $strategyID) {
             $query->fieldCondition('field_related_strategy', 'target_id', $strategyID);
         }
