@@ -430,7 +430,6 @@ function _again($facetName = NULL, $tagName = NULL) {
     header("Cache-Control: no-cache, must-revalidate");
     header("Pragma: no-cache");
 
-
     // BASIC QUERY //
     $query = new EntityFieldQuery;
     $query->entityCondition('entity_type', 'node');
@@ -440,7 +439,8 @@ function _again($facetName = NULL, $tagName = NULL) {
     
     // QUERY: FACET & TAG //
     $facet = taxonomy_vocabulary_machine_name_load('an_vocabulary_' . $facetName);
-    $tag = taxonomy_get_term_by_name($tagName);
+    $tagName = DetermineTag($tagName);
+	$tag = array_pop(taxonomy_get_term_by_name($tagName));
     if ($facet && $tag) {
         $query->fieldCondition('field_tax_' . $facetName, 'tid', $tag->tid);
     }
@@ -457,7 +457,11 @@ function _again($facetName = NULL, $tagName = NULL) {
             }
             $count++;
         }
+		if (count($filterBy_rtype) > 0) {
         $query->entityCondition('bundle', $filterBy_rtype);
+		} else {
+			$query->entityCondition('bundle', array_keys($an_resource_types));
+		}
     } else {
         $query->entityCondition('bundle', array_keys($an_resource_types));
     }
