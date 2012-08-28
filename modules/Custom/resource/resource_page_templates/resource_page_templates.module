@@ -481,9 +481,10 @@ function _again($facetName = NULL, $tagName = NULL) {
         $stageResults = $stageQuery->execute();
         $count = 0;
         foreach ($stageResults['node'] as $result) {
-            if ($lifecycle[$count] == 1) {
-                $stage = node_load($result->nid);
-                $strategyIDs = field_get_items('node', $stage, 'field_child_strategies');
+           //we should find another way to do this...
+            $stage = node_load($result->nid);
+            $strategyIDs = field_get_items('node', $stage, 'field_child_strategies');
+            if ($lifecycle[$count] == 1) {    
                 foreach ($strategyIDs as $strategyID) {
                     $count++;
                     $filterBy_strats_OR[] = $strategyID;
@@ -492,7 +493,7 @@ function _again($facetName = NULL, $tagName = NULL) {
                     }
                 }
             }
-            $count++;
+            $count = $count + count($strategyIDs) + 1;
         }
         $count = count($filterBy_strats_OR);
         if (!empty($filterBy_strats_OR)) {

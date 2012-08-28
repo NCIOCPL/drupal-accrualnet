@@ -301,7 +301,7 @@ div.resource-citation{
    text-align: center; 
     margin-left: auto;
     margin-right: auto;
-    padding-top:4px;
+    padding-top:2px;
     padding-bottom: 12px;
 } /*
 .reset-filter a {
@@ -345,6 +345,9 @@ div.resource-citation{
     font-size:12px;
 }
 
+#resource-ajax-filter .strategy-checkbox label {
+    font-size: 11px;
+}
 #resource-ajax-filter .form-type-checkbox label {
     line-height: 13px;
     display: block;

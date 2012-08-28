@@ -40,6 +40,15 @@
        
         
         $('.stage-checkbox').click(function (e) {
+            if(!$(this).children('input').attr('checked')){
+                $(this).next().children().each(function(e){
+                    $(this).children('span').removeClass("checked");
+                    $(this).children('span').addClass("unchecked");
+                    $(this).children('input').attr('checked', 0);
+                    $(this).children('input').change();
+                });
+                
+            }
                 $(this).next().toggle();
             
         });
