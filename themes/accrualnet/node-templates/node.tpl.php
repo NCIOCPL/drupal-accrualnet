@@ -121,19 +121,19 @@ global $an_resource_types;
         <?php print render($content['comments']); ?>
 
     </article><!-- /.node -->
- <?php else: ?>
-    <?php
+    <?php else: ?>
+        <?php
 // Module Global Variables
-    module_load_include('module', 'resource');
-    global $an_resource_field_citation;
-    global $an_resource_citation_fields_A, $an_resource_citation_fields_B, $an_resource_citation_fields_C;
-    global $an_resource_field_resource;
-    global $an_vocabularies;
-    ?>
-    <div class="resource-content <?php print $type; ?>">
-    <?php
-    $citationOutput = _resource_output_citation($node);
-    $taxonomyOutput = _resource_output_taxonomy($node);
+        module_load_include('module', 'resource');
+        global $an_resource_field_citation;
+        global $an_resource_citation_fields_A, $an_resource_citation_fields_B, $an_resource_citation_fields_C;
+        global $an_resource_field_resource;
+        global $an_vocabularies;
+        ?>
+        <div class="resource-content <?php print $type; ?>">
+            <?php
+            $citationOutput = _resource_output_citation($node);
+            $taxonomyOutput = _resource_output_taxonomy($node);
 
 
 
@@ -141,82 +141,97 @@ global $an_resource_types;
 
 
 
-// Related Links
-    
-    $linksOutput = '<div id="resource-links">';
-    if (count($field_links) > 0) {
-    $linksOutput .= '<h3>Links</h3>';
-    $linksOutput .= '<ul>';
-    foreach ($field_links as $link) {
-        $linksOutput .= '<li>';
-        $linksOutput .= '<a href="' . $link['url'] . '" target="_blank">';
-        $linksOutput .= $link['title'];
-        $linksOutput .= '</a>';
-        $linksOutput .= '</li>';
-    }
-    }
-    $linksOutput .= '</ul></div>';
+            // Related Links
+            $linksOutput = '<div id="resource-links">';
 
-
-    $fieldsToRender = $an_resource_field_resource;
-    array_pop($fieldsToRender); // This should remove links
-
-
-    $resourceOutput = '<div class="resource-resource">';
-   
-    foreach ($fieldsToRender as $rfield) {
-        // Make sure the field returns a result
-        if (isset(${"field_" . $rfield["field_name"]})) {
-            // Make sure that result is of value
-            if (array_key_exists('value', ${"field_" . $rfield["field_name"]}[0])) {
-            if (strlen(${"field_" . $rfield["field_name"]}[0]["value"]) > 0) {
-
-                $rfieldOutput = '<div id="resource-' . $rfield["field_name"] . '">';
-                // Get name of instance, not field (different for different resources)
-                $rInstance = field_read_instance('node', 'field_' . $rfield["field_name"], $type);
-                $rfieldOutput .= '<h3>' . $rInstance["label"] . '</h3>';
-                foreach (${"field_" . $rfield["field_name"]} as $instance) {
-                    $rfieldOutput .= $instance['safe_value'];
-                }
-                $rfieldOutput .= '</div>';
-                $resourceOutput .= $rfieldOutput;
-            }
-            } elseif (array_key_exists('filename', ${"field_" . $rfield["field_name"]}[0])) {
-                $rfieldOutput = '<div class="resource-file" id="resource-' . $rfield["field_name"]. '">';
-                if (${"field_" . $rfield["field_name"]}[0]['display'] == 1 && ${"field_" . $rfield["field_name"]}[0]['status'] == 1) {
-                $rfieldOutput .= '<h3>Download Attachment:</h3> ';
-                $rfieldOutput .= ' <a href="'.file_create_url(${"field_" . $rfield["field_name"]}[0]['uri']).'">';
-                $rfieldOutput .= ${"field_" . $rfield["field_name"]}[0]['filename'] . '</a>';
-                $rfieldOutput .= '</div>';
-                $resourceOutput .= $rfieldOutput;
+            $linkedFile = array();
+            if (array_key_exists('field_resource_file', $variables)) { // Makes sure the field exists (doesn't on all resources?)
+                if (count($field_resource_file) > 0) { // If there's a set value stored in here
+                    $linkedFile = $field_resource_file[0];
                 }
             }
-        }
-    }
 
-    $resourceOutput .= '</div>';
-    
-    $resourceOutput .= '<div class="back-to-top">';
-    $resourceOutput .= '<a href="#top">Back to Top</a>';
-    $resourceOutput .= '</div>';
+            if (count($field_links) > 0 || count($linkedFile) > 0) {
+                $linksOutput .= '<h3>Links</h3>';
+                $linksOutput .= '<ul>';
+                foreach ($field_links as $link) {
+                    $linksOutput .= '<li>';
+                    $linksOutput .= '<a href="' . $link['url'] . '" target="_blank">';
+                    $linksOutput .= $link['title'];
+                    $linksOutput .= '</a>';
+                    $linksOutput .= '</li>';
+                }
+                if (count($linkedFile) > 0) {
+                    $linksOutput .= '<li>';
+                    $linksOutput .= '<a href="' . file_create_url($linkedFile['uri']) . '">' . $linkedFile['filename'] . '</a>';
+                    $linksOutput .= '</li>';
+                }
+            }
+            $linksOutput .= '</ul></div>';
+
+
+            $fieldsToRender = $an_resource_field_resource;
+            array_pop($fieldsToRender); // This should remove links
+            array_shift($fieldsToRender); // This should remove resource file
+
+
+            $resourceOutput = '<div class="resource-resource">';
+
+            foreach ($fieldsToRender as $rfield) {
+                // Make sure the field returns a result
+                if (isset(${"field_" . $rfield["field_name"]})) {
+                    // Make sure that result is of value
+                    if (count(${"field_" . $rfield["field_name"]}) > 0) {
+                    if (array_key_exists('value', ${"field_" . $rfield["field_name"]}[0])) {
+                        if (strlen(${"field_" . $rfield["field_name"]}[0]["value"]) > 0) {
+
+                            $rfieldOutput = '<div id="resource-' . $rfield["field_name"] . '">';
+                            // Get name of instance, not field (different for different resources)
+                            $rInstance = field_read_instance('node', 'field_' . $rfield["field_name"], $type);
+                            $rfieldOutput .= '<h3>' . $rInstance["label"] . '</h3>';
+                            foreach (${"field_" . $rfield["field_name"]} as $instance) {
+                                $rfieldOutput .= $instance['safe_value'];
+                            }
+                            $rfieldOutput .= '</div>';
+                            $resourceOutput .= $rfieldOutput;
+                        }
+                    }/* elseif (array_key_exists('filename', ${"field_" . $rfield["field_name"]}[0])) {
+                        $rfieldOutput = '<div class="resource-file" id="resource-' . $rfield["field_name"] . '">';
+                        if (${"field_" . $rfield["field_name"]}[0]['display'] == 1 && ${"field_" . $rfield["field_name"]}[0]['status'] == 1) {
+                            $rfieldOutput .= '<h3>Download Attachment:</h3> ';
+                            $rfieldOutput .= ' <a href="' . file_create_url(${"field_" . $rfield["field_name"]}[0]['uri']) . '">';
+                            $rfieldOutput .= $ {"field_" . $rfield["field_name"]}[0]['filename'] . '</a>';
+                            $rfieldOutput .= '</div>';
+                            $resourceOutput .= $rfieldOutput;
+                        }
+                    }*/
+                }
+                    }
+            }
+
+            $resourceOutput .= '</div>';
+
+            $resourceOutput .= '<div class="back-to-top">';
+            $resourceOutput .= '<a href="#top">Back to Top</a>';
+            $resourceOutput .= '</div>';
 
 // Comments
-        $commentsOutput = '<div id="resource-comments">';
-        if ($status){ 
-            $commentsOutput .= render($elements['comments']);
-        }
-        $commentsOutput .= '</div>';
-    
+            $commentsOutput = '<div id="resource-comments">';
+            if ($status) {
+                $commentsOutput .= render($elements['comments']);
+            }
+            $commentsOutput .= '</div>';
+
 
 // Build the page
-     //if (!$status){ 
-    //     drupal_set_message( '<p class="unpublished">'. t('Unpublished') .'</p>');
-    //}
-    print $citationOutput;
-    print $taxonomyOutput;
-    print $linksOutput;
-    print $resourceOutput;
-    print $commentsOutput;
-    ?>
-    </div>
+            //if (!$status){ 
+            //     drupal_set_message( '<p class="unpublished">'. t('Unpublished') .'</p>');
+            //}
+            print $citationOutput;
+            print $taxonomyOutput;
+            print $linksOutput;
+            print $resourceOutput;
+            print $commentsOutput;
+            ?>
+        </div>
     <?php endif; ?>
