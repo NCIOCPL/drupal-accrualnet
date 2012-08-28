@@ -23,28 +23,23 @@
         $('#title-results-pager').append($('ul.pager').clone());
         
         $('.strategy-rollup').css('display', 'none');
-        $('.option').click(function (e){
-            if($(this).prev().attr('checked')){
-               $(this).prev().attr('checked',0);
-                $(this).prev().prev().removeClass("checked");
-                $(this).prev().prev().addClass("unchecked");
-               $(this).prev().change();
+        $('.filter-checkbox').click(function (e){
+            if($(this).children('input').attr('checked')){
+               $(this).children('input').attr('checked',0);
+                $(this).children('span').removeClass("checked");
+                $(this).children('span').addClass("unchecked");
+               $(this).children('input').change();
             }
            else{
-               $(this).prev().attr('checked',1);
-               $(this).prev().prev().removeClass("unchecked");
-               $(this).prev().prev().addClass("checked");
-               $(this).prev().change();
+               $(this).children('input').attr('checked',1);
+               $(this).children('span').removeClass("unchecked");
+               $(this).children('span').addClass("checked");
+               $(this).children('input').change();
            }
         });
+       
         
         $('.stage-checkbox').click(function (e) {
-                if($(this).children('input').attr("checked")){
-                   
-                }
-                else {
-                  
-                }
                 $(this).next().toggle();
             
         });
