@@ -27,6 +27,24 @@ $GLOBALS['an_resource_field_resource'] = array(
         ),
     ),
     array(
+        'label' => t('Date Display Format'),
+        'field_name' => 'date_display_format',
+        'cardinality' => '1',
+        'entity_type' => 'node',
+        'description' => '',
+        'type' => 'list_text',
+        'settings' => array(
+            'allowed_values' => array(
+                'y' => t('Year'),
+                'ym' => t('Year Month'),
+                'ymd' => t('Year Month Day'),
+            ),
+        ),
+        'widget' => array(
+            'type' => 'options_select',
+        ),
+    ),
+    array(
         'label' => 'Highlights',
         'field_name' => 'highlights',
         'type' => 'text_long',
