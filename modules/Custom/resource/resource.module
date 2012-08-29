@@ -443,13 +443,14 @@ function _resource_output_snippet($node, $image = TRUE, $citation = TRUE, $taxon
 	$output .= '</a>';
 	$output .= '</div>';
 	//$output .= _resource_output_citation($node);
+        	if ($timestamp) {
+		$output .= _resource_output_timestamp($node);
+	}
 	if ($citation) {
 		$output .= _resource_output_citation($node);
 	}
 
-	if ($timestamp) {
-		$output .= _resource_output_timestamp($node);
-	}
+
 
 	if ($taxonomy) {
 		$output .= filter_xss_admin(_resource_output_taxonomy($node));
@@ -461,7 +462,7 @@ function _resource_output_snippet($node, $image = TRUE, $citation = TRUE, $taxon
 
 function _resource_output_timestamp($node) {
 	$date = format_date($node->created, 'custom', 'M d, Y.');
-	return "<div class='resource-timestamp'>Posted $date</div>";
+	return "<div class='resource-timestamp'>Posted: $date</div>";
 }
 
 ?>
