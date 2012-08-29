@@ -79,10 +79,18 @@ function resource_page_templates_menu() {
 
     $items['literature/all'] = array(
         'title' => 'All Resources',
-        'page callback' => 'drupal_get_form',
-        'page arguments' => array('resource_ajax_filter'),
+        'page callback' => '_diff',
         'access callback' => TRUE,
     );
+    
+     $items['literature/all/pager/callback'] = array(
+        'title' => 'All Literature and Tools Filtered&Paged',
+        'type' => MENU_CALLBACK,
+        'page callback' => '_again',
+        'access arguments' => array('access content'),
+        
+    );
+    
 
     return $items;
 }
