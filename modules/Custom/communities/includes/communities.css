@@ -29,10 +29,14 @@
 }
 
 span.conversation-last-updated {
-    float: right;
+    
     font-weight: normal;
     font-size: 13px;
     text-transform: none;
+}
+
+.last-updated-snippet {
+    color: #DC6E23;
 }
 
 #conversation-results .conversation-title a {
