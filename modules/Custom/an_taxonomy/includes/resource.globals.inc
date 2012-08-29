@@ -50,7 +50,8 @@ $GLOBALS['an_vocabularies'] = array(
 			'Insurance Coverage',
 			'Institutional Issues',
 			'Regulatory Issues',
-			'Inadequate Staffing'
+			'Inadequate Staffing',
+                        'International',
 	)),
 	array(
 		'name' => 'Study Issues',
