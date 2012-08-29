@@ -316,7 +316,7 @@ function _resource_output_citation($node) {
 	foreach ($citation as $field_name => $field_properties) {
 		$field = array();
 		//$field[$field_name] = _resource_citation_change($field_name, $field_properties, $an_resource_field_citation[$field_name]);
-
+                $dateDisplayMode = field_get_items('node', $node, 'field_date_display_format');
 		foreach ($an_resource_field_citation[$field_name] as $prop_name => $prop_details) {
 			$field[$prop_name] = $prop_details; //_resource_citation_change($prop_name, $field_properties, $prop_details);
 		}
@@ -332,8 +332,25 @@ function _resource_output_citation($node) {
 		if (isset($node->{"field_citation_" . $field_name}['und'])) {
 			if ($field['type'] == 'datestamp') {
 
-				$fieldOutput .= filter_xss(date('M d, Y', $node->{"field_citation_" . $field_name}['und'][0]['value']));
-				$fieldOutput .= '. ';
+                                if($dateDisplayMode){
+                                    switch($dateDisplayMode[0]['value']){
+                                        case 'y':
+                                            $fieldOutput .= filter_xss(date('Y', $node->{"field_citation_" . $field_name}['und'][0]['value']));
+                                            break;
+                                        case'ym':
+                                            $fieldOutput .= filter_xss(date('Y M', $node->{"field_citation_" . $field_name}['und'][0]['value']));
+                                            break;
+                                        case 'ymd':
+                                            $fieldOutput .= filter_xss(date('Y M d', $node->{"field_citation_" . $field_name}['und'][0]['value']));
+                                            break;
+                                        default:
+                                            break;
+                                    }
+                                }
+                                else{
+                                    $fieldOutput .= filter_xss(date('Y M d', $node->{"field_citation_" . $field_name}['und'][0]['value']));
+                                }
+                                $fieldOutput .= '. ';
 			} elseif ($field['cardinality'] > 1 || $field['cardinality'] == FIELD_CARDINALITY_UNLIMITED) {
 				foreach ($node->{"field_citation_" . $field_name}['und'] as $field_instance) {
 					$fieldOutput .= filter_xss($field_instance['value']) . ',';
