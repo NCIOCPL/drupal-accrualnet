@@ -225,8 +225,11 @@ $op = field_get_items('node', $node, 'op');
             <h2>
             <?php print check_plain($node->title);?>
 
-            <?php print _last_updated_snippet($node->last_comment_timestamp); ?>
+            
             </h2>
+            <div class="last-updated-snippet">
+            <?php print _last_updated_snippet($node->last_comment_timestamp); ?>
+            </div>
         </div>
         <div class="conversation-abstract">
             <?php if ($body) print drupal_render(field_view_field('node', $node, 'body', array('label' => 'hidden'))); ?>

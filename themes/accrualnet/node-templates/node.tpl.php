@@ -227,6 +227,12 @@ global $an_resource_types;
             //if (!$status){ 
             //     drupal_set_message( '<p class="unpublished">'. t('Unpublished') .'</p>');
             //}
+             
+            $date = '';
+            if(isset($node) && key_exists($node->type, $an_resource_types)) {
+                    $date = 'Posted: ' . format_date($node->created, 'custom', 'M d, Y');
+            }
+            print '<div class="posted-date"><span class="resource-title-date">'. $date .'</span></div>';
             print $citationOutput;
             print $taxonomyOutput;
             print $linksOutput;
