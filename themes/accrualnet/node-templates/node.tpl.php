@@ -171,8 +171,10 @@ global $an_resource_types;
 
 
             $fieldsToRender = $an_resource_field_resource;
+			
             array_pop($fieldsToRender); // This should remove links
             array_shift($fieldsToRender); // This should remove resource file
+			array_shift($fieldsToRender);
 
 
             $resourceOutput = '<div class="resource-resource">';
