@@ -444,6 +444,7 @@ function _again($facetName = NULL, $tagName = NULL) {
     $query = new EntityFieldQuery;
     $query->entityCondition('entity_type', 'node');
     $query->propertyOrderBy('created', 'DESC');
+    $query->propertyCondition("status", 1);
     $query->pager(10);
 
     
