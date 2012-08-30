@@ -344,7 +344,20 @@ function accrualnet_preprocess_search_result(&$vars) {
  *   A string containing the breadcrumb output.
  */
 function accrualnet_breadcrumb($variables) {
+       $links = array();
+       $path = '';
+       $arguments = explode('/', request_uri());
+       
 	$breadcrumb = $variables['breadcrumb'];
+        if(!array_key_exists(1, $breadcrumb) && in_array('literature', $arguments)){
+           $breadcrumb[1] = '<a href="/literature">Literature &amp; Tools</a>';
+       }
+       elseif(!array_key_exists(1, $breadcrumb) && in_array('communities', $arguments)){
+           $breadcrumb[1] = "<a href=\"/communities\">Communities and Conversations</a>";
+       }
+       elseif(!array_key_exists(1, $breadcrumb) && in_array('education', $arguments)){
+           $breadcrumb[1] = "<a href=\"/education\">Education & Training</a>";
+       }
 	$output = '';
 	//if (empty($breadcrumb)) {
 		$breadcrumb[0] = '<a href="/">AccrualNet</a>';
