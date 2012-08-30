@@ -275,7 +275,8 @@ input#edit-name {
     margin-top: -25px;
 }
 
-.accrualnet-user-profile-form-wrapper div.password-strength{
+.accrualnet-user-profile-form-wrapper div.password-strength, 
+    .accrualnet-user-register-form-wrapper div.password-strength{
     color: black;
     font-weight: normal;
     position: absolute;
@@ -296,7 +297,8 @@ div.password-strength-text {
     overflow: hidden;
 }
 
-.accrualnet-user-profile-form-wrapper div.password-confirm {
+.accrualnet-user-profile-form-wrapper div.password-confirm,
+.accrualnet-user-register-form-wrapper div.password-confirm{
     color: black;
     font-weight: normal;
     position: absolute;
