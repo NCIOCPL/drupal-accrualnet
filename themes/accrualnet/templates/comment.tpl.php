@@ -108,10 +108,7 @@ else {
                 
                 <a href="/user/<?php print $comment->uid;?>" class="<?php if($color){print $nci_user_profile_colors[$color[0]['value']];}?>" title="<?php print $user->name;?>'s profile"><?php print $user->name;?></a>
             </span>
-            <?php /* removed 8/30 per request <span class="user-occupation"><?php print check_plain($occupation[0]['value']);?></span>*/ ?>
-            <span class="posted-date"><?php print format_date($comment->created, 'custom', 'F d, Y');?></span>
-        </div>
-		<?php 
+					<?php 
 			// look for moderator titles
 			$moderator_titles = array();
 			// if belongs to the co-moderator role
@@ -131,9 +128,12 @@ else {
 			}
 			if(!empty($moderator_titles)){
 				$moderator_text = implode(', ', $moderator_titles);
-				print "<div class='user-moderator'>$moderator_text</div>";
+				print "<span class='user-moderator'>$moderator_text</span>";
 			}
 		?>
+            <?php /* removed 8/30 per request <span class="user-occupation"><?php print check_plain($occupation[0]['value']);?></span>*/ ?>
+            <span class="posted-date"><?php print format_date($comment->created, 'custom', 'F d, Y');?></span>
+        </div>
         <?php
         hide($content['links']);
         print render($content);
