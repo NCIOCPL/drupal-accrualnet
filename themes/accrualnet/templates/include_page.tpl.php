@@ -318,7 +318,7 @@ if ($pager_total_items != null) {
             <div class="footer-links">
               <ul>
                 <li><a href="/">AccrualNet<sup>TM</sup> Home</a></li>
-                <li><a href="/about/contact_us">Contact Us</a></li>
+                <li><a href="/about/contact-us">Contact Us</a></li>
                 <li><a href="http://www.cancer.gov/global/web/policies" target="_blank">Policies</a></li>
                 <li><a href="http://www.cancer.gov/global/web/policies/page3" target="_blank">Accessibility</a></li>
                 <li><a href="http://www.cancer.gov/global/web/policies/page6" target="_blank">FOIA</a></li>
