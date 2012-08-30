@@ -196,7 +196,7 @@ function _homepage_dynamic_content_block($node) {
 		$content = $query->execute();
                 $content = $content->fetchAllAssoc('nid');
                 if($commentQuery){
-                    $content = array_merge($content, $commentQuery->execute()->fetchAllAssoc('nid'));
+                    $content = array_merge($content, $commentQuery->execute()->fetchAllAssoc('cid'));
                     
                 }
                 usort($content, 'feature_sort');
