@@ -260,9 +260,7 @@ $op = field_get_items('node', $node, 'op');
                     <span class="user-name">
                         <a href="/user/<?php print $node->uid;?>" class="<?php print $color ? $nci_user_profile_colors[$color[0]['value']] : 'Black';?>" title="<?php print $user->name;?>'s profile"><?php print $user->name;?></a>
                     </span>
-                    <span class="user-occupation"><?php print check_plain($occupation[0]['value']);?></span>
-                    <span class="posted-date"><?php print format_date($node->created, 'custom', 'F d, Y');?></span>
-                </div>
+<?php /*                    <span class="user-occupation"><?php print check_plain($occupation[0]['value']);?></span> */ ?>
 				<?php 
 					// look for moderator titles
 					$moderator_titles = array();
@@ -283,9 +281,12 @@ $op = field_get_items('node', $node, 'op');
 					}
 					if(!empty($moderator_titles)){
 						$moderator_text = implode(', ', $moderator_titles);
-						print "<div class='user-moderator'>$moderator_text</div>";
+						print "<span class='user-moderator'>$moderator_text</span>";
 					}
 				?>
+                    <span class="posted-date"><?php print format_date($node->created, 'custom', 'F d, Y');?></span>
+                </div>
+
                 <?php print $opener[0]['safe_value']; ?>
             </div>
 
