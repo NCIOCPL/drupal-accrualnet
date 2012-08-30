@@ -190,7 +190,9 @@ global $an_resource_types;
                             $rInstance = field_read_instance('node', 'field_' . $rfield["field_name"], $type);
                             $rfieldOutput .= '<h3>' . $rInstance["label"] . '</h3>';
                             foreach (${"field_" . $rfield["field_name"]} as $instance) {
-                                $rfieldOutput .= $instance['safe_value'];
+                                if (array_key_exists('safe_value', $instance)) {
+                                    $rfieldOutput .= $instance['safe_value'];
+                                }
                             }
                             $rfieldOutput .= '</div>';
                             $resourceOutput .= $rfieldOutput;
