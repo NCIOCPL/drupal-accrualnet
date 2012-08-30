@@ -920,7 +920,7 @@ body a:visited {
 .featured-content-block .conversation-output {
     position: relative;
     clear: both;
-    padding: 20px 0px;
+    padding: 15px 0px;
 }
 
 .featured-content-block .conversation-output .node-title a{
