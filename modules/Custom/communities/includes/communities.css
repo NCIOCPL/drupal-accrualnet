@@ -39,7 +39,8 @@ span.conversation-last-updated {
     color: #DC6E23;
 }
 
-#conversation-results .conversation-title a {
+#conversation-results .conversation-title a,
+#community .conversation-title a {
     display:block;
     width: 75%;
     float: left;
