@@ -343,6 +343,15 @@ function _resource_ajax_load_results($params, $facetName, $tag, $getCount = fals
 
 function _diff($facetName = NULL, $tagName = NULL) {
     global $an_resource_types;
+    
+    $facet = taxonomy_vocabulary_machine_name_load('an_vocabulary_' . $facetName);
+    if ($facetName && !$facet) {
+        drupal_goto('404');
+    }
+    $tag = array_pop(taxonomy_get_term_by_name(DetermineTag($tagName)));
+    if ($tagName && !$tag) {
+        drupal_goto('404');
+    }
 
     drupal_add_js(drupal_get_path('module', 'resource_page_templates') . '/jquery.url.js', 'file'); // I have no idea what this does... left over relic from example
     drupal_add_js(drupal_get_path('module', 'resource_page_templates') . '/resourceFilter.js', 'file'); // jQuery styling + ajax Functions
