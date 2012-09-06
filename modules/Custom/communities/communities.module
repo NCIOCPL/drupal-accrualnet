@@ -622,7 +622,7 @@ function _user_image_snippet($user) {
         $avatarSRC = '/' . path_to_theme() . '/accrualnet-internals/images/avatars/male/Black.png';
 
     }
-    return '<img src="'.$avatarSRC.'" width="25" title="'.check_plain($user->name).'\'s Image" alt="'.check_plain($user->name).'\'s Image" />';
+    return '<img alt="'.check_plain($user->name).'\'s Image" src="'.$avatarSRC.'" width="25" title="'.check_plain($user->name).'\'s Image" alt="'.check_plain($user->name).'\'s Image" />';
 }
 
 function _starter_snippet($userID) {
