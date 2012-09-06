@@ -418,28 +418,16 @@ function _resource_output_taxonomy($node) {
 }
 
 function _resource_output_snippet($node, $image = TRUE, $citation = TRUE, $taxonomy = TRUE, $timestamp = true) {
-
+global $an_resource_types;
 	$noImageClass = '-no-image';
 
 	if ($image) {
 		$noImageClass = '';
 		$type_image = '';
 		try {
-			//$theme_path = drupal_get_path('theme', 'accrualnet');
-
-			$type_image = "/images/icons/$node->type.png";
-
-			//global $base_url;
-			//$type_image = $base_url . $type_image;
-
-			$type_image = file_build_uri($type_image);
-
-			$type_image = image_style_url('search_result_icon', $type_image);
-
-			$type_image = "<img src='$type_image'>";
-
+                    
 			$type_image = '/' . drupal_get_path('theme', 'accrualnet') . '/accrualnet-internals/images/icons/' . $node->type . '.png';
-			$type_image = '<img class="resource-snippet" src="' . $type_image . '"/>';
+			$type_image = '<img alt="Image Representing Resource Type ('.$an_resource_types[$node->type]['name'].')" class="resource-snippet" src="' . $type_image . '"/>';
 		} catch (Exception $e) {
 			$type_image = $e->getMessage();
 		}
