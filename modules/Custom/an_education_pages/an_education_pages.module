@@ -41,7 +41,7 @@ module_load_include('inc', 'resource', 'types');
 
 function an_education_pages_menu() {
   $items['education'] = array(
-    'title' => 'Education & Tools',
+    'title' => 'Education & Training',
     'page callback' => 'education_landing_page',
     'access arguments' => array('access content'),
     'type' => MENU_SUGGESTED_ITEM,
