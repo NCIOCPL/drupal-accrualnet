@@ -41,6 +41,14 @@ jQuery(function ($) {
         //   var index = (selectedIndex + 1) % li.length;
         //   slideshowSelect( index );
         //});
+        
+        $('.slideshowControl').keyup(function(e) {
+            var key = e.charCode ? e.charCode : e.keyCode ? e.keyCode : 0;
+        if(key == 13) {
+            slideshowSelect( $( this ).index() );
+                slideshowPause = true;
+        }
+        });
     });
 
 
