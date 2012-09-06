@@ -98,6 +98,7 @@ function resource_page_templates_menu() {
 /**
  * AJAX-enabled checkboxes that allow for filtering of literature and tools results. 
  */
+/*
 function resource_ajax_filter($form, &$form_state, $facet = NULL, $term = NULL) {
     global $an_stage_strategy;
     global $an_resource_types;
@@ -278,6 +279,8 @@ function resource_ajax_filter($form, &$form_state, $facet = NULL, $term = NULL) 
 
     return $form;
 }
+ * 
+ */
 
 /**
  * Callback element needs only select the portion of the form to be updated.
@@ -387,7 +390,7 @@ function _diff($facetName = NULL, $tagName = NULL) {
         $o .= '<div class="checkbox-' . $stage->nid . ' stage-checkbox filter-checkbox">';
         $o .= '<span class="checkbox unchecked"></span>';
         $o .= '<input id="edit-stage-' . $stage->nid . '" class="form-checkbox ajax-processed" type="checkbox" value="1" name="' . $stage->nid . '" onChange="javascript:if (this.checked) { lifecycle[' . $count . '] = 1; } else { lifecycle[' . $count . '] = 0; }">';
-        $o .= '<label class="option">' . $stage->title . '</label></div>'; //.stage-checkbox
+        $o .= '<label for="edit-stage-'.$stage->nid.'" class="option">' . $stage->title . '</label></div>'; //.stage-checkbox
         
         // BEGIN ROLLUP OF STRATEGIES //
         $o .= '<div id="' . $stage->nid . '-div" class="strategy-rollup">';
@@ -404,7 +407,7 @@ function _diff($facetName = NULL, $tagName = NULL) {
                 $o .= '<div class="parent-' . $stage->nid . ' strategy-checkbox filter-checkbox">';
                 $o .= '<span class="checkbox unchecked"></span>';
                 $o .= '<input id="edit-strategy-' . $strategy->nid . '" class="form-checkbox ajax-processed" type="checkbox" value="1" name="' . $stage->nid . '" onChange="javascript:if (this.checked) { lifecycle[' . $count . '] = 1; } else { lifecycle[' . $count . '] = 0; }">';
-                $o .= '<label class="option">' . $strategy->title . '</label></div>';
+                $o .= '<label for="edit-strategy-'.$strategy->nid.'" class="option">' . $strategy->title . '</label></div>';
                 $count++;
             }
         }
@@ -425,7 +428,7 @@ function _diff($facetName = NULL, $tagName = NULL) {
         $o .= '<div class="' . $resourceType . ' rtype-checkbox filter-checkbox">';
         $o .= '<span class="checkbox unchecked"></span>';
         $o .= '<input id="edit-' . $resourceType . '" class="form-checkbox ajax-processed unchecked" type="checkbox" value="1" name="' . $resourceType . '" onChange="javascript:if (this.checked) { rtype[' . $count . '] = 1; } else { rtype[' . $count . '] = 0; }">';
-        $o .= '<label class="option">' . $values['name'] . '</label></div>'; //.rtype-checkbox
+        $o .= '<label for="edit-'.$resourceType.'" class="option">' . $values['name'] . '</label></div>'; //.rtype-checkbox
         $count++;
     }
     $o .= '</div>'; //.fieldset-wrapper
