@@ -28,7 +28,7 @@ $GLOBALS['an_homepage_fields'] = array(
             'max_filesize' => '', // default
             'max_resolution' => '', // default
             'min_resolution' => '',  // default,
-            'alt_field' => FALSE, // default
+            'alt_field' => TRUE, // default
             'title_field' => FALSE, // default
         ),
         'widget' => array(

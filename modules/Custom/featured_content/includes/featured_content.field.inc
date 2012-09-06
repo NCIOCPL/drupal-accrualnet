@@ -160,7 +160,7 @@ $GLOBALS['featured_content_fields'] = array(
             'user_register_form' => FALSE, // default
             'file_extensions' => 'png gif jpg jpeg', // default
             'max_filesize' => '', // default
-            'alt_field' => FALSE, // default
+            'alt_field' => TRUE, // default
             'title_field' => FALSE, // default
         ),
         'widget' => array(
