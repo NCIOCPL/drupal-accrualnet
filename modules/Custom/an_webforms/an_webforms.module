@@ -36,7 +36,6 @@ function an_webforms_form_alter(&$form, &$form_state, $form_id) {
     }) (jQuery);", 'inline');
 	drupal_add_js(path_to_theme() . '/js/checkbox.js', 'file');
 	drupal_add_js(path_to_theme() . '/js/selectboxes.js', 'file');
-	drupal_add_js(path_to_theme() . '/js/inputdarken.js', 'file');
 	
 	$form['submitted']['legend'] = array(
 		'#type' => 'markup',
