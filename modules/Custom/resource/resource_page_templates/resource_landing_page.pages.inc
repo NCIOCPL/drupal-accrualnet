@@ -51,7 +51,8 @@ function resource_landing_page() {
             
             $output .= theme('image_style',  array(
                             'path' => $image[0]['uri'],
-                            'style_name' => 'large',         
+                            'style_name' => 'large',       
+                'alt' => $image[0]['alt'],
                         )
                     );
         }

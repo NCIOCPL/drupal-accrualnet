@@ -428,26 +428,9 @@ html, body {
 
 #header {
     background-color: white ;
-    /*background-image: repeating-linear-gradient(-45deg, white, white 2px, white 2px, white 4px);
-    background-image: -webkit-repeating-linear-gradient(-45deg, #ffe5ca, #ffe5ca 1%, white 2%, white 3% );
 
-    background-image: -webkit-gradient(linear, 100% 0%, 0% 100%,
-    from(transparent),
-    color-stop(0.15, transparent), 
-    color-stop(0.15, rgba(255,0,0,0.75)),
-    color-stop(0.50, rgba(255,0,0,0.75)),
-    color-stop(0.50, transparent),
-    color-stop(0.65, transparent),
-    color-stop(0.65, rgba(255,0,0,0.75)), 
-    to(rgba(255,0,0,0.75)));*/
-
-    background-image:
-		-webkit-gradient(linear, 0% 0%, 100% 100%, from(rgba(154, 184, 63, .2)), color-stop(0.15, rgba(154, 184, 63, .2)), color-stop(0.15, transparent), color-stop(0.50, transparent), color-stop(0.50, rgba(154, 184, 63, .2)), color-stop(0.65, rgba(154, 184, 63, .2)), color-stop(0.65, transparent), to(transparent));
-    background-image: 
-        -moz-linear-gradient(-45deg, rgba(154, 184, 63, .2), rgba(154, 184, 63, .2) 15%, white 50%,  rgba(154, 184, 63, .2) 65%, white);
-    background-size: 10px 10px;
-    -webkit-background-size: 10px 10px;
-    -moz-background-size: 10px 10px;
+background-image: url('../images/header.png');
+background-repeat: repeat;
 }
 
 header#page-header {
@@ -487,6 +470,7 @@ header#page-header {
     color: black;
     font-weight: normal;
     font-size: 13px;
+    font-weight: bold;
 }
 
 .unchecked {
@@ -633,7 +617,7 @@ body a:visited {
     background-color: #C74532;
 }
 .Orange .feature-header {
-    background-color: #DC6E23;
+    background-color: #BF5500;
 }
 
 
@@ -707,8 +691,8 @@ body a:visited {
     border-right: solid #105693 7px;
 }
 .Orange .featured-content-carousel {
-    border-bottom: solid #DC6E23 7px;
-    border-right: solid #DC6E23 7px;
+    border-bottom: solid #BF5500 7px;
+    border-right: solid #BF5500 7px;
 }
 
 .featured-content-carousel:before {
@@ -758,7 +742,7 @@ body a:visited {
 }
 
 .Orange .featured-carousel-slides {
-    border: 3px solid #DC6E23;
+    border: 3px solid #BF5500;
 }
 .front .featured-carousel-slides  .slide {
     min-height: 380px;
@@ -862,11 +846,11 @@ body a:visited {
 		-moz-linear-gradient(-45deg, rgba(199, 69, 50, .1), rgba(199, 69, 50, .1) 15%, white 50%,  rgba(199, 69, 50, .2) 65%, white);
 }  
 .Orange .slideshowControl  div {
-    color: #DC6E23;
+    color: #BF5500;
 
 
-    border: 1px solid #DC6E23;
-    border-bottom: 5px solid #DC6E23; 
+    border: 1px solid #BF5500;
+    border-bottom: 5px solid #BF5500; 
 
     background-color: #fff;
     background-image:
@@ -924,7 +908,7 @@ body a:visited {
 }
 
 .featured-content-block .conversation-output .node-title a{
-    color: #DC6E23;
+    color: #BF5500;
     font-size: 17px;
 }
 
@@ -1022,7 +1006,7 @@ body a:visited {
 }
 
 .homepage-feature-content-item .Orange {
-    color: #DC6E23;
+    color: #BF5500;
 }
 
 
@@ -1104,7 +1088,7 @@ body a:visited {
     color: #105693;
 }
 .Orange h1, .Orange h2, .Orange h3, .Orange h3 a, .Orange span.site-name-net, .Orange span.tm, a.Orange, .Orange .file a {
-    color: #DC6E23;
+    color: #BF5500;
 }
 .Red h1, .Red h2, .Red h3, .Red h3 a, .Red span.site-name-net, .Red span.tm, a.Red{
     color: #C74532;
@@ -1165,7 +1149,7 @@ a.Purple {
 .Orange #block-an-navigation-left-nav ul.menu li.leaf a:hover,
 .Orange #block-an-navigation-left-nav ul.menu li.leaf a:visited,
 .Orange #block-an-navigation-left-nav ul.menu li.leaf a:active{
-    color: #DC6E23;
+    color: #BF5500;
 }
 .Red #block-an-navigation-left-nav ul.menu li a,
 .Red #block-an-navigation-left-nav ul.menu li a:hover,
@@ -1426,8 +1410,8 @@ h2.comment-form {
     -moz-box-sizing: border-box;
     -webkit-box-sizing: border-box;
     -ms-box-sizing: border-box;
-    border: 1px solid #DC6E23;
-    border-bottom: 4px solid #DC6E23;
+    border: 1px solid #BF5500;
+    border-bottom: 4px solid #BF5500;
 }
 .odd .convo-body {
 	box-sizing: border-box;
@@ -1447,7 +1431,7 @@ h2.comment-form {
     margin-bottom: 20px;
     position: relative;
     bottom: 40px;
-    border-left: 2px solid #DC6E23;
+    border-left: 2px solid #BF5500;
 }
 
 .odd .convo-body {
@@ -1507,7 +1491,7 @@ h2.comment-form {
     position: absolute;
 }
 .even .convo-body:before {
-    border-color: transparent transparent #DC6E23 transparent;
+    border-color: transparent transparent #BF5500 transparent;
 
     border-style: solid;
 
@@ -1583,7 +1567,9 @@ h2.comment-form {
 	clear: both;
 }
 
-.webform-component .form-type-checkbox label{
+.webform-component .form-type-checkbox label,
+.webform-component .form-type-checkbox span.label-508,
+.webform-component  fieldset {
 	margin: 0px;
 	padding: 5px 0;
 	position: relative;
@@ -1594,9 +1580,17 @@ h2.comment-form {
 	float: left;
 	margin-left: -30px;
 }
+.webform-component fieldset#edit-submitted-disclaimer legend {
+    font-weight: bold;
+    text-transform: none;
+    color: #105693;
+    padding-left: 10px;
+}
 
 .node-webform .form-actions .form-submit,
 .webform-component > label,
+.webform-component > span.label-508,
+.webform-component > legend,.webform-component > fieldset,
 .webform-component > div,
 .webform-component > input{
 	clear: both;
@@ -1715,4 +1709,39 @@ span.resource-title-date{
 
 #education-landing-page {
 	margin-top: 20px;
+}
+
+/** 508 stuff added by Lauren **/
+fieldset.checkboxes-508, 
+fieldset.radios-508 {
+    border: 0px solid white;
+    display: block;
+}
+legend.checkboxes-508 {
+    color: black;
+    font-size: 13px;
+    text-transform: uppercase;
+    font-weight: bold;
+    margin-left: -10px;
+}
+legend.radios-508 {
+    color: black;
+    font-size: 13px;
+    font-weight: bold;
+    margin-left: -10px;
+}
+.hidden-508 {
+    display: none;
+    visibility: hidden;
+    width: 0px;
+    height: 0px;
+}
+
+/* lauren - 508 testing 
+input:focus, div:focus, span:focus {outline:1px dotted red;}
+*/
+
+.accrualnet-user-profile-form-wrapper input:focus,
+.accrualnet-user-register-form-wrapper input:focus {
+    outline:2px solid #9ab83f;
 }

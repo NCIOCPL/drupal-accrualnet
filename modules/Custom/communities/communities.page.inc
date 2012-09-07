@@ -220,6 +220,7 @@ function communities_landing_page() {
 			$output .= theme('image_style', array(
 				'path' => $image[0]['uri'],
 				'style_name' => 'large',
+                            'alt' => $image[0]['alt'],
 					)
 			);
 		}
@@ -275,6 +276,7 @@ function communities_of_practice_page() {
 			$o .= theme('image_style', array(
 				'path' => $image[0]['uri'],
 				'style_name' => 'large',
+                            'alt' => $image[0]['alt'],
 					)
 			);
 			$o.= '</div>';

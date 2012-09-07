@@ -63,6 +63,33 @@
             
         });
         
+                $('span.avatar-option').keyup(function (e) {
+                    var key = e.charCode ? e.charCode : e.keyCode ? e.keyCode : 0;
+        if(key == 13) {
+                        var $newsrc = $(this).children('img').attr('src');
+            $target.css('width', '200px');
+            $target.attr('src', $newsrc);
+            
+            var $gender = $(this).attr('title');
+            var $color = $(this).attr('id');
+            
+            $('select#edit-avatar-image-und').children().each(function () {
+                if ($(this).html() == ($gender + '/' + $color)) {
+                    $('select#edit-avatar-image-und').val($(this).val());
+                }
+            });
+            
+            $('input#edit-picture-upload').val('');
+            
+            $('.picked').removeClass('picked');
+            $(this).addClass('picked');
+            
+            $('.imagecrop-button').css('display', 'none');
+            $('.imagecrop-button').next().css('visibility', 'hidden');
+        }
+
+        });
+        
 
     });
 }) (jQuery);

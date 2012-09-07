@@ -19,13 +19,22 @@
             }
         });
         
+        //$('legend#edit-field-occupation-und-select').prepend($('label[for="edit-field-occupation-und-select"]'));
         
-        
+        /*
+        $('#edit-roles').prepend($('#edit-roles').prev());
+        //$('tsst').insertBefore($('#edit-roles').children('label').next());
+        $('<p>tsst</p>').insertBefore($('#edit-roles').children('label').next())
+        $('.form-item-roles').css('border', '1px solid red');
+        $('<fieldset><legend>Roles</legend>').insertBefore($('.form-item-roles'));
+        //$('<p>tests</p>').insertBefore($('#edit-roles').parent().next());
+        $('<p>what</p></fieldset>').insertAfter($('.form-item-roles'));
+        */
         
         var $pathToTheme = Drupal.settings.pathToTheme;
         $('.accrualnet-user-profile-form-wrapper, .accrualnet-user-register-form-wrapper').find('.description').each(function () {
             var $help = $(this).html();
-            $(this).html('<img src="/' + $pathToTheme + '/accrualnet-internals/images/global/help.png" title="' + $help + '" />');
+            $(this).html('<img alt="' + $help + '" src="/' + $pathToTheme + '/accrualnet-internals/images/global/help.png" title="' + $help + '" />');
             $(this).hover(function () {
                 $(this).children('img').attr('src', '/' + $pathToTheme + '/accrualnet-internals/images/global/help-active.png');
             }, function () {

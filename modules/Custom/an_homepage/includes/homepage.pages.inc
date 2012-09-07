@@ -37,6 +37,7 @@ function homepage_display() {
                 $output .= theme('image_style',  array(
                                 'path' => $image[0]['uri'],
                                 'style_name' => 'large',         
+                                'alt' => $image[0]['alt'],
                             )
                         );
             }

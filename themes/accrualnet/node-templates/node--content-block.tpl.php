@@ -105,7 +105,8 @@ $content = field_get_items('node', $node, 'field_content');
         <?php if($image): ?>
             <?php print theme('image_style',  array(
                             'path' => $image[0]['uri'],
-                            'style_name' => 'large',         
+                            'style_name' => 'large',  
+                'alt' => $image[0]['alt'],
                         )
                     );?>
         <?php endif;?>

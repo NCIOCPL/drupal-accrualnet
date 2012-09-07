@@ -67,38 +67,7 @@ function accrualnet_pager($variables) {
 }
 
 function accrualnet_preprocess_user_profile(&$vars) {
-	/*
-	  $profile = &$vars['user_profile'];
-
-	  hide($profile['summary']);
-
-	  $work_email = $vars['user']->mail;
-
-	  $profile['field_work_email'] = array(
-	  '#theme' => 'field',
-	  '#title' => t('WORK EMAIL'),
-	  '#weight' => -2,
-	  '#items' => array(0 => array('value' => $work_email)),
-	  0 => array('#markup' => $work_email),
-	  );
-
-	  if (isset($profile['field_role'])) {
-	  $profile['field_role']['#title'] = t('OCCUPATION');
-	  $profile['field_role']['#weight'] = 4;
-	  }
-	  if (isset($profile['field_years_in_research'])) {
-	  $profile['field_years_in_research']['#title'] = t('YEARS OF CLINICAL RESEARCH');
-	  $profile['field_years_in_research']['#weight'] = 5;
-	  }
-	  if (isset($profile['field_institution_type'])) {
-	  $profile['field_institution_type']['#title'] = t('INSTITUTION TYPE');
-	  $profile['field_institution_type']['#weight'] = 6;
-	  }
-	  if (isset($profile['field_areas_of_interest'])) {
-	  $profile['field_areas_of_interest']['#title'] = t('AREAS OF INTEREST');
-	  $profile['field_areas_of_interest']['#weight'] = 7;
-	  }
-	 */
+    
 }
 
 function accrualnet_preprocess_user_picture(&$vars) {
@@ -106,7 +75,7 @@ function accrualnet_preprocess_user_picture(&$vars) {
 }
 
 function accrualnet_preprocess_user_profile_item(&$vars) {
-	
+
 }
 
 function accrualnet_preprocess_user_login(&$vars) {
@@ -118,7 +87,7 @@ function accrualnet_preprocess_user_pass(&$vars) {
 }
 
 function accrualnet_preprocess_user_register_form(&$vars) {
-	$vars['form']['account']['name']['#title'] = "";
+	$vars['form']['account']['name']['#title'] = "Username";
 	$vars['form']['picture']['picture_upload']['#description'] = "You can upload a JPG, GIF, or PNG file.\n(File size limit is 2MB)";
 	$vars['form']['account']['name']['#description'] = 'This username will be displayed to all registered users if you participate in conversations or make comments on resources';
 	$vars['form']['picture']['picture_upload']['#size'] = 0;
@@ -192,12 +161,23 @@ function _accrualnet_hover_desc(&$element, $desc = '') {
 	$element['#hover_desc'] = $desc;
 }
 
+function accrualnet_form_required_marker ($variables) {
+    // Added by Lauren (cleaning up my horrible jQuery required's)
+      // This is also used in the installer, pre-database setup.
+  $t = get_t();
+  $attributes = array(
+    'class' => 'form-required', 
+    'title' => $t('This field is required.'),
+  );
+  return '<span' . drupal_attributes($attributes) . '><img alt="'.$attributes['title'].'" class="required-img" src="/'. path_to_theme() . '/accrualnet-internals/images/global/required.png" /></span>';
+}
+
 function accrualnet_preprocess_user_profile_form(&$vars) {
 
 	try {
 		hide($vars['form']['timezone']);
 		hide($vars['form']['group_audience']);
-		$vars['form']['account']['name']['#title'] = "";
+		$vars['form']['account']['name']['#title'] = "Username";
 		$vars['form']['account']['name']['#description'] = 'This username will be displayed to all registered users if you participate in conversations or make comments on resources';
 		$vars['form']['account']['mail']['#description'] = 'Please enter a valid, work-related e-mail address.  All e-mails from the system will be sent to this address.  Your e-mail address is not made public, and will only be used if you wish to receive a new password or certain site-related notifications.';
 		$vars['form']['account']['current_pass']['#description'] = '';
@@ -215,62 +195,208 @@ function accrualnet_preprocess_user_profile_form(&$vars) {
 		$vars['form']['picture']['picture_upload']['#description'] =
 				"You can upload a JPG, GIF, or PNG file.\n(File size limit is 2MB)";
 		$vars['form']['picture']['picture_upload']['#title'] = 'Upload Photo';
+                
 		//$vars['form']['picture']['select_avatar']['#title'] = 'Or Select an Avatar';
 		//$vars['form']['picture']['#attached']['js'] = array(
 		//	drupal_get_path('theme', 'accrualnet') . '/js/photo_crop.js',
 		//);
-		//print kprint_r($vars, TRUE, '$vars');
+		
+                
+                /* 508
+                foreach ($vars['form'] as $formEle) {
+                    if (array_key_exists('#type', $formEle)) {
+                        if ($formEle['#type'] == 'container') {
+                            
+                        }
+                    }
+                }*/
 	} catch (Exception $e) {
 		print_r($e->getMessage());
 	}
 }
+function accrualnet_form_element($variables) {
+    /*
+ * moved to functions for individual elements
+    // Added by Lauren for 508 compliance
+    if (array_key_exists('#type', $variables['element'])) {
+        if ($variables['element']['#type'] == 'checkboxes') {
+            //$required = !empty($variables['element']['#required']) ? theme('form_required_marker', array('element' => $variables['element'])) : '';
+            //$variables['element']['#field_prefix'] = '<fieldset class="checkboxes-508"><legend class="checkboxes-508">' . $required . ' ' . $variables['element']['#title'] . '</legend>';
+            //$variables['element']['#field_suffix'] = '</fieldset>';
+        }
+        if ($variables['element']['#type'] == 'managed_file') {
+            
+        }
+    }
+ * 
+ */
+
+        if (array_key_exists('#field_name', $variables['element'])) {
+        if ($variables['element']['#field_name'] == 'group_audience') {
+            if ($variables['element']['#children'] == null) {
+                $variables['element']['#children'] = '<select class="hidden-508" id="' . $variables['element']['#id'] .'"></select>';
+            }
+        }
+        }
+
+        if ($variables['element']['#id'] == 'edit-keys') {
+            
+                $variables['element']['#children'] = '<label class="hidden-508" for="' . $variables['element']['#id'] .'">Edit Keys</label>'
+                . $variables['element']['#children'];
+            
+        }
+        
+    
+    return theme_form_element($variables);
+
+}
+
+
+
+function accrualnet_radios($variables) {
+    // Added by Lauren for 508 compliance
+    $required = !empty($variables['element']['#required']) ? theme('form_required_marker', array('element' => $variables['element'])) : '';
+    $element = $variables['element'];
+  $attributes = array();
+  if (isset($element['#id'])) {
+    $attributes['id'] = $element['#id'];
+  }
+  $attributes['class'] = 'form-radios';
+  if (!empty($element['#attributes']['class'])) {
+    $attributes['class'] .= ' ' . implode(' ', $element['#attributes']['class']);
+  }
+  if (isset($element['#attributes']['title'])) {
+    $attributes['title'] = $element['#attributes']['title'];
+  }
+  $attributes['class'] .= ' radios-508';
+  return '<fieldset ' . drupal_attributes($attributes) . '><legend class="radios-508">' . $required . ' ' . $variables['element']['#title'] . '</legend> ' . (!empty($element['#children']) ? $element['#children'] : '') . '</fieldset>';
+}
+
+function accrualnet_file($variables) {
+    // Added by Lauren for 508
+      $element = $variables['element'];
+  $element['#attributes']['type'] = 'file';
+  element_set_attributes($element, array('id', 'name', 'size'));
+  _form_set_class($element, array('form-file'));
+  
+  // Only needs 508 compliance help when the label is "invisible"
+  if ($element['#title_display'] == 'invisible')
+  return '<label class="hidden-508" for="'.$element['#id'].'">'.$element['#title'].'</label><input' . drupal_attributes($element['#attributes']) . ' />';
+  else
+  return '<input' . drupal_attributes($element['#attributes']) . ' />';    
+}
+
+function accrualnet_checkbox($variables) {
+  return theme_checkbox($variables);
+}
+function accrualnet_textarea($variables) {
+    // 508 compliance stuff - Lauren
+  $element = $variables['element'];
+  element_set_attributes($element, array('id', 'name', 'cols', 'rows'));
+  _form_set_class($element, array('form-textarea'));
+
+  $wrapper_attributes = array(
+    'class' => array('form-textarea-wrapper'),
+  );
+
+  // Add resizable behavior.
+  if (!empty($element['#resizable'])) {
+    drupal_add_library('system', 'drupal.textarea');
+    $wrapper_attributes['class'][] = 'resizable';
+  }
+$output = '';
+if ($element['#title'] == null || strlen($element['#title']) < 1) {
+    $output .= '<label class="hidden-508" for=' . $element['#id'] . '>Textarea for '.$element['#field_name'].'</label>';
+}
+  $output .= '<div' . drupal_attributes($wrapper_attributes) . '>';
+  $output .= '<textarea' . drupal_attributes($element['#attributes']) . '>' . check_plain($element['#value']) . '</textarea>';
+  $output .= '</div>';
+  return $output;
+}
+
+function accrualnet_checkboxes($variables) {
+    //Added by Lauren for 508 compliance
+    $required = !empty($variables['element']['#required']) ? theme('form_required_marker', array('element' => $variables['element'])) : '';
+    //$variables['element']['#field_prefix'] = '<fieldset class="checkboxes-508"><legend class="checkboxes-508">' . $required . ' ' . $variables['element']['#title'] . '</legend>';
+    //$variables['element']['#field_suffix'] = '</fieldset>';
+    
+    $element = $variables['element'];
+  $attributes = array();
+  if (isset($element['#id'])) {
+    $attributes['id'] = $element['#id'];
+  }
+  $attributes['class'][] = 'form-checkboxes';
+  $attributes['class'][] = 'checkboxes-508';
+  if (!empty($element['#attributes']['class'])) {
+    $attributes['class'] = array_merge($attributes['class'], $element['#attributes']['class']);
+  }
+  if (isset($element['#attributes']['title'])) {
+    $attributes['title'] = $element['#attributes']['title'];
+  }
+  return '<fieldset ' . drupal_attributes($attributes) . '><legend class="checkboxes-508">' . $required . ' ' . $variables['element']['#title'] . '</legend>' . (!empty($element['#children']) ? $element['#children'] : '') . '</fieldset>';
+    //return theme_checkboxes($variables);
+}
 
 function accrualnet_form_element_label($variables) {
 
-	$element = $variables['element'];
-	// This is also used in the installer, pre-database setup.
-	$t = get_t();
+    $element = $variables['element'];
+    // This is also used in the installer, pre-database setup.
+    $t = get_t();
 
-	// If title and required marker are both empty, output no label.
-	if ((!isset($element['#title']) || $element['#title'] === '') && empty($element['#required'])) {
-		return '';
-	}
+    // If title and required marker are both empty, output no label.
+    if ((!isset($element['#title']) || $element['#title'] === '') && empty($element['#required'])) {
+        return '';
+    }
 
-	// If the element is required, a required marker is appended to the label.
-	$required = !empty($element['#required']) ? theme('form_required_marker', array('element' => $element)) : '';
+    // If the element is required, a required marker is appended to the label.
+    $required = !empty($element['#required']) ? theme('form_required_marker', array('element' => $element)) : '';
 
-	$title = filter_xss_admin($element['#title']);
+    $title = filter_xss_admin($element['#title']);
 
-	$attributes = array();
-	// Style the label as class option to display inline with the element.
-	if ($element['#title_display'] == 'after') {
-		$attributes['class'] = 'option';
-	}
-	// Show label only to screen readers to avoid disruption in visual flows.
-	elseif ($element['#title_display'] == 'invisible') {
-		$attributes['class'] = 'element-invisible';
-	}
+    $attributes = array();
+    // Style the label as class option to display inline with the element.
+    if ($element['#title_display'] == 'after') {
+        $attributes['class'] = 'option';
+    }
+    // Show label only to screen readers to avoid disruption in visual flows.
+    elseif ($element['#title_display'] == 'invisible') {
+        $attributes['class'] = 'element-invisible';
+    }
 
-	if (!empty($element['#id'])) {
-		$attributes['for'] = $element['#id'];
-	}
+    if (!empty($element['#id'])) {
+        $attributes['for'] = $element['#id'];
+    }
 
-	// calculate the description element prior to building the label
-	$desc = '';
-	if (!empty($element['#hover_desc'])) {
-		//$desc = '<div class="description">' . $element['#description'] . "</div>\n";
-		$desc = ' <img src="/sites/accrualnet.cancer.gov/themes/accrualnet/tooltip.png" title="' . $element['#hover_desc'] . '">';
-	}
+    // calculate the description element prior to building the label
+    $desc = '';
+    if (!empty($element['#hover_desc'])) {
+        //$desc = '<div class="description">' . $element['#description'] . "</div>\n";
+        $desc = ' <img alt="ToolTip" src="/sites/accrualnet.cancer.gov/themes/accrualnet/tooltip.png" title="' . $element['#hover_desc'] . '">';
+    }
 
-	// string describing the label format
-	$format = '!title !required !desc';
+    // string describing the label format
+    $format = '!title !required !desc';
 
-	// move the required field if desc exists
-	if (!empty($desc))
-		$format = '!required !title !desc';
+    // move the required field if desc exists
+    if (!empty($desc))
+        $format = '!required !title !desc';
 
-	// The leading whitespace helps visually separate fields from inline labels.
-	return ' <label' . drupal_attributes($attributes) . '>' . $t($format, array('!title' => $title, '!required' => $required, '!desc' => $desc)) . "</label>\n";
+
+    if (($element['#type'] == 'checkboxes') || ($element['#type'] == 'radios')) {
+        return '';
+    }
+    elseif ($element['#type'] == 'managed_file') {
+        $attributes['class'][] = 'label-508';
+        return '<span ' . drupal_attributes($attributes) . '>'
+        . $t($format, array('!title' => $title, '!required' => $required, '!desc' => $desc))
+        . "</span>\n";
+    }
+    else {
+        // The leading whitespace helps visually separate fields from inline labels.
+        return ' <label' . drupal_attributes($attributes) . '>' .
+        $t($format, array('!title' => $title, '!required' => $required, '!desc' => $desc)) .
+        "</label>\n";
+    }
 }
 
 function accrualnet_preprocess_search_results(&$variables) {
@@ -311,11 +437,11 @@ function accrualnet_form_alter(&$form, &$form_state, $form_id) {
 }
 
 function accrualnet_preprocess_search_result(&$vars) {
-	//print kprint_r($vars, true, 'search result');
+	
 }
 
 /* function accrualnet_search_page($results) {
-  print kpr($results, true, 'search page');
+  
 
   $output['prefix']['#markup'] = '<ol class="search-results">';
 

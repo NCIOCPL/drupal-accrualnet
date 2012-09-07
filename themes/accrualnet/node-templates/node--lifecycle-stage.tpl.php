@@ -105,7 +105,8 @@ $featuredCarousel = field_get_items('node', $node, 'field_featured_carousel');
                 <?php if(!empty($stageImage)):?>
                     <?php print theme('image_style',  array(
                                 'path' => $stageImage[0]['uri'],
-                                'style_name' => 'large',         
+                                'style_name' => 'large',   
+                        'alt' => $stageImage[0]['alt'],
                             )
                         );?>
                 <?php endif;?>
@@ -127,7 +128,7 @@ $featuredCarousel = field_get_items('node', $node, 'field_featured_carousel');
                         <?php $strategySummary = field_get_items('node', $strategy['entity'], 'field_content_summary');?>        
                         <div class="lifecycle-stage-strategy <?php print $counter == count($strategies) ? 'last' : ''; ?>">
                             <div class="lifecycle-strategy-icon">
-                                    <img src="/<?php print path_to_theme().'/accrualnet-internals/images/numbers/AccrualNet_LargeNumbers-'.$counter.'.png';?>" title="strategy-icon-number" alt="strategy-icon-number" />
+                                    <img alt="Lifecycle Strategy <?php print $counter;?>" src="/<?php print path_to_theme().'/accrualnet-internals/images/numbers/AccrualNet_LargeNumbers-'.$counter.'.png';?>" title="strategy-icon-number" alt="strategy-icon-number" />
                             </div>
                             <div class="lifecycle-strategy-teaser">
                             <?php $urlPath = drupal_lookup_path('alias', 'node/'.$strategy['entity']->nid); ?>

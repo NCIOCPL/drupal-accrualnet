@@ -115,7 +115,83 @@
                 
 			});
 		});
+                
+                $('div.selectBox').focusin(function(e) {
+                 
+                   				// First, expand the border, then slide
+				$(this).css('border-width', '3px');
+                
+				// Toggle the options
+				$(this).children('div.selectOptions').slideDown();
+				$(this).children('div.select-spacer').slideDown();
+                                
+				// Remove whatever is in the current SELECTed box
+				$(this).children('span.selected').html(" ");     
+                });
+
+                $('span.selectOption').keyup(function (e) {
+                   var key = e.charCode ? e.charCode : e.keyCode ? e.keyCode : 0;
+                   if (key == 13) { // Enter Key (Tab == 9)
+                       e.preventDefault();
+                                    
+				// Set the value to be what was just clicked on.
+				$(this).closest('div.selectBox').attr('value',$(this).attr('value'));
+				// Reflect the change in the collapsed box view.
+				$(this).parent().siblings('span.selected').html($(this).html());
+                
+				// Remove the old selected class from the previous choice.
+				$(this).parent().children('span.selectOption').removeClass('selectedd');
+				// Add the class to the newly selected choice.
+				$(this).addClass('selectedd');
+                
+                
+				// Roll the options list back up.
+				$(this).parent().slideUp();
+				$(this).parent().parent().children('div.select-spacer').slideUp();
+
+				// If OTHER was selected, make the INPUT box appear. If not, make
+				// sure the box is hidden (as if it was previously selected and 
+				// no longer desired).
+				if ($(this).hasClass('select_or_other')) {
+					$(this).parent().parent().parent().children('select').val('select_or_other');
+					$(this).parent().parent().parent().parent().children('.form-type-textfield').toggle();
+					$(this).parent().parent().parent().parent().children('.form-type-textfield').children('input').toggle();
+				}
+				else
+				{
+					// set selected to the corect value
+					$(this).parent().parent().parent().children('select').val(this.id);
+					
+					// the aforementioned hide
+					$(this).parent().parent().parent().parent().children('.form-type-textfield').hide();
+					$(this).parent().parent().parent().parent().children('.form-type-textfield').children('input').hide();
+					$(this).parent().parent().parent().parent().children('.form-type-textfield').children('input').val("");
+					
+				}
+                
+				// Fix the border
+				// This should be the last thing we do
+				$(this).parent().parent().css('border-width', '1px');
+                   }
+                });
+                /*
+                $('div.selectBox').focusout(function() {
+                   				// First, expand the border, then slide
+				$(this).css('border-width', '3px');
+                
+				// Toggle the options
+				$(this).children('div.selectOptions').slideUp();
+				$(this).children('div.select-spacer').slideUp();
+
+				// Remove whatever is in the current SELECTed box
+				$(this).children('span.selected').html(" ");     
+                });
+                */
 	});
 
+
 }) (jQuery);
+
+
+
 

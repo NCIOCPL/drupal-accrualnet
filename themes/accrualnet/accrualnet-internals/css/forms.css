@@ -14,7 +14,8 @@
   border: 1px solid #c00;
 }
 
-.form-item label { /* The label for a form element */
+.form-item label,
+.form-item span.label-508 { /* The label for a form element */
   display: block;  
   font-weight: bold;
 }
@@ -188,13 +189,6 @@ span.button a{
     color:#9AB83F;
     font-weight: bold;
     background-color: white;
-    background-image:
-        -webkit-gradient(linear, 0% 0%, 100% 100%, from(rgba(154, 184, 63, .2)), color-stop(0.15, rgba(154, 184, 63, .2)), color-stop(0.15, transparent), color-stop(0.50, transparent), color-stop(0.50, rgba(154, 184, 63, .2)), color-stop(0.65, rgba(154, 184, 63, .2)), color-stop(0.65, transparent), to(transparent));
-    background-image: 
-		-moz-linear-gradient(-45deg, rgba(154, 184, 63, .2), rgba(154, 184, 63, .2) 15%, white 50%,  rgba(154, 184, 63, .2) 65%, white);
-    background-size: 5px 5px;
-    -webkit-background-size: 5px 5px;
-    -moz-background-size: 5px 5px;
     padding: 5px 10px;
     margin-bottom: 10px;
     text-transform: uppercase;
@@ -214,12 +208,6 @@ input.form-submit:active {
     color:#fff;
     font-weight: bold;
     background-color:#9AB83F;
-    background-image:-webkit-repeating-linear-gradient(left top, #BCD35A 0px, #9AB83F 4px);
-    background-image:-moz-repeating-linear-gradient(left top, #BCD35A 0px, #9AB83F 4px);
-    background-image:-ms-repeating-linear-gradient(left top, #BCD35A 0px, #9AB83F 4px);
-    background-image:-o-repeating-linear-gradient(left top, #BCD35A 0px, #9AB83F 4px);
-    background-image:repeating-linear-gradient(left top, #BCD35A 0px, #9AB83F 4px);
-
     text-transform: uppercase;
     font-family: Arial, Helvetica, sans-serif;
 }
@@ -240,13 +228,6 @@ span.button a{
     font-size: 13px;
     font-weight: bold;
      background-color: white;
-    background-image:
-        -webkit-gradient(linear, 0% 0%, 100% 100%, from(rgba(154, 184, 63, .2)), color-stop(0.15, rgba(154, 184, 63, .2)), color-stop(0.15, transparent), color-stop(0.50, transparent), color-stop(0.50, rgba(154, 184, 63, .2)), color-stop(0.65, rgba(154, 184, 63, .2)), color-stop(0.65, transparent), to(transparent));
-    background-image: 
-		-moz-linear-gradient(-45deg, rgba(154, 184, 63, .2), rgba(154, 184, 63, .2) 15%, white 50%,  rgba(154, 184, 63, .2) 65%, white);
-    background-size: 5px 5px;
-    -webkit-background-size: 5px 5px;
-    -moz-background-size: 5px 5px;
     padding: 5px 10px;
     text-transform: uppercase;
     font-family: Arial, Helvetica, sans-serif;
@@ -256,11 +237,6 @@ span.button:hover a{
     color:#fff;
     font-weight: bold;
     background-color:#9AB83F;
-    background-image:-webkit-repeating-linear-gradient(left top, #BCD35A 0px, #9AB83F 4px);
-    background-image:-moz-repeating-linear-gradient(left top, #BCD35A 0px, #9AB83F 4px);
-    background-image:-ms-repeating-linear-gradient(left top, #BCD35A 0px, #9AB83F 4px);
-    background-image:-o-repeating-linear-gradient(left top, #BCD35A 0px, #9AB83F 4px);
-    background-image:repeating-linear-gradient(left top, #BCD35A 0px, #9AB83F 4px);
     padding: 5px 10px;
     text-transform: uppercase;
     font-family: Arial, Helvetica, sans-serif;
@@ -335,7 +311,7 @@ span.button a:hover, span.button a:active, span.button:hover a {
  .result-type-community a, .result-type-conversation a,
  .result-type-community a:hover, .result-type-conversation a:hover,
 .result-type-community a:visited, .result-type-conversation a:visited {
-     color: #DC6E23;
+     color: #BF5500;
  }
   .result-type-lifecycle-strategy a, .result-type-lifecycle-stage a,
  .result-type-lifecycle-strategy a:hover, .result-type-lifecycle-stage a:hover,

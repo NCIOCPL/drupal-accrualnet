@@ -36,21 +36,38 @@
             if (jQuery.inArray('ROLE_OTHER', $selectedValues, 0) >= 0) {
                 $('.form-item-field-occupation-und-select-select-or-other').addClass('checked');
                 $('input#edit-field-occupation-und-select-select-or-other').attr('checked', true);
+                $('input#edit-field-occupation-und-other').css('display', 'block');
+                /* pre 508 compliance code
                 $('.form-item-field-occupation-und-select-select-or-other').parent().parent().next().css('display', 'block');
                 $('.form-item-field-occupation-und-select-select-or-other').parent().parent().next().children('input').css('display', 'block');
+                */
             }
             // 
             if (jQuery.inArray('AOI_OTHER', $selectedValues, 0) >= 0) {
                 $('.form-item-field-areas-of-interest-und-select-select-or-other').addClass('checked');
                 $('input#edit-field-areas-of-interest-und-select-select-or-other').attr('checked', true);
+                $('input#edit-field-areas-of-interest-und-other').css('display', 'block');
+                /* pre 508 compliance code
                 $('.form-item-field-areas-of-interest-und-select-select-or-other').parent().parent().next().css('display', 'block');
                 $('.form-item-field-areas-of-interest-und-select-select-or-other').parent().parent().next().children('input').css('display', 'block');
+                */
             }
         }
+        
+        $('.form-item-field-occupation-und-other').insertAfter($('.form-item-field-occupation-und-select-select-or-other'));
+        $('.form-item-field-occupation-und-other').prepend('<label class="hidden-508" for="edit-field-occupation-und-other">Please Specify the Occupation Type "Other"</label>');
+        $('.form-item-field-areas-of-interest-und-other').insertAfter($('.form-item-field-areas-of-interest-und-select-select-or-other'));
+        $('.form-item-field-areas-of-interest-und-other').prepend('<label class="hidden-508" for="edit-field-areas-of-interest-und-other">Please Specify the Area of Interest Type "Other"</label>');
+        $('<label class="hidden-508" for="edit-field-institution-type-und-other">Please Specify the Institution Type "Other"</label>').insertBefore($('input#edit-field-institution-type-und-other'));
+        
 
         // For every checkbox we have, figure out if it's supposed to start out 
         // as checked (e.g. User has already selected that value) or unchecked
         jQuery.each($('.form-type-checkbox'), function()  {
+            
+            // Make this tabbable
+            $(this).attr('tabIndex', 0);
+            
             // Get the value of the INPUT checkbox
             var $inputvalue = $(this).children('input').val();
             // Default is to be unchecked (aka not found as a preselected value)
@@ -91,6 +108,7 @@
         // Also, we must make sure to toggle the Other box if SELECT_OR_OTHER is
         // chosen.
         $('div.form-type-checkbox').click(function (e) {
+           /* alert(e.target.nodeName);*/
             
             // This line right here is not what keeps the LABEL from selecting
             // the checkbox twice.
@@ -113,9 +131,13 @@
                 }
             
                 if ($(this).children('input').val() == 'select_or_other') {
+                    $(this).next().children('input').css('display', 'block');
+
+                    /* pre 508 fix code
                     $(this).parent().parent().next().show();
 					$(this).parent().parent().next().children('input').val('');
                     $(this).parent().parent().next().children('input').show();   
+                    */
                 }
                 
             }
@@ -141,6 +163,45 @@
         // LABEL & INPUT. I just didn't execute the code if it was LABEL so we
         // don't need the return false; FYI- clicking on the div has the
         // target node name of DIV. This is officially solved. -Lauren
+        });
+        
+        $('div.form-type-checkbox').keyup(function (e) {
+            var key = e.charCode ? e.charCode : e.keyCode ? e.keyCode : 0;
+            if (key == 13) { // Enter Key (Tab == 9)
+                e.preventDefault();
+                var $isChecked = $(this).hasClass('checked');
+                var $isUnchecked = $(this).hasClass('unchecked');
+
+                // If it is already checked, uncheck it and remove that INPUT's
+                // checked attribute. Else, do opposite.
+                if ($isChecked) {
+                    $(this).addClass('unchecked');
+                    $(this).removeClass('checked');
+                    $(this).children('input').removeAttr('checked');
+                } else if ($isUnchecked) {
+                    $(this).removeClass('unchecked');
+                    $(this).addClass('checked');
+                    $(this).children('input').attr('checked', 'checked');
+                }
+            
+                if ($(this).children('input').val() == 'select_or_other') {
+                    if ($isUnchecked) {
+                        $(this).next().css('display', 'block');
+                        $(this).next().children('input').css('display', 'block');
+                    }
+                    else if ($isChecked) {
+                        $(this).next().css('display', 'none');
+                        $(this).next().children('input').css('display', 'none');
+                    }
+                    
+
+                /* pre 508 fix code
+                    $(this).parent().parent().next().show();
+					$(this).parent().parent().next().children('input').val('');
+                    $(this).parent().parent().next().children('input').show();   
+                    */
+                }
+            }
         });
 
     });

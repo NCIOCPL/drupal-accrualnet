@@ -184,11 +184,12 @@ $op = field_get_items('node', $node, 'op');
                     <?php print theme('image_style',
                             array(
                                 'path' => $user->picture->uri,
-                                'style_name' => 'thumbnail',         
+                                'style_name' => 'thumbnail',    
+                                'alt' => $user->name ."'s Image",
                             )
                         ); ?>
                 <?php else: ?>
-                    <img src="<?php print $avatarSRC;?>" width="100" title="<?php print check_plain($user->name);?>'s Image" alt="<?php print check_plain($user->name);?>'s Image" />
+                    <img alt="<?php print check_plain($user->name);?>'s Image" src="<?php print $avatarSRC;?>" width="100" title="<?php print check_plain($user->name);?>'s Image" alt="<?php print check_plain($user->name);?>'s Image" />
 
                 <?php endif;?>
 
@@ -246,11 +247,12 @@ $op = field_get_items('node', $node, 'op');
                     <?php print theme('image_style',
                             array(
                                 'path' => $user->picture->uri,
-                                'style_name' => 'thumbnail',         
+                                'style_name' => 'thumbnail', 
+                                'alt' => $user->name ."'s Image",
                             )
                         ); ?>
                 <?php else: ?>
-                    <img src="<?php print $avatarSRC;?>" width="100" title="<?php print check_plain($user->name);?>'s Image" alt="<?php print check_plain($user->name);?>'s Image" />
+                    <img alt="<?php print check_plain($user->name);?>'s Image" src="<?php print $avatarSRC;?>" width="100" title="<?php print check_plain($user->name);?>'s Image" alt="<?php print check_plain($user->name);?>'s Image" />
 
                 <?php endif;?>
 

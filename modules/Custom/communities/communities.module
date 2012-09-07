@@ -604,7 +604,8 @@ function _user_image_snippet($user) {
         return theme('image_style',
                             array(
                                 'path' => $user->picture->uri,
-                                'style_name' => 'scale_25',         
+                                'style_name' => 'scale_25',     
+                                'alt' => $user->name ."'s Image",
                             )
                         );
     }

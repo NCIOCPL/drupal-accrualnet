@@ -48,6 +48,7 @@ function education_level_2_page($section) {
 			$output .= theme('image_style', array(
 				'path' => $image[0]['uri'],
 				'style_name' => 'large',
+                            'alt' => $image[0]['alt'],
 					)
 			);
 		}

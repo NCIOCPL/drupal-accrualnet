@@ -212,11 +212,12 @@ if ($pager_total_items != null) {
                     <?php print theme('image_style',
                             array(
                                 'path' => $currentUser->picture->uri,
-                                'style_name' => 'scale_25',         
+                                'style_name' => 'scale_25',     
+                                'alt' => $user->name ."'s Image",
                             )
                         ); ?>
                 <?php else: ?>
-                    <img src="<?php print $avatarSRC;?>" width="20" title="<?php print check_plain($currentUser->name);?>'s Image" alt="<?php print check_plain($currentUser->name);?>'s Image" />
+                    <img alt="<?php print check_plain($user->name);?>'s Image" src="<?php print $avatarSRC;?>" width="20" title="<?php print check_plain($currentUser->name);?>'s Image" alt="<?php print check_plain($currentUser->name);?>'s Image" />
                 <?php endif;?>
                 </div>
             
@@ -265,8 +266,8 @@ if ($pager_total_items != null) {
           <?php print $breadcrumb; ?>
           <?php if (!$is_front && $title != "Page not found"):?>
           <div class="add-this"><div class="custom-images">
-                  <a class="addthis_button_email"><img width="20" src="/sites/accrualnet.cancer.gov/themes/accrualnet/accrualnet-internals/images/icons/AccrualNet_EmailIcon.png"/>Email this Page</a>
-                  <a class="addthis_button_print"><img width="20" src="/sites/accrualnet.cancer.gov/themes/accrualnet/accrualnet-internals/images/icons/AccrualNet_PrintIcon.png"/>Print this Page</a></div></div>
+                  <a class="addthis_button_email"><img width="20" alt="Email This Page Icon" src="/sites/accrualnet.cancer.gov/themes/accrualnet/accrualnet-internals/images/icons/AccrualNet_EmailIcon.png"/>Email this Page</a>
+                  <a class="addthis_button_print"><img width="20" alt="Print This Page Icon" src="/sites/accrualnet.cancer.gov/themes/accrualnet/accrualnet-internals/images/icons/AccrualNet_PrintIcon.png"/>Print this Page</a></div></div>
           <?php endif;?>
       </div>
       <?php print $messages; 
@@ -321,6 +322,7 @@ if ($pager_total_items != null) {
                 <li><a href="/about/contact-us">Contact Us</a></li>
                 <li><a href="http://www.cancer.gov/global/web/policies" target="_blank">Policies</a></li>
                 <li><a href="http://www.cancer.gov/global/web/policies/page3" target="_blank">Accessibility</a></li>
+                <li><a href="http://www.cancer.gov/global/viewing-files" target="_blank">Viewing Files</a></li>
                 <li><a href="http://www.cancer.gov/global/web/policies/page6" target="_blank">FOIA</a></li>
                 <li class="last"><a href="/about">About Us</a></li>
               </ul>
@@ -328,10 +330,10 @@ if ($pager_total_items != null) {
               <div class="footer-text">AccrualNet<sup>TM</sup> and logo are trademarks/service marks of the U.S. Department of Health and Human Services (DHHS)</div>
               <div class="footer-images">
                   <ul>
-                <li><a href="http://www.hhs.gov/" target="_blank"><img src="/sites/accrualnet.cancer.gov/themes/accrualnet/accrualnet-internals/images/global/Accrual-Net-HHS-logo.gif" /></a></li>
-                <li><a href="http://www.cancer.gov/" target="_blank"><img src="/sites/accrualnet.cancer.gov/themes/accrualnet/accrualnet-internals/images/global/Accrual-Net-NCI-logo.gif" /></a></li>
-                <li><a href="http://www.nih.gov/" target="_blank"><img src="/sites/accrualnet.cancer.gov/themes/accrualnet/accrualnet-internals/images/global/Accrual-Net-NIH-logo.gif" /></a></li>
-                <li><a href="http://www.usa.gov" target="_blank"><img src="/sites/accrualnet.cancer.gov/themes/accrualnet/accrualnet-internals/images/global/Accrual-Net-USAgov-logo.gif" /></a></li>
+                <li><a href="http://www.hhs.gov/" target="_blank"><img alt="HHS.gov Logo" src="/sites/accrualnet.cancer.gov/themes/accrualnet/accrualnet-internals/images/global/Accrual-Net-HHS-logo.gif" /></a></li>
+                <li><a href="http://www.cancer.gov/" target="_blank"><img alt="Cancer.gov Logo" src="/sites/accrualnet.cancer.gov/themes/accrualnet/accrualnet-internals/images/global/Accrual-Net-NCI-logo.gif" /></a></li>
+                <li><a href="http://www.nih.gov/" target="_blank"><img alt="NIH.gov Logo" src="/sites/accrualnet.cancer.gov/themes/accrualnet/accrualnet-internals/images/global/Accrual-Net-NIH-logo.gif" /></a></li>
+                <li><a href="http://www.usa.gov" target="_blank"><img alt="USA.gov Logo" src="/sites/accrualnet.cancer.gov/themes/accrualnet/accrualnet-internals/images/global/Accrual-Net-USAgov-logo.gif" /></a></li>
               </ul>
               </div>
           </div>

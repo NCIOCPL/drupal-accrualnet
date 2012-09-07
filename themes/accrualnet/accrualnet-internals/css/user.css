@@ -79,9 +79,7 @@ input[type="file"] {
     -webkit-box-shadow: 3px 3px 5px #9AB83F;
     box-shadow: 3px 3px 5px #9AB83F;
     background-color: white;
-    background-image: -webkit-gradient(linear, 0% 0%, 100% 100%, from(transparent), color-stop(0.15, transparent), color-stop(0.15, #E6EECD), color-stop(0.50, #E6EECD), color-stop(0.50, transparent), color-stop(0.65, transparent), color-stop(0.65, #E6EECD), to(#E6EECD));
-    background-size: 5px 5px;
-    -webkit-background-size: 5px 5px;
+    
     
     padding: 10px 15px;
     -webkit-appearance: none;
@@ -165,10 +163,10 @@ section.Blue span.user-picture a img,
 }
 section.Orange span.user-picture a img,
 .nci-profile-Orange span.user-picture a img{
-    border: 1px solid #DC6E23;
-    -moz-box-shadow: 3px 3px #DC6E23;
-    -webkit-box-shadow: 3px 3px  #DC6E23;
-    box-shadow: 3px 3px  #DC6E23;
+    border: 1px solid #BF5500;
+    -moz-box-shadow: 3px 3px #BF5500;
+    -webkit-box-shadow: 3px 3px  #BF5500;
+    box-shadow: 3px 3px  #BF5500;
 }
 section.Green span.user-picture a img,
 .nci-profile-Green span.user-picture a img{
@@ -271,9 +269,7 @@ input#edit-name {
     letter-spacing: 5px;
     clear:both;
 }
-.accrualnet-user-profile-form-wrapper input#edit-name {
-    margin-top: -25px;
-}
+
 
 .accrualnet-user-profile-form-wrapper div.password-strength, 
     .accrualnet-user-register-form-wrapper div.password-strength{
@@ -381,7 +377,7 @@ span.selectedd {
     color: #000;
 }
  
-span.selectOption:hover {
+span.selectOption:hover, span.selectOption:focus {
     color: #000;
     background: #fff;        
 }
@@ -393,31 +389,37 @@ span.selectOption:hover {
 
 
 .Red label,
+.Red span.label-508,
 .Red input#edit-name,
 .nci-profile-Red .field-label{
     color: #C74532;
 }
 .Green label,
+.Green span.label-508,
 .Green input#edit-name,
 .nci-profile-Green .field-label{
     color: #9AB83F;
 }
 .Black label,
+.Black span.label-508,
 .Black input#edit-name,
 .nci-profile-Black .field-label{
     color: #2D2D2D;
 }
 .Orange label,
+.Orange span.label-508,
 .Orange input#edit-name,
 .nci-profile-Orange .field-label{
-    color: #DC6E23;
+    color: #BF5500;
 }
 .Blue label,
+.Blue span.label-508,
 .Blue input#edit-name,
 .nci-profile-Blue .field-label{
     color: #105693;
 }
 .Purple label,
+.Purple span.label-508,
 .Purple input#edit-name,
 .nci-profile-Purple .field-label{
     color: #54316E;
@@ -499,7 +501,7 @@ div.profile-colors-selected div#Red,
 div.profile-colors-options span#Orange,
 div.profile-colors-selected div#Orange,
 #Orange.profile-colors-selected {
-    background-color: #DC6E23;
+    background-color: #BF5500;
 }
 div.profile-colors-options span#Blue,
 div.profile-colors-selected div#Blue,
@@ -523,7 +525,9 @@ div.profile-colors-selected div#Purple,
 
 }
 .profile-colors-option:hover,
-span.profile-colors:hover {
+span.profile-colors-option:focus,
+span.profile-colors:hover,
+span.profile-colors:focus{
     opacity:1.0;
     filter:alpha(opacity=100);
 }
@@ -582,7 +586,10 @@ input {
 .form-item-pass .description {
 clear:both;
     left: 525px;
-    top: -30px;
+    top: 35px;
+}
+.form-item-field-occupation-und fieldset {
+   min-width: 50%;
 }
 
 .password-strength {
@@ -674,6 +681,7 @@ clear:both;
     height: auto;
 }
 .avatar-option:hover,
+span.avatar-option:focus,
 .avatar-option img:hover,
 span.picked,
 span.picked img {

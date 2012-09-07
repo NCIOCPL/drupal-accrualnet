@@ -104,7 +104,7 @@ drupal_add_js(drupal_get_path('module', 'featured_content') . '/includes/feature
     <div class="slideshowControls">
         <?php foreach ($blocks as $block):?>
             <div class="slideshowControl">
-                <div>
+                <div tabIndex="0">
                     <?php print check_plain($block['entity']->title);?>
                 </div>
             </div>
