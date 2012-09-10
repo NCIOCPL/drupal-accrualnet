@@ -34,13 +34,22 @@
  * @see theme_comment_wrapper()
  */
 
+
+
 // Render the comments and form first to see if we need headings.
 $comments = render($content['comments']);
 
 $content['comment_form']['subject']['#access'] = FALSE;
 
 $content['comment_form']['comment_body']['und'][0]['value']['#title'] = NULL;
-$content['comment_form']['comment_body']['und'][0]['format'] = NULL;
+
+
+// CHANGED following to get WYSIWYG to show up for comments -
+// clients said need ability to have links in their comments. -Lauren
+//$content['comment_form']['comment_body']['und'][0]['format'] = NULL;
+$content['comment_form']['comment_body']['und'][0]['format']['guidelines'] = NULL;
+$content['comment_form']['comment_body']['und'][0]['format']['help'] = NULL;
+//$content['comment_form']['comment_body']['und'][0]['format']['format']['#access'] = FALSE;
 
 $content['comment_form']['author']['_author']['#title'] = NULL;
 //$content['comment_form']['author']['_author']['#markup'] .= " says...";
