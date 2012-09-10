@@ -144,14 +144,12 @@ global $an_resource_types;
             // Related Links
             $linksOutput = '<div id="resource-links">';
 
-            $linkedFile = array();
+            $linkedFiles = array();
             if (array_key_exists('field_resource_file', $variables)) { // Makes sure the field exists (doesn't on all resources?)
-                if (count($field_resource_file) > 0) { // If there's a set value stored in here
-                    $linkedFile = $field_resource_file[0];
-                }
+                $linkedFiles = $field_resource_file;
             }
 
-            if (count($field_links) > 0 || count($linkedFile) > 0) {
+            if (count($field_links) > 0 || count($linkedFiles) > 0) {
                 $linksOutput .= '<h3>Links</h3>';
                 $linksOutput .= '<ul>';
                 foreach ($field_links as $link) {
@@ -161,7 +159,7 @@ global $an_resource_types;
                     $linksOutput .= '</a>';
                     $linksOutput .= '</li>';
                 }
-                if (count($linkedFile) > 0) {
+                foreach ($linkedFiles as $linkedFile) {
                     $linksOutput .= '<li>';
                     $linksOutput .= '<a href="' . file_create_url($linkedFile['uri']) . '">' . $linkedFile['filename'] . '</a>';
                     $linksOutput .= '</li>';
@@ -171,10 +169,11 @@ global $an_resource_types;
 
 
             $fieldsToRender = $an_resource_field_resource;
-			
+		
+            
             array_pop($fieldsToRender); // This should remove links
             array_shift($fieldsToRender); // This should remove resource file
-			array_shift($fieldsToRender);
+            array_shift($fieldsToRender); // This should remove Date Display Format
 
 
             $resourceOutput = '<div class="resource-resource">';
