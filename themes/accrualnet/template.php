@@ -970,3 +970,15 @@ function accrualnet_form_node_form_alter(&$form, &$form_state, $form_id) {
 		}
 	}
 }
+
+
+function accrualnet_form_search_form_alter(&$form, &$form_state, $form_id){
+    $form['basic']['submit']['#attributes']['onClick'] = 'NCIAnalytics.SiteSearch(this.form);';
+}
+
+function accrualnet_form_search_block_form_alter(&$form, &$form_state, $form_id){
+    //$test = $form;
+    $form['actions']['submit']['#attributes']['onClick'] = 'NCIAnalytics.SiteSearch(this.form);';
+    //$form['form']['actions']['submit']['#attributes']['onClick'] = 'alert("1234")';
+    
+}
