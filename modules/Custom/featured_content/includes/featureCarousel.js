@@ -44,7 +44,7 @@ jQuery(function ($) {
         
         $('.slideshowControl').keyup(function(e) {
             var key = e.charCode ? e.charCode : e.keyCode ? e.keyCode : 0;
-        if(key == 13) {
+        if(key == 13 || key == 32) {
             slideshowSelect( $( this ).index() );
                 slideshowPause = true;
         }
