@@ -167,7 +167,7 @@
         
         $('div.form-type-checkbox').keyup(function (e) {
             var key = e.charCode ? e.charCode : e.keyCode ? e.keyCode : 0;
-            if (key == 13) { // Enter Key (Tab == 9)
+            if (key == 13 || key == 32) { // Enter Key & SPACE key (Tab == 9)
                 e.preventDefault();
                 var $isChecked = $(this).hasClass('checked');
                 var $isUnchecked = $(this).hasClass('unchecked');
