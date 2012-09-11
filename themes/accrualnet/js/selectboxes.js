@@ -131,7 +131,7 @@
 
                 $('span.selectOption').keyup(function (e) {
                    var key = e.charCode ? e.charCode : e.keyCode ? e.keyCode : 0;
-                   if (key == 13) { // Enter Key (Tab == 9)
+                   if (key == 13 || key == 32) { // Enter Key (Tab == 9)
                        e.preventDefault();
                                     
 				// Set the value to be what was just clicked on.
