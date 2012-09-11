@@ -45,7 +45,7 @@
         // rest of the form AND change the SELECT value.
                 $('.profile-colors-option').keyup(function (e) {
                     var key = e.charCode ? e.charCode : e.keyCode ? e.keyCode : 0;
-        if(key == 13) {
+        if(key == 13 || key == 32) {
             // The following line changes the SELECT value. This must change if 
             // the DIVs for Profile Colors are ever moved.
             $(this).parent().parent().prev().children('.form-item').children('select').val($(this).attr('title'));

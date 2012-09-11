@@ -65,7 +65,7 @@
         
                 $('span.avatar-option').keyup(function (e) {
                     var key = e.charCode ? e.charCode : e.keyCode ? e.keyCode : 0;
-        if(key == 13) {
+        if(key == 13 || key == 32) {
                         var $newsrc = $(this).children('img').attr('src');
             $target.css('width', '200px');
             $target.attr('src', $newsrc);
