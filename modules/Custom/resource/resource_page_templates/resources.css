@@ -303,35 +303,7 @@ div.resource-citation{
     margin-right: auto;
     padding-top:2px;
     padding-bottom: 12px;
-} /*
-.reset-filter a {
-           background-image:-webkit-repeating-linear-gradient(left top, #D5FF87 0px, #fff 4px);
-  background-image:-moz-repeating-linear-gradient(left top, #D5FF87 0px, #fff 4px);
-  background-image:-ms-repeating-linear-gradient(left top, #D5FF87 0px, #fff 4px);
-  background-image:-o-repeating-linear-gradient(left top, #D5FF87 0px, #fff 4px);
-  background-image:repeating-linear-gradient(left top, #D5FF87 0px, #fff 4px);
-  padding:7px;
-  border: 2px solid #9AB83F;
-  font-weight: bolder;
-  font-size: 14px;
-  color: #9AB83f;
-  width: 120px;
-  text-align:center;
-  text-transform: uppercase;
-  margin-left:auto;
-  margin-right:auto;
-  text-decoration: none;
 }
-.reset-filter a:hover {
-  background-image:-webkit-repeating-linear-gradient(left top, #BCD35A 0px, #9AB83F 4px);
-  background-image:-moz-repeating-linear-gradient(left top, #BCD35A 0px, #9AB83F 4px);
-  background-image:-ms-repeating-linear-gradient(left top, #BCD35A 0px, #9AB83F 4px);
-  background-image:-o-repeating-linear-gradient(left top, #BCD35A 0px, #9AB83F 4px);
-  background-image:repeating-linear-gradient(left top, #BCD35A 0px, #9AB83F 4px);
-  color: #fff;
-  text-decoration: none;
-
-}*/
 #resource-ajax-filter .checked,
 #resource-ajax-filter .unchecked {
     background-position:left top; 
@@ -354,7 +326,7 @@ div.resource-citation{
 }
 
 #resource-ajax-filter .filter-arrow {
-    color: #9AB83f;
+    color: #759E00;
     font-size: 20px;
     margin-left: -5px;
 }

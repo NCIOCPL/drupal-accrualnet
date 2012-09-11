@@ -185,8 +185,8 @@ td.menu-disabled {
 .form-actions input,
 input.form-submit,
 span.button a{
-    border: 1px solid #9AB83F;
-    color:#9AB83F;
+    border: 1px solid #759E00;
+    color:#759E00;
     font-weight: bold;
     background-color: white;
     padding: 5px 10px;
@@ -197,17 +197,17 @@ span.button a{
 #site-wide-search-box .form-actions input,
 #site-wide-search-box .form-actions input:hover,
 #site-wide-search-box .form-actions input:active{
-    border: 1px solid #9ab83F;
+    border: 1px solid #759E00;
 }
 
 .form-actions input:hover,
 .form-actions input:active,
 input.form-submit:hover, 
 input.form-submit:active {
-    border: 2px solid #9AB83F;
+    border: 2px solid #759E00;
     color:#fff;
     font-weight: bold;
-    background-color:#9AB83F;
+    background-color:#759E00;
     text-transform: uppercase;
     font-family: Arial, Helvetica, sans-serif;
 }
@@ -223,8 +223,8 @@ div.cta-button {
  *
  */
 span.button a{
-    border: 1px solid #9AB83F;
-    color:#9AB83F;
+    border: 1px solid #759E00;
+    color:#759E00;
     font-size: 13px;
     font-weight: bold;
      background-color: white;
@@ -233,16 +233,16 @@ span.button a{
     font-family: Arial, Helvetica, sans-serif;
 }
 span.button:hover a{
-    border: 1px solid #9AB83F;
+    border: 1px solid #759E00;
     color:#fff;
     font-weight: bold;
-    background-color:#9AB83F;
+    background-color:#759E00;
     padding: 5px 10px;
     text-transform: uppercase;
     font-family: Arial, Helvetica, sans-serif;
 }
 span.button a, span.button a:visited {
-    color: #9AB83F;
+    color: #759E00;
     text-decoration:none;
 }
 span.button a:hover, span.button a:active, span.button:hover a {

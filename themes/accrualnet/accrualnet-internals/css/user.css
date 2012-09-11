@@ -68,16 +68,16 @@ input[type="file"] {
 
 .edit-profile-button a,
 .profile-sidebar  .imagecrop-button {
-    color: #9AB83F;
+    color: #759E00;
     font-family: Verdana, sans-serif;
     text-transform: uppercase;
     text-decoration: none;
     font-size: 14px;
     font-weight: 900;
-    border: 1px solid #9AB83F;
-    -moz-box-shadow: 3px 3px 5px #9AB83F;
-    -webkit-box-shadow: 3px 3px 5px #9AB83F;
-    box-shadow: 3px 3px 5px #9AB83F;
+    border: 1px solid #759E00;
+    -moz-box-shadow: 3px 3px 5px #759E00;
+    -webkit-box-shadow: 3px 3px 5px #759E00;
+    box-shadow: 3px 3px 5px #759E00;
     background-color: white;
     
     
@@ -175,10 +175,10 @@ section.Orange span.user-picture a img,
 }
 section.Green span.user-picture a img,
 .nci-profile-Green span.user-picture a img{
-    border: 1px solid #9AB83F;
-    -moz-box-shadow: 3px 3px #9AB83F;
-    -webkit-box-shadow: 3px 3px  #9AB83F;
-    box-shadow: 3px 3px  #9AB83F;
+    border: 1px solid #759E00;
+    -moz-box-shadow: 3px 3px #759E00;
+    -webkit-box-shadow: 3px 3px  #759E00;
+    box-shadow: 3px 3px  #759E00;
 }
 section.Purple span.user-picture a img,
 .nci-profile-Purple span.user-picture a img{
@@ -263,7 +263,7 @@ section.profile-sidebar fieldset {
 .accrualnet-user-register-form-wrapper .form-item input{
     color: black;
     border-width: 1px;
-    border-color: #9AB83F;
+    border-color: #759E00;
     width: 500px;
 }
 
@@ -329,7 +329,7 @@ div.selectBox {
     line-height:30px;
     clear:both;
     color: #000;
-    border: 1px solid #9AB83F;
+    border: 1px solid #759E00;
     width: 500px;
 }
 span.selected {
@@ -348,7 +348,7 @@ span.selectArrow {
     -o-user-select: none;
     user-select: none;
     background: transparent;
-    color: #9AB83F;
+    color: #759E00;
 }
  
 span.selectArrow,span.selected {
@@ -403,7 +403,7 @@ span.selectOption:hover, span.selectOption:focus {
 .Green span.label-508,
 .Green input#edit-name,
 .nci-profile-Green .field-label{
-    color: #9AB83F;
+    color: #759E00;
 }
 .Black label,
 .Black span.label-508,
@@ -458,17 +458,17 @@ h1.field-label {
 #user-register-form div.profile-colors-wrapper,
 #user-register-form div.profile-avatars-wrapper {
     width: 70%;
-    color: #9AB83F;
+    color: #759E00;
     font-family: Verdana, sans-serif;
     text-transform: uppercase;
     text-decoration: none;
     text-align:center;
     font-size: 14px;
     font-weight: 900;
-    border: 1px solid #9AB83F;
-    -moz-box-shadow: 3px 3px #9AB83F;
-    -webkit-box-shadow: 3px 3px  #9AB83F;
-    box-shadow: 3px 3px  #9AB83F;
+    border: 1px solid #759E00;
+    -moz-box-shadow: 3px 3px #759E00;
+    -webkit-box-shadow: 3px 3px  #759E00;
+    box-shadow: 3px 3px  #759E00;
     padding:10px;
 }
 /******************************************************************************/
@@ -518,7 +518,7 @@ div.profile-colors-selected div#Blue,
 div.profile-colors-options span#Green,
 div.profile-colors-selected div#Green,
 #Green.profile-colors-selected {
-    background-color: #9AB83F;
+    background-color: #759E00;
 }
 div.profile-colors-options span#Purple,
 div.profile-colors-selected div#Purple,
@@ -594,7 +594,7 @@ input {
 .form-item-pass .description {
 clear:both;
     left: 525px;
-    top: 35px;
+    top: 65px;
 }
 .form-item-field-occupation-und fieldset {
    min-width: 50%;
@@ -700,7 +700,7 @@ span.picked img {
 }
 
 .profile-avatars-wrapper {
-    border: 1px solid #9AB83F;
+    border: 1px solid #759E00;
     width: 180px;
     padding: 10px;
 }
