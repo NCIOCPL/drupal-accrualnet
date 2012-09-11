@@ -34,6 +34,7 @@ body{
 
 h1#site-name {
     border: none;
+    padding-left: 20px;
 }
 h1#site-name .site-name-accrual {
     font-size: 55px;
@@ -66,6 +67,7 @@ h2#site-slogan {
     text-transform: none;
     border: none;
     color: #105693;
+    padding-left: 20px;
 }
 
 #page-header .header-content {
@@ -128,6 +130,7 @@ h1 span {
 
 .breadcrumb {
     float:left;
+    padding-left: 20px;
 }
 
 .add-this {
@@ -240,6 +243,7 @@ h1 span {
 }
 #ncibanner ul li.nciLogo {
 	float: left;
+        padding-left: 20px;
 }
 #ncibanner ul li.nciLogo a {
 	background-repeat: no-repeat;
@@ -1124,7 +1128,8 @@ a.Purple {
 }
 #block-an-navigation-left-nav ul.menu li a:hover,
 #block-an-navigation-left-nav ul.menu li.active-trail a.active-trail {
-    font-weight: bold;
+        opacity: 1.0;
+    filter:alpha(opacity=100);
 }
 /*
 #block-an-navigation-left-nav ul.menu li.leaf a {
@@ -1132,35 +1137,49 @@ a.Purple {
 }*/
 
 .Blue #block-an-navigation-left-nav ul.menu li a,
-.Blue #block-an-navigation-left-nav ul.menu li a:hover,
 .Blue #block-an-navigation-left-nav ul.menu li a:visited,
-.Blue #block-an-navigation-left-nav ul.menu li a:active,
 .Blue #block-an-navigation-left-nav ul.menu li.leaf a,
-.Blue #block-an-navigation-left-nav ul.menu li.leaf a:hover,
-.Blue #block-an-navigation-left-nav ul.menu li.leaf a:visited,
-.Blue #block-an-navigation-left-nav ul.menu li.leaf a:active{
+.Blue #block-an-navigation-left-nav ul.menu li.leaf a:visited {
     color: #105693;
 }
+.Blue #block-an-navigation-left-nav ul.menu li a:hover,
+.Blue #block-an-navigation-left-nav ul.menu li.leaf a:hover,
+.Blue #block-an-navigation-left-nav ul.menu li.leaf a:active, 
+.Blue #block-an-navigation-left-nav ul.menu li a:active {
+    background-color: #105693;
+    color: white;
+}
+
 .Orange #block-an-navigation-left-nav ul.menu li a,
-.Orange #block-an-navigation-left-nav ul.menu li a:hover,
 .Orange #block-an-navigation-left-nav ul.menu li a:visited,
-.Orange #block-an-navigation-left-nav ul.menu li a:active,
 .Orange #block-an-navigation-left-nav ul.menu li.leaf a,
-.Orange #block-an-navigation-left-nav ul.menu li.leaf a:hover,
-.Orange #block-an-navigation-left-nav ul.menu li.leaf a:visited,
-.Orange #block-an-navigation-left-nav ul.menu li.leaf a:active{
+.Orange #block-an-navigation-left-nav ul.menu li.leaf a:visited {
     color: #BF5500;
 }
+
+.Orange #block-an-navigation-left-nav ul.menu li a:hover,
+.Orange #block-an-navigation-left-nav ul.menu li.leaf a:hover,
+.Orange #block-an-navigation-left-nav ul.menu li.leaf a:active, 
+.Orange #block-an-navigation-left-nav ul.menu li a:active {
+    background-color: #BF5500;
+    color: white;
+}
+
 .Red #block-an-navigation-left-nav ul.menu li a,
-.Red #block-an-navigation-left-nav ul.menu li a:hover,
 .Red #block-an-navigation-left-nav ul.menu li a:visited,
-.Red #block-an-navigation-left-nav ul.menu li a:active,
 .Red #block-an-navigation-left-nav ul.menu li.leaf a,
-.Red #block-an-navigation-left-nav ul.menu li.leaf a:hover,
-.Red #block-an-navigation-left-nav ul.menu li.leaf a:visited,
-.Red #block-an-navigation-left-nav ul.menu li.leaf a:active{
+.Red #block-an-navigation-left-nav ul.menu li.leaf a:visited {
     color: #C74532;
 }
+.Red #block-an-navigation-left-nav ul.menu li a:hover,
+.Red #block-an-navigation-left-nav ul.menu li.leaf a:hover,
+.Red #block-an-navigation-left-nav ul.menu li.leaf a:active, 
+.Red #block-an-navigation-left-nav ul.menu li a:active {
+    background-color: #C74532;
+    color: white;
+}
+
+
 .Purple #block-an-navigation-left-nav ul.menu li a,
 .Purple #block-an-navigation-left-nav ul.menu li a:hover,
 .Purple #block-an-navigation-left-nav ul.menu li a:visited,
@@ -1171,6 +1190,14 @@ a.Purple {
 .Purple #block-an-navigation-left-nav ul.menu li.leaf a:active{
     color: #54316E;
 }
+.Purple #block-an-navigation-left-nav ul.menu li a:hover,
+.Purple #block-an-navigation-left-nav ul.menu li.leaf a:hover,
+.Purple #block-an-navigation-left-nav ul.menu li.leaf a:active, 
+.Purple #block-an-navigation-left-nav ul.menu li a:active {
+    background-color: #54316E;
+    color: white;
+}
+
 
 #block-an-navigation-left-nav ul.menu li.active-trail ul.menu li.active-trail a.active,
 #block-an-navigation-left-nav ul.menu li.active-trail ul.menu li.active-trail a.active:hover,
