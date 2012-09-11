@@ -18,7 +18,7 @@
 .conversation-title a:hover,
 .conversation-title a:visited,
 .conversation-title a:active {
-    color: #DC6E23;
+    color: #BF5500;
     overflow:hidden;
 }
 .conversation-title a:hover {
@@ -36,7 +36,7 @@ span.conversation-last-updated {
 }
 
 .last-updated-snippet {
-    color: #DC6E23;
+    color: #BF5500;
 }
 
 #conversation-results .conversation-title a,
@@ -51,7 +51,7 @@ span.conversation-last-updated {
     width: 49%;
 }
 #communities-pic img {
-    border: 3px solid #DC6E23;
+    border: 3px solid #BF5500;
 }
 */
 .conversation-abstract {
@@ -66,17 +66,17 @@ span.conversation-last-updated {
     width: 90%;
     margin-left: auto;
     margin-right: auto;
-    border: 1px solid #DC6E23;
-    -moz-box-shadow: 3px 3px #DC6E23;
-    -webkit-box-shadow: 3px 3px  #DC6E23;
-    box-shadow: 3px 3px  #DC6E23;
+    border: 1px solid #BF5500;
+    -moz-box-shadow: 3px 3px #BF5500;
+    -webkit-box-shadow: 3px 3px  #BF5500;
+    box-shadow: 3px 3px  #BF5500;
     font-family: Arial, serif;
 }
 #all-conversations-box a,
 #all-conversations-box a:hover,
 #all-conversations-box a:visited,
 #all-conversations-box a:active {
-    color: #DC6E23;
+    color: #BF5500;
 }
 #all-conversations-box a:hover {
     font-weight:bold;
@@ -90,7 +90,7 @@ span.conversation-last-updated {
 #all-conversations-title-all,
 #all-conversations-title-conversations {
     position:aboslute;
-    background-color: #DC6E23;
+    background-color: #BF5500;
     font-size: 25px;
     color: #fff;
     left: 0px;
@@ -137,11 +137,11 @@ span.conversation-last-updated {
 }
 
 .communities-topic h1 {
-    color: #DC6E23;
+    color: #BF5500;
 }
 
 #communities-topic-results h2 {
-    color: #DC6E23;
+    color: #BF5500;
     margin-bottom: 0px;
     padding-bottom: 0px;
     border-bottom: 3px dotted #d2d2d2;
@@ -157,7 +157,7 @@ span.conversation-last-updated {
 .community-of-practice-title a:hover,
 .community-of-practice-title a:visited,
 .community-of-practice-title a:active {
-    color: #DC6E23;
+    color: #BF5500;
 }
 .community-of-practice-title a:hover {
     font-weight: bold;
@@ -202,7 +202,7 @@ span.conversation-last-updated {
     padding: 10px 15px;
     position: relative;
     margin: 25px auto;
-    border: 1px solid #DC6E23;
+    border: 1px solid #BF5500;
     border-bottom: solid #E79964  5px;
     border-right: solid #E79964  5px;
     width: 80%;
@@ -230,7 +230,7 @@ span.conversation-last-updated {
 
 
 #community-members #community-members-title {
-    color: #DC6E23;
+    color: #BF5500;
     text-transform: uppercase;
     border-bottom: 2px dotted #d2d2d2;
     font-weight: bold;
@@ -244,7 +244,7 @@ span.conversation-last-updated {
 #community-members-list .community-member a:hover,
 #community-members-list .community-member a:visited,
 #community-members-list .community-member a:active {
-    color: #DC6E23;
+    color: #BF5500;
 }
 #community-members-list .community-member a:hover {
     font-weight: bold;
@@ -277,7 +277,7 @@ span.conversation-last-updated {
 .recent-activity-text {
     float: left;
     width: 12%;
-    color: #DC6E23;
+    color: #BF5500;
     letter-spacing: -1px;
 }
 
