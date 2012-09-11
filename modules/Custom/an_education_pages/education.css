@@ -47,7 +47,7 @@ div.education-level-2-item .form-actions input{
     font-size: 17px;
 }
 .education-level-2-item h2.education-title-2 a:hover {
-    text-decoration: none;
+    font-weight:bold;
 }
 
 .education-level-2-item h2.education-title-2{
