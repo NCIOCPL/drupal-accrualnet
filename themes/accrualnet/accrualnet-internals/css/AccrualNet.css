@@ -498,6 +498,10 @@ html, button, input, select, textarea {
 .search-form div .form-wrapper .form-submit{
 	margin-left: 30px;
 }
+.search-form .form-item-keys label {
+    display: none;
+}
+
 
 .search-title{
 	clear: both;
@@ -653,7 +657,7 @@ body a:visited {
 }
 .featured-content-section-right{
     border-left: 3px dotted #D2D2D2;
-    margin-left: -3px;
+    margin-left: 2px;
 }
 
 .featured-content-section-left {
@@ -778,7 +782,7 @@ body a:visited {
 .slideshowControl  div{
     cursor: pointer;
     font-weight: 900;
-    font-size: 12px;
+    font-size: 11px;
     margin: 0px 20px;
     padding: 10px 20px;
 
@@ -787,23 +791,18 @@ body a:visited {
     border-bottom: 5px solid #9AB83F; 
 
     background-color: #fff;
-    background-image:
-        -webkit-gradient(linear, 0% 0%, 100% 100%, from(rgba(154, 184, 63, .1)), color-stop(0.15, rgba(154, 184, 63, .1)), color-stop(0.15, transparent), color-stop(0.50, transparent), color-stop(0.50, rgba(154, 184, 63, .1)), color-stop(0.65, rgba(154, 184, 63, .1)), color-stop(0.65, transparent), to(transparent));
-    background-image: 
-		-moz-linear-gradient(-45deg, rgba(154, 184, 63, .1), rgba(154, 184, 63, .1) 15%, white 50%,  rgba(154, 184, 63, .1) 65%, white);
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='rgb(154, 184, 63)', endColorstr='white'); /* IE6 & IE7 */  
-    -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr='rgb(154, 184, 63)', endColorstr='white')"; /* IE8+ */  
-    background-size: 10px 10px;
-    -webkit-background-size: 10px 10px;
-    -moz-background-size: 10px 10px;
-
+    
 
 
     opacity: 0.4;
     filter:alpha(opacity=40);
 }
 
-
+.jcarousel .featured-content-text p {
+    margin-top: 0px;
+    padding-top: 0px;
+    
+}
 
 .slideshowControls .selected div,
 .slideshowControl  div:hover{
@@ -820,10 +819,7 @@ body a:visited {
 
 
     background-color: #fff;
-    background-image:
-        -webkit-gradient(linear, 0% 0%, 100% 100%, from(rgba(16, 86, 147, .1)), color-stop(0.15, rgba(16, 86, 147, .1)), color-stop(0.15, transparent), color-stop(0.50, transparent), color-stop(0.50, rgba(16, 86, 147, .1)), color-stop(0.65, rgba(16, 86, 147, .1)), color-stop(0.65, transparent), to(transparent));
-    background-image: 
-		-moz-linear-gradient(-45deg, rgba(16, 86, 147, .1), rgba(16, 86, 147, .1) 15%, white 50%,  rgba(16, 86, 147, .1) 65%, white);
+    
 }
 .Purple .slideshowControl  div {
     color: #54316E;
@@ -832,10 +828,6 @@ body a:visited {
     border-bottom: 5px solid #54316E; 
 
     background-color: #fff;
-    background-image:
-        -webkit-gradient(linear, 0% 0%, 100% 100%, from(rgba(84, 49, 110, .1)), color-stop(0.15, rgba(84, 49, 110, .1)), color-stop(0.15, transparent), color-stop(0.50, transparent), color-stop(0.50, rgba(84, 49, 110, .1)), color-stop(0.65, rgba(84, 49, 110, .1)), color-stop(0.65, transparent), to(transparent));
-    background-image: 
-		-moz-linear-gradient(-45deg, rgba(84, 49, 110, .1), rgba(84, 49, 110, .1) 15%, white 50%,  rgba(84, 49, 110, .1) 65%, white);
 }  
 .Red .slideshowControl  div {
     color: #C74532;
@@ -844,10 +836,6 @@ body a:visited {
     border-bottom: 5px solid #C74532; 
 
     background-color: #fff;
-    background-image:
-        -webkit-gradient(linear, 0% 0%, 100% 100%, from(rgba(199, 69, 50, .1)), color-stop(0.15, rgba(199, 69, 50, .1)), color-stop(0.15, transparent), color-stop(0.50, transparent), color-stop(0.50, rgba(199, 69, 50, .1)), color-stop(0.65, rgba(199, 69, 50, .1)), color-stop(0.65, transparent), to(transparent));
-    background-image: 
-		-moz-linear-gradient(-45deg, rgba(199, 69, 50, .1), rgba(199, 69, 50, .1) 15%, white 50%,  rgba(199, 69, 50, .2) 65%, white);
 }  
 .Orange .slideshowControl  div {
     color: #BF5500;
@@ -857,10 +845,6 @@ body a:visited {
     border-bottom: 5px solid #BF5500; 
 
     background-color: #fff;
-    background-image:
-        -webkit-gradient(linear, 0% 0%, 100% 100%, from(rgba(220, 110, 35, .1)), color-stop(0.15, rgba(220, 110, 35, .1)), color-stop(0.15, transparent), color-stop(0.50, transparent), color-stop(0.50, rgba(220, 110, 35, .1)), color-stop(0.65, rgba(220, 110, 35, .1)), color-stop(0.65, transparent), to(transparent));
-    background-image: 
-		-moz-linear-gradient(-45deg, rgba(220, 110, 35, .1), rgba(220, 110, 35, .1) 15%, white 50%,  rgba(220, 110, 35, .2) 65%, white);
 }
 
 /******* CTA Blocks ***********/
@@ -960,9 +944,17 @@ body a:visited {
     -ms-box-sizing: border-box;
 }
 
+.pager a, .pager a:hover, .pager a:visited,
+.pager li a, .pager li a:hover, .pager li a:visited {
+    color: black;
+}
+.pager a:hover, .pager li a:hover {
+    font-weight: bold;
+}
+
 .homepage-feature-content {
     border-right: 3px dotted #d2d2d2;
-    padding: 10px;
+    padding: 15px;
     min-height: 450px;
 }
 
@@ -1066,7 +1058,7 @@ body a:visited {
 .content-block-title,
 .featured-content-title {
     float: left;
-    margin: 30px 0 10px 0;
+    margin: 30px 0 20px 0;
     width: 90%;
 }
 
@@ -1074,6 +1066,11 @@ body a:visited {
     float: left;
     margin: 15px 0 10px 0;
     width: 60%;
+}
+.homepage-carousel .slideshowControl div {
+    font-size: 14px;
+    color: #9AB83F;
+    font-weight: bold;
 }
 
 .feature-header {
