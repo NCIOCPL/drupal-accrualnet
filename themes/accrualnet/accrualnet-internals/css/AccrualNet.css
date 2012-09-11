@@ -1613,6 +1613,25 @@ h2.comment-form {
     color: #105693;
     padding-left: 10px;
 }
+.webform-component fieldset#edit-submitted-disclaimer {
+    width: 100%;
+    margin-top: -10px;
+    position: relative;
+}
+.webform-component fieldset#edit-submitted-disclaimer label {
+    top: 10px;
+}
+div.form-item-submitted-disclaimer-affirm {
+   top: 2px;
+}
+fieldset.captcha {
+    
+    margin-bottom: 20px;
+}
+input#edit-submitted-resource-file-upload-button {
+    margin-left: 10px;
+}
+
 
 .node-webform .form-actions .form-submit,
 .webform-component > label,
