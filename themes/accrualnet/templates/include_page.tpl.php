@@ -310,7 +310,7 @@ if ($pager_total_items != null) {
   </div><!-- /#main -->
     </div><!-- /#main-wrapper -->
   <?php print render($page['footer']); ?>
-
+<br/>
   <div class="footer-push"></div>
 </div><!-- /#page -->
  <div id="footer" class="clearfix"><div class="section">
