@@ -338,6 +338,7 @@ function communities_of_practice_page() {
 			$o .= ' last-result';
 		$o .= '">';
 		$o .= '<div class="community-of-practice-title">';
+                        $o .= kprint_r(get_defined_vars());
 		if (!in_array($group->gid, array_keys($usersGroups))) {
 			if (user_is_logged_in()) {
 				$o .='<a href="/group/node/' . $comm->nid . '/subscribe ">';
