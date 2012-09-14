@@ -104,7 +104,7 @@ else {
                 <?php endif;?>
 
          </div>
-    <?php if (in_array($node->type, array_keys($an_education_menu_vocab))): ?><div class="education-comment comment-body">
+    <?php if (in_array($node->type, $an_education_menu_vocab)): ?><div class="education-comment comment-body">
     <?php elseif (in_array($node->type, array_keys($an_resource_types))): ?><div class="resource-comment comment-body">
         <?php else:?> <div class="comment-body"><?php endif; ?>
         <div class="submitted-by">
