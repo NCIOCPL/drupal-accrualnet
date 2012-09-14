@@ -77,7 +77,6 @@
  * 
  */
 ?>
-<?php //print kprint_r(get_defined_vars()); ?>
 <li class="<?php print $classes; ?>"<?php print $attributes; ?>>
 	<?php 
 		global $an_resource_types;

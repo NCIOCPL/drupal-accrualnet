@@ -19,8 +19,9 @@ function protocol_accrual_lifecycle() {
     $query = new EntityFieldQuery();
     $query->entityCondition('entity_type', 'node')
             ->entityCondition('bundle', 'landing_page')
-            ->fieldCondition('field_landing_page_type', 'value', 'protocol')
-            ->propertyCondition('status', 1);
+                        ->propertyCondition('status', 1)
+            ->fieldCondition('field_landing_page_type', 'value', 'protocol');
+
     $nodes = _an_lifecycle_load_related_nodes($query);
     
     
@@ -56,7 +57,7 @@ function protocol_accrual_lifecycle() {
     $query = new EntityFieldQuery();
     $query->entityCondition('entity_type', 'node')
             ->entityCondition('bundle', 'lifecycle_stage')
-            ->propertyCondition('status', 1);
+            ->propertyCondition("status", 1);
     $nodes = _an_lifecycle_load_related_nodes($query);
     
     $output .= '<div class="lifecycle-stages">';

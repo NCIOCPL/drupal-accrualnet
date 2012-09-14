@@ -24,8 +24,8 @@
 	  /* Span 1 column, starting in 1st column from left. */
         float: left;
         width: 280px;
-        margin-left: 0px;
-        margin-right: -280px;
+        margin-left: 10px;
+        margin-right: -270px;
         
 }
 
@@ -57,11 +57,6 @@ input[type="file"] {
 }
 .profile-content > .form-item {
     margin-left: 40px;
-}
-
-.accrualnet-user-profile-form-wrapper .form-item .form-required, 
-.accrualnet-user-register-form-wrapper .form-item .form-required {
-    margin-left: -40px;
 }
 
 
@@ -106,8 +101,25 @@ input[type="file"] {
 #required-text {
     width: 100%;
     text-align: right;
-    vertical-align: middle;
+    vertical-align: top;
     position: relative;
+}
+
+#required-text span.legend-text {
+    padding-top: -5px;
+    margin-top: -5px;
+    position: absolute;
+    width: 150px;
+   right: 0px;
+   top: 0px;
+   font-style: italic;
+}
+
+#required-text span.form-required {
+    margin-top: 10px;
+    position: absolute;
+    right: 150px;
+    top:-15px;
 }
 
 
@@ -251,12 +263,6 @@ section.profile-sidebar fieldset {
     font-weight: bold;
     text-transform: uppercase;
     padding: 5px 0px;
-}
-
-.accrualnet-user-profile-form-wrapper .form-item .form-required,
-.accrualnet-user-register-form-wrapper .form-item .form-required{
-    float: left;
-    padding-right: .75em;
 }
 
 .accrualnet-user-profile-form-wrapper .form-item input, 
@@ -487,12 +493,15 @@ h1.field-label {
 margin-left: auto;
 margin-right: auto;
 text-align: center; /* This actually aligns the spans no the text */
+width: 100%;
+padding: 0px;
+margin: 0px;
 }
 
 
 .profile-colors-selected {
     height: 25px;
-    margin: 0px 5px 3px 5px;
+    margin: 0px 1% 2% 1%;
     
 }
 div.profile-colors-options span#Black,
@@ -526,12 +535,21 @@ div.profile-colors-selected div#Purple,
     background-color: #54316E;
 }
 .profile-colors-options span {
-    margin: 5px;
-    width: 25px;
+    margin: 4.5%;
+    width: 5%;
     /*padding: 0px 12px; */
-    padding: 0% 7.5%;
+    padding: 0% 6%;
 
 }
+.profile-colors-options span:first-child {
+padding-left: -1%;
+margin-left: -1%;
+}
+.profile-colors-options span:last-child {
+    padding-right: -1%;
+    margin-right: -1%;
+}
+
 .profile-colors-option:hover,
 span.profile-colors-option:focus,
 span.profile-colors:hover,
@@ -637,7 +655,7 @@ clear:both;
     color:#54316E;
     font-weight: bold;
     text-transform: uppercase;
-    margin-left: -25px;
+ margin-left: 90px;
 }
 
 
@@ -659,22 +677,12 @@ clear:both;
     clear: both;
 }
 
-/*.form-required img {
-    width: 25px;
-    height: auto;
-}*/
-.form-required {
-    width: 30px;
-    margin-top: 2px;
-    margin-bottom: 3px;
-}
-
 #username-warning {
 	clear: both;
     color: #696969;
     font-style: italic;
     padding-top: 0px;
-    margin-top: -35px;
+    margin-top: -20px;
     left:0px;
 }
 

@@ -130,11 +130,7 @@ foreach ($areaColors as $area => $color) {
         }
     }
 }
-/*
-print kprint_r($_GET);
-print kprint_r(get_defined_vars());
-print kprint_r($urlStr);
-print kprint_r($areaColor);*/
+
 
 /*******************************************************************************
  *****                            Title Additions                          *****
@@ -235,6 +231,9 @@ if ($pager_total_items != null) {
       <?php if ($main_menu): ?>
         <nav id="main-menu" role="navigation">
           <?php
+          
+          drupal_add_js(path_to_theme() . '/js/navigation.js', 'file');
+          
           // This code snippet is hard to modify. We recommend turning off the
           // "Main menu" on your sub-theme's settings form, deleting this PHP
           // code block, and, instead, using the "Menu block" module.
@@ -267,7 +266,10 @@ if ($pager_total_items != null) {
           <?php if (!$is_front && $title != "Page not found"):?>
           <div class="add-this"><div class="custom-images">
                   <a class="addthis_button_email"><img width="20" alt="Email This Page Icon" src="/sites/accrualnet.cancer.gov/themes/accrualnet/accrualnet-internals/images/icons/AccrualNet_EmailIcon.png"/>Email this Page</a>
-                  <a class="addthis_button_print"><img width="20" alt="Print This Page Icon" src="/sites/accrualnet.cancer.gov/themes/accrualnet/accrualnet-internals/images/icons/AccrualNet_PrintIcon.png"/>Print this Page</a></div></div>
+                  <a class="addthis_button_print"><img width="20" alt="Print This Page Icon" src="/sites/accrualnet.cancer.gov/themes/accrualnet/accrualnet-internals/images/icons/AccrualNet_PrintIcon.png"/>Print this Page</a>
+                  <a href="http://feeds.feedburner.com/Accrualnet" target="_blank"><img width="15" alt="RSS Feed" src="/sites/accrualnet.cancer.gov/themes/accrualnet/accrualnet-internals/images/icons/AccrualNet_RSSIcon.png">RSS</a>
+              </div></div>
+          
           <?php endif;?>
       </div>
       <?php print $messages; 

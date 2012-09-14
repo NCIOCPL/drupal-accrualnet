@@ -93,8 +93,8 @@ function an_lifecycle_tokens($type, $tokens, array $data = array(), array $optio
                 $query = new EntityFieldQuery();
                 $query->entityCondition('entity_type', 'node')
                 ->entityCondition('bundle', 'lifecycle_stage')
+                                                ->propertyCondition("status", 1)
                 ->fieldCondition('field_child_strategies', 'target_id', $node->nid);
-                //->propertyCondition("status", 1);
                 
                 $stage = _an_lifecycle_load_related_nodes($query);
                 if (!empty($stage['nodes'])) {
@@ -107,31 +107,6 @@ function an_lifecycle_tokens($type, $tokens, array $data = array(), array $optio
           break;
       }
     }
-
-    // Chained token relationships.
-    /*if ($format_tokens = token_find_with_prefix($tokens, 'parent-stage-system-title')) {
-      if($node->type == 'lifecycle_strategy'){ 
-                $query = new EntityFieldQuery();
-                $query->entityCondition('entity_type', 'node')
-                ->entityCondition('bundle', 'lifecycle_stage')
-                ->fieldCondition('field_child_strategies', 'target_id', $node->nid)
-                ->propertyCondition("status", 1);
-                
-                $stage = _an_lifecycle_load_related_nodes($query);
-                if (!empty($stage['nodes'])) {
-                    $parentNode = array_pop($stage['nodes']);
-                    
-                    $systemTitle = strtolower(preg_replace($old_pattern, $new_pattern, $parentNode->title));
-                    $replacements[$original] = $sanitize ? filter_xss($systemTitle) : $systemTitle;
-                }
-            }
-    }
-   if ($format_tokens = token_find_with_prefix($tokens, 'system-title')) {
-      if ($items = $node->title) {
-        $systemTitle = strtolower(preg_replace($old_pattern, $new_pattern, $items));
-        $replacements += token_generate('format', $format_tokens, array('format' => $systemTitle), $options);
-      }
-    }*/
   }
  
 

@@ -434,6 +434,20 @@ function accrualnet_form_alter(&$form, &$form_state, $form_id) {
 		// Remove the "Enter your keywords" label for the search
 		unset($form['basic']['keys']['#title']);
 	}
+        if ($form_id == 'og_ui_confirm_subscribe') {
+            drupal_add_js("(function ($) { $(document).ready(function(){
+                var target = $('h1#page-title').html();
+                var remaining = target.substring(target.indexOf('<'));
+                target = target.split('<')[0];
+                var newtext = 'Would you like to join the group ' + remaining;
+                if ($.trim(target) == 'Are you sure you want to join the group') {
+                    $('h1#page-title').html(newtext);
+                }
+                $('input#edit-submit').attr('value', 'Request Membership');
+                $('input#edit-submit').css('margin-top', '-2px');
+                $('<br/>').insertBefore($('input#edit-submit'));
+                });})(jQuery);", 'inline');
+        }
 }
 
 function accrualnet_preprocess_search_result(&$vars) {

@@ -33,17 +33,13 @@
 module_load_include('inc', 'nci_custom_user', 'includes\profilecolors');
 global $nci_user_profile_colors;
 
-//kprint_r(get_defined_vars());
 
 $account = $elements['#account'];
 $profileColor = 'Black';
 if ($account->profile_color != NULL) {
-    //kprint_r($account->profile_color);
     $profileColor = $nci_user_profile_colors[$account->profile_color['und'][0]['value']];
 }
 
-////kprint_r($profileColor);
-//kprint_r($account);
 if (array_key_exists('avatar_image', $variables)) {
     $simulatedAvatarArray = array();
     foreach ($nci_user_profile_colors as $color) {
@@ -62,18 +58,13 @@ if (array_key_exists('avatar_image', $variables)) {
     }) (jQuery);
         ", 'inline');
 }
-unset($user_profile['field_work_email']);
-unset($user_profile['summary']);
-if (array_key_exists('profile_color', $user_profile)) {
-unset($user_profile['profile_color']);
+
+$toHide = array('field_work_email', 'summary', 'profile_color', 'avatar_image', 'group_audience');
+foreach ($toHide as $hideMe) {
+    if (array_key_exists($hideMe, $user_profile)) {
+        hide($user_profile[$hideMe]);
+    }
 }
-if (array_key_exists('avatar_image', $user_profile)) {
-    unset($user_profile['avatar_image']);
-}
-//print kprint_r(get_defined_vars());
-//print kprint_r($user);
-//print kprint_r($account);
-//print kprint_r($user_profile);
 ?>
 <span class="nci-profile<?php print '-'.$profileColor; ?>">
 
@@ -81,11 +72,6 @@ if (array_key_exists('avatar_image', $user_profile)) {
         
 	<?php print drupal_render($user_profile['user_picture']); ?>
            
-<?php if ($account->uid == $user->uid): ?>
-    <div class="edit-profile-button">
-        <a href="/user/<?php print $account->uid;?>/edit">Edit Profile</a> 
-    </div>
-<?php endif; ?>
 </section>
 <section class="column profile-content">
     <h1 class="field-label"><?php print $account->name; ?></h1>

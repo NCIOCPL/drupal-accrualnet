@@ -11,8 +11,10 @@ function homepage_display() {
     $query = new EntityFieldQuery();
     $query->entityCondition('entity_type', 'node')
             ->entityCondition('bundle', 'homepage')
+             ->propertyOrderBy('created', 'DESC')
             ->propertyCondition('status', 1);
     $nodes = _an_lifecycle_load_related_nodes($query);
+    
     $output = '<div id="home">';
     //if we got a node back, pop it off the array. There should only ever be 1 
     //homepage that is public, so we do not care if it has multiple.

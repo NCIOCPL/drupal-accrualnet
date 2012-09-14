@@ -181,7 +181,7 @@ function all_conversations_page() {
 		$numConvos++;
 	}
 	if ($numConvos > 0) {
-		$o .= '<span class="pager top-pager">' . theme('pager') . '</span>';
+		$o .= '<span id="all-convo-pager">' . theme('pager') . '</span>';
 		$o .= '<div id="conversation-results">';
 		$o .= $r;
 		$o .= '</div>';
@@ -325,7 +325,7 @@ function communities_of_practice_page() {
 	$query->entityCondition('entity_type', 'node')
 			->entityCondition('bundle', 'community')
 			->propertyCondition('status', 1)
-			->propertyOrderBy('created', 'ASC')
+			->propertyOrderBy('created', 'DESC')
 			->pager(10);
 	$results = _an_lifecycle_load_related_nodes($query, TRUE);
 
@@ -387,7 +387,9 @@ function communities_of_practice_page() {
 		}
 		$o .= '</div>';
 		$userGroupRoles = og_get_user_roles($group->gid, $user->uid);
-		if (array_key_exists(3, $userGroupRoles) || in_array('administrator', $user->roles) || in_array('accrualnet_staff', $user->roles)) {
+		if (array_key_exists(3, $userGroupRoles) ||
+                        in_array('administrator', $user->roles) || in_array('AccrualNet Staff', $user->roles)
+                               || (in_array('AccrualNet Co-Moderator', $user->roles) && in_array($group->gid, array_keys($usersGroups)) && $usersGroups[$group->gid] != 2 && $usersGroups[$group->gid] != 3)) {
 			$o .= '<div class="manage-members">';
 			$o .= '<span class="button"><a href="/group/node/' . $group->etid . '/admin/people">Manage Group Members</a></span>';
 			$o .= '</div>';

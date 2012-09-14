@@ -12,14 +12,6 @@ $doNotRender = array(
 	'author',
 	
 );
-/*
-foreach ($doNotRender as $field) {
-	$form[$field]['#access'] = FALSE;
-	$form[$field]['#type'] = 'hidden';
-	$form[$field]['#group'] = '';
-	hide($form[$field]);
-}
-kprint_r($form);
-*/
+
 print drupal_render_children($form);
 ?>

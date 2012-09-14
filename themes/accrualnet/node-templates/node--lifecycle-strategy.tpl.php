@@ -101,6 +101,7 @@ $query->entityCondition('entity_type', 'node')
  ->entityCondition('bundle', array_keys($an_resource_types))
  ->fieldCondition('field_related_strategy', 'target_id', $node->nid)
  ->propertyCondition("status", 1)
+ ->propertyOrderBy('created', 'DESC')
  ->pager(5);
 
 

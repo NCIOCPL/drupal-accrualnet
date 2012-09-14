@@ -28,7 +28,7 @@ $output = '';
     <?php print render($intro_text); ?>
 </p>
 <section>
-    <div id="required-text"><span class="form-required"><img alt="Denotes a required field." class="required-img" src="/<?php print path_to_theme(); ?>/accrualnet-internals/images/global/required.png"/></span><i> Denotes a required field</i></div>
+    <div id="required-text"><span class="form-required"><img alt="Denotes a required field." class="required-img" src="/<?php print path_to_theme(); ?>/accrualnet-internals/images/global/required.png"/></span><span class="legend-text">Denotes a required field</span></div>
 </section>
 <section class="column sidebar region profile-sidebar">
     <?php print drupal_render($form['picture']); ?>

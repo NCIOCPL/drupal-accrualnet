@@ -195,7 +195,9 @@ span.field-label { /* The inline field label used by the Fences module */
 
 .more-link { /* Aggregator, blog, and forum more link */
 }
-
+#all-convo-pager .pager {
+    margin-bottom: -45px;
+}
 /*
  * First sidebar (on left in LTR languages, on right in RTL)
  *

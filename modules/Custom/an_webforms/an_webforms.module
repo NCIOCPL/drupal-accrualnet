@@ -39,7 +39,7 @@ function an_webforms_form_alter(&$form, &$form_state, $form_id) {
 	
 	$form['submitted']['legend'] = array(
 		'#type' => 'markup',
-		"#markup" => "<div id='required-text'><span class='form-required'></span><i> Denotes a required field</i></div>",
+		"#markup" => "<div id='required-text'><span class='form-required'><img alt='Denotes a required field.' class='required-img' src='/" . path_to_theme(). "/accrualnet-internals/images/global/required.png'/></span><span class='legend-text'>Denotes a required field</span></div>",
 		'#weight' => -10000);
 }
 

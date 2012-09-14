@@ -258,6 +258,7 @@ function _an_navigation_protocol_accrual_lifecycle_submenu($parentID, $base_path
             $test = array_values($stage->field_child_strategies['und']);
             $strategyQuery->entityCondition('entity_type', 'node')
             ->entityCondition('bundle', 'lifecycle_strategy')
+                    ->propertyCondition("status", 1)
             ->propertyCondition('nid', array_values($stage->field_child_strategies['und']));
             $strategyNodes = _an_lifecycle_load_related_nodes($strategyQuery);
         

@@ -63,7 +63,8 @@
  * @see theme_comment()
  */
 
-
+global $an_resource_types;
+global $an_education_menu_vocab;
 global $nci_user_profile_colors;
 
 $user = user_load($comment->uid);
@@ -103,7 +104,9 @@ else {
                 <?php endif;?>
 
          </div>
-        <div class="convo-body">
+    <?php if (in_array($node->type, array_keys($an_education_menu_vocab))): ?><div class="education-comment comment-body">
+    <?php elseif (in_array($node->type, array_keys($an_resource_types))): ?><div class="resource-comment comment-body">
+        <?php else:?> <div class="comment-body"><?php endif; ?>
         <div class="submitted-by">
             <span class="user-name">
                 

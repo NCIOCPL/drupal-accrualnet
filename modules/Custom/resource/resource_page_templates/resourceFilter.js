@@ -55,7 +55,7 @@
         
         // Reset the filter by just reloading the base page
         var $resetFilter = $('form#resource-ajax-filter').attr('action');
-        $('#filter-results').append($('<div class="reset-filter"><span class="button"><a href="/' + Drupal.settings.qPath  + '">Reset Filter</a></span></div>'));
+        $('#filter-results').append($('<div class="reset-filter"><span class="button"><a href="/' + Drupal.settings.qPath  + '">Reset</a></span></div>'));
     
     
         $('<span class="filter-arrow collapsed">► </span>').insertBefore($('#filter-lifecycle, #filter-rtype').children('legend').children('span'));

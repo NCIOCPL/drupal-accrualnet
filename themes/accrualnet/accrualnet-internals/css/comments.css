@@ -79,3 +79,259 @@ h3.comment-title { /* Comment title */
 
 .comment-unpublished p.unpublished { /* The word "Unpublished" displayed underneath the content. See also the div.unpublished declaration in the nodes.css. */
 }
+/*******************Community Styling***************************/
+
+h2.comment-form {
+    float: left;
+    border: none;
+    margin-right: 10px;
+}
+
+.comment-user-info {
+    padding-top: 5px;
+    font-style: italic;
+    clear: both;
+}
+
+.convo-posted-date {
+    float:right;
+    font-size: 13px;
+    text-transform:none;
+}
+.convo-post .user-name{
+    text-transform: uppercase;
+}
+
+.convo-post{
+    position: relative;
+}
+
+.convo-post .posted-date{
+    float:right;
+}
+
+.convo-post .user-occupation {
+    font-style: italic;
+    font-weight: bold;
+}
+
+.convo-post .user-moderator {
+	font-style: italic;
+    font-weight: bold;
+	color: #2d2d2d;
+}
+
+.convo-post .convo-user-image{
+    width: 20%;
+    vertical-align: bottom;
+    position:absolute;
+    bottom: 0;
+}
+
+.even .convo-user-image {
+
+    float:left;
+}
+
+.odd .convo-user-image {
+
+    float:right;
+    text-align: right;
+}
+
+
+.convo-post {
+    margin-top: 60px;
+
+}
+
+.comment-body {
+	box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    border: 1px solid #BF5500;
+    border-bottom: 4px solid #BF5500;
+}
+.odd .comment-body {
+	box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    border: 1px solid #DFA97F;
+    border-bottom: 4px solid #DFA97F;
+    border: 1px solid rgba(191, 85, 0, .5);
+    border-bottom: 4px solid rgba(191, 85, 0, .5);
+        width: 75%;
+    margin-right: 25%;
+    padding: 15px;
+    margin-bottom: 20px;
+    position: relative;
+    bottom: 40px;
+    border-right: 2px solid #DFA97F;
+    border-right: 2px solid rgba(191, 85, 0, .5);
+}
+
+.even .comment-body {
+    width: 75%;
+    margin-left: 25%;
+    padding: 15px;
+    margin-bottom: 20px;
+    position: relative;
+    bottom: 40px;
+    border-left: 2px solid #BF5500;
+}
+
+
+
+.comments > .even:after,
+.convo-posts > .even:after{
+    content: '';
+    position: absolute;
+    bottom: 40px;
+    right: -7px;
+    border: solid transparent 5px;
+    -moz-border-start-style: inset;
+    border-bottom-color: white;
+    z-index: 5;
+}
+
+.comments > .odd:before {
+    content: '';
+    position: absolute;
+    bottom: 39px;
+    left: -5px;
+    border: solid transparent 5px;
+    -moz-border-start-style: inset;
+    border-bottom-color: white;
+    z-index: 5;
+
+}
+
+.even .comment-body:after{
+	border-color: transparent transparent white transparent;
+    border-style: solid;
+
+    -moz-border-start-style: inset;
+    border-width: 20px 0px 20px 39px;
+    content: '';
+    z-index: 5;
+    bottom: 0px;
+    left: -35px;
+
+
+    display: block;
+    height: 0;
+    width: 0;
+    line-height: 0;
+    position: absolute;
+}
+.even .comment-body:before {
+    border-color: transparent transparent #BF5500 transparent;
+
+    border-style: solid;
+
+    -moz-border-start-style: inset;
+    border-width: 20px 0px 27px 50px;
+    content: '';
+    z-index: 4;
+    bottom: -4px;
+    left: -50px;
+
+    display: block;
+    height: 0;
+    width: 0;
+    line-height: 0;
+    position: absolute;
+}
+
+
+.odd .comment-body:after {
+    border-color: transparent transparent white transparent;
+    border-style: solid;
+
+    -moz-border-start-style: inset;
+    border-width: 20px 48px 24px 0px;
+    content: '';
+    bottom: 0px;
+    right: -38px;
+
+    display: block;
+    height: 0;
+    width: 0;
+    line-height: 0;
+    position: absolute;
+    z-index: 5;
+}
+.odd .comment-body:before {
+    border-color: transparent transparent #DFA97F transparent;
+    border-color: transparent transparent rgba(191, 85, 0, .5) transparent;
+
+    border-style: solid;
+    -moz-border-start-style: inset;
+    border-width: 20px 50px 27px 0px;
+    content: '';
+    z-index: 4;
+    bottom: -4px;
+    right: -52px;
+
+    display: block;
+    height: 0;
+    width: 0;
+    line-height: 0;
+    position: absolute;
+}
+
+.odd .convo-user-image  {
+    float:right;  
+    right: 0;
+}
+
+#site-name a:hover {
+    text-decoration: none;
+}
+
+
+/******************End Community Styling*************************/
+
+.resource-comment {
+    border: 1px solid #105693;
+    border-bottom: 4px solid #105693;
+}
+.odd .resource-comment {
+        border: 1px solid #87AAC9;
+    border-bottom: 4px solid #87AAC9;
+    border: 1px solid rgba(16, 86, 147, .5);
+    border-bottom: 4px solid rgba(16, 86, 147, .5);
+}
+.odd .resource-comment:before {
+    border-color: transparent transparent #87AAC9 transparent; /*E7*/
+    border-color: transparent transparent rgba(16, 86, 147, .5) transparent;
+}
+.even .resource-comment {
+        border-left: 2px solid #105693;
+}
+.even .resource-comment:before {
+    border-color: transparent transparent #105693 transparent;
+}
+/******** education*/
+.education-comment {
+    border: 1px solid #C74532;
+    border-bottom: 4px solid #C74532;
+}
+.odd .education-comment {
+        border: 1px solid #E3A198;
+    border-bottom: 4px solid #E3A198;
+    border: 1px solid rgba(199, 69, 50, .5);
+    border-bottom: 4px solid rgba(199, 69, 50, .5);
+}
+.odd .education-comment:before {
+    border-color: transparent transparent #E3A198 transparent; /*E7*/
+    border-color: transparent transparent rgba(199, 69, 50, .5) transparent;
+}
+.even .education-comment {
+        border-left: 2px solid #C74532;
+}
+.even .education-comment:before {
+    border-color: transparent transparent #C74532 transparent;
+}

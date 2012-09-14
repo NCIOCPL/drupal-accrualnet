@@ -78,38 +78,38 @@
  * rule that was previously applied.
  *
  *  <?php if($summary): ?>
-        <div class="convo-summary">
-            <?php print $summary[0]['value'];?>
-        </div>
-    <?php endif;?>
+  <div class="convo-summary">
+  <?php print $summary[0]['value'];?>
+  </div>
+  <?php endif;?>
  * 
- <?php if($body): ?>
-        <div class="convo-post convo-post even">
-        <div class="convo-user-image">
-                <?php print theme('image_style',
-                    array(
-                        'path' => $user->picture->uri,
-                        'style_name' => 'thumbnail',         
-                    )
-                ); ?>
-         </div>
-            <div class="convo-body">
-            <div class="submitted-by">
-                <span class="user-name">
-                    <a href="/user/<?php print $node->uid;?>" class="<?php print $nci_user_profile_colors[$color[0]['value']];?>" title="<?php print $user->name;?>'s profile"><?php print $user->name;?></a>
-                </span>
-                <span class="user-occupation"><?php print check_plain($occupation[0]['value']);?></span>
-                <span class="posted-date"><?php print format_date($node->created, 'custom', 'F d, Y');?></span>
-            </div>
-            <?php print $body[0]['value'];?>
-        </div>
-            
-    </div>
-    <?php endif;?>
-        <?php print render($content['comments']);?>
-    </div>
-    
-</div>
+  <?php if($body): ?>
+  <div class="convo-post convo-post even">
+  <div class="convo-user-image">
+  <?php print theme('image_style',
+  array(
+  'path' => $user->picture->uri,
+  'style_name' => 'thumbnail',
+  )
+  ); ?>
+  </div>
+  <div class="convo-body">
+  <div class="submitted-by">
+  <span class="user-name">
+  <a href="/user/<?php print $node->uid;?>" class="<?php print $nci_user_profile_colors[$color[0]['value']];?>" title="<?php print $user->name;?>'s profile"><?php print $user->name;?></a>
+  </span>
+  <span class="user-occupation"><?php print check_plain($occupation[0]['value']);?></span>
+  <span class="posted-date"><?php print format_date($node->created, 'custom', 'F d, Y');?></span>
+  </div>
+  <?php print $body[0]['value'];?>
+  </div>
+
+  </div>
+  <?php endif;?>
+  <?php print render($content['comments']);?>
+  </div>
+
+  </div>
 
  * 
  * @see template_preprocess()
@@ -117,19 +117,13 @@
  * @see zen_preprocess_node()
  * @see template_process()
  */
-
-
-
-
-
-
 global $nci_user_profile_colors;
 $topic = field_get_items('node', $node, 'field_topic');
 
 
 
 
-$term =  taxonomy_term_load($topic[0]['tid']);
+$term = taxonomy_term_load($topic[0]['tid']);
 
 //$summary = field_get_items('node', $node, 'field_conversation_summary');
 //$body = field_get_items('node', $node, 'body');
@@ -145,162 +139,187 @@ $avatar = field_get_items('user', $user, 'avatar_image');
 if ($avatar) {
     $simulatedAvatarArray = array();
     foreach ($nci_user_profile_colors as $avatarColor) {
-        $simulatedAvatarArray[] = 'male/'.$avatarColor;
-        $simulatedAvatarArray[] = 'female/'.$avatarColor;
+        $simulatedAvatarArray[] = 'male/' . $avatarColor;
+        $simulatedAvatarArray[] = 'female/' . $avatarColor;
     }
     $avatarTMP = intval($avatar[0]['value']);
     $avatarTMP = $simulatedAvatarArray[$avatarTMP];
     $avatarSRC = '/' . path_to_theme() . '/accrualnet-internals/images/avatars/' . $avatarTMP . '.png';
-}
-else {
+} else {
     $avatarSRC = '/' . path_to_theme() . '/accrualnet-internals/images/avatars/male/Black.png';
-
 }
 $op = field_get_items('node', $node, 'op');
 //$comments = comment_get_thread($node,COMMENT_MODE_FLAT, 10  );
 ?>
 
-<?php if($op == "Preview"): //Certain items break on preview because they dont exist, strip them out so a user can still use preview.?>
+<?php if ($op == "Preview"): //Certain items break on preview because they dont exist, strip them out so a user can still use preview. ?>
     <div class="conversation-topic-header">
-        <?php print _communities_convo_header($node, $term);?>
+        <?php
+        $group = og_context();
+
+        if ($group):
+            $groupNode = node_load($group->etid);
+            ?>
+            <h1 class="title"><?php print check_plain($group->label); ?></h1>
+            <div id="communities-topic-description"><?php print drupal_render(field_view_field('node', $groupNode, 'body', array('label' => 'hidden'))); ?></div>
+        <?php else: ?>
+            <h1 class="title"><?php print check_plain($term->name); ?></h1>
+            <div id="communities-topic-description"><?php print filter_xss($term->description); ?></div>
+        <?php endif; ?>
     </div>
     <div class="conversation">
         <div class="convo-title">
             <h2>
-            <?php print check_plain($node->title);?>            
+    <?php print check_plain($node->title); ?>            
             </h2>
         </div>
         <div class="conversation-abstract">
-            <?php if ($body) print drupal_render(field_view_field('node', $node, 'body', array('label' => 'hidden'))); ?>
-            <?php print drupal_render(field_view_field('node', $node, 'field_file_attachment', array('label' => 'hidden')));?>
+    <?php if ($body)
+        print drupal_render(field_view_field('node', $node, 'body', array('label' => 'hidden'))); ?>
+    <?php print drupal_render(field_view_field('node', $node, 'field_file_attachment', array('label' => 'hidden'))); ?>
         </div>
 
         <div class="convo-posts">
-        <?php if($opener): ?>
+    <?php if ($opener): ?>
 
-            <div class="convo-post convo-post even">
-            <div class="convo-user-image">
-                <?php if($user->picture):?>
-                    <?php print theme('image_style',
-                            array(
-                                'path' => $user->picture->uri,
-                                'style_name' => 'thumbnail',    
-                                'alt' => $user->name ."'s Image",
+                <div class="convo-post convo-post even">
+                    <div class="convo-user-image">
+        <?php if ($user->picture): ?>
+            <?php
+            print theme('image_style', array(
+                        'path' => $user->picture->uri,
+                        'style_name' => 'thumbnail',
+                        'alt' => $user->name . "'s Image",
                             )
-                        ); ?>
-                <?php else: ?>
-                    <img alt="<?php print check_plain($user->name);?>'s Image" src="<?php print $avatarSRC;?>" width="100" title="<?php print check_plain($user->name);?>'s Image" alt="<?php print check_plain($user->name);?>'s Image" />
+                    );
+            ?>
+                        <?php else: ?>
+                            <img alt="<?php print check_plain($user->name); ?>'s Image" src="<?php print $avatarSRC; ?>" width="100" title="<?php print check_plain($user->name); ?>'s Image" alt="<?php print check_plain($user->name); ?>'s Image" />
 
-                <?php endif;?>
+                        <?php endif; ?>
 
-            </div>
-                <div class="convo-body">
-                <div class="submitted-by">
-                    <span class="user-name">
-                        <a href="/user/<?php print $node->uid;?>" class="<?php print $color ? $nci_user_profile_colors[$color[0]['value']] : 'Black';?>" title="<?php print $user->name;?>'s profile"><?php print $user->name;?></a>
-                    </span>
-                    <span class="user-occupation"><?php print check_plain($occupation[0]['value']);?></span>
-                    <span class="posted-date"><?php print format_date($node->created, 'custom', 'F d, Y');?></span>
+                    </div>
+                    <div class="convo-body">
+                        <div class="submitted-by">
+                            <span class="user-name">
+                                <a href="/user/<?php print $node->uid; ?>" class="<?php print $color ? $nci_user_profile_colors[$color[0]['value']] : 'Black'; ?>" title="<?php print $user->name; ?>'s profile"><?php print $user->name; ?></a>
+                            </span>
+                            <span class="user-occupation"><?php print check_plain($occupation[0]['value']); ?></span>
+                            <span class="posted-date"><?php print format_date($node->created, 'custom', 'F d, Y'); ?></span>
+                        </div>
+        <?php print $opener[0]['safe_value']; ?>
+                    </div>
+
                 </div>
-                <?php print $opener[0]['safe_value']; ?>
-            </div>
-
-        </div>
-        <?php endif;?>
-            <?php if(user_is_logged_in()):?>
-            <?php print render($content['comments']);?>
-            <?php else: ?>
-            <div class="comment-cta">
-                <p>Please <a href="/user" title="login" alt="login">Login</a> or <a href="/user/register" title="register" alt="register">Register</a> to post comments.</p>
-            </div>
-            <?php endif;?>
+    <?php endif; ?>
+                    <?php if (user_is_logged_in()): ?>
+                        <?php print render($content['comments']); ?>
+    <?php else: ?>
+                <div class="comment-cta">
+                    <p>Please <a href="/user" title="login" alt="login">Login</a> or <a href="/user/register" title="register" alt="register">Register</a> to post comments.</p>
+                </div>
+            <?php endif; ?>
         </div>
 
     </div>
-<?php else:?>
+<?php else: ?>
     <div class="conversation-topic-header">
-        <?php print _communities_convo_header($node, $term);?>
+
+    <?php
+    $group = og_context();
+
+    if ($group):
+        $groupNode = node_load($group->etid);
+        ?>
+            <h1 class="title"><?php print check_plain($group->label); ?></h1>
+            <div id="communities-topic-description"><?php print drupal_render(field_view_field('node', $groupNode, 'body', array('label' => 'hidden'))); ?></div>
+        <?php else: ?>
+            <h1 class="title"><?php print check_plain($term->name); ?></h1>
+            <div id="communities-topic-description"><?php print filter_xss($term->description); ?></div>
+        <?php endif; ?>
+
     </div>
     <div class="conversation">
         <div class="convo-title">
             <h2>
-            <?php print check_plain($node->title);?>
+        <?php print check_plain($node->title); ?>
 
-            
+
             </h2>
             <div class="last-updated-snippet">
-            <?php print _last_updated_snippet($node->last_comment_timestamp); ?>
+                <?php print _last_updated_snippet($node->last_comment_timestamp); ?>
             </div>
         </div>
         <div class="conversation-abstract">
-            <?php if ($body) print drupal_render(field_view_field('node', $node, 'body', array('label' => 'hidden'))); ?>
-        <?php print drupal_render(field_view_field('node', $node, 'field_file_attachment', array('label' => 'hidden')));?>
-        
+    <?php if ($body)
+        print drupal_render(field_view_field('node', $node, 'body', array('label' => 'hidden'))); ?>
+                <?php print drupal_render(field_view_field('node', $node, 'field_file_attachment', array('label' => 'hidden'))); ?>
+
         </div>
 
         <div class="convo-posts">
-        <?php if($opener): ?>
+            <?php if ($opener): ?>
 
-            <div class="convo-post convo-post even">
-            <div class="convo-user-image">
-                <?php if($user->picture && !$avatar):?>
-                    <?php print theme('image_style',
-                            array(
+                <div class="convo-post convo-post even">
+                    <div class="convo-user-image">
+                <?php if ($user->picture && !$avatar): ?>
+                    <?php
+                    print theme('image_style', array(
                                 'path' => $user->picture->uri,
-                                'style_name' => 'thumbnail', 
-                                'alt' => $user->name ."'s Image",
-                            )
-                        ); ?>
-                <?php else: ?>
-                    <img alt="<?php print check_plain($user->name);?>'s Image" src="<?php print $avatarSRC;?>" width="100" title="<?php print check_plain($user->name);?>'s Image" alt="<?php print check_plain($user->name);?>'s Image" />
+                                'style_name' => 'thumbnail',
+                                'alt' => $user->name . "'s Image",
+                                    )
+                            );
+                    ?>
+                        <?php else: ?>
+                            <img alt="<?php print check_plain($user->name); ?>'s Image" src="<?php print $avatarSRC; ?>" width="100" title="<?php print check_plain($user->name); ?>'s Image" alt="<?php print check_plain($user->name); ?>'s Image" />
 
-                <?php endif;?>
+                        <?php endif; ?>
 
-            </div>
-                <div class="convo-body">
-                <div class="submitted-by">
-                    <span class="user-name">
-                        <a href="/user/<?php print $node->uid;?>" class="<?php print $color ? $nci_user_profile_colors[$color[0]['value']] : 'Black';?>" title="<?php print $user->name;?>'s profile"><?php print $user->name;?></a>
-                    </span>
-<?php /*                    <span class="user-occupation"><?php print check_plain($occupation[0]['value']);?></span> */ ?>
-				<?php 
-					// look for moderator titles
-					$moderator_titles = array();
-					// if belongs to the co-moderator role
-					if(array_search('AccrualNet Co-Moderator', $user->roles) !== false)
-					{
-						$moderator_titles[] = 'AccrualNet Co-Moderator';
-					}
-					// get the node group and the user roles
-					$groups = og_get_entity_groups('node', $node);
-					if(!empty($groups)){
-						$gid = array_shift($groups);
-						$rids = og_get_user_roles($gid, $user->uid, false);
-						// a non-empty list can only contain the community moderator role
-						if(!empty($rids)) {
-							$moderator_titles[] = 'Community of Practice Moderator';
-						}
-					}
-					if(!empty($moderator_titles)){
-						$moderator_text = implode(', ', $moderator_titles);
-						print "<span class='user-moderator'>$moderator_text</span>";
-					}
-				?>
-                    <span class="posted-date"><?php print format_date($node->created, 'custom', 'F d, Y');?></span>
+                    </div>
+                    <div class="convo-body">
+                        <div class="submitted-by">
+                            <span class="user-name">
+                                <a href="/user/<?php print $node->uid; ?>" class="<?php print $color ? $nci_user_profile_colors[$color[0]['value']] : 'Black'; ?>" title="<?php print $user->name; ?>'s profile"><?php print $user->name; ?></a>
+                            </span>
+        <?php /*                    <span class="user-occupation"><?php print check_plain($occupation[0]['value']);?></span> */ ?>
+        <?php
+        // look for moderator titles
+        $moderator_titles = array();
+        // if belongs to the co-moderator role
+        if (array_search('AccrualNet Co-Moderator', $user->roles) !== false) {
+            $moderator_titles[] = 'AccrualNet Co-Moderator';
+        }
+        // get the node group and the user roles
+        $groups = og_get_entity_groups('node', $node);
+        if (!empty($groups)) {
+            $gid = array_shift($groups);
+            $rids = og_get_user_roles($gid, $user->uid, false);
+            // a non-empty list can only contain the community moderator role
+            if (!empty($rids)) {
+                $moderator_titles[] = 'Community of Practice Moderator';
+            }
+        }
+        if (!empty($moderator_titles)) {
+            $moderator_text = implode(', ', $moderator_titles);
+            print "<span class='user-moderator'>$moderator_text</span>";
+        }
+        ?>
+                            <span class="posted-date"><?php print format_date($node->created, 'custom', 'F d, Y'); ?></span>
+                        </div>
+
+                            <?php print $opener[0]['safe_value']; ?>
+                    </div>
+
                 </div>
-
-                <?php print $opener[0]['safe_value']; ?>
-            </div>
-
-        </div>
-        <?php endif;?>
-            <?php print render($content['comments']);?>
-            <?php if(!user_is_logged_in()):?>
-            <div class="comment-cta">
-                <p>Please <a href="/user" title="login" alt="login">Login</a> or <a href="/user/register" title="register" alt="register">Register</a> to post comments.</p>
-            </div>
-            <?php endif;?>
+                    <?php endif; ?>
+                    <?php print render($content['comments']); ?>
+    <?php if (!user_is_logged_in()): ?>
+                <div class="comment-cta">
+                    <p>Please <a href="/user" title="login" alt="login">Login</a> or <a href="/user/register" title="register" alt="register">Register</a> to post comments.</p>
+                </div>
+            <?php endif; ?>
         </div>
 
     </div>
-<?php endif;?>
+        <?php endif; ?>

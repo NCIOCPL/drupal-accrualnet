@@ -80,8 +80,8 @@ li a.active {
     text-align: center;
     text-decoration: none;
     text-transform: uppercase;
-    color: #2D2D2D;
-    opacity: .75;
+    color: #888888;
+    
     
     /*TRANSISTIONS*/
 	-webkit-transition: background 0.5s ease;
@@ -93,7 +93,6 @@ li a.active {
    
  }
  nav#main-menu li a:hover {
-     opacity:1;
     font-weight: bold;
  }
  nav#main-menu ul li a.active-trail {
@@ -104,18 +103,33 @@ li a.active {
     -ms-box-sizing: border-box;
     background: white;
     
-    border-top: 1px solid #759E00;
-    border-right: 1px solid #759E00;
-    border-left: 1px solid #759E00;
+    border-top: 1px solid rgb(154, 184, 63);
+    border-right: 1px solid rgb(154, 184, 63);
+    border-left: 1px solid rgb(154, 184, 63);
     border-bottom: none;
     
+    border-top: 1px solid rgba(154, 184, 63, 1);
+    border-right: 1px solid rgba(154, 184, 63, 1);
+    border-left: 1px solid rgba(154, 184, 63, 1);
+    border-bottom: none;
     
     padding: 10px 0px 10px 0px;
-    opacity:1;
     font-weight: bold;
     /*color: #2D2D2D;*/
     overflow:visible;
     z-index: 1;
+ }
+ .Blue  nav#main-menu ul li a.active-trail {
+     color: #105693;
+ }
+ .Orange  nav#main-menu ul li a.active-trail {
+     color: #BF5500;
+ }
+ .Red  nav#main-menu ul li a.active-trail {
+     color: #C74532;
+ }
+ .Purple  nav#main-menu ul li a.active-trail {
+     color: #54316E;
  }
 
  #navigation {
@@ -161,7 +175,7 @@ li a.active {
 
 .header-right .user-blerb {
     float: right;
-    margin: 10px 20px;
+    margin: 15px 20px;
     color: #2D2D2D;
     font-weight: 900;
     font-size: 14px;
@@ -389,6 +403,7 @@ nav#block-an-navigation-left-nav ul li > ul li a.active {
 nav#block-an-navigation-left-nav > ul > li.last a{
     border-bottom: none;
 }
+
 
 nav#block-an-navigation-left-nav li a.active {
     /* Default Color */

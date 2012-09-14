@@ -32,7 +32,7 @@
         */
         
         var $pathToTheme = Drupal.settings.pathToTheme;
-        $('.accrualnet-user-profile-form-wrapper, .accrualnet-user-register-form-wrapper').find('.description').each(function () {
+        $('.description').each(function () {
             var $help = $(this).html();
             $(this).html('<img alt="' + $help + '" src="/' + $pathToTheme + '/accrualnet-internals/images/global/help.png" title="' + $help + '" />');
             $(this).hover(function () {

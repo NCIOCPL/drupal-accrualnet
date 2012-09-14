@@ -22,7 +22,6 @@ $query = $query->extend('PagerDefault')
 $convos = $query->execute()->fetchAllAssoc('nid');
 $convosUnloaded = array_values($convos);
  
-//print kprint_r($convos);
 ?>
 <div id="community">
     <div class="header-paragraph">
