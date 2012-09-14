@@ -199,7 +199,7 @@ $op = field_get_items('node', $node, 'op');
                         <?php endif; ?>
 
                     </div>
-                    <div class="convo-body">
+                    <div class="comment-body">
                         <div class="submitted-by">
                             <span class="user-name">
                                 <a href="/user/<?php print $node->uid; ?>" class="<?php print $color ? $nci_user_profile_colors[$color[0]['value']] : 'Black'; ?>" title="<?php print $user->name; ?>'s profile"><?php print $user->name; ?></a>
@@ -277,7 +277,7 @@ $op = field_get_items('node', $node, 'op');
                         <?php endif; ?>
 
                     </div>
-                    <div class="convo-body">
+                    <div class="comment-body">
                         <div class="submitted-by">
                             <span class="user-name">
                                 <a href="/user/<?php print $node->uid; ?>" class="<?php print $color ? $nci_user_profile_colors[$color[0]['value']] : 'Black'; ?>" title="<?php print $user->name; ?>'s profile"><?php print $user->name; ?></a>
