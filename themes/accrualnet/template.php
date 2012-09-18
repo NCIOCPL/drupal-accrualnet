@@ -494,6 +494,10 @@ function accrualnet_breadcrumb($variables) {
        }
        elseif(!array_key_exists(1, $breadcrumb) && in_array('communities', $arguments)){
            $breadcrumb[1] = "<a href=\"/communities\">Communities and Conversations</a>";
+           $group = og_context();
+           if ($group) {
+               $breadcrumb[2] = '<a href="'. url("node/" . $group->etid). '">' . $group->label . '</a>';
+           }
        }
        elseif(!array_key_exists(1, $breadcrumb) && in_array('education', $arguments)){
            $breadcrumb[1] = "<a href=\"/education\">Education & Training</a>";
