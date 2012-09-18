@@ -4,7 +4,7 @@
  */
 jQuery(function ($) {
         // Get the li elements
-        var li = $( '.featured-carousel-slides li' ).hide(),
+        var li = $( '.featured-carousel-slides > li' ).hide(),
             controls = $( '.featured-carousel-slides .slideshowControl' ),
             selectedIndex = -1,
             slideshowPause = false;
