@@ -435,14 +435,19 @@ function accrualnet_form_alter(&$form, &$form_state, $form_id) {
 		unset($form['basic']['keys']['#title']);
 	}
         if ($form_id == 'og_ui_confirm_subscribe') {
+            drupal_set_title('Request Community Membership');
             drupal_add_js("(function ($) { $(document).ready(function(){
                 var target = $('h1#page-title').html();
                 var remaining = target.substring(target.indexOf('<'));
                 target = target.split('<')[0];
-                var newtext = 'Would you like to join the group ' + remaining;
+                var newtext = 'Send a membership request to the ' + remaining;
+                newtext = newtext.split('?')[0];
+                newtext += '.';
                 if ($.trim(target) == 'Are you sure you want to join the group') {
                     $('h1#page-title').html(newtext);
                 }
+
+                $('title').html('test');
                 $('input#edit-submit').attr('value', 'Request Membership');
                 $('input#edit-submit').css('margin-top', '-2px');
                 $('<br/>').insertBefore($('input#edit-submit'));
