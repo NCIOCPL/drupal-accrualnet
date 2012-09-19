@@ -190,6 +190,11 @@ td.menu-disabled {
     -webkit-box-sizing: border-box;
     -ms-box-sizing: border-box;
 }
+
+#edit-field-file-attachment-und table {
+width: 100%;
+}
+
 /* MOVE THIS -Lauren */
 #resource-ajax-filter .form-type-checkbox label {
     padding-left: 0px;
