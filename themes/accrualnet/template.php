@@ -491,20 +491,24 @@ function accrualnet_preprocess_search_result(&$vars) {
 function accrualnet_breadcrumb($variables) {
        $links = array();
        $path = '';
-       $arguments = explode('/', request_uri());
+	   $urlRequested = request_uri();
+       $arguments = explode('/', $urlRequested);
        
 	$breadcrumb = $variables['breadcrumb'];
-        if(!array_key_exists(1, $breadcrumb) && in_array('literature', $arguments)){
+        if(!array_key_exists(1, $breadcrumb) && in_array('literature', $arguments)
+		&& $urlRequested != '/literature'){
            $breadcrumb[1] = '<a href="/literature">Literature &amp; Tools</a>';
        }
-       elseif(!array_key_exists(1, $breadcrumb) && in_array('communities', $arguments)){
+       elseif(!array_key_exists(1, $breadcrumb) && in_array('communities', $arguments)
+	   && $urlRequested != '/communities'){
            $breadcrumb[1] = "<a href=\"/communities\">Communities and Conversations</a>";
            $group = og_context();
            if ($group) {
                $breadcrumb[2] = '<a href="'. url("node/" . $group->etid). '">' . $group->label . '</a>';
            }
        }
-       elseif(!array_key_exists(1, $breadcrumb) && in_array('education', $arguments)){
+       elseif(!array_key_exists(1, $breadcrumb) && in_array('education', $arguments)
+	   && $urlRequested != '/education'){
            $breadcrumb[1] = "<a href=\"/education\">Education & Training</a>";
        }
 	$output = '';
