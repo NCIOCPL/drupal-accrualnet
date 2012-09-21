@@ -267,7 +267,6 @@ if ($pager_total_items != null) {
           <div class="add-this"><div class="custom-images">
                   <a class="addthis_button_email"><img width="20" alt="Email This Page Icon" src="/sites/accrualnet.cancer.gov/themes/accrualnet/accrualnet-internals/images/icons/AccrualNet_EmailIcon.png"/>Email this Page</a>
                   <a class="addthis_button_print"><img width="20" alt="Print This Page Icon" src="/sites/accrualnet.cancer.gov/themes/accrualnet/accrualnet-internals/images/icons/AccrualNet_PrintIcon.png"/>Print this Page</a>
-                  <a href="http://feeds.feedburner.com/Accrualnet" target="_blank"><img width="15" alt="RSS Feed" src="/sites/accrualnet.cancer.gov/themes/accrualnet/accrualnet-internals/images/icons/AccrualNet_RSSIcon.png">RSS</a>
               </div></div>
           
           <?php endif;?>
