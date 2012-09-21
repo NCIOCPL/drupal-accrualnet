@@ -226,7 +226,7 @@ function _conversation_fields() {
             'cardinality' => 1,
             'label' => 'Topic',
             'type' => 'taxonomy_term_reference',
-            'description' => 'Please select the category that best fits the topic of your conversation.',
+            'description' => 'Please select the category that best fits the topic of your conversation. If your conversation is to be published within a Community of Practice, please select ‘General Topics’.',
             'settings' => array(
                 'allowed_values' => array(
                     array(
