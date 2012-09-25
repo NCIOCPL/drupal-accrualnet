@@ -342,7 +342,7 @@ function communities_of_practice_page() {
 		if (!in_array($group->gid, array_keys($usersGroups))) {
 			if (user_is_logged_in()) {
                             if (in_array('administrator', $user->roles) || in_array('AccrualNet Staff', $user->roles)) {
-                                $o .= '<a href="/group/node/' . $comm->nid . '">';
+                                $o .= '<a href="' . url('node/' .$comm->nid) . '">';
                             } else {
 				$o .='<a href="/group/node/' . $comm->nid . '/subscribe ">';
                             }
