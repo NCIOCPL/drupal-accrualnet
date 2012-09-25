@@ -276,7 +276,6 @@ section.profile-sidebar fieldset {
 input#edit-name {
     font-size: 25px;
     font-weight: normal;
-    text-transform: uppercase;
     letter-spacing: 5px;
     clear:both;
 }

@@ -145,6 +145,24 @@ function accrualnet_preprocess_user_register_form(&$vars) {
 	  } */
 }
 
+function accrualnet_user_register_form_validate(&$form, &$form_state) {
+    form_set_error('name', 'test');
+}
+function accrualnet_profile_user_form_validate (&$form, &$form_state) {
+    form_set_error('name', 'test2');
+}
+function _minimum_password_length_validate (&$form, &$form_state) {
+    $newPass = $form_state['values']['pass'];
+    if (!empty($newPass)) {
+        if (strlen($newPass) < 6) {
+            form_set_error('pass', 'Your password must contain a minimum of 6 characters.');
+        }
+    }
+}
+
+function accrualnet_form_user_profile_form_alter(&$form, &$form_state) {
+    $form['#validate'][] = '_minimum_password_length_validate';
+}
 /**
  * Moves the element's description (if any) to the #hover_desc key.
  * @param <type> $element the element to alter.

@@ -53,27 +53,16 @@
 			$(this).children('span.selected').html($(this).children('div.selectOptions').children('.selectedd').html());
 			// Set the value of what's selected.
 			$(this).attr('value',$(this).children('div.selectOptions').children('.selectedd').attr('value'));
-            
-			// When clicking on the arrow or in the selected box, toggle the 
-			// options up or down. Also, change the colors and clear the
-			// visible SELECTed option.
-			$(this).children('span.selected,span.selectArrow').click(function(){
-				// First, expand the border, then slide
-				$(this).parent().css('border-width', '3px');
-                
-				// Toggle the options
-				$(this).parent().children('div.selectOptions').slideToggle();
-				$(this).parent().children('div.select-spacer').slideToggle();
+                        
 
-				// Remove whatever is in the current SELECTed box
-				$(this).parent().children('span.selected').html(" ");
-			});
+            
+
 
 			// When selecting an OPTION, set the value accordingly and slide the 
 			// options box back up. Also, be prepared to handle the INPUT field 
 			// that appears if "OTHER" is selected.
 			$(this).find('span.selectOption').click(function(){
-                
+             
 				// Set the value to be what was just clicked on.
 				$(this).closest('div.selectBox').attr('value',$(this).attr('value'));
 				// Reflect the change in the collapsed box view.
@@ -116,8 +105,8 @@
 			});
 		});
                 
-                $('div.selectBox').focusin(function(e) {
-                 
+                $('div.selectBox').focusin(function() {
+                
                    				// First, expand the border, then slide
 				$(this).css('border-width', '3px');
                 
