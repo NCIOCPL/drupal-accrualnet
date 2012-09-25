@@ -149,7 +149,7 @@ function accrualnet_preprocess_user_register_form(&$vars) {
 function _minimum_password_length_validate (&$form, &$form_state) {
     $newPass = $form_state['values']['pass'];
     if (!empty($newPass)) {
-        if (strlen($newPass) < 6) {
+        if (strlen($newPass) < 5) {
             form_set_error('pass', 'Your password must contain a minimum of 6 characters.');
         }
     }
