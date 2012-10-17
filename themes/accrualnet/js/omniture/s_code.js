@@ -7,8 +7,8 @@ More info available at http://www.omniture.com */
 // s_account (report suites) is defined and set before this file is loaded
 var s=s_gi(s_account)
 
-/* ************************* CONFIG SECTION ************************* */
-/* Config Section Version - SHARED_9_6_2012 */
+/* ---------------------- CONFIG SECTION ---------------------- */
+/* Config Section Version - ACCRUALNET_2_7_2012 */
 
 /* Specify the life time of the cookie in seconds, or */
 /* set to "Session" to turn off persistent cookies.   */
@@ -18,14 +18,14 @@ s.currencyCode="USD"
 /* Language Config */
 s.charSet="UTF-8"
 /* Link Tracking Config */
-s.trackDownloadLinks=true;
-s.trackExternalLinks=true;
-s.trackInlineStats=true;
-s.linkDownloadFileTypes="mobi,epub,png,ics,gif,jpg,pdf,exe,zip,wav,mp3,mov,mpg,avi,wmv,doc,docx,xls,xlsx,ppt,pptx";
-s.linkInternalFilters="javascript:,cancer.gov";
-s.linkLeaveQueryString=false;
-s.linkTrackVars="None";
-s.linkTrackEvents="None";
+s.trackDownloadLinks=true
+s.trackExternalLinks=true
+s.trackInlineStats=true
+s.linkDownloadFileTypes="pdf,exe,zip,wav,mp3,mov,mpg,avi,wmv,doc,docx,xls,xlsx,ppt,pptx"
+s.linkInternalFilters="javascript:,cancer.gov"
+s.linkLeaveQueryString=false
+s.linkTrackVars="None"
+s.linkTrackEvents="None"
 
 // If the cid query parameter exists - set prop16 and eVar16 to value of cid
 var cdrid = caseInsensitiveGetQueryParm('cdrid');
@@ -57,6 +57,9 @@ if(canonicalLink)
     // Remove protocol
     if(canonicalLink.indexOf("http://") >= 0)
 	  canonicalLink = canonicalLink.substring(canonicalLink.indexOf("http://")+7);
+
+    if(canonicalLink.indexOf("https://") >= 0)
+	  canonicalLink = canonicalLink.substring(canonicalLink.indexOf("https://")+8);
 
 	// Remove query parameters
 	if(canonicalLink.indexOf("?") > 0)
@@ -270,9 +273,8 @@ s.getValOnce=new Function("v","c","e",""
 /* WARNING: Changing any of the below variables will cause drastic
 changes to how your visitor data is collected.  Changes should only be
 made when instructed to do so by your account manager.*/
-s.visitorNamespace="nci";
-s.trackingServer="metrics.cancer.gov";
-s.dc="122";
+s.visitorNamespace="nci"
+s.trackingServer="nci.122.2o7.net"
 
 /************* DO NOT ALTER ANYTHING BELOW THIS LINE ! **************/
 var s_code='',s_objectID;function s_gi(un,pg,ss){var c="s._c='s_c';s.wd=window;if(!s.wd.s_c_in){s.wd.s_c_il=new Array;s.wd.s_c_in=0;}s._il=s.wd.s_c_il;s._in=s.wd.s_c_in;s._il[s._in]=s;s.wd.s_c_in++;s"
