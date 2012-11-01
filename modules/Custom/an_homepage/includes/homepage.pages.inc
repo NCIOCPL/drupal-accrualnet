@@ -25,7 +25,12 @@ function homepage_display() {
         $output .= '<div class="homepage-carousel">';
         $featuredCarousel = field_get_items('node', $contentNode, 'field_featured_carousel');
         if($featuredCarousel){
-            $output .= render(node_view(node_load($featuredCarousel[0]['target_id'])));
+            if (array_key_exists(0, $featuredCarousel) && array_key_exists('target_id', $featuredCarousel[0])) {
+                $ftCarousel = $featuredCarousel[0]['target_id'];
+                $ftCarousel = node_load($ftCarousel);
+                $ftCarousel = node_view($ftCarousel);
+                $output .= render($ftCarousel);
+            }
         }
         $output .= '</div>';
         

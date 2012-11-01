@@ -426,7 +426,8 @@ function _nci_get_sub_navigation(){
    // print dpm($menus);
     foreach($menus as $menu) {
         if( $menu['link']['in_active_trail'] && !empty($menu['below']) ){
-            return drupal_render( menu_tree_output($menu['below']) );
+            $tree = menu_tree_output($menu['below']);
+            return drupal_render( $tree );
         }
     }
 }

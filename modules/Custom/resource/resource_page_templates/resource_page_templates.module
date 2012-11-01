@@ -351,7 +351,9 @@ function _diff($facetName = NULL, $tagName = NULL) {
     if ($facetName && !$facet) {
         drupal_goto('404');
     }
-    $tag = array_pop(taxonomy_get_term_by_name(DetermineTag($tagName)));
+    $tag = DetermineTag($tagName);
+    $tag = taxonomy_get_term_by_name($tag);
+    $tag = array_pop($tag);
     if ($tagName && !$tag) {
         drupal_goto('404');
     }
