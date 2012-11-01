@@ -252,8 +252,10 @@ $op = field_get_items('node', $node, 'op');
         </div>
         <div class="conversation-abstract">
     <?php if ($body)
-        print drupal_render(field_view_field('node', $node, 'body', array('label' => 'hidden'))); ?>
-                <?php print drupal_render(field_view_field('node', $node, 'field_file_attachment', array('label' => 'hidden'))); ?>
+        $fieldBody =field_view_field('node', $node, 'body', array('label' => 'hidden'));
+        $fieldAttachment = field_view_field('node', $node, 'field_file_attachment', array('label' => 'hidden'));
+        print drupal_render($fieldBody);
+        print drupal_render($fieldAttachment); ?>
 
         </div>
 

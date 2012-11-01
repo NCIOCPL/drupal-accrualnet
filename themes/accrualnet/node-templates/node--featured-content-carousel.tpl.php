@@ -97,7 +97,14 @@ drupal_add_js(drupal_get_path('module', 'featured_content') . '/includes/feature
     <?php if($blocks):?>
         <?php foreach ($blocks as $block):?>
             <li class="slide">
-                <?php print render(node_view(node_load($block['target_id'])));?>
+                <?php
+                if (array_key_exists('target_id', $block)) {
+                    $blockTID = $block['target_id'];
+                $blockTID = node_load($blockTID);
+                $blockTID = node_view($blockTID);
+                print render($blockTID);
+                }
+                ?>
             </li>
         <?php endforeach;?>
     
