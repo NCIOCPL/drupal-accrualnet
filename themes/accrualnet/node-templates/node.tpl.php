@@ -154,7 +154,7 @@ global $an_resource_types;
                 $linksOutput .= '<ul>';
                 foreach ($field_links as $link) {
                     $linksOutput .= '<li>';
-                    $linksOutput .= '<a href="' . $link['url'] . '" target="_blank">';
+                    $linksOutput .= '<a href="' . $link['display_url'] . '" target="_blank">'; //The url changed from url to display_url due to ? and &'s getting stripped out of URLs
                     $linksOutput .= $link['title'];
                     $linksOutput .= '</a>';
                     $linksOutput .= '</li>';
