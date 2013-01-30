@@ -58,9 +58,9 @@ if (isset($_SESSION['current_users'][$role])) {
 	if ($can_moderate) {
 
 		// retrieve the workflow assign users form and render it
-		print drupal_render(drupal_get_form('nci_workflow_assign_form',
-								$nid, $role, $assigned_user,
-								$current_users));
+            $form = drupal_get_form('nci_workflow_assign_form',
+                    $nid, $role, $assigned_user, $current_users);
+		print drupal_render($form); // separated out to meet strict standards
 
 		// done!
 		return;

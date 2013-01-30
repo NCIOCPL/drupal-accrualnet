@@ -109,6 +109,16 @@ span.conversation-last-updated {
     float: right;
     text-align: right;
 }
+#community-members-pager li.pager-first a,
+#community-members-pager li.pager-previous a,
+#community-members-pager li.pager-next a,
+#community-members-pager li.pager-last a {
+    border: none !important;
+    font-size: 10px !important;
+    padding: 2px !important;
+    margin: 0px !important;
+    display: inline;
+}
 
 
 #all-conversations-results {

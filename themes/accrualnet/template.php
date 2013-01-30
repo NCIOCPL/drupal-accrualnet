@@ -418,7 +418,7 @@ function accrualnet_preprocess_search_results(&$variables) {
 	// define the number of results being shown on a page
 	$itemsPerPage = 10;
 
-	$searchTerm = $_REQUEST['q'];
+	$searchTerm = request_path();
 	$searchTerm = ltrim(substr($searchTerm, strrpos($searchTerm, '/')), '/');
 
 	global $pager_total_items;
