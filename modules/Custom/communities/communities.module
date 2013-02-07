@@ -562,15 +562,17 @@ function _truncate_html($maxLength, $html, $isUtf8 = true) {
             $trimmed = true;
         }
     }
+    
+    // add ellipsis if text trimmed (before closing tags, lest it be orphaned
+    // after a </ul> or something)
+    if($trimmed)
+        $output[] = '...';
 
     // Close any open tags.
     while (!empty($tags)) {
         $topTag = array_pop($tags);
         $output[] = "</$topTag>";
     }
-    
-    if($trimmed)
-        $output[] = '...';
     
     return implode('', $output);
 }
