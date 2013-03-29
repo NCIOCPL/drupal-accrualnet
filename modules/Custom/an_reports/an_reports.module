@@ -17,7 +17,7 @@ function an_reports_menu() {
 		'title' => 'AccrualNet Reports',
 		'description' => 'A variety of reports specific to the AccrualNet site.',
 		'page callback' => 'reports_landing_page',
-		'access arguments' => array('access content'),
+		'access arguments' => array('access site reports'),
 		'type' => MENU_SUGGESTED_ITEM,
 		'file' => 'reports_landing_page.pages.inc',
 		'hidden' => 0,
@@ -25,7 +25,7 @@ function an_reports_menu() {
 	$items['admin/reports/accrualnet/%'] = array(
 		//'title' => 'Resources and Tools Level 2',
 		'page callback' => 'reports_level_2_page',
-		'access arguments' => array('access content'),
+		'access arguments' => array('access site reports'),
 		'page arguments' => array(3),
 		'type' => MENU_SUGGESTED_ITEM,
 		'file' => 'reports_level_2.pages.inc',
@@ -34,7 +34,7 @@ function an_reports_menu() {
 	$items['admin/reports/accrualnet/%/export'] = array(
 		//'title' => 'Resources and Tools Level 2',
 		'page callback' => 'reports_level_2_export',
-		'access arguments' => array('access content'),
+		'access arguments' => array('access site reports'),
 		'page arguments' => array(3),
 		'type' => MENU_SUGGESTED_ITEM,
 		'file' => 'reports_level_2.pages.inc',
