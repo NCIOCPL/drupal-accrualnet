@@ -73,7 +73,5 @@
  * Set variables that we need specific to this page.
  */
 $title = "";
-
+require DRUPAL_ROOT . "/" . path_to_theme() . "/templates/include_page.tpl.php";
 ?>
-
-<?php require base_path() . path_to_theme() . "/templates/include_page.tpl.php";?>
