@@ -110,59 +110,9 @@
   <?php print $page; ?>
   <?php print $page_bottom; ?>
    
-    <!-- **** NCI Web Analytics  - DO NOT ALTER **** -->
-
-<script type="text/javascript"><!--
-var wa_production_report_suite = 'nciglobal,ncienglish-all,nciclinicaltrials';
-var wa_dev_report_suite = 'ncidev,ncienglish-all-dev,nciclinicaltrials-dev';
-var wa_channel = 'AccrualNet';
-var wa_search_function_name = 'AccrualNet Search';
-var wa_production_url_match = 'accrualnet.cancer.gov';
-var wa_production_linkInternalFilters = 'javascript:,accrualnet.cancer.gov';
-var wa_dev_linkInternalFilters = 'javascript:,accrualnetqa.cancer.gov';
-
-if (document.URL.indexOf(wa_production_url_match) != -1)
-    // production 
-    var s_account=wa_production_report_suite;
-else 
-    // non-production
-    var s_account=wa_dev_report_suite;
-
-var pageNameOverride = location.hostname.toLowerCase() + location.pathname.toLowerCase();
-
---></script>
-
-<script type="text/javascript" src="/<?php print path_to_theme();?>/js/omniture/s_code.js"></script>
-
-<script type="text/javascript"><!--
-
-if (document.URL.indexOf(wa_production_url_match) != -1)
-    // production 
-    s.linkInternalFilters = wa_production_linkInternalFilters;
-else 
-    // non-production
-    s.linkInternalFilters = wa_dev_linkInternalFilters;
-
-s.channel=wa_channel;
-s.events='event1';
-var s_code=s.t();if(s_code)document.write(s_code);
-
-var NCIAnalytics = {
-	SiteSearch : function(sender) {
-		var s=s_gi(s_account); 
-		s.linkTrackVars='channel,prop14,eVar14,events'; 
-		s.linkTrackEvents='event2';
-		s.prop14=sender.elements[0].value;
-		s.eVar14=sender.elements[0].value;
-		s.channel=wa_channel;
-		s.events='event2';
-		s.tl(this,'o',wa_search_function_name);
-	}
-};
-
---></script>
-
-<!-- **** End NCI Web Analytics **** -->
+  <!-- **** NCI Web Analytics  - DO NOT ALTER **** -->
+  <script type="text/javascript" src="https://static.cancer.gov/webanalytics/WA_AccrualNet_PageLoad.js"></script>
+  <!-- **** End NCI Web Analytics Page **** -->
     
 </body>
 </html>
