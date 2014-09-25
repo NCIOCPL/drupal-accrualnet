@@ -21,7 +21,7 @@
  */
 ?>
 <div id="search-header">
-    <div id="search-count"><?php print strtoupper($search_totals); ?></div>
+    <div id="search-count"><?php print $search_totals; ?></div>
     <?php if ($pager): ?>
     <div class="pager top-pager search-pager"><?php print $pager; ?></div>
     <?php endif; ?>
