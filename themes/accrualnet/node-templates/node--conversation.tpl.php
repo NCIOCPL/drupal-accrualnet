@@ -117,6 +117,20 @@
  * @see zen_preprocess_node()
  * @see template_process()
  */
+
+// There are two calls to drupal_render() below which pass the return
+// value of field_view_field() function directly. Since drupal_render()
+// expects a reference to a variable instead of a return value on the
+// stack, an warning message is displayed to the user when the E_STRICT
+// error reporting level is set. That level was set when PHP was upgraded
+// in the fall of 2015. The sites were modified to suppress this change,
+// at least for now, and restore the error reporting level to what it
+// was before the PHP upgrade. If E_STRICT error reporting is enabled
+// at some point in the future, the calls below should be modified to
+// use a temporary variable.
+//
+// See https://JIRA/browse/OCEDRUPAL-420.
+
 global $nci_user_profile_colors;
 $topic = field_get_items('node', $node, 'field_topic');
 
