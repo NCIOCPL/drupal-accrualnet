@@ -431,3 +431,13 @@ function _nci_get_sub_navigation(){
         }
     }
 }
+
+/**
+ * Implementation of hook_init().
+ *
+ * For now, back out E_STRICT reporting level introduced by PHP upgrade.
+ * See https://JIRA/browse/OCEDRUPAL-420.
+ */
+function an_navigation_init() {
+    error_reporting(error_reporting() & ~E_STRICT);
+}
