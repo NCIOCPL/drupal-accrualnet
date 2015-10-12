@@ -173,10 +173,9 @@ $op = field_get_items('node', $node, 'op');
 
         if ($group):
             $groupNode = node_load($group->etid);
-			$field_view = field_view_field('node', $groupNode, 'body', array('label' => 'hidden'));
             ?>
             <h1 class="title"><?php print check_plain($group->label); ?></h1>
-            <div id="communities-topic-description"><?php print drupal_render($field_view); ?></div>
+            <div id="communities-topic-description"><?php print drupal_render(field_view_field('node', $groupNode, 'body', array('label' => 'hidden'))); ?></div>
         <?php else: ?>
             <h1 class="title"><?php print check_plain($term->name); ?></h1>
             <div id="communities-topic-description"><?php print filter_xss($term->description); ?></div>
@@ -245,10 +244,9 @@ $op = field_get_items('node', $node, 'op');
 
     if ($group):
         $groupNode = node_load($group->etid);
-		$field_view = field_view_field('node', $groupNode, 'body', array('label' => 'hidden'));
         ?>
             <h1 class="title"><?php print check_plain($group->label); ?></h1>
-            <div id="communities-topic-description"><?php print drupal_render($field_view); ?></div>
+            <div id="communities-topic-description"><?php print drupal_render(field_view_field('node', $groupNode, 'body', array('label' => 'hidden'))); ?></div>
         <?php else: ?>
             <h1 class="title"><?php print check_plain($term->name); ?></h1>
             <div id="communities-topic-description"><?php print filter_xss($term->description); ?></div>
