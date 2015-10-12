@@ -118,10 +118,10 @@
  * @see template_process()
  */
 
-// There are two calls to drupal_render() below which pass the return
+// There are multiple calls to drupal_render() below which pass the return
 // value of field_view_field() function directly. Since drupal_render()
 // expects a reference to a variable instead of a return value on the
-// stack, an warning message is displayed to the user when the E_STRICT
+// stack, a warning message is displayed to the user when the E_STRICT
 // error reporting level is set. That level was set when PHP was upgraded
 // in the fall of 2015. The sites were modified to suppress this change,
 // at least for now, and restore the error reporting level to what it
