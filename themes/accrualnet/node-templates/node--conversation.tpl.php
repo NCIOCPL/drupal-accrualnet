@@ -117,6 +117,20 @@
  * @see zen_preprocess_node()
  * @see template_process()
  */
+
+// There are multiple calls to drupal_render() below which pass the return
+// value of field_view_field() function directly. Since drupal_render()
+// expects a reference to a variable instead of a return value on the
+// stack, a warning message is displayed to the user when the E_STRICT
+// error reporting level is set. That level was set when PHP was upgraded
+// in the fall of 2015. The sites were modified to suppress this change,
+// at least for now, and restore the error reporting level to what it
+// was before the PHP upgrade. If E_STRICT error reporting is enabled
+// at some point in the future, the calls below should be modified to
+// use a temporary variable.
+//
+// See https://JIRA/browse/OCEDRUPAL-420.
+
 global $nci_user_profile_colors;
 $topic = field_get_items('node', $node, 'field_topic');
 
@@ -159,10 +173,9 @@ $op = field_get_items('node', $node, 'op');
 
         if ($group):
             $groupNode = node_load($group->etid);
-			$field_view = field_view_field('node', $groupNode, 'body', array('label' => 'hidden'));
             ?>
             <h1 class="title"><?php print check_plain($group->label); ?></h1>
-            <div id="communities-topic-description"><?php print drupal_render($field_view); ?></div>
+            <div id="communities-topic-description"><?php print drupal_render(field_view_field('node', $groupNode, 'body', array('label' => 'hidden'))); ?></div>
         <?php else: ?>
             <h1 class="title"><?php print check_plain($term->name); ?></h1>
             <div id="communities-topic-description"><?php print filter_xss($term->description); ?></div>
@@ -231,10 +244,9 @@ $op = field_get_items('node', $node, 'op');
 
     if ($group):
         $groupNode = node_load($group->etid);
-		$field_view = field_view_field('node', $groupNode, 'body', array('label' => 'hidden'));
         ?>
             <h1 class="title"><?php print check_plain($group->label); ?></h1>
-            <div id="communities-topic-description"><?php print drupal_render($field_view); ?></div>
+            <div id="communities-topic-description"><?php print drupal_render(field_view_field('node', $groupNode, 'body', array('label' => 'hidden'))); ?></div>
         <?php else: ?>
             <h1 class="title"><?php print check_plain($term->name); ?></h1>
             <div id="communities-topic-description"><?php print filter_xss($term->description); ?></div>
