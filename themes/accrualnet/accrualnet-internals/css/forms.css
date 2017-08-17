@@ -410,3 +410,17 @@ span.button a:hover, span.button a:active, span.button:hover a {
      margin-top: -20px;
      padding-top: 0px;
  }
+
+/*
+ * Added to comply with HHS requirement.
+ * August 2017.
+ */
+.accrualnet-user-login-form-wrapper #warning-banner { 
+    margin: 50px 20px;
+    border: #759e00 solid 2px;
+    padding: 20px;
+}
+.accrualnet-user-login-form-wrapper #warning-banner p {
+    font-style: italic;
+    font-weight: bold;
+}
