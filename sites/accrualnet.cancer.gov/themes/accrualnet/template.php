@@ -429,11 +429,14 @@ function accrualnet_preprocess_search_results(&$variables) {
 		$total = 0;
 	}
 
-    // Make this markup available to the search results page's template.
-    // Modified [bkline 2014-09-25] for OCEDRUPAL-408.
-    $variables['search_totals'] = '"' .
-        htmlspecialchars(strtoupper($searchTerm)) .
-        '" <span class="results-number">(' . $total . ')</span>';
+
+
+	// set this html to the $variables
+	//if ($total > 1 || $total == 0) {
+	$variables['search_totals'] = '"' . $searchTerm . '" <span class="results-number">(' . $total . ')</span>';
+	/* } else {
+	  $variables['search_totals'] = "\"$searchTerm\" gave $total result";
+	  } */
 }
 
 // Added By Lauren July 19, 2012

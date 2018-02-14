@@ -246,11 +246,12 @@ h1 span {
         padding-left: 20px;
 }
 #ncibanner ul li.nciLogo a {
-	background-repeat: no-repeat;
-	display: block;
-	height: 39px;
-	text-indent: -9999px;
-	width: 263px;
+    background-repeat: no-repeat;
+    display: block;
+    height: 74px;
+    text-indent: -9999px;
+    width: 453px;
+    background-position: 0 15px;
 }
 #ncibanner ul li.nihText {
 	float: right;
@@ -284,7 +285,7 @@ h1 span {
         border-bottom: 1px solid #759E00;
 }
 #ncibanner ul li.nciLogo a {
-	background-image: url('../images/global/white-ncilogo.gif');
+	background-image: url('../images/global/nci-logo.png');
 }
 #ncibanner ul li.nihText a {
 	background-image: url('../images/global/white-nihtext.gif');
@@ -356,7 +357,7 @@ h1 span {
 #nci-footer .footer-text {
     color: #fff;
     font-style: italic;
-    margin: 15px auto 0px;
+    margin: 20px auto 20px;
 }
 
 /**************************************
@@ -1523,3 +1524,27 @@ input:focus, div:focus, span:focus {outline:1px dotted red;}
 .accrualnet-user-register-form-wrapper input:focus {
     outline:2px solid #759E00;
 }
+
+
+/** Maintenance Page **/
+.maintenance-page #content{
+	margin: 20px;
+	color: #444;
+}
+.maintenance-page header#page-header {
+    padding: 30px;
+}
+.maintenance-page #page-header .header-content hgroup {
+    position: relative;
+	bottom: 0;
+}
+.maintenance-page .header-right{
+	display: none;
+}
+.maintenance-page .content-wrapper{
+	font-size: 1.3em;
+}
+.maintenance-page #page-options{
+	display: none;
+}
+

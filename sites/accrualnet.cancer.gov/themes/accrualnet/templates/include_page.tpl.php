@@ -153,8 +153,6 @@ if ($pager_total_items != null) {
     <div id="ncibanner" class="clearfix">
         <ul>
         <li class="nciLogo"><a title="The National Cancer Institute" href="http://www.cancer.gov">The National Cancer Institute</a></li>
-        <li class="nciURL"><a title="www.cancer.gov" href="http://www.cancer.gov">www.cancer.gov</a></li>
-        <li class="nihText"><a title="The U.S. National Institutes of Health" href="http://www.nih.gov">The National Institutes of Health</a></li>
         </ul>
   </div>
 <div id="header" class="header">
@@ -282,13 +280,13 @@ if ($pager_total_items != null) {
       <a id="main-content"></a>
       <?php print render($title_prefix); ?>
       <?php 
-	 
-                
 		if ($title && (!isset($node) || (isset($node) && $node->type != 'conversation'))): ?>
         <h1 class="title" id="page-title"><?php print $title ?>
 		</h1>
       <?php endif; ?>
       <?php print render($title_suffix); ?>
+	  <?php $is_maint = variable_get('maintenance_mode',''); ?>
+	  <?php if(!empty($is_maint) && !empty($content)) print '<div class="content-wrapper">' . $content . '</div>'; ?>
       <?php print render($page['content']); ?>
       <?php print $feed_icons; ?>
     </div><!-- /#content -->
@@ -328,15 +326,15 @@ if ($pager_total_items != null) {
                 <li class="last"><a href="/about">About Us</a></li>
               </ul>
           </div>
-              <div class="footer-text">AccrualNet<sup>TM</sup> and logo are trademarks/service marks of the U.S. Department of Health and Human Services (DHHS)</div>
-              <div class="footer-images">
-                  <ul>
-                <li><a href="http://www.hhs.gov/" target="_blank"><img alt="HHS.gov Logo" src="/sites/accrualnet.cancer.gov/themes/accrualnet/accrualnet-internals/images/global/Accrual-Net-HHS-logo.gif" /></a></li>
-                <li><a href="http://www.cancer.gov/" target="_blank"><img alt="Cancer.gov Logo" src="/sites/accrualnet.cancer.gov/themes/accrualnet/accrualnet-internals/images/global/Accrual-Net-NCI-logo.gif" /></a></li>
-                <li><a href="http://www.nih.gov/" target="_blank"><img alt="NIH.gov Logo" src="/sites/accrualnet.cancer.gov/themes/accrualnet/accrualnet-internals/images/global/Accrual-Net-NIH-logo.gif" /></a></li>
-                <li><a href="http://www.usa.gov" target="_blank"><img alt="USA.gov Logo" src="/sites/accrualnet.cancer.gov/themes/accrualnet/accrualnet-internals/images/global/Accrual-Net-USAgov-logo.gif" /></a></li>
+            <div class="footer-links">
+              <ul>
+                <li><a href="http://www.hhs.gov/" target="_blank">U.S. Department of Health and Human Services</a></li>
+                <li><a href="http://www.nih.gov/" target="_blank">National Institutes of Health</a></li>
+                <li><a href="http://www.cancer.gov/" target="_blank">National Cancer Institute</a></li>
+                <li class="last"><a href="http://www.usa.gov" target="_blank">USA.gov</a></li>
               </ul>
-              </div>
+          </div>
+            <div class="footer-text">NIH…Turning Discovery Into Health <sup>®</sup></div>
           </div>
           
 
