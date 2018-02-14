@@ -1,0 +1,650 @@
+<?php
+
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+
+/**
+ * hook_install
+ * 
+ * Create site-structure vocabulary 
+ * Create the stmp-menu Menu
+ */
+function stmp_site_structure_install(){
+    //Create site-structure vocabulary.
+    $vocabulary = new stdClass();
+    $vocabulary->name = t('Site Structure');
+    $vocabulary->module = 'stmp_site_structure';
+    $vocabulary->machine_name = t('site_structure');
+    $vocabulary->hierarchy = 1;
+    $vocabulary->weight = 0;
+    if (!taxonomy_vocabulary_save($vocabulary)) {
+            drupal_set_message('Failed to add vocabulary: site_structure',
+                            'error');
+    }
+    
+    menu_rebuild();
+    $menu = array(
+        'menu_name' => t('stmp-menu'),
+        'title' => t('stmp-menu'),
+        'description' => t('Contains menu items built from the site-structure taxonomy')
+    );
+    menu_save($menu);
+    
+    $site_structure_fields = array(
+        array(
+        'label' => t('Show in Navigation'),  
+        'entity_type' => 'term',
+        'description' => t('If checked and a page is assigned to this section with no
+            pretty URL, this item will display in the navigation.'),
+        'field_name' => 'show_in_navigation',  
+        'required' => FALSE,
+        'type' => 'list_boolean',
+        'cardinality' => '1',
+        'widget' => array(
+            'weight' => '16',
+            'type' => 'options_onoff',
+            'settings' => array('display_label' => 1),
+        ),
+        'settings' => array(
+            'allowed_values' => array(
+                0 => 'off',
+                1 => 'on',
+            ),
+        ),
+        'default_value' => array(array('value' => 0)),
+        'bundles' => array(
+            'site_structure',
+        ),
+    ),
+    );
+    _stmp_enable_fields($site_structure_fields);
+}
+
+
+/**
+ * hook_enable
+ * 
+ * Build the site structure.
+ */
+function stmp_site_structure_enable(){
+    
+    
+    $site_structure_fields = array(
+        array(
+        'label' => t('Show in Navigation'),  
+        'entity_type' => 'taxonomy_term',
+        'description' => t('If checked and a page is assigned to this section with no
+            pretty URL, this item will display in the navigation.'),
+        'field_name' => 'show_in_navigation',  
+        'required' => FALSE,
+        'type' => 'list_boolean',
+        'cardinality' => '1',
+        'widget' => array(
+            'weight' => '16',
+            'type' => 'options_onoff',
+            'settings' => array('display_label' => 1),
+        ),
+        'settings' => array(
+            'allowed_values' => array(
+                0 => 'off',
+                1 => 'on',
+            ),
+        ),
+        'default_value' => array(array('value' => 1)),
+        'bundles' => array(
+            'site_structure',
+        ),
+    ),
+    );
+    _stmp_enable_fields($site_structure_fields);
+
+    build_site_structure();
+}
+
+function stmp_site_structure_disable(){
+    
+}
+
+/**
+ * build_site_stucture()
+ * Builds the stmp_menu based off of the site-structure taxonomy. 
+ * @return type 
+ */
+function build_site_structure(){
+    //Require that there is a taxonomy set defined as site_structure.
+    $site_structure = taxonomy_vocabulary_machine_name_load('site_structure');
+   
+    if(!$site_structure){
+        drupal_set_message('Could not find taxonomy with system name "site_structure". 
+            Please create the site_structure vocabulary and run this again.');
+        return;
+    }
+    
+    $site_structure_tree = taxonomy_get_tree($site_structure->vid, 0, 10);
+    
+    //Before we re-create the menu, delete the old one.
+    delete_site_structure();
+    
+    //If we do have a site structure:
+    //1) Create a new menu item for each taxonomy node
+    build_site_structure_helper($site_structure_tree, '', 0, $site_structure->vid);
+    
+    
+}
+
+/**
+ * Recursive Helper function to build out the navigation based on the site-structure
+ * taxonomy. 
+ */
+function build_site_structure_helper($site_structure_level, $base_path ,$plid, $vid){
+    global $base_url;
+    //$site_url = '';
+    $weight = 0;
+    $base_path = ($base_path != '' ? $base_path.'/' : $base_path);
+    foreach($site_structure_level as $level){
+        $old_pattern = array("/[^a-zA-Z0-9 ]/", "!\s+!", "/[^a-zA-Z0-9]/");
+        $new_pattern = array(""," ", "-");
+        $term = taxonomy_term_load($level->tid);
+        $item_name = strtolower(preg_replace($old_pattern, $new_pattern, $level->name));
+        $show_in_nav = $term->show_in_navigation['und'][0]['value'];
+        $source_path = drupal_lookup_path('source', $base_path.$item_name);
+        if($source_path && $show_in_nav){
+            $menu_entry = array(
+                    'values' => array(
+                        'menu_name' => 'stmp-menu',
+                        'weight' => $weight,
+                        'link_title' => $level->name,
+                        'hidden' => ($source_path ? 0 : 1),
+                        'link_path' =>  $source_path,
+                        'router_path' => 'node/%',
+                        'module' => t('stmp_site_structure'),
+                        'mlid' => 0,
+                        'plid' => $plid,
+                    ),
+                );    
+            $mlid = menu_link_save($menu_entry['values']);
+            $weight++;
+            $sublevel = taxonomy_get_tree($vid, $level->tid, 1);
+            //recursively build out the menu.
+            build_site_structure_helper($sublevel, $base_path.$item_name, $mlid, $vid);
+        }
+    }
+    
+    drupal_set_message('Successfully rebuilt navigation');
+}
+
+/**
+ *  Delete all menu items from the main menu 
+ */
+function delete_site_structure(){
+    $menu = menu_load('stmp-menu');
+    if ($menu)
+    {
+        menu_delete_links('stmp-menu');
+    }
+}
+
+/**
+ * Implements hook_token_info().
+ *
+ * @ingroup token_example
+ */
+function stmp_site_structure_token_info() {
+// Define Node tokens.
+  $info['tokens']['node']['menu-url'] = array(
+    'name' => t('Menu URL Path'),
+    'description' => t("The base path to this content item on the website. Determined
+        by the Site Structure."),
+    'type' => 'format'
+  );
+  $info['tokens']['node']['pretty-url'] = array(
+    'name' => t('Pretty URL'),
+    'description' => t("The Pretty URL for this node."),
+    'type' => 'format'
+  );
+  
+  return $info;
+}
+
+/**
+ * Implements hook_tokens().
+ *
+ * @ingroup token_example
+ */
+function stmp_site_structure_tokens($type, $tokens, array $data = array(), array $options = array()) {
+  $replacements = array();
+  $sanitize = !empty($options['sanitize']);
+  
+  //There were some problems with the regex returning multiple - in a row when
+  //special characters were in the titles. To avoid this, first remove all special
+  //characters except spaces, then replace all spaces with -.
+  //Just to be sure, we also check to see if there is more than once space and replace
+  //it with a single space.
+  $old_pattern = array("/[^a-zA-Z0-9 ]/", "!\s+!", "/[^a-zA-Z0-9]/");
+  $new_pattern = array(""," ", "-");
+  // Node tokens.
+  if ($type == 'node' && !empty($data['node'])) {
+    $node = $data['node'];
+
+    foreach ($tokens as $name => $original) {
+      switch ($name) {
+        case 'menu-url':
+            //$site_structure = field_get_items('node', $node, 'field_section');
+            $workbench_section = (array_key_exists('workbench_access', $node) ? array_values($node->workbench_access) : 0);
+            $workbench_access_id = (array_key_exists('workbench_access_id', $node) ? $node->workbench_access_id : 0);
+            
+            //if ($site_structure) {
+            //    $tid = $site_structure[0]['tid'];
+            //}
+            if($workbench_section){
+
+                $tid = $workbench_section[0];
+            }
+            else if($workbench_access_id){
+                $tid = $workbench_access_id;
+            }
+            $baseURLToken = array();
+            //we have an odd case where someone chose the root - not actually a term
+            //This should never actually happen on NINR because it has Home in its nav.
+            if($tid == 'site_structure'){
+                $tid = -1;
+                $baseURLToken[] = 'site-structure';
+            }
+            $parents = taxonomy_get_parents_all($tid);
+            
+            for($i = count($parents)-1; $i >= 0; $i--){
+                $baseURLToken[] = strtolower(preg_replace($old_pattern, $new_pattern, $parents[$i]->name));
+            }
+            
+          
+          $replacements[$original] = $sanitize ? implode('/', $baseURLToken) : implode('/', $baseURLToken);
+          break;
+        case 'pretty-url':
+            $pretty_url = field_get_items('node', $node, 'pretty_url');
+            $prettyURLToken = '';
+            if($pretty_url){ 
+                $prettyURLToken = strtolower(preg_replace($old_pattern, $new_pattern, $pretty_url[0]['value']));    
+            }
+            $replacements[$original] = $sanitize ? check_plain($prettyURLToken) : check_plain($prettyURLToken);
+                
+          break;
+      }
+    }
+  }
+ 
+
+  return $replacements;
+}
+
+
+/**
+ *Implements hook_block_info
+ * @return string 
+ */
+function stmp_site_structure_block_info(){
+    $blocks = array();
+    $blocks['stmp-main-navigation'] = array(
+      'info' => t('Standard Templates Main Nav'),
+      'weight' => 0,
+      'region' => 'navigation',
+      'visibility' => BLOCK_VISIBILITY_NOTLISTED,
+    ); 
+    
+    $blocks['stmp-left-navigation'] = array(
+      'info' => t('Standard Templates Left Nav'),
+        'weight' => 1,
+        'region' => 'sidebar_first',
+        'visibility' => BLOCK_VISIBILITY_NOTLISTED,
+    );
+    
+    
+    
+    return $blocks;
+}
+/**
+ * Implements hook_block_view
+ * @param type $delta
+ * @return type 
+ */
+function stmp_site_structure_block_view($delta = '') {
+ 
+    switch($delta){
+        case 'stmp-main-navigation' :
+            $block['subject'] = t('');
+            if(user_access('access content')){
+                //Use our custom function to retrieve data.
+                $result = _stmp_site_structure_main_nav();
+
+                if (empty($result)) { //No content in the last week.
+                $block['content'] = t('');  
+                } 
+                else {
+                //Pass data through theme function.
+                $block['content'] = $result;
+                }
+            }
+            return $block;
+        case 'stmp-left-navigation':
+
+            $block['subject'] = t('');
+            if(user_access('access content')){
+                //Use our custom function to retrieve data.
+                $result = _stmp_site_structure_left_nav();
+
+                if (empty($result)) { //No content in the last week.
+                $block['content'] = t('');  
+                } 
+                else {
+                //Pass data through theme function.
+                $block['content'] = $result;
+                }
+            }
+            return $block;
+
+  }
+
+}
+
+/**
+ *
+ * @return type 
+ */
+function _stmp_site_structure_main_nav(){
+    $menus = menu_tree_all_data('stmp-menu', NULL, 2);
+    $output = menu_tree_output($menus);
+    return drupal_render( $output );
+}
+
+/**
+ *
+ * @return type 
+ */
+function _stmp_site_structure_left_nav(){
+    
+    $menuLink = array();
+    $url = explode('/', $_GET['q']);
+    //If this is a node page
+    if(( count($url) > 2 ? ($url[2] != 'edit') : 1 ) )
+    {
+        $node = node_load($url[1]);
+        //get workbench access section term
+        $tid = _get_workbench_section_tid($node);
+        //get path to root from current term
+        $parents = taxonomy_get_parents_all($tid);
+        $menuLink = array();
+        //make a list of terms 
+        for($i = count($parents)-1; $i >= 0; $i--){   
+                $menuLink[] = $parents[$i]->name;      
+        }
+    
+        $menus = menu_tree_all_data('stmp-menu', NULL, 5);
+
+        $output = '';
+        foreach($menus as $menu) {
+            if( in_array($menu['link']['link_title'], $menuLink ) && !empty($menu['below']) ){
+                foreach($menu['below'] as $subMenu){
+                    if(in_array($subMenu['link']['link_title'], $menuLink)){
+                        $subMenu['link']['in_active_trail'] = true;
+                    }
+                }
+                $urlAlias = drupal_lookup_path('alias',$menu['link']['link_path']) ? drupal_lookup_path('alias',$menu['link']['link_path']) : $menu['link']['link_path'];
+                $output .= '<h4><a href="/'.$urlAlias.'">'.$menu['link']['title'].'</a></h4>';
+                $menu_tree = menu_tree_output($menu['below']) ;
+                $output .= drupal_render( $menu_tree );
+                return $output;
+            }
+        }
+    }
+    //Otherwise - for any other type of page - default to checking if its in a menu
+    //otherwise dont display a left nav.
+    else{
+        $menus = menu_tree_all_data('stmp-menu', NULL, 5);
+        $output = '';
+        foreach($menus as $menu) {
+            if( $menu['link']['in_active_trail'] && !empty($menu['below']) ){
+                $urlAlias = drupal_lookup_path('alias',$menu['link']['link_path']) ? drupal_lookup_path('alias',$menu['link']['link_path']) : $menu['link']['link_path'];
+                $output .= '<h4><a href="/'.$urlAlias.'">'.$menu['link']['title'].'</a></h4>';
+                $menu_tree = menu_tree_output($menu['below']) ;
+                $output .= drupal_render( $menu_tree );
+                return $output;
+            }
+        }
+    }
+}
+/**
+ *Implements hook_validate (node.api.php)
+ * 
+ * We need to validate that no other page is using the URL path that is generated
+ * by <section path>/prettyurl.  
+ */
+function stmp_site_structure_node_validate($node, $form, &$form_state){
+    //if the node type does not contain a pretty_url field - do not require validation
+    if(!array_key_exists('pretty_url', $node)){
+        return;
+    }
+    
+    $string = '';
+    $prettyurl = field_get_items('node', $node, 'pretty_url');
+    //if the pretty URL field is empty, dont try to do a token_replace because it
+    //will add an additional / to the end and drupal_lookup_path will return false.
+    if(!$prettyurl || $prettyurl[0]['value'] == ""){
+        $string = token_replace('[node:menu-url]', array('node' => $node, 'type'=>'node'));
+    }
+    else
+    {
+        $string = token_replace('[node:menu-url]/[node:pretty-url]', array('node' => $node));
+    }
+    $urlCheck = drupal_lookup_path('source', $string);
+    if($urlCheck && $urlCheck != 'node/'.$node->nid){
+        form_set_error('URL Error', t('You cannot have two pages in the same section
+            with no pretty URL or with the same pretty URL. Please provide a unique pretty URL to continue.'));
+    }
+    
+}
+
+function stmp_site_structure_query_WorkbenchAccess_alter(QueryAlterableInterface $query){
+    
+    $condition = array();
+    //$conditionAND[] = 'wan.nid = node.nid';
+    foreach($query->getMetaData('sections') as $section){
+        
+        $condition[] = 'wan.access_id = '.$section;
+    }
+    
+    $query->join('workbench_access_node', 'wan', 'wan.nid = node.nid AND ' . implode(' OR ', $condition));
+}
+
+
+
+function _get_workbench_section_tid($node = NULL){
+    if(!$node)
+        return;
+    
+        $old_pattern = array("/[^a-zA-Z0-9 ]/", "!\s+!", "/[^a-zA-Z0-9]/");
+        $new_pattern = array(""," ", "-");
+       //$site_structure = field_get_items('node', $node, 'field_section');
+            $workbench_section = (array_key_exists('workbench_access', $node) ? array_values($node->workbench_access) : 0);
+            $workbench_access_id = (array_key_exists('workbench_access_id', $node) ? $node->workbench_access_id : 0);
+            
+            //if ($site_structure) {
+            //    $tid = $site_structure[0]['tid'];
+            //}
+            if($workbench_section){
+
+                $tid = $workbench_section[0];
+            }
+            else if($workbench_access_id){
+                $tid = $workbench_access_id;
+            }
+        
+        //we have an odd case where someone chose the root - not actually a term
+        //This should never actually happen on NINR because it has Home in its nav.
+        if($tid == 'site_structure'){
+            $tid = -1;
+            $baseURLToken[] = 'site-structure';
+        }
+
+        return $tid;
+    
+}
+function stmp_site_structure_menu() {
+  $items = array();
+  $items['admin/rebuildmenu'] = array(
+    'title' => 'Rebuild Menu',
+    'page callback' => 'stmp_intro',
+    'access callback' => TRUE,
+  );
+  return $items;
+}
+
+function stmp_intro() {
+    
+  build_site_structure();
+  $markup = t('The site structure has been rebuilt. Thank you.');
+  return array('#markup' => $markup);
+}
+
+
+
+
+
+
+/**
+ *
+ * @param type $fields
+ * @return boolean 
+ */
+function _stmp_enable_fields($fields){
+    try{
+        foreach ($fields as $field){
+            $field_info = _stmp_field_info($field);
+            field_read_field($field_info['field_name']) == FALSE ? field_create_field($field_info) : field_update_field($field_info);
+            //Add an instance of this field to each of the content types that use it.
+            foreach($field['bundles'] as $bundle) {
+                $instance_info = _stmp_instance_info($field, $bundle);
+
+                if ($instance_info) {
+                    field_read_instance($instance_info['entity_type'], $instance_info['field_name'], $instance_info['bundle']) == FALSE ? field_create_instance($instance_info) : field_update_instance($instance_info);
+                }
+                else {
+                    watchdog('error', t('There was a problem creating a field instance.'));
+                }
+            }
+        }
+        return TRUE;
+    }
+    catch(Exception $e){
+        watchdog_exception('error', $e);
+        return FALSE;
+    }
+}
+
+/**
+ *
+ * @param type $field
+ * @return type 
+ */
+function _stmp_field_info($field = array()) {
+    
+    if(empty($field))
+        return;
+    // Variables
+    $field_info = array();
+    
+    // Create the fields
+    //Required field properties
+    $field_info['field_name'] = $field['field_name'];
+    $field_info['type'] = $field['type'];
+    //Optional field properties
+    if(array_key_exists('cardinality', $field))
+            $field_info['cardinality'] = $field['cardinality'];
+
+    if(array_key_exists('label', $field))
+            $field_info['label'] = $field['label'];
+
+    if(array_key_exists('description', $field))
+            $field_info['description'] = $field['description'];
+
+    if(array_key_exists('settings', $field))
+            $field_info['settings'] = $field['settings'];
+
+    if(array_key_exists('instance_settings', $field))
+            $field_info['instance_settings'] = $field['instance_settings'];
+
+    if(array_key_exists('default_widget', $field))
+            $field_info['default_widget'] = $field['default_widget'];
+
+    if(array_key_exists('default_formatter', $field))
+            $field_info['default_formatter'] = $field['default_formatter'];
+
+    if(array_key_exists('locked', $field))
+            $field_info['locked'] = $field['locked'];
+
+    if(array_key_exists('no_ui', $field))
+            $field_info['no_ui'] = $field['no_ui'];
+
+
+
+    
+    
+    // Return the fields
+    return $field_info;
+}
+
+/**
+ *
+ * @param type $field
+ * @param type $bundle
+ * @return type 
+ */
+function _stmp_instance_info($field = array(), $bundle = FALSE) {
+    
+    if(empty($field) || !$bundle){
+        return;
+    }
+    
+    $instance_info = array();
+    
+    //required instance fields
+    $instance_info['field_name'] = $field['field_name'];
+    $instance_info['entity_type'] = $field['entity_type'];
+    $instance_info['bundle'] = $bundle;
+    
+    //optional instance fields
+    if (array_key_exists('label', $field))
+            $instance_info['label'] = $field['label'];
+    
+    if (array_key_exists('description', $field))
+            $instance_info['description'] = $field['description'];
+    
+    if (array_key_exists('required', $field))
+            $instance_info['required'] = $field['required'];
+    
+    if (array_key_exists('default_value_function', $field))
+            $instance_info['default_value_function'] = $field['default_value_function'];
+    
+    if (array_key_exists('settings', $field))
+            $instance_info['settings'] = $field['settings'];
+    
+    if (array_key_exists('widget', $field))
+            $instance_info['widget'] = $field['widget'];
+    
+    if (array_key_exists('display', $field))
+            $instance_info['display'] = $field['display'];
+    
+    return $instance_info;
+    
+}
+
+
+
+
+
+
+
+
+
+?>

@@ -1,0 +1,12 @@
+name = NCI Emergency
+description = "Provides integration with the Emergency Tool."
+package = "NCI"
+core = 7.x
+version = VERSION
+
+files[] = nci_emergency.module
+files[] = nci_emergency.install
+files[] = plugins/content_types/nci_emergency.inc
+files[] = nci_emergency.css
+
+stylesheets[all][] = nci_emergency.css

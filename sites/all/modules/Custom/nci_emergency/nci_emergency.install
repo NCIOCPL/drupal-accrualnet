@@ -1,0 +1,18 @@
+<?php
+
+
+/**
+ *Set the variables that we defined on the admin page. 
+ */
+function nci_emergency_install(){
+    variable_set('nci_emergency_url', 'https://emergencytool.cancer.gov/AlertSvc.svc/xml/GetEmergencyDetails?SiteName=MyNCI');
+    variable_set('nci_emergency_global_display', TRUE);
+    
+}
+
+function nci_emergency_enable(){
+   
+}
+
+
+?>

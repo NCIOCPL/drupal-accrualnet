@@ -1,0 +1,168 @@
+<?php
+
+/*
+ * NCI_Emergency Module
+ * **This module required CURL**
+ * 
+ * The purpose of this module is to provide integration with the Emergency Tool
+ * service. For more information on the emergency tool see https://collaborate.nci.nih.gov/pages/viewpage.action?pageId=89201359
+ * 
+ * Contents of this module:
+ * 1. Provides a configuration page to set the emergency tool config URL and a flag to
+ * show the emergency across the entire site or not. (Also sets this on enable - 
+ * but can be modified if necessary)
+ * 2. Provides a panel to display the emergency as well. This panel can override the URL
+ * and could potentially pull in a different emergency from the tool.
+ * 
+ * 
+ * How does it work?
+ * Global configuration: hook_preprocess_page has been implemented and will check the 
+ * global flag to determine if it should do work or not. If yes - make a call
+ * to the emergency tool web service and see if there is an alert. If yes - 
+ * 'fake' a new block into the "Content" section of the website. 
+ */
+
+/**
+ *Implements hook_menu() to provide admin config pages.
+ * @return type 
+ */
+function nci_emergency_menu(){
+    $items = array();
+     $items['admin/config/nci'] = array(
+        'title' => 'NCI Configuration Section',
+        'description' => 'This section will hold configuration for NCI Global Modules',
+        'weight' => -8, 		
+        'page callback' => 'system_admin_menu_block_page',  // we should implement this function in system.admin.inc file
+        'access arguments' => array(TRUE), 
+        'file' => 'system.admin.inc',	 // don't forget to add the file and path
+        'file path' => drupal_get_path('module', 'system'),
+        'position' => 'right', 
+    );
+     $items['admin/config/nci/nci_emergency'] = array(
+        'title' => 'myNCI Directory Admin Settings',
+        'description' => 'Set configurations related to the myNCI Directory Module',
+        'page callback' => 'drupal_get_form',
+        'page arguments' => array('nci_emergency_admin'),
+        'access arguments' => array('administer modules'), //update this later
+        'type' => MENU_NORMAL_ITEM,
+        'file' => 'nci_emergency.admin.inc',
+        'file path' => drupal_get_path('module','nci_emergency'),
+        'weight' => -10,
+   );
+    return $items;
+}
+
+/**
+ * Implements hook_preprocess_page()
+ * 
+ * Checks the global display setting for emergencies and add sets the message. 
+ * (This function is not responsible for checking the message contents)
+ * @param type $vars 
+ */
+function nci_emergency_preprocess_page(&$vars){
+    $global_display = variable_get('nci_emergency_global_display', FALSE);
+    
+    if($global_display){
+        nci_emergency_set_message($vars);
+    }
+}
+
+/**
+ * nci_emergency_set_message 
+ * -Fakes a new block inside the "Content" region of the page. 
+ * -Calls nci_emergency_message to get the message. 
+ * -If the message is empty - the block will be empty and nothing will be displayed
+ * to the screen.
+ * @param type $vars 
+ */
+function nci_emergency_set_message(&$vars){
+     if(empty($vars['page']['content'])){
+        $vars['page']['content']['#region'] = 'content';
+        $vars['page']['content']['#theme_wrappers'][] = 'region';
+        $vars['page']['content']['#sorted'] = 0;
+    }
+    $vars['page']['content']['#sorted'] = 0;
+    $vars['page']['content']['emergency']['#type'] = "markup";
+    $vars['page']['content']['emergency']['#markup'] = nci_emergency_message();
+    $vars['page']['content']['emergency']['#weight'] = -100;
+}
+
+/**
+ * Implements hook_ctools_plugin_directory().
+ * Tells drupal where to find the panels.
+ */
+function nci_emergency_ctools_plugin_directory($module, $plugin_type) {
+    if ($module == 'ctools') {
+        return 'plugins/' . $plugin_type;
+    }
+}
+
+/**
+ * nci_emergency_message($url)
+ * 
+ * Makes a call to the Emergency Tool service and checks the response based
+ * on the XML <StatusCondition>
+ * 
+ * Has basic logging implemented - if the response  is empty it will log
+ * a watchdog error and return. If the response is not valid XML - we will catch
+ * the exception and log it gracefully without blowing up the page. 
+ * 
+ * If the response does exist - get the title and information:
+ * <EmergencyTitle>
+ * <Information>
+ * 
+ * @param type $emergencyurl - The URL to retrieve the emergency. 
+ * @return string 
+ */
+function nci_emergency_message($emergencyurl = FALSE){
+    $url = $emergencyurl ? $emergencyurl : variable_get('nci_emergency_url');
+    $verifySSL = variable_get('nci_emergency_verifyssl', NULL);// ? variable_get('nci_emergency_verifyssl') : TRUE;
+    $verifySSL = isset($verifySSL)? $verifySSL : 2;
+    if(!$url){
+        watchdog('nci_emergency', 'The Emergency Service returned no data. VerifySSL = '. $verifySSL, array(), WATCHDOG_ERROR);
+        return '';  
+    }
+    try{
+    $curl = curl_init();
+    curl_setopt($curl, CURLOPT_URL, $url);
+    curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, $verifySSL);
+    curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, $verifySSL);
+    $resp = curl_exec($curl);
+    $error = curl_error($curl);
+    curl_close($curl);
+    //Response is 0 if nothing is returned from the service. Because the service
+    //should always return a status, log this as an issue that something is not working.
+    if(isset($resp) && !$resp){
+        watchdog('nci_emergency', 'The Emergency Service returned no data. Error message: '
+                . $error .'\n url: ' . $url, array(), WATCHDOG_ERROR);
+        return '';        
+    }
+    
+    //If there is a response, we need to do some formatting to get it onto the screen.
+    $xml = new SimpleXMLElement($resp);
+    $status = (string)$xml->StatusCondition;
+    if($status != 'EmergencyFound'){
+        return '';
+    }
+    
+    $emergencyTitle = (string)$xml->EmergencyTitle;
+    $emergencyBody = (string)$xml->Information;
+    
+    $output = '<div class="emergency-alert">';
+    $output .= '<div class="emergency-title">' . $emergencyTitle . '</div>';
+    $output .= '<div class="emergency-body">' . $emergencyBody . '</div>';
+    $output .= '</div>';
+    
+    return $output;
+    
+    }
+    catch(Exception $e){
+        watchdog('nci_emergency', 'Connecting to the Emergency Tool has failed. ' . $e, array(), WATCHDOG_ERROR);
+        
+        //throw new Exception('Connecting to the Emergency Tool has failed. ', 0 , $e);
+    }
+}
+
+
+?>

@@ -1,0 +1,449 @@
+<?php
+/**
+ * This will be very basic for version 1.0.
+ * This module will:
+ *      * Intercept login form submissions and authenticate using LDAP/eDir -
+ *        only when the user is configured to use eDir, or if the system is
+ *        configured to force form login to eDir. (Maybe not for user 1)
+ *      * Disable Drupal password changing for eDir users
+ *      * NTH: Allow admins to create accounts that authenticate using eDir -
+ *        this is done setting the container name of the user instead of a
+ *        password.
+ *      * NTH: Allow admins to "convert" a regular user account to an eDir
+ *        account.  (I.E. set the container name for the user)
+ *      * NTH: Allow user 1's CN to be configured for login, but do not add
+ *        the user to the auth map.  This way if the module is disabled, then
+ *        user 1 can still login
+ *
+ * Pre-Requirements:
+ * 1. The LDAP Servers module must be configured point at the eDir server
+ * 2. No default "browse" accounts should be setup - we will authenticate users
+ *    using their own container name and password
+ *
+ * Notes:
+ * Much of this module leverages the work of the LDAP Authentication module,
+ * using only the code that we need for our use case.  The major issue with
+ * the ldap module was the fact that there was no way to set the CN for a
+ * user specifically.  The NCI eDir has more than 10 possible containers
+ * where a user may exist in.  The LDAP Authentication module requires a
+ * pattern to build the CN of a user.  It would require us to identify each
+ * base path, as well as attempt to authenticate against each one until the
+ * login succeeds.  In addition to this, there was no way to add a user
+ * to the system requiring LDAP unless a "browse" user was registered in the
+ * system to validate the user exists.  The purpose of this module is to
+ * allow a user to be created with the CN, and then authenticate that user
+ * using their own credentials, thus avoiding the need to store any credentials.
+ * There were also a number of other configuration options which were not
+ * applicable to our situation.
+ */
+
+/**
+ * Name of module as represented to the user module's authmap APIs.
+ */
+const EDIR_MODULE_FOR_AUTHMAP = 'nci_edir';
+
+/*************************
+ * UI and Configuration
+ *      Stuff
+ *************************/
+
+/**
+ * Implements hook_menu().
+ */
+function nci_edir_menu() {
+    $items = array();
+
+    //Setup configuration URL
+    $items['admin/config/people/nci_edir'] = array(
+        'title' => t("NCI eDir Configuration"),
+        'type' => MENU_NORMAL_ITEM,
+        'page callback' => 'drupal_get_form',
+        'page arguments'=> array('nci_edir_settings'),
+        'access arguments' => array('administer permissions')
+    );
+
+    $items['admin/people/create_edir'] = array(
+        'title' => 'Add eDir user',
+        'page arguments' => array('create'),
+        'access arguments' => array('administer users'),
+        'type' => MENU_LOCAL_ACTION,
+    );
+
+    // UI for switching to this method of authentication.
+    $items['user/%/edit/convert_to_edir'] = array(
+        'title' => 'Convert to eDir',
+        'page callback' => 'drupal_get_form',
+        'page arguments' => array('nci_edir_convert_form', 1),
+        'access callback' => '_nci_edir_switchable',
+        'access arguments' => array(1),
+        'type' => MENU_LOCAL_ACTION,
+    );
+
+    return $items;
+}
+
+/**
+ * Drupal form API callback which generates the form for switching
+ * a user's account from another authentication mechanism to the
+ * mechanism supported by this module.
+ *
+ *  @param  array   $form         Structured array containing the
+ *                                elements and properties of the form
+ *  @param  array   &$form_state  Modifiable structured array
+ *                                containing the current values
+ *                                of the form, as well as other
+ *                                form state information
+ *  @param  int     $uid          primary key of the users table
+ *                                for the account being converted
+ *
+ *  @return array                 Array containing specification
+ *                                of the fields to appear on the
+ *                                form, as well as other markup
+ */
+function nci_edir_convert_form($form, &$form_state, $uid) {
+    $desc = 'The user\'s distinguished name in the eDir directory to be ' .
+        'used for authentication.  This is something like "cn=user_name,' .
+        'ou=6116,ou=nci,o=nih"';
+    $atts = array('attributes' => array('class' => 'button'));
+    return array(
+        'title' => array(
+            '#type' => 'item',
+            '#markup' => t('<h1>Convert User to eDir Authentication</h1>'),
+        ),
+        'dn' => array(
+            '#type' => 'textfield',
+            '#title' => t('User eDir DN'),
+            '#maxlength' => 128,
+            '#description' => t($desc),
+            '#required' => true,
+        ),
+        'uid' => array(
+            '#type' => 'hidden',
+            '#value' => $uid,
+        ),
+        'submit' => array(
+            '#type' => 'submit',
+            '#value' => 'Submit',
+        ),
+        'cancel' => array(
+            '#markup' => l(t('Cancel'), "user/$uid/edit", $atts),
+        ),
+    );
+}
+
+/**
+ * Submit handler for the form used to convert a user account to the
+ * authentication method supported by this module.  Clears out the
+ * password from the users table, preventing the use of the standard
+ * Drupal login for the account; clears out the authmap table for
+ * the account, so there's only one authentication handler for that
+ * account; and populates the row for eDir authentication.  Redirects
+ * back to the edit user page.
+ *
+ *  @param  array   $form         Structured array containing the
+ *                                elements and properties of the form
+ *  @param  array   &$form_state  Modifiable structured array
+ *                                containing the current values
+ *                                of the form, as well as other
+ *                                form state information
+ *
+ *  @return     none
+ */
+function nci_edir_convert_form_submit($form, &$form_state) {
+    $uid = $form_state['values']['uid'];
+    db_update('users')
+        ->fields(array('pass' => ''))
+        ->condition('uid', $uid)
+        ->execute();
+    db_delete('authmap')
+        ->condition('uid', $uid)
+        ->execute();
+    $account = user_load($uid);
+    $dn = $form_state['values']['dn'];
+    $authmaps = array('authname_' . EDIR_MODULE_FOR_AUTHMAP => $dn);
+    user_set_authmaps($account, $authmaps);
+    drupal_goto("user/$uid/edit");
+}
+
+/**
+ * Callback method to determine whether the form for converting the
+ * account being edited to eDir (and its menu link) should be available.
+ * Two criteria must be met:
+ *  (1) The currently logged-in user must be allowed to manage user accounts;
+ *  (2) The account being edited must not already be an eDir account.
+ *
+ *  @param  int     $uid          primary key of the users table
+ *                                for the account being converted
+ *
+ *  @return boolean               flag indicating whether the switch is
+ *                                available
+ */
+function _nci_edir_switchable($uid) {
+    if (!user_access('administer users'))
+        return false;
+    $dn = _nci_edir_load_dn($uid);
+    return empty($dn) ? true : false;
+}
+
+/**
+ * Helper method to load the LDAP DN (distinguished name) for a user account.
+ *
+ *  @param  int     $uid          primary key of the users table
+ *                                for the account whose DN is requested
+ *
+ *  @return string                LDAP distinguished name for the account,
+ *                                if available; otherwise returns false
+ */
+function _nci_edir_load_dn($uid) {
+    return db_select('authmap', 'a')
+        ->fields('a', array('authname'))
+        ->condition('a.uid', $uid)
+        ->condition('a.module', EDIR_MODULE_FOR_AUTHMAP)
+        ->execute()
+        ->fetchField();
+}
+
+/**
+  * Implements hook_form_alter().
+  *
+  * Hides the password fields for eDir authenticated users + displays DN
+  * also modifies the add screen.
+  */
+function nci_edir_form_alter(&$form, $form_state, $form_id) {
+    switch($form_id) {
+        case 'user_profile_form' :
+        case 'user_register_form' :
+            global $user;
+
+            $user_dn = FALSE;
+
+            if ($form_id == 'user_register_form' && current_path() != 'admin/people/create_edir') {
+                //This is the normal user add form.
+                return;
+            } else if ($form_id == 'user_profile_form') {
+                //Check the authmap to see if this user uses eDir authentication
+                $user_dn = _nci_edir_load_dn($form_state['user']->uid);
+
+                //No DN - abort
+                if (!$user_dn) {
+                    return;
+                }
+            }
+
+            unset($form['account']['pass']);
+            unset($form['account']['pass_required_values']);
+            unset($form['account']['current_pass']);
+            unset($form['account']['current_pass_required_values']);
+            $form['#validate'] = array_diff($form['#validate'], array('user_validate_pass', 'user_validate_current_pass'));
+
+
+            if (user_access('administer users')) {
+                //Can administer users so show edit field
+                $form['account']['user_dn'] = array(
+                    '#type' => 'textfield',
+                    '#title' => t('User eDir DN'),
+                    '#maxlength' => 128,
+                    '#description' => t('The users distinguished name in the eDir directory to be used for authentication.  This is something like "cn=user_name,ou=6116,ou=nci,o=nih"'),
+                    '#required' => TRUE,
+                    '#default_value' => ($user_dn ? $user_dn : ''),
+                );
+            } else {
+                //Cannot administer users - or is the user who is not an admin
+                //so just show label.
+                $form['account']['user_dn'] = array(
+                '#type' => 'item',
+                '#title' => t('User eDir DN'),
+                '#markup' => $user_dn,
+                );
+
+            }
+
+            //Add our submit handlers before and after the default.
+            // The first is to zero out the password so there are no
+            //    errors
+            // The second is to setup the authmap
+            $form['#submit'] = array_merge(
+                    array('nci_edir_pass_submit_handler'),
+                    $form['#submit'],
+                    array('nci_edir_authmap_submit_handler')
+            );
+            break;
+    }
+}
+
+function nci_edir_pass_submit_handler(&$form, &$form_state) {
+    //Add the user with an empty password - Drupal will not
+    //allow users to authenticate using Drupal auth if
+    //there is no crypt - so if eDir gets turned off, then
+    //the user cannot get in.  This is good.
+    $form_state['values']['pass'] = FALSE;
+}
+
+function nci_edir_authmap_submit_handler(&$form, &$form_state) {
+    if (isset($form_state['values']['user_dn'])) {
+        $dn = $form_state['values']['user_dn'];
+        $authmaps = array('authname_' . EDIR_MODULE_FOR_AUTHMAP => $dn);
+        user_set_authmaps($form_state['user'], $authmaps);
+    }
+}
+
+/**
+ * Callback for the module configuration item
+ *
+ * The module will configure an authentication type option:
+ * SSO Only Logins (Default) - This will only allow SSO logins for the site. When enabled, all user login things - menu_hooks, blocks, etc... are hidden
+ * Mixed Logins - allow forms to be used with SSO module.  SSO users in theory cannot login using the normal forms login,
+ *  but by using the special /SSOLogin url.  Theoretically, this would be a button or something on the user login forms.
+ * Auto Login - Determines if SSO is protecting the entire site instead of one URL (Default: no)
+ *   - When set to yes, the system will behave like SSO Only Logins, except users will automatically be authenticated.
+ *   NOTE: this also means the ENTIRE site must be protected by SSO.
+ */
+function nci_edir_settings($form, &$form_state) {
+
+    //Get LDAP Servers
+    $ldap_servers = ldap_servers_get_servers(NULL, 'enabled');
+    $server_options = array();
+
+    if ($ldap_servers) {
+
+      foreach ($ldap_servers as $sid => $ldap_server) {
+        $enabled = ($ldap_server->status) ? 'Enabled' : 'Disabled';
+        $server_options[$sid] = $ldap_server->name . ' (' . $ldap_server->address . ') Status: ' . $enabled;
+      }
+    }
+
+    // If no servers, show nice message
+    if (count($server_options) == 0) {
+      $message = t('At least one ldap server must configured and <em>enabled</em> before') .
+      'configuring LDAP Authentication' . '. ' . t('Please go to') . ' ' . l('admin/config/people/ldap/servers', 'admin/config/people/ldap/servers') . ' to configure an LDAP server';
+
+      $form['intro'] = array(
+        '#type' => 'item',
+        '#markup' => t('<h1>LDAP Authentication Settings</h1>') . $message,
+      );
+    } else {
+        $form['nci_edir_ldap_server'] = array(
+            '#type' => 'select',
+            '#title' => t('LDAP Server'),
+            '#default_value' => variable_get('nci_edir_ldap_server'),
+            '#options' => $server_options,
+            '#description' => t('Select the LDAP server configuration to use in authentication.')
+        );
+    }
+
+    return system_settings_form($form);
+}
+
+
+/*************************
+ * User Authentication
+ *      Stuff
+ *************************/
+
+/**
+   * Implement hook_form_alter() to change the behaviour of the login form.
+   * NOTE: This is for /user/login - the block is a different form. :(
+   *
+   * Login validators are set in the user_login_default_validators() function in user.module.
+   * They are normally set to array('user_login_name_validate',
+   * 'user_login_authenticate_validate', 'user_login_final_validate').
+   * We will add '_nci_edir_authentication_login_authenticate_validate' after
+   * 'user_login_authenticate_validate'.  This will attempt to login the user
+   * using the drupal username and password, if this fails, it will continue
+   * on to our validator.  If the user's password crypt is an empty string,
+   * then Drupal will return false and hand it to ours - so no way to bypass
+   * our auth module for edir authenticated users.
+   *
+   * We do our own implementation of 'user_login_authenticate_validate', but
+   * unfortunately it does things like cleaning the inputs, determining if
+   * someone is repeatedly trying to login.  In case of a security update to
+   * the user.module and this method, we would have to update our code.  This
+   * is not the most optimal solution, so we will piggy-back on that logic.
+   *
+   * It would be nice to just be able to override user_authenticate or
+   * user_check_password, but that is not possible.
+   */
+function nci_edir_form_user_login_alter( &$form, $form_state )
+{
+    unset($form['links']);
+    $form['#validate'] = array(
+        'user_login_name_validate',
+        'user_login_authenticate_validate',
+        '_nci_edir_login_authenticate_validate',
+        'user_login_final_validate' );
+}
+
+function nci_edir_form_user_login_block_alter( &$form, $form_state ) {
+    unset($form['links']);
+    $form['#validate'] = array(
+        'user_login_name_validate',
+        'user_login_authenticate_validate',
+        '_nci_edir_login_authenticate_validate',
+        'user_login_final_validate' );
+}
+
+/**
+ * Handle authenticating a user after Drupal authentication has failed.  This
+ * Drupal method will have cleaned the inputs and detected repeated failed
+ * attempts - so we do not have to worry about that.
+ */
+function _nci_edir_login_authenticate_validate($form, &$form_state) {
+    $user_dn = FALSE;
+
+    //Ensure that default login did not trigger a flood control.
+    if (isset($form_state['flood_control_triggered'])) {
+        return;
+    }
+
+    //Validate that name and password are set before looking up the user.
+    if (!empty($form_state['values']['name'])) {
+        //Get Account Info -- lifted from user_login_authenticate_validate.
+        $account = db_query("SELECT * FROM {users} WHERE name = :name AND status = 1", array(':name' => $form_state['values']['name']))->fetchObject();
+
+        if ($account) {
+            //Look up user's CN in AuthMap.  If that fails, don't do anything.
+            $user_dn = _nci_edir_load_dn($account->uid);
+
+            //Try and authenticate.
+            if ($user_dn && _nci_edir_authenticate($user_dn, $form_state['values']['pass'])) {
+                $form_state['uid'] = $account->uid;
+            }
+        }
+    }
+}
+
+
+/**
+ * Authenticate user using LDAP, returns the UID of the user if it succeeds.
+ *
+ */
+function _nci_edir_authenticate($user_dn, $password) {
+
+    //Get Auth configuration
+    //1. Get configured server SID
+    $sid = variable_get('nci_edir_ldap_server', FALSE);
+
+    //2. Get Server
+    if ($sid) {
+        $ldap_server = ldap_servers_get_servers($sid, 'enabled', true);
+
+        if ($ldap_server) {
+            $result = $ldap_server->connect();
+
+
+            if ($result != LDAP_SUCCESS) {
+                watchdog('nci_edir', "Failed to connect to LDAP server, sid: " . $sid, array(), WATCHDOG_ERROR);
+            }
+
+            //Note: This module does not care about the bind method.
+            // we always bind with the user's credentials.
+            return ($ldap_server->bind($user_dn, $password) == LDAP_SUCCESS);
+        } else {
+            watchdog('nci_edir', "LDAP server not enabled, sid: " . $sid, array(), WATCHDOG_ERROR);
+        }
+    } else {
+        watchdog('nci_edir', "No LDAP server configured" . $sid, array(), WATCHDOG_ERROR);
+    }
+
+    return FALSE;
+}

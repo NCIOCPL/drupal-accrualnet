@@ -1,0 +1,92 @@
+<?php
+
+/**
+ * @file
+ * Tests for node.module.
+ */
+
+class STMPSiteStructureTestCase extends DrupalWebTestCase {
+  protected $content_type;
+  protected $admin_user;
+
+  function setUp($modules = array()) {
+    $modules[] = 'pathauto';
+    $modules[] = 'taxonomy';
+    $modules[] = 'stmp_site_structure';
+    parent::setUp($modules);
+
+    // Create a new content type and enable moderation on it.
+    $this->content_type = 'article';
+    $this->drupalCreateContentType(array(
+        
+    ));
+    $this->admin_user = $this->drupalCreateUser( array(
+        'bypass node access',
+        'administer nodes',
+        'administer menu',
+        'administer pathauto',
+        'administer taxonomy'
+    ));
+    $this->drupalLogin($this->admin_user);
+
+  }
+
+}
+
+class STMPSiteStructureMenuTestCase extends STMPSiteStructureTestCase {
+
+  public static function getInfo() {
+    return array(
+      'name' => 'Menu Creation (Site-Structure)',
+      'description' => 'Validates that the module correctly creates menus based
+          off of a site-structure taxonomy.',
+      'group' => 'Standard Templates',
+    );
+  }
+
+  function setUp($modules = array()) {
+    parent::setUp($modules);
+  }
+
+
+
+  function testMenu() {
+    // variable_set('pathauto_node_pattern', '[node:menu-url]/[node:pretty-url]');
+     variable_set('pathauto_node_pattern', 'content/[node:title]');
+    // Create a new node and make sure it is unpublished.
+    $body_name = 'body[' . LANGUAGE_NONE . '][0]';
+    $old_pattern = array("/[^a-zA-Z0-9 ]/", "!\s+!", "/[^a-zA-Z0-9]/");
+    $new_pattern = array(""," ", "-");
+    $alias = $this->randomString(25);
+    $edit = array(
+      'title' => $this->randomName(),
+      "{$body_name}[value]" => $this->randomString(128),
+      "{$body_name}[format]" => filter_default_format(),
+    );
+
+    $this->drupalPost("node/add/{$this->content_type}", $edit, t('Save'));
+
+    // Get the new node.
+    $node = $this->drupalGetNodeByTitle($edit['title']);
+    //$aliasPath = strtolower(preg_replace($old_pattern, $new_pattern, $alias));
+    
+    $this->assertEntityAlias('node',$node, $aliasPath);
+    
+    
+  }
+  
+
+  function assertEntityAlias($entity_type, $entity, $expected_alias, $language = LANGUAGE_NONE) {
+    $uri = entity_uri($entity_type, $entity);
+    $this->assertAlias($uri['path'], $expected_alias, $language);
+  }
+  
+  function assertAlias($source, $expected_alias, $language = LANGUAGE_NONE) {
+    drupal_clear_path_cache($source);
+    $alias = drupal_get_path_alias($source, $language);
+    $this->assertIdentical($alias, $expected_alias, t("Alias for %source with language '@language' was %actual, expected %expected.", array('%source' => $source, '%actual' => $alias, '%expected' => $expected_alias, '@language' => $language)));
+  }
+}
+
+
+

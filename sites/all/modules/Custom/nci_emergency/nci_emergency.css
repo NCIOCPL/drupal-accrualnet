@@ -1,0 +1,23 @@
+/* 
+    Document   : nci_emergency.css
+    Created on : Oct 1, 2013, 12:09:03 PM
+    Author     : ficcolm
+    Description:
+        Purpose of the stylesheet follows.
+*/
+div.emergency-alert {
+    margin: -20px -20px 10px;
+    border: 10px solid gray;
+}
+div.emergency-title {
+    margin: 20px 0px 10px;
+    font-weight: bold;
+    font-size: 20px;
+    color: gray;
+    text-align: center;
+}
+div.emergency-body {
+    text-align: center;
+    font-size: 13px;
+    margin: 10px 15px 15px;
+}

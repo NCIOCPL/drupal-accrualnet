@@ -1,0 +1,9 @@
+name = Standard Templates Site Structure
+description = Builds Site Structure - Menu's and Section for Workbench.
+package = NCI - Standard Templates
+core = 7.x
+version = 7.x-1.0
+dependencies[] = taxonomy
+dependencies[] = pathauto
+
+files[] = tests/stmp_site_structure.test

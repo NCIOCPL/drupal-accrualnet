@@ -1,0 +1,6 @@
+name = "NCI eDir Authentication Module"
+description = Provides protection using NCI eDir Login.
+core = 7.x
+version = "7.x-1.1"
+configure = "admin/config/people/nci_edir"
+dependencies[] = "ldap_servers"
