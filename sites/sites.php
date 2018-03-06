@@ -55,10 +55,9 @@
 
 $sites = array(
   // AccrualNet
-  'accrualnet-dev.cancer.gov'  => 'accrualnet.cancer.gov',
-  'accrualnet-qa.cancer.gov'   => 'accrualnet.cancer.gov',
-  'accrualnet-test.cancer.gov' => 'accrualnet.cancer.gov',
-  'accrualnet-prod-sg.cancer.gov' => 'accrualnet.cancer.gov',
+  'accrualnet-dev-sg.cancer.gov'  => 'accrualnet.cancer.gov',
+  'accrualnet-qa-sg.cancer.gov'   => 'accrualnet.cancer.gov',
+  'accrualnet-stage-sg.cancer.gov' => 'accrualnet.cancer.gov',
   'accrualnet.cancer.gov'      => 'accrualnet.cancer.gov',
 
 );
