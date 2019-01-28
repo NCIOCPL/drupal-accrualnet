@@ -150,13 +150,17 @@ function workbench_moderation_admin_states_form_submit($form, &$form_state) {
         'weight' => $info['weight'],
       );
       workbench_moderation_state_save($state);
+      if (module_exists('i18n_string')) {
+        i18n_string_update(array('workbench_moderation', 'moderation_state', $info['name'], 'label'), $info['label']);
+        i18n_string_update(array('workbench_moderation', 'moderation_state', $info['name'], 'description'), $info['description']);
+      }
     }
   }
 
   drupal_set_message(t('Your settings have been saved.'));
 
   // Warn users that changes here may need require reconfiguring Views that use Workbench.
-  $views_message = t('Depending on the changes you have made it may be necessary to <a href="@views" target="_blank">reconfigure Views</a> that leverage Workbench Moderation such as <a href="@workbench_moderation" target="_blank">workbench_moderation</a>', array('@views' => url('admin/structure/views'), '@workbench_moderation' => url('admin/structure/views/edit/workbench_moderation')));
+  $views_message = t('Depending on the changes you have made it may be necessary to <a href="@views">reconfigure Views</a> that leverage Workbench Moderation such as <a href="@workbench_moderation">workbench_moderation</a>', array('@views' => url('admin/structure/views'), '@workbench_moderation' => url('admin/structure/views/edit/workbench_moderation')));
   drupal_set_message($views_message, $type = 'warning', $repeat = FALSE);
 }
 
@@ -180,6 +184,9 @@ function workbench_moderation_admin_transitions_form($form, &$form_state) {
       '#type' => 'value',
       '#value' => $transition,
     );
+    $element['name'] = array(
+      '#markup' => check_plain($transition->name),
+    );
     $element['from_name'] = array(
       '#markup' => check_plain(workbench_moderation_state_label($transition->from_name)),
     );
@@ -201,6 +208,11 @@ function workbench_moderation_admin_transitions_form($form, &$form_state) {
 
   array_unshift($options, t('- Choose state -'));
   $element = array();
+  $element['name'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Transition Name'),
+    '#size' => '35'
+  );
   $element['from_name'] = array(
     '#type' => 'select',
     '#title' => t('New transition'),
@@ -228,6 +240,7 @@ function theme_workbench_moderation_admin_transitions_form($variables) {
   $form = $variables['form'];
 
   $header = array(
+    t('Name'),
     t('From'),
     '',
     t('To'),
@@ -238,6 +251,7 @@ function theme_workbench_moderation_admin_transitions_form($variables) {
   foreach (element_children($form['transitions']) as $key) {
     $element = &$form['transitions'][$key];
     $row = array('data' => array());
+    $row['data']['name'] = drupal_render($element['name']);
     $row['data']['from'] = drupal_render($element['from_name']);
     $row['data'][] = '--&gt;';
     $row['data']['to'] = drupal_render($element['to_name']);
@@ -281,13 +295,14 @@ function workbench_moderation_admin_transitions_form_submit($form, &$form_state)
       workbench_moderation_transition_delete($transition['transition']);
       drupal_set_message(t('%from --&gt; %to has been deleted.', array('%from' => workbench_moderation_state_label($transition['transition']->from_name), '%to' => workbench_moderation_state_label($transition['transition']->to_name))));
     }
-    elseif (!empty($transition['from_name']) && !empty($transition['to_name'])) {
+    elseif (!empty($transition['name']) && !empty($transition['from_name']) && !empty($transition['to_name'])) {
       $new_transition = (object) array(
+        'name' => $transition['name'],
         'from_name' => $transition['from_name'],
         'to_name' => $transition['to_name'],
       );
       workbench_moderation_transition_save($new_transition);
-      drupal_set_message(t('%from --&gt; %to has been created.',array('%from' => workbench_moderation_state_label($new_transition->from_name), '%to' => workbench_moderation_state_label($new_transition->to_name))));
+      drupal_set_message(t('%name: %from --&gt; %to has been created.',array('%name' => $new_transition->name, '%from' => workbench_moderation_state_label($new_transition->from_name), '%to' => workbench_moderation_state_label($new_transition->to_name))));
     }
   }
 }
@@ -304,14 +319,14 @@ function workbench_moderation_admin_check_role_form($form, &$form_state) {
   $roles = user_roles();
   $form['role'] = array(
     '#type' => 'select',
-    '#title' => t('Drupal role:'),
+    '#title' => t('Drupal role'),
     '#description' => t('Select a role to check.'),
     '#options' => $roles,
   );
 
   $form['moderation_task'] = array(
     '#type' => 'select',
-    '#title' => t('Moderation task:'),
+    '#title' => t('Moderation task'),
     '#description' => t('Select a moderation task that the role should be able to perform.'),
     '#options' => array(
       'author' => t('Author moderated content'),
@@ -328,14 +343,14 @@ function workbench_moderation_admin_check_role_form($form, &$form_state) {
   }
   $form['types'] = array(
     '#type' => 'checkboxes',
-    '#title' => t('Content types:'),
+    '#title' => t('Content types'),
     '#description' => t('Select any content types on which the user should have the ability to perform the moderation task.'),
     '#options' => $types,
   );
 
   $form['submit'] = array(
     '#type' => 'submit',
-    '#value' => t('Check'),
+    '#value' => t('Check permissions'),
   );
 
   if (empty($types)) {
@@ -386,7 +401,7 @@ function workbench_moderation_admin_check_role_form_submit($form, &$form_state) 
       drupal_set_message(t('The @role role may need the "!permission_label" permission in order to be a qualified @moderation_task of @types content.', array(
         '@role' => $role->name,
         '@moderation_task' => $moderation_task,
-        '@types' => implode(' and ', array(implode(', ', array_slice($types, 0, -1)), end($types))),
+        '@types' => implode(t(' and '), array(implode(', ', array_slice($types, 0, -1)), end($types))), // @TODO: Context senstive translation bug
         '!permission_label' => $all_permissions[$permission]['title'],
       )), 'error');
     }
@@ -405,7 +420,7 @@ function workbench_moderation_admin_check_role_form_submit($form, &$form_state) 
   }
 
   // Note that we don't cover all configurations.
-  drupal_set_message(t('You must check manually that this role has the appropriate transition permissions for your workflow. <a href="@moderation_permission_link">View moderation permissions for this role.</a>', array('@moderation_permissions_link' => url('admin/people/permissions/' . $rid, array('fragment' => 'module-workbench_moderation')))), 'warning');
+  drupal_set_message(t('You must check manually that this role has the appropriate transition permissions for your workflow. <a href="@moderation_permissions_link">View moderation permissions for this role.</a>', array('@moderation_permissions_link' => url('admin/people/permissions/' . $rid, array('fragment' => 'module-workbench_moderation')))), 'warning');
 
   // Repopulate the form with the submitted values.
   $form_state['rebuild'] = TRUE;

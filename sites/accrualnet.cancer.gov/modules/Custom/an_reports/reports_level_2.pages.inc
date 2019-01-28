@@ -21,7 +21,7 @@ function reports_level_2_page($section) {
 		return $output;
 	else
 		$section_info = $an_reports_menu[$section];
-	
+
 	// set the page title based on the section info
 	drupal_set_title($section_info['title']);
 
@@ -381,59 +381,66 @@ function _communities_report() {
 	return array('columns' => $columns, 'rows' => $rows);
 }
 
+/**
+ * Generate a report showing member, thread, and comment counts
+ * for each Community on the site.
+ */
 function _community_activity_report() {
-	$columns = array();
-	$rows = array();
 
-// set up the column headers and empty cells
-	$columns[] = 'Group';
-	$columns[] = 'Users';
-	$columns[] = 'Conversations';
-	$columns[] = 'Responses';
+  // Set up the column headers
+  $columns = array(
+    'Group',
+    'Users',
+    'Conversations',
+    'Responses'
+  );
 
-// for each community...
-	$query = db_select('og', 'og');
-	$query->condition('og.gid', 0, '<>')
-			->fields('og', array('gid', 'label'));
-	$result = $query->execute();
+  // Find the active communities
+  $query = db_select('og', 'g');
+  $query->condition('g.gid', 0, '<>')
+    ->condition('g.state', 1)
+    ->orderBy('g.label')
+    ->fields('g', array('etid', 'label'));
+  $result = $query->execute();
 
-	foreach ($result as $record) {
-		$gid = $record->{'gid'};
-		$label = $record->{'label'};
-		$row = array();
-		$row['label'] = $label;
+  // Create the table cells for each community
+  $rows = array();
+  foreach ($result as $record) {
+    $gid = $record->{'etid'};
+    $label = $record->{'label'};
+    $row = array();
+    $row['label'] = $label;
 
-// retrieve user count
-		$row['users'] = db_select("field_data_group_audience", 'ga')
-				->condition('ga.group_audience_gid', $gid)
-				->condition('ga.bundle', 'user')
-				->fields('ga', array('entity_id'))
-				->countQuery()
-				->execute()
-				->fetchField();
+    // How many users are members of the community?
+    $row['users'] = db_select('og_membership', 'm')
+      ->condition('m.gid', $gid)
+      ->condition('m.entity_type', 'user')
+      ->fields('m', array('etid'))
+      ->countQuery()
+      ->execute()
+      ->fetchField();
 
-// retrieve conversation count
-		$row['conversations'] = db_select("field_data_group_audience", 'ga')
-				->condition('ga.group_audience_gid', $gid)
-				->condition('ga.bundle', 'conversation')
-				->fields('ga', array('entity_id'))
-				->countQuery()
-				->execute()
-				->fetchField();
+    // How many conversations exist for the community?
+    $row['conversations'] = db_select('og_membership', 'm')
+      ->condition('m.gid', $gid)
+      ->condition('m.entity_type', 'node')
+      ->fields('m', array('etid'))
+      ->countQuery()
+      ->execute()
+      ->fetchField();
 
-// retrieve response count
-		$comm_query = db_select("comment", 'c');
-		$comm_query->join('field_data_group_audience', 'ga', 'ga.entity_id = c.nid');
+    // Count the responses to these threads
+    $comment_query = db_select('comment', 'c');
+    $comment_query->join('og_membership', 'm', 'm.etid = c.nid');
+    $row['responses'] = $comment_query->fields('c', array('cid'))
+      ->condition('m.entity_type', 'node')
+      ->condition('m.gid', $gid)
+      ->countQuery()
+      ->execute()
+      ->fetchField();
 
-		$row['responses'] = $comm_query->fields('c', array('cid'))
-				->condition('ga.bundle', 'conversation')
-				->condition('ga.group_audience_gid', $gid)
-				->countQuery()
-				->execute()
-				->fetchField();
+    $rows[] = $row;
+  }
 
-		$rows[] = $row;
-	}
-
-	return array('columns' => $columns, 'rows' => $rows);
+  return array('columns' => $columns, 'rows' => $rows);
 }

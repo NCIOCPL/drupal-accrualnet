@@ -50,7 +50,6 @@ function select_or_other_element_info() {
     'select_or_other' => array(
       '#select_type' => 'select',
       '#input' => TRUE,
-      '#size' => 0,
       '#multiple' => FALSE,
       '#disabled' => FALSE,
       '#default_value' => NULL,
@@ -80,8 +79,6 @@ function select_or_other_element_process($element, &$form_state) {
   $element['#tree'] = TRUE;
   $element['#processed'] = TRUE;
 
-  unset($element['#type']);
-
   // Load the JS file to hide/show the 'other' box when needed.
   $element['#attached']['js'][] = drupal_get_path('module', 'select_or_other') . '/select_or_other.js';
 
@@ -94,19 +91,21 @@ function select_or_other_element_process($element, &$form_state) {
     '#type' => $element['#select_type'],
     '#title' => $element['#title'],
     '#title_display' => $element['#title_display'],
-    '#default_value' => $element['#default_value'],
+    '#default_value' => !empty($element['#default_value']) ? $element['#default_value'] : NULL,
     '#disabled' => $element['#disabled'],
     '#multiple' => $element['#multiple'],
     '#required' => $element['#required'],
-    '#size' => $element['#size'],
+    '#size' => isset($element['#size']) ? $element['#size'] : NULL,
     '#options' => $element['#options'],
     '#attributes' => $element['#attributes'],
     '#weight' => 10,
   );
 
-  if (isset($element['#empty_value'])) {
-    $element['select']['#empty_value'] = $element['#empty_value'];
-  };
+  foreach(array('#empty_option', '#empty_value') as $key){
+    if (isset($element[$key])) {
+      $element['select'][$key] = $element[$key];
+    };
+  }
 
   // Remove the default value on the container level so it doesn't get rendered there.
   $element['#value'] = NULL;
@@ -173,13 +172,13 @@ function select_or_other_element_process($element, &$form_state) {
   // Add in the 'other' option.
   $element['select']['#options']['select_or_other'] = $element['#other'];
 
-  // Create the 'other' textfield.
+  // Create the 'other' textfield without the required attribute, if any.
   $element['other'] = array(
     '#type' => 'textfield',
     '#weight' => 20,
     '#default_value' => $other_default_string,
     '#disabled' => $element['#disabled'],
-    '#attributes' => $element['#attributes'],
+    '#attributes' => array_diff_key($element['#attributes'], array('required' => NULL)),
   );
 
   // Populate properties set specifically as #select_property or #other_property
@@ -196,6 +195,9 @@ function select_or_other_element_process($element, &$form_state) {
   }
   if (!empty($element['#maxlength'])) {
     $element['other']['#maxlength'] = $element['#maxlength'];
+  }
+  if (isset($element['#other_size'])) {
+    $element['other']['#size'] = $element['#other_size'];
   }
 
   // Hide the title from the wrapper.
@@ -224,8 +226,8 @@ function select_or_other_element_validate($element, &$form_state) {
   else {
     $value = $element['select']['#value'];
   }
-  if ($other_selected && !$element['other']['#value']) {
-    form_error($element['other'], t('!title is required', array('!title' => $element['#title'])));
+  if ($other_selected && $element['other']['#value'] === '') {
+    form_error($element['other'], t('!title field is required.', array('!title' => $element['select']['#title'])));
   }
   if (isset($value)) {
     form_set_value($element, $value, $form_state);
@@ -279,7 +281,7 @@ function theme_select_or_other_none($variables) {
  *   Boolean indicating if the key is set.
  */
 function select_or_other_multi_array_key_exists($needle, $haystack) {
-  if (array_key_exists($needle, $haystack)) {
+  if (array_key_exists(html_entity_decode($needle, ENT_QUOTES), $haystack)) {
     return TRUE;
   }
   else {
